@@ -29,3 +29,18 @@ input {
     text-decoration-line: underline;
     color: #000000;
 }
+.registration__span,
+.login__span {
+    display: inline-block;
+    margin-bottom: 10px;
+    font-family: 'Roboto Mono';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 21px;
+    /* identical to box height */
+
+    /* Black */
+
+    color: #000000;
+}

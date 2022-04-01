@@ -22,7 +22,7 @@ function Registration() {
     }
     return (
         <div className="container registration">
-            <span className="registration__span">Вход</span>
+            <span className="registration__span">Регистрация</span>
             <Form>
                 <Form.Group controlId="formBasicEmail">
                     <input
