@@ -3,14 +3,8 @@
       "react-app"
     ],
     "plugins": [
-        "transform-decorators-legacy",
-        "transform-class-properties",
-        {
-          "loose": false
-        },
-        "@babel/plugin-proposal-decorators",
-        {
-          "legacy": true
-        }
+        ["transform-decorators-legacy"],
+        ["transform-class-properties", {"loose": false}],
+        ["@babel/plugin-proposal-decorators", {"legacy": true}]
     ]
 }
