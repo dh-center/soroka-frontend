@@ -1,10 +1,10 @@
-.container {
+/* .container {
     max-width: 357px !important;
-}
-.registration__submit{
+} */
+.registration__submit {
     display: flex;
-    align-items:center;
-    justify-content: space-between
+    align-items: center;
+    justify-content: space-between;
 }
 .registration__password-wrap__password {
     width: 100%;

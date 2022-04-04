@@ -2,7 +2,8 @@ input[type='password']::-ms-reveal,
 input[type='password']::-ms-clear {
     display: none;
 }
-input::placeholder {
+.login__input::placeholder,
+.registration__input::placeholder {
     font-family: 'Roboto Mono';
     font-style: normal;
     font-weight: 400;
@@ -13,7 +14,8 @@ input::placeholder {
 
     color: #cdcdcd;
 }
-input {
+.registration__input,
+.login__input {
     border: 1px solid #000000;
     box-sizing: border-box;
     border-radius: 2px;
@@ -38,9 +40,5 @@ input {
     font-weight: 400;
     font-size: 16px;
     line-height: 21px;
-    /* identical to box height */
-
-    /* Black */
-
     color: #000000;
 }
