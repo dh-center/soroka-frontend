@@ -1,6 +1,4 @@
-/* .container {
-    max-width: 357px !important;
-} */
+
 .registration__submit {
     display: flex;
     align-items: center;
@@ -8,7 +6,6 @@
 }
 .registration__password-wrap__password {
     width: 100%;
-    margin-bottom: 10px;
 }
 .registration__password-wrap {
     position: relative;

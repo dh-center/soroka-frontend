@@ -1,6 +1,4 @@
-/* .container {
-    max-width: 357px !important;
-} */
+
 .login__submit {
     display: flex;
     align-items: center;
@@ -8,7 +6,6 @@
 }
 .login__password-wrap__password {
     width: 100%;
-    margin-bottom: 10px;
 }
 .login__password-wrap {
     position: relative;
