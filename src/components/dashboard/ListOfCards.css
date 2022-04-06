@@ -1,0 +1,26 @@
+.list-of-cards__create-new-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border:2px dashed black;
+    border-radius: 8px;
+    margin-right: 27px;
+}
+.list-of-cards__svg {
+    margin-bottom: 25px;
+}
+.list-of-cards__title{
+    font-family: 'Roboto Mono';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 21px;
+    text-align: center;
+
+    /* Black */
+
+    color: #000000;
+    border: none;
+}

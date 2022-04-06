@@ -1,9 +1,10 @@
 import './App.css'
-import Login from './views/auth/Login'
+import Login from './components/views/auth/Login'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { BrowserRouter, Route, Router, Routes } from 'react-router-dom'
-import Dashboard from './views/Dashboard'
-import Registration from './views/auth/Registration'
+import Dashboard from './components/dashboard/Dashboard'
+import Registration from './components/views/auth/Registration'
+import CreateNewCard from './components/dashboard/CreateNewCard'
 
 function App() {
     return (
@@ -13,6 +14,7 @@ function App() {
                     <Route path="/" element={<Dashboard />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/registration" element={<Registration />} />
+                    <Route path="/newCard" element={<CreateNewCard />} />
                     <Route path="*" element={<div>404</div>} />
                 </Routes>
             </div>

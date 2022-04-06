@@ -1,0 +1,23 @@
+.card__header{
+    position: relative;
+    margin-bottom: 7px;
+}
+.card__title{
+font-family: 'Roboto Mono';
+font-style: normal;
+font-weight: 400;
+font-size: 12px;
+line-height: 16px;
+/* identical to box height */
+
+
+/* Black */
+
+color: #000000;
+
+}
+.card__is-complete{
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+}
