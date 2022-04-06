@@ -1,0 +1,18 @@
+
+.registration__submit {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.registration__password-wrap__password {
+    width: 100%;
+}
+.registration__password-wrap {
+    position: relative;
+}
+.registration__password-wrap svg {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+}
