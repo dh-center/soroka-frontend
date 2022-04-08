@@ -6,7 +6,6 @@
     justify-content: center;
     border:2px dashed black;
     border-radius: 8px;
-    margin-right: 27px;
 }
 .list-of-cards__svg {
     margin-bottom: 25px;
@@ -23,4 +22,9 @@
 
     color: #000000;
     border: none;
+}
+.list-of-cards__card{
+    max-width: 250px;
+        margin-right: 27px;
+
 }

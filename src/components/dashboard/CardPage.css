@@ -1,0 +1,12 @@
+.current-card__properties__property {
+    margin-bottom: 24px;
+}
+.current-card__properties__label {
+    margin-right: 18px;
+}
+.current-card__header {
+    margin-bottom: 36px;
+}
+.current-card__button svg {
+    margin-right: 16px;
+}

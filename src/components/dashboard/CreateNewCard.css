@@ -1,0 +1,26 @@
+.create-new-card__properties__property {
+    margin-bottom: 24px;
+}
+.create-new-card__properties__label {
+    margin-right: 18px;
+}
+.create-new-card__header {
+    margin-bottom: 36px;
+}
+.create-new-card__button svg {
+    margin-right: 16px;
+}
+.btn-close {
+    background: transparent url('../../assets/cancel.svg') center/1em auto no-repeat;
+}
+.modal-title {
+    font-family: 'Roboto Mono';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 21px;
+    color: #000000;
+}
+.modal-header{
+    border-bottom: none;
+}

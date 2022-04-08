@@ -5,10 +5,12 @@ import ListCard from './ListCard'
 import './ListOfCards.css'
 const exampleList = [
     {
+        id:0,
         titleOfCard: 'Музей “Петергоф”',
         isComplete: false
     },
     {
+        id:1,
         titleOfCard: 'Музей “Петергоф 2”',
         isComplete: true
     }
@@ -18,8 +20,8 @@ function ListOfCards() {
     return (
         <Container>
             <Row>
-                <Col lg="3">
-                    <Link to={'/NewCard'}>
+                <Col md="3" className="list-of-cards__card">
+                    <Link className="route-link" to={'/NewCard'}>
                         <div className="list-of-cards__create-new-card">
                             <svg
                                 className="list-of-cards__svg"
@@ -44,8 +46,15 @@ function ListOfCards() {
 
                 {exampleList.map((element) => {
                     return (
-                        <Col lg="3">
-                            <ListCard titleOfCard={element.titleOfCard} isComplete={element.isComplete} className="" />
+                        <Col md="3" className='list-of-cards__card'>
+                            <Link className='route-link' to={`/yourCards/${element.id}`}>
+                                <ListCard
+                                    key={element.id}
+                                    titleOfCard={element.titleOfCard}
+                                    isComplete={element.isComplete}
+                                    className=""
+                                />
+                            </Link>
                         </Col>
                     )
                 })}
