@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useRef, useState } from 'react'
 import './CardPage.css'
-import { Button, Col, Container, Form, Modal, Row } from 'react-bootstrap'
+import { Button, Col, Container, Form, Modal, Overlay, Row, Tooltip } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import './dashboardGlobal.css'
 import { observer } from 'mobx-react'
@@ -11,6 +11,8 @@ import PropertiesObserver from '../../stores/propertiesObserver'
 const propertiesObserver = new PropertiesObserver()
 
 const CardPage = observer(() => {
+    const [show, setShow] = useState(false)
+    const target = useRef(null)
     return (
         <Container>
             <Row>
@@ -80,6 +82,28 @@ const CardPage = observer(() => {
                                     }
                                 })}
                             </div>
+                            <button
+                                className="create-new-card__button dashboard-button d-flex align-items-center offset-md-1 dashboard-button--disabled "
+                                ref={target}
+                                onClick={() => setShow(!show)}>
+                                <svg
+                                    width="24"
+                                    height="24"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 12H4" stroke="black" stroke-linecap="round" />
+                                    <path d="M12 4V20" stroke="black" stroke-linecap="round" />
+                                </svg>
+                                <span>Добавить свойство</span>
+                            </button>
+                            <Overlay target={target.current} show={show} placement="right">
+                                {(props) => (
+                                    <Tooltip id="overlay-example" {...props}>
+                                        Все возможные свойства уже добавлены
+                                    </Tooltip>
+                                )}
+                            </Overlay>
                         </Col>
                     </Row>
                 </Col>
@@ -89,7 +113,9 @@ const CardPage = observer(() => {
                             {propertiesObserver.isHaveEmptyProperties && (
                                 <p>Эта карточка заполнена не до конца: в ней есть пустые поля.</p>
                             )}
-                            <button className="dashboard-button" disabled={propertiesObserver.isUserNotChangedProperties}>
+                            <button
+                                className="dashboard-button"
+                                disabled={propertiesObserver.isUserNotChangedProperties}>
                                 <svg
                                     width="26"
                                     height="24"
