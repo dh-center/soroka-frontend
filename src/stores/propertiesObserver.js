@@ -40,7 +40,7 @@ export default class PropertiesObserver {
     setHasEmptyProperties() {
         this.hasEmptyProperties = false
         this.observingArray.forEach((el) => {
-            this.hasEmptyProperties = this.hasEmptyProperties || el.value.length === 0 || !el.value.trim()
+            this.hasEmptyProperties = this.hasEmptyProperties  || !el.value.trim()
         })
     }
 }
