@@ -1,19 +1,19 @@
 import React, { useState } from 'react'
 import { Col, Container, Row, Modal } from 'react-bootstrap'
 
-function Header({ avatarsrc, userName = 'Имя пользователя' }) {
+function Header({ avatarSrc, userName = 'Имя пользователя' }) {
     const [show, setShow] = useState(false)
 
     const handleClose = () => setShow(false)
     const handleShow = () => setShow(true)
     return (
         <Container>
-            <Row className="justify-content-between align-items-center header">
+            <Row className="justify-content-between align-items-center header p-2 mb-3">
                 <Col md="5">
-                    <div className="header__useer-info d-flex align-items-center">
+                    <div className="header__user-info d-flex align-items-center">
                         <div className="header__avatar">
-                            {avatarsrc ? (
-                                <img src={avatarsrc} />
+                            {avatarSrc ? (
+                                <img src={avatarSrc} />
                             ) : (
                                 <svg
                                     width="48"
@@ -87,7 +87,6 @@ function Header({ avatarsrc, userName = 'Имя пользователя' }) {
                                 <span>Да</span>
                             </button>
                             <button className="dashboard-button m-1" onClick={handleClose}>
-                                
                                 <svg
                                     width="34"
                                     height="34"

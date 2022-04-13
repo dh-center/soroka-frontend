@@ -17,10 +17,10 @@ const CardPage = observer(() => {
         <Container>
             <Row>
                 <Col md="9">
-                    <Row className="current-card__header d-flex align-items-center">
+                    <Row className="mb-4 d-flex align-items-center">
                         <Col md="4">
-                            <Link className="route-link" to={'/'}>
-                                <button className="dashboard-button back-to-list">
+                            <Link className="route-link" to={'/cards'}>
+                                <div className="dashboard-button back-to-list">
                                     <svg
                                         width="26"
                                         height="24"
@@ -35,7 +35,7 @@ const CardPage = observer(() => {
                                         />
                                     </svg>
                                     <span>Назад к карточкам</span>
-                                </button>
+                                </div>
                             </Link>
                         </Col>
                         <Col md="8">
@@ -44,73 +44,80 @@ const CardPage = observer(() => {
                     </Row>
                     <Row className="justify-content-center">
                         <Col>
-                            <div className="current-card__properties offset-md-1">
-                                {propertiesObserver.observingArray.map((element) => {
-                                    if (element.type == 'text') {
-                                        return (
-                                            <Form.Group className="current-card__properties__property d-flex align-items-center flex-row">
-                                                <Form.Label className="current-card__properties__label">
-                                                    {element.name}
-                                                </Form.Label>
-                                                <Form.Control
-                                                    as="textarea"
-                                                    style={{ height: '84px' }}
-                                                    type="text"
-                                                    placeholder=""
-                                                    value={element.value}
-                                                    onChange={(event) => {
-                                                        console.log('wwww')
-                                                        propertiesObserver.changeValue(element.id, event.target.value)
-                                                    }}
-                                                />
-                                            </Form.Group>
-                                        )
-                                    } else if (element.type == 'select') {
-                                        return (
-                                            <Form.Group className="current-card__properties__property d-flex align-items-center flex-row">
-                                                <Form.Label className="current-card__properties__label">
-                                                    {element.name}
-                                                </Form.Label>
-                                                <Form.Select aria-label="Default select example">
-                                                    <option>{element.value}</option>
-                                                    <option value="1">One</option>
-                                                    <option value="2">Two</option>
-                                                    <option value="3">Three</option>
-                                                </Form.Select>
-                                            </Form.Group>
-                                        )
-                                    }
-                                })}
-                            </div>
-                            <button
-                                className="create-new-card__button dashboard-button d-flex align-items-center offset-md-1 dashboard-button--disabled "
-                                ref={target}
-                                onClick={() => setShow(!show)}>
-                                <svg
-                                    width="24"
-                                    height="24"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M20 12H4" stroke="black" stroke-linecap="round" />
-                                    <path d="M12 4V20" stroke="black" stroke-linecap="round" />
-                                </svg>
-                                <span>Добавить свойство</span>
-                            </button>
-                            <Overlay target={target.current} show={show} placement="right">
-                                {(props) => (
-                                    <Tooltip id="overlay-example" {...props}>
-                                        Все возможные свойства уже добавлены
-                                    </Tooltip>
-                                )}
-                            </Overlay>
+                            <Form>
+                                <div className="current-card__properties offset-md-1">
+                                    {propertiesObserver.observingArray.map((element) => {
+                                        if (element.type == 'text') {
+                                            return (
+                                                <Form.Group className="mb-4 d-flex align-items-center flex-row">
+                                                    <Form.Label className="me-2 col-xl-2 col-sm-3">
+                                                        {element.name}
+                                                    </Form.Label>
+                                                    <Form.Control
+                                                        as="textarea"
+                                                        style={{ height: '84px' }}
+                                                        type="text"
+                                                        placeholder=""
+                                                        value={element.value}
+                                                        onChange={(event) => {
+                                                            console.log('wwww')
+                                                            propertiesObserver.changeValue(
+                                                                element.id,
+                                                                event.target.value
+                                                            )
+                                                        }}
+                                                    />
+                                                </Form.Group>
+                                            )
+                                        } else if (element.type == 'select') {
+                                            return (
+                                                <Form.Group className="mb-4 d-flex align-items-center flex-row">
+                                                    <Form.Label className="me-2 col-xl-2 col-sm-3">
+                                                        {element.name}
+                                                    </Form.Label>
+                                                    <Form.Select aria-label="Default select example">
+                                                        <option>{element.value}</option>
+                                                        <option value="1">One</option>
+                                                        <option value="2">Two</option>
+                                                        <option value="3">Three</option>
+                                                    </Form.Select>
+                                                </Form.Group>
+                                            )
+                                        }
+                                    })}
+                                </div>
+                                <button
+                                    className="create-new-card__button dashboard-button d-flex align-items-center offset-md-1 dashboard-button--disabled "
+                                    ref={target}
+                                    // onClick={() => setShow(!show)}
+                                    onMouseOver={() => setShow(true)}
+                                    onMouseOut={() => setShow(false)}>
+                                    <svg
+                                        width="24"
+                                        height="24"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M20 12H4" stroke="black" stroke-linecap="round" />
+                                        <path d="M12 4V20" stroke="black" stroke-linecap="round" />
+                                    </svg>
+                                    <span>Добавить свойство</span>
+                                </button>
+                                <Overlay target={target.current} show={show} placement="right">
+                                    {(props) => (
+                                        <Tooltip id="overlay-example" {...props}>
+                                            Все возможные свойства уже добавлены
+                                        </Tooltip>
+                                    )}
+                                </Overlay>
+                            </Form>
                         </Col>
                     </Row>
                 </Col>
                 <Col md="3">
                     <div className="current-card__save-alert">
                         <div className="save-alert">
-                            {propertiesObserver.isHaveEmptyProperties && (
+                            {propertiesObserver.hasEmptyProperties && (
                                 <p>Эта карточка заполнена не до конца: в ней есть пустые поля.</p>
                             )}
                             <button

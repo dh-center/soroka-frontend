@@ -7,28 +7,28 @@ import './CreateNewCard.css'
 import './dashboardGlobal.css'
 import SaveAlert from './SaveAlert'
 
-const createNewProperties = new CreateNewPropertiesObserver();
+const createNewProperties = new CreateNewPropertiesObserver()
 
-const CreateNewCard=observer(() =>{
-      const [show, setShow] = useState(false)
-      const handleClose = () => setShow(false)
-      const handleShow = () => setShow(true)
+const CreateNewCard = observer(() => {
+    const [show, setShow] = useState(false)
+    const handleClose = () => setShow(false)
+    const handleShow = () => setShow(true)
 
-      const [newProperties,setNewProperties] = useState([])
+    const [newProperties, setNewProperties] = useState([])
 
-      const handleAddNewProperties =(e)=>{
-          console.log(e.currentTarget.innerText)
-            createNewProperties.addNewProperties(e.currentTarget.innerText)
-            handleClose()
-      }
+    const handleAddNewProperties = (e) => {
+        console.log(e.currentTarget.innerText)
+        createNewProperties.addNewProperties(e.currentTarget.innerText)
+        handleClose()
+    }
     return (
         <Container>
             <Row>
                 <Col md="9">
-                    <Row className="create-new-card__header d-flex align-items-center">
+                    <Row className="mb-4 d-flex align-items-center">
                         <Col md="4">
-                            <Link to={'/'}>
-                                <button className="dashboard-button back-to-list">
+                            <Link to={'/cards'} className="route-link">
+                                <div className="dashboard-button back-to-list">
                                     <svg
                                         width="26"
                                         height="24"
@@ -43,7 +43,7 @@ const CreateNewCard=observer(() =>{
                                         />
                                     </svg>
                                     <span>Назад к карточкам</span>
-                                </button>
+                                </div>
                             </Link>
                         </Col>
                         <Col md="8">
@@ -52,46 +52,46 @@ const CreateNewCard=observer(() =>{
                     </Row>
                     <Row className="justify-content-center">
                         <Col>
-                            <div className="create-new-card__properties offset-md-1">
-                                <Form.Group className="create-new-card__properties__property d-flex align-items-center flex-row">
-                                    <Form.Label className="create-new-card__properties__label">Название</Form.Label>
-                                    <Form.Control type="text" placeholder="Новая карточка" />
-                                </Form.Group>
-                                <Form.Group className="create-new-card__properties__property d-flex align-items-center flex-row">
-                                    <Form.Label className="create-new-card__properties__label">Сущность</Form.Label>
-                                    <Form.Select aria-label="Default select example">
-                                        <option>Выберите сущность предмета из реального мира</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
-                                    </Form.Select>
-                                </Form.Group>
+                            <Form>
+                                <div className="create-new-card__properties offset-md-1">
+                                    <Form.Group className="mb-4 d-flex align-items-center flex-row">
+                                        <Form.Label className="me-2 col-xl-2 col-sm-3">Название</Form.Label>
+                                        <Form.Control type="text" placeholder="Новая карточка" />
+                                    </Form.Group>
+                                    <Form.Group className="mb-4 d-flex align-items-center flex-row">
+                                        <Form.Label className="me-2 col-xl-2 col-sm-3">Сущность</Form.Label>
+                                        <Form.Select aria-label="Default select example">
+                                            <option>Выберите сущность предмета из реального мира</option>
+                                            <option value="1">One</option>
+                                            <option value="2">Two</option>
+                                            <option value="3">Three</option>
+                                        </Form.Select>
+                                    </Form.Group>
 
-                                {createNewProperties.arrayWithNewProperties.map((el) => {
-                                    return (
-                                        <Form.Group className="create-new-card__properties__property d-flex align-items-center flex-row">
-                                            <Form.Label className="create-new-card__properties__label">
-                                                {el.name}
-                                            </Form.Label>
-                                            <Form.Control type="text" placeholder="Новая карточка" />
-                                        </Form.Group>
-                                    )
-                                })}
-                            </div>
-                            <button
-                                onClick={handleShow}
-                                className="create-new-card__button dashboard-button d-flex align-items-center offset-md-3">
-                                <svg
-                                    width="24"
-                                    height="24"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M20 12H4" stroke="black" stroke-linecap="round" />
-                                    <path d="M12 4V20" stroke="black" stroke-linecap="round" />
-                                </svg>
-                                <span>Добавить свойство</span>
-                            </button>
+                                    {createNewProperties.arrayWithNewProperties.map((el) => {
+                                        return (
+                                            <Form.Group className="mb-4 d-flex align-items-center flex-row">
+                                                <Form.Label className="me-2 col-xl-2 col-sm-3">{el.name}</Form.Label>
+                                                <Form.Control type="text" placeholder="Новая карточка" />
+                                            </Form.Group>
+                                        )
+                                    })}
+                                </div>
+                                <button
+                                    onClick={handleShow}
+                                    className="create-new-card__button dashboard-button d-flex align-items-center offset-md-3">
+                                    <svg
+                                        width="24"
+                                        height="24"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M20 12H4" stroke="black" stroke-linecap="round" />
+                                        <path d="M12 4V20" stroke="black" stroke-linecap="round" />
+                                    </svg>
+                                    <span>Добавить свойство</span>
+                                </button>
+                            </Form>
                         </Col>
                     </Row>
                 </Col>

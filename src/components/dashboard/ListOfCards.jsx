@@ -20,10 +20,13 @@ function ListOfCards() {
     return (
         <Container>
             <Row>
-                <Col md="3" className="list-of-cards__card">
-                    <Link className="route-link" to={'/NewCard'}>
+                <Col md="3" className="list-of-cards__card me-3 mb-2">
+                    <Link className="route-link" to={'/cards/create'}>
                         <div className="list-of-cards__create-new-card">
-                            <svg
+                            <svg class="bi" width="32" height="32" fill="currentColor">
+                                <use xlinkHref="bootstrap-icons.svg#heart-fill" />
+                            </svg>
+                            {/* <svg
                                 className="list-of-cards__svg"
                                 width="70"
                                 height="70"
@@ -38,7 +41,7 @@ function ListOfCards() {
                                     d="M35 64.1667C51.1083 64.1667 64.1667 51.1083 64.1667 35C64.1667 18.8917 51.1083 5.83334 35 5.83334C18.8917 5.83334 5.83334 18.8917 5.83334 35C5.83334 51.1083 18.8917 64.1667 35 64.1667Z"
                                     stroke="black"
                                 />
-                            </svg>
+                            </svg> */}
                             <h3 className="list-of-cards__title">Добавить новую карточку</h3>
                         </div>
                     </Link>
@@ -46,8 +49,8 @@ function ListOfCards() {
 
                 {exampleList.map((element) => {
                     return (
-                        <Col md="3" className='list-of-cards__card'>
-                            <Link className='route-link' to={`/yourCards/${element.id}`}>
+                        <Col md="3" className="list-of-cards__card me-3">
+                            <Link className="route-link" to={`/cards/${element.id}`}>
                                 <ListCard
                                     key={element.id}
                                     titleOfCard={element.titleOfCard}

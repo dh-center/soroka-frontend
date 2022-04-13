@@ -19,11 +19,11 @@ const exampleProperties = [
 export default class PropertiesObserver {
     observingArray = exampleProperties
     isUserNotChangedProperties = true
-    isHaveEmptyProperties = false
+    hasEmptyProperties = false
 
     constructor() {
         this.exampleProperties = exampleProperties
-        this.setIsHaveEmptyProperties()
+        this.setHasEmptyProperties()
         makeAutoObservable(this)
     }
 
@@ -35,12 +35,12 @@ export default class PropertiesObserver {
     changeValue(index, newValue) {
         this.observingArray[index].value = newValue
         this.isUserNotChangedProperties = this.setIsUserNotChangedProperties(index, newValue)
-        this.setIsHaveEmptyProperties()
+        this.setHasEmptyProperties()
     }
-    setIsHaveEmptyProperties() {
-        this.isHaveEmptyProperties = false
+    setHasEmptyProperties() {
+        this.hasEmptyProperties = false
         this.observingArray.forEach((el) => {
-            this.isHaveEmptyProperties = this.isHaveEmptyProperties || el.value.length === 0 || !el.value.trim()
+            this.hasEmptyProperties = this.hasEmptyProperties || el.value.length === 0 || !el.value.trim()
         })
     }
 }
