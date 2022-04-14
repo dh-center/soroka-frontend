@@ -1,6 +1,6 @@
 import { Button } from 'react-bootstrap'
 import React, { useEffect, useState } from 'react'
-import './dashboardGlobal.css'
+import '../../views/dashboard/dashboardGlobal.css'
 import './SaveAlert.css'
 
 function SaveAlert({ isUserNotChangedProperties,isHaveEmptyProperties }) {

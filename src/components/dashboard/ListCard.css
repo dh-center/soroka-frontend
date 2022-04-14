@@ -2,12 +2,14 @@
     position: relative;
     margin-bottom: 7px;
 }
+
 .card__title {
     font-size: 12px;
     line-height: 16px;
 
     color: #000000;
 }
+
 .card__is-complete {
     position: absolute;
     bottom: 8px;

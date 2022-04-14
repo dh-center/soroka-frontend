@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import CreateNewPropertiesObserver from '../../stores/createNewProperty'
 import './CreateNewCard.css'
 import './dashboardGlobal.css'
-import SaveAlert from './SaveAlert'
+import SaveAlert from '../../components/dashboard/SaveAlert'
 
 const createNewProperties = new CreateNewPropertiesObserver()
 

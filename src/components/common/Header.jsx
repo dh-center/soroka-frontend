@@ -46,6 +46,7 @@ function Header({ avatarSrc, userName = 'Имя пользователя' }) {
                         <h2 className="header__user-name">{userName}</h2>
                     </div>
                 </Col>
+
                 <Col md="2">
                     <button className="dashboard-button" onClick={handleShow}>
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -64,6 +65,7 @@ function Header({ avatarSrc, userName = 'Имя пользователя' }) {
                     </button>
                 </Col>
             </Row>
+
             <Modal show={show} onHide={handleClose}>
                 <Modal.Body>
                     <div className="save-before-exit d-flex flex-column align-items-center ">
@@ -86,6 +88,7 @@ function Header({ avatarSrc, userName = 'Имя пользователя' }) {
                                 </svg>
                                 <span>Да</span>
                             </button>
+
                             <button className="dashboard-button m-1" onClick={handleClose}>
                                 <svg
                                     width="34"

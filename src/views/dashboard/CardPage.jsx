@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import './dashboardGlobal.css'
 import { observer } from 'mobx-react'
 import { makeAutoObservable } from 'mobx'
-import SaveAlert from './SaveAlert'
+import SaveAlert from '../../components/dashboard/SaveAlert'
 import PropertiesObserver from '../../stores/propertiesObserver'
 
 const propertiesObserver = new PropertiesObserver()
@@ -89,7 +89,7 @@ const CardPage = observer(() => {
                                 <button
                                     className="create-new-card__button dashboard-button d-flex align-items-center offset-md-1 dashboard-button--disabled "
                                     ref={target}
-                                    
+
                                     onMouseOver={() => setShow(true)}
                                     onMouseOut={() => setShow(false)}>
                                     <svg

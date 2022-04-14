@@ -28,9 +28,7 @@ export default class PropertiesObserver {
     }
 
     setIsUserNotChangedProperties(index, newValue) {
-        console.log('cerf', exampleProperties[index].value, newValue)
-        if (exampleProperties[index].value != newValue) return false
-        else return true
+        return exampleProperties[index].value === newValue;
     }
     changeValue(index, newValue) {
         this.observingArray[index].value = newValue
