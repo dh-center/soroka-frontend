@@ -77,21 +77,21 @@ const CreateNewCard = observer(() => {
                                         )
                                     })}
                                 </div>
-                                <button
-                                    onClick={handleShow}
-                                    className="create-new-card__button dashboard-button d-flex align-items-center offset-md-3">
-                                    <svg
-                                        width="24"
-                                        height="24"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M20 12H4" stroke="black" stroke-linecap="round" />
-                                        <path d="M12 4V20" stroke="black" stroke-linecap="round" />
-                                    </svg>
-                                    <span>Добавить свойство</span>
-                                </button>
                             </Form>
+                            <button
+                                onClick={handleShow}
+                                className="create-new-card__button dashboard-button d-flex align-items-center offset-md-3">
+                                <svg
+                                    width="24"
+                                    height="24"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 12H4" stroke="black" stroke-linecap="round" />
+                                    <path d="M12 4V20" stroke="black" stroke-linecap="round" />
+                                </svg>
+                                <span>Добавить свойство</span>
+                            </button>
                         </Col>
                     </Row>
                 </Col>
@@ -143,15 +143,19 @@ const CreateNewCard = observer(() => {
                 </Modal.Header>
                 <Modal.Body>
                     <div className="create-new-card__add-new-property">
-                        <Form.Group className="create-new-card__properties__property d-flex align-items-center flex-row">
-                            <Form.Label className="create-new-card__properties__label" onClick={handleAddNewProperties}>
-                                Название
-                            </Form.Label>
-                            <Form.Control type="text" placeholder="Новая карточка" />
+                        <Form.Group
+                            className="mb-4 d-flex align-items-center flex-row"
+                            onClick={handleAddNewProperties}
+                            role="button">
+                            <Form.Label className="me-2">Название</Form.Label>
+                            <Form.Control type="text" placeholder="Новая карточка" disabled />
                         </Form.Group>
-                        <Form.Group className="create-new-card__properties__property d-flex align-items-center flex-row">
-                            <Form.Label className="create-new-card__properties__label">Название</Form.Label>
-                            <Form.Control type="text" placeholder="Новая карточка" />
+                        <Form.Group
+                            className="mb-4 d-flex align-items-center flex-row"
+                            onClick={handleAddNewProperties}
+                            role="button">
+                            <Form.Label className="me-2">Название</Form.Label>
+                            <Form.Control type="text" placeholder="Новая карточка" disabled />
                         </Form.Group>
                     </div>
                 </Modal.Body>
