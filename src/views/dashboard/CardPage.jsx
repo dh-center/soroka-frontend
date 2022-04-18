@@ -6,7 +6,7 @@ import './dashboardGlobal.css'
 import { observer } from 'mobx-react'
 import { makeAutoObservable } from 'mobx'
 import SaveAlert from '../../components/dashboard/SaveAlert'
-import PropertiesObservable from '../../stores/propertiesObserver'
+import PropertiesObservable from '../../stores/propertiesObservable'
 import { CARDS_ROUTE } from '../../api/routes'
 
 const propertiesObserver = new PropertiesObservable()
@@ -20,7 +20,7 @@ const CardPage = observer(() => {
                 <Col md="9">
                     <Row className="mb-4 d-flex align-items-center">
                         <Col md="4">
-                            <Link className="route-link" to={`/${CARDS_ROUTE}`}>
+                            <Link className="route-link" to={CARDS_ROUTE}>
                                 <div className="dashboard-button back-to-list">
                                     <svg
                                         width="26"

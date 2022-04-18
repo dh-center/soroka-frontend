@@ -61,7 +61,7 @@ function Login() {
                         </Form.Group>
                         <div className="login__submit">
                             <Button className="login__submit__button">Войти</Button>
-                            <Link to={`/${REGISTRATION_ROUTE}`} className={'link'}>
+                            <Link to={REGISTRATION_ROUTE} className={'link'}>
                                 Регистрация
                             </Link>
                         </div>

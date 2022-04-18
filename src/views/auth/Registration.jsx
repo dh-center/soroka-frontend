@@ -90,7 +90,7 @@ function Registration() {
                         </Form.Group>
                         <div className="registration__submit">
                             <Button className="registration__submit__button">Войти</Button>
-                            <Link className="link" to={`/${LOGIN_ROUTE}`}>
+                            <Link className="link" to={LOGIN_ROUTE}>
                                 Я уже зарегистрировался
                             </Link>
                         </div>

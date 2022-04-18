@@ -2,7 +2,7 @@ import { observer } from 'mobx-react'
 import React, { useState } from 'react'
 import { Button, Col, Container, Form, Modal, Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import CreateNewPropertiesObservable from '../../stores/createNewProperty'
+import CreateNewPropertiesObservable from '../../stores/createNewPropertyCreateNewPropertiesObservable'
 import './CreateNewCard.css'
 import './dashboardGlobal.css'
 import SaveAlert from '../../components/dashboard/SaveAlert'
@@ -28,7 +28,7 @@ const CreateNewCard = observer(() => {
                 <Col md="9">
                     <Row className="mb-4 d-flex align-items-center">
                         <Col md="4">
-                            <Link to={`/${CARDS_ROUTE}`} className="route-link">
+                            <Link to={CARDS_ROUTE} className="route-link">
                                 <div className="dashboard-button back-to-list">
                                     <svg
                                         width="26"
