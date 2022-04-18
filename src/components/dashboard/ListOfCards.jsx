@@ -1,6 +1,7 @@
 import React from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
+import { CARDS_ROUTE, CREATE_ROUTE } from '../../api/routes'
 import ListCard from './ListCard'
 import './ListOfCards.css'
 const exampleList = [
@@ -21,7 +22,7 @@ function ListOfCards() {
         <Container>
             <Row>
                 <Col md="3" className="list-of-cards__card me-3 mb-2">
-                    <Link className="route-link" to={'/cards/create'}>
+                    <Link className="route-link" to={`/${CARDS_ROUTE}/${CREATE_ROUTE}`}>
                         <div className="list-of-cards__create-new-card">
                             <svg class="bi" width="32" height="32" fill="currentColor">
                                 <use xlinkHref="bootstrap-icons.svg#heart-fill" />
@@ -50,7 +51,7 @@ function ListOfCards() {
                 {exampleList.map((element) => {
                     return (
                         <Col md="3" className="list-of-cards__card me-3">
-                            <Link className="route-link" to={`/cards/${element.id}`}>
+                            <Link className="route-link" to={`/${CARDS_ROUTE}/${element.id}`}>
                                 <ListCard
                                     key={element.id}
                                     titleOfCard={element.titleOfCard}

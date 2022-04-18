@@ -7,6 +7,7 @@ import Registration from './views/auth/Registration'
 import CreateNewCard from './views/dashboard/CreateNewCard'
 import CardPage from './views/dashboard/CardPage'
 import Header from './components/common/Header'
+import { CARDS_ROUTE, CREATE_ROUTE, LOGIN_ROUTE, REGISTRATION_ROUTE } from './api/routes'
 
 function App() {
     return (
@@ -14,11 +15,11 @@ function App() {
             <div className="App">
                 <Header />
                 <Routes>
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/registration" element={<Registration />} />
-                    <Route path="/cards" element={<Dashboard />} />
-                    <Route path="/cards/:id" element={<CardPage />} />
-                    <Route path="/cards/create" element={<CreateNewCard />} />
+                    <Route path={`/${LOGIN_ROUTE}`} element={<Login />} />
+                    <Route path={`/${REGISTRATION_ROUTE}`} element={<Registration />} />
+                    <Route path={`/${CARDS_ROUTE}`} element={<Dashboard />} />
+                    <Route path={`/${CARDS_ROUTE}/:id`} element={<CardPage />} />
+                    <Route path={`/${CARDS_ROUTE}/${CREATE_ROUTE}`} element={<CreateNewCard />} />
                     <Route path="*" element={<div>404</div>} />
                 </Routes>
             </div>

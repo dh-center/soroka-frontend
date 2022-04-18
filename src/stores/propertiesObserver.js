@@ -16,7 +16,7 @@ const exampleProperties = [
         type: 'text'
     }
 ]
-export default class PropertiesObserver {
+export default class PropertiesObservable {
     observingArray = exampleProperties
     isUserNotChangedProperties = true
     hasEmptyProperties = false

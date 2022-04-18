@@ -3,6 +3,7 @@ import { Button, Col, Container, Form, Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import './Registration.css'
 import './auth.css'
+import { LOGIN_ROUTE } from '../../api/routes'
 function Registration() {
     const password = useRef(null)
     const repeatPassword = useRef(null)
@@ -55,7 +56,6 @@ function Registration() {
                                             stroke-linecap="round"
                                         />
                                     </svg>
-
                                 </div>
                             </div>
                         </Form.Group>
@@ -85,13 +85,12 @@ function Registration() {
                                             stroke-linecap="round"
                                         />
                                     </svg>
-
                                 </div>
                             </div>
                         </Form.Group>
                         <div className="registration__submit">
                             <Button className="registration__submit__button">Войти</Button>
-                            <Link className="link" to={'/login'}>
+                            <Link className="link" to={`/${LOGIN_ROUTE}`}>
                                 Я уже зарегистрировался
                             </Link>
                         </div>

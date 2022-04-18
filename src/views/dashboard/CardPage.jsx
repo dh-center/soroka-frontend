@@ -6,9 +6,10 @@ import './dashboardGlobal.css'
 import { observer } from 'mobx-react'
 import { makeAutoObservable } from 'mobx'
 import SaveAlert from '../../components/dashboard/SaveAlert'
-import PropertiesObserver from '../../stores/propertiesObserver'
+import PropertiesObservable from '../../stores/propertiesObserver'
+import { CARDS_ROUTE } from '../../api/routes'
 
-const propertiesObserver = new PropertiesObserver()
+const propertiesObserver = new PropertiesObservable()
 
 const CardPage = observer(() => {
     const [show, setShow] = useState(false)
@@ -19,7 +20,7 @@ const CardPage = observer(() => {
                 <Col md="9">
                     <Row className="mb-4 d-flex align-items-center">
                         <Col md="4">
-                            <Link className="route-link" to={'/cards'}>
+                            <Link className="route-link" to={`/${CARDS_ROUTE}`}>
                                 <div className="dashboard-button back-to-list">
                                     <svg
                                         width="26"
@@ -89,7 +90,6 @@ const CardPage = observer(() => {
                                 <button
                                     className="create-new-card__button dashboard-button d-flex align-items-center offset-md-1 dashboard-button--disabled "
                                     ref={target}
-
                                     onMouseOver={() => setShow(true)}
                                     onMouseOut={() => setShow(false)}>
                                     <svg
