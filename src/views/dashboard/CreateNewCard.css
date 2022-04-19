@@ -1,0 +1,13 @@
+.btn-close {
+    background: transparent url('../../assets/cancel.svg') center/1em auto no-repeat;
+}
+
+.modal-title {
+    font-size: 16px;
+    line-height: 21px;
+    color: #000000;
+}
+
+.modal-header{
+    border-bottom: none;
+}

@@ -3,6 +3,7 @@ import { Button, Col, Container, Form, Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import './Login.css'
 import './auth.css'
+import { REGISTRATION_ROUTE } from '../../api/routes'
 
 function Login() {
     const password = useRef(null)
@@ -55,13 +56,12 @@ function Login() {
                                             stroke-linecap="round"
                                         />
                                     </svg>
-
                                 </div>
                             </div>
                         </Form.Group>
                         <div className="login__submit">
                             <Button className="login__submit__button">Войти</Button>
-                            <Link to={'/registration'} className={'link'}>
+                            <Link to={REGISTRATION_ROUTE} className={'link'}>
                                 Регистрация
                             </Link>
                         </div>
