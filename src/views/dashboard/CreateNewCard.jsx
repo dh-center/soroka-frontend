@@ -33,11 +33,11 @@ const CreateNewCard = observer(() => {
                                         viewBox="0 0 26 24"
                                         fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M22.7076 12L3.99284 12" stroke="black" stroke-linecap="round" />
+                                        <path d="M22.7076 12L3.99284 12" stroke="black" strokeLinecap="round" />
                                         <path
                                             d="M10.2311 6L3.99281 12L10.2311 18"
                                             stroke="black"
-                                            stroke-linecap="round"
+                                            strokeLinecap="round"
                                         />
                                     </svg>
                                     <span>Назад к карточкам</span>
@@ -85,8 +85,8 @@ const CreateNewCard = observer(() => {
                                     viewBox="0 0 24 24"
                                     fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M20 12H4" stroke="black" stroke-linecap="round" />
-                                    <path d="M12 4V20" stroke="black" stroke-linecap="round" />
+                                    <path d="M20 12H4" stroke="black" strokeLinecap="round" />
+                                    <path d="M12 4V20" stroke="black" strokeLinecap="round" />
                                 </svg>
                                 <span>Добавить свойство</span>
                             </button>
@@ -105,12 +105,12 @@ const CreateNewCard = observer(() => {
                                     fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <path
-                                        fill-rule="evenodd"
-                                        clip-rule="evenodd"
+                                        fillRule="evenodd"
+                                        clipRule="evenodd"
                                         d="M18.1459 3C18.4044 3 18.6529 3.10008 18.8391 3.27926L22.7076 7L22.7076 20C22.7076 20.5523 22.2599 21 21.7076 21L4.99284 21C4.44056 21 3.99284 20.5523 3.99284 20L3.99284 4C3.99284 3.44772 4.44055 3 4.99284 3L18.1459 3Z"
                                         stroke="black"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
                                     />
                                     <rect
                                         x="8.1517"
@@ -118,7 +118,7 @@ const CreateNewCard = observer(() => {
                                         width="10.3971"
                                         height="8"
                                         stroke="black"
-                                        stroke-linejoin="round"
+                                        strokeLinejoin="round"
                                     />
                                     <rect
                                         x="9.19141"
@@ -126,7 +126,7 @@ const CreateNewCard = observer(() => {
                                         width="8.31769"
                                         height="5"
                                         stroke="black"
-                                        stroke-linejoin="round"
+                                        strokeLinejoin="round"
                                     />
                                 </svg>
                                 <span>Сохранить</span>

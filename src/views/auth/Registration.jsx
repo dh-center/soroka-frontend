@@ -25,6 +25,7 @@ function Registration() {
                 <Col lg={'4'}>
                     {/* <div className="container registration"> */}
                     <span className="registration__span">Регистрация</span>
+
                     <Form>
                         <Form.Group controlId="formBasicEmail">
                             <input
@@ -34,7 +35,7 @@ function Registration() {
                             />
                         </Form.Group>
                         <Form.Group>
-                            <div class="input-group flex-nowrap">
+                            <div className="input-group flex-nowrap">
                                 <input
                                     ref={password}
                                     type="password"
@@ -42,7 +43,7 @@ function Registration() {
                                     className="login__input login__password-wrap__password"
                                 />
 
-                                <div class="input-group-prepend">
+                                <div className="input-group-prepend">
                                     <svg
                                         className="login__password-wrap__svg "
                                         id="addon-wrapping"
@@ -55,7 +56,7 @@ function Registration() {
                                         <path
                                             d="M19 1C19 1 18.6797 1.66735 18 2.51445M11 6C9.39201 6 8.04786 5.58775 6.94861 5M11 6C12.608 6 13.9521 5.58775 15.0514 5M11 6V9.5M3 1C3 1 3.35367 1.73682 4.10628 2.64476M6.94861 5L4 8M6.94861 5C5.6892 4.32661 4.75124 3.42285 4.10628 2.64476M15.0514 5L17.5 8M15.0514 5C16.3818 4.28865 17.3535 3.32023 18 2.51445M4.10628 2.64476L1 4M18 2.51445L21 4"
                                             stroke="black"
-                                            stroke-linecap="round"
+                                            strokeLinecap="round"
                                         />
                                     </svg>
                                 </div>
@@ -63,7 +64,7 @@ function Registration() {
                         </Form.Group>
 
                         <Form.Group>
-                            <div class="input-group flex-nowrap">
+                            <div className="input-group flex-nowrap">
                                 <input
                                     ref={repeatPassword}
                                     type="password"
@@ -71,7 +72,7 @@ function Registration() {
                                     className="registration__input registration__password-wrap__password"
                                 />
 
-                                <div class="input-group-prepend">
+                                <div className="input-group-prepend">
                                     <svg
                                         className="login__password-wrap__svg "
                                         id="addon-wrapping"
@@ -84,12 +85,13 @@ function Registration() {
                                         <path
                                             d="M19 1C19 1 18.6797 1.66735 18 2.51445M11 6C9.39201 6 8.04786 5.58775 6.94861 5M11 6C12.608 6 13.9521 5.58775 15.0514 5M11 6V9.5M3 1C3 1 3.35367 1.73682 4.10628 2.64476M6.94861 5L4 8M6.94861 5C5.6892 4.32661 4.75124 3.42285 4.10628 2.64476M15.0514 5L17.5 8M15.0514 5C16.3818 4.28865 17.3535 3.32023 18 2.51445M4.10628 2.64476L1 4M18 2.51445L21 4"
                                             stroke="black"
-                                            stroke-linecap="round"
+                                            strokeLinecap="round"
                                         />
                                     </svg>
                                 </div>
                             </div>
                         </Form.Group>
+
                         <div className="registration__submit">
                             <Button className="registration__submit__button">Войти</Button>
                             <Link className="link" to={LOGIN_ROUTE}>

@@ -25,7 +25,7 @@ function ListOfCards() {
                 <Col md="3" className="list-of-cards__card me-3 mb-2">
                     <Link className="route-link" to={getCreateCardRoute()}>
                         <div className="list-of-cards__create-new-card">
-                            <svg class="bi" width="32" height="32" fill="currentColor">
+                            <svg className="bi" width="32" height="32" fill="currentColor">
                                 <use xlinkHref="bootstrap-icons.svg#heart-fill" />
                             </svg>
 
