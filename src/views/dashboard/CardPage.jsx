@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import './dashboardGlobal.css'
 import { observer } from 'mobx-react'
 import PropertiesObservable from '../../stores/propertiesObservable'
-import { CARDS_ROUTE } from '../../api/routes'
+import { CARDS_ROUTE } from '../../utils/routes'
 
 const propertiesObserver = new PropertiesObservable()
 

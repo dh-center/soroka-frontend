@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Col, Container, Row, Modal, ModalDialog } from 'react-bootstrap'
+import { Col, Container, Row } from 'react-bootstrap'
 import DialogAtModal from './DialogAtModal'
 
 function Header({ avatarSrc, userName = 'Имя пользователя' }) {
@@ -13,7 +13,7 @@ function Header({ avatarSrc, userName = 'Имя пользователя' }) {
                     <div className="header__user-info d-flex align-items-center">
                         <div className="header__avatar">
                             {avatarSrc ? (
-                                <img src={avatarSrc} />
+                                <img src={avatarSrc}  alt={""}/>
                             ) : (
                                 <svg
                                     width="48"

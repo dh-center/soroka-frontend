@@ -1,19 +1,27 @@
 import { useRef } from 'react'
-import { Button, Col, Container, Form, Row } from 'react-bootstrap'
+import { Col, Container, Form, Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import './Login.css'
 import './auth.css'
-import { REGISTRATION_ROUTE } from '../../api/routes'
+import { REGISTRATION_ROUTE } from '../../utils/routes'
+import { AuthAPI } from "../../api/auth";
 
 function Login() {
+    const email = useRef(null)
     const password = useRef(null)
 
     const passwordButtonHandler = (event) => {
-        if (password.current.getAttribute('type') == 'password') {
-            password.current.setAttribute('type', 'text')
-        } else {
-            password.current.setAttribute('type', 'password')
-        }
+        const value = password.current.getAttribute('type') === 'password' ? 'password' : 'text';
+        password.current.setAttribute('type', value)
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+
+        await AuthAPI.login({
+            email: email.current.value,
+            password: email.current.value,
+        })
     }
 
     return (
@@ -22,13 +30,14 @@ function Login() {
                 <Col lg={'4'}>
                     {/* <div className="container login"> */}
                     <span className="login__span">Вход</span>
-                    <Form>
+                    <Form onSubmit={handleSubmit}>
                         <Form.Group controlId="formBasicEmail">
                             <input
+                                ref={email}
                                 type="text"
                                 placeholder="Почта или телефон"
-                                className="login__input login__email login__password-wrap__password
-"
+                                className="login__input login__email login__password-wrap__password"
+                                required={true}
                             />
                         </Form.Group>
 
@@ -39,6 +48,7 @@ function Login() {
                                     type="password"
                                     placeholder="Пароль"
                                     className="login__input login__password-wrap__password"
+                                    required={true}
                                 />
 
                                 <div className="input-group-prepend">
@@ -60,8 +70,14 @@ function Login() {
                                 </div>
                             </div>
                         </Form.Group>
+
                         <div className="login__submit">
-                            <Button className="login__submit__button">Войти</Button>
+                            <input
+                                type={"submit"}
+                                className="registration__submit-button"
+                                value={"Войти"}
+                            />
+
                             <Link to={REGISTRATION_ROUTE} className={'link'}>
                                 Регистрация
                             </Link>

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import CreateNewPropertiesObservable from '../../stores/createNewPropertyObservable'
 import './CreateNewCard.css'
 import './dashboardGlobal.css'
-import { CARDS_ROUTE } from '../../api/routes'
+import { CARDS_ROUTE } from '../../utils/routes'
 
 const createNewProperties = new CreateNewPropertiesObservable()
 

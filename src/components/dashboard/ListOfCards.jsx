@@ -1,7 +1,7 @@
 import React from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import { CARDS_ROUTE, CREATE_ROUTE, getCardsRoute, getCreateCardRoute } from '../../api/routes'
+import { getCardsRoute, getCreateCardRoute } from '../../utils/routes'
 import ListCard from './ListCard'
 import './ListOfCards.css'
 
