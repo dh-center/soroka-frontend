@@ -15,6 +15,7 @@ function Login() {
             password.current.setAttribute('type', 'password')
         }
     }
+
     return (
         <Container>
             <Row className="justify-content-center">
@@ -26,7 +27,7 @@ function Login() {
                             <input
                                 type="text"
                                 placeholder="Почта или телефон"
-                                className="login__input login__email login__password-wrap__password 
+                                className="login__input login__email login__password-wrap__password
 "
                             />
                         </Form.Group>

@@ -16,6 +16,7 @@ const exampleProperties = [
         type: 'text'
     }
 ]
+
 export default class PropertiesObservable {
     observingArray = exampleProperties
     isUserNotChangedProperties = true

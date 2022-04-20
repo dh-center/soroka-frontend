@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { CARDS_ROUTE, CREATE_ROUTE, getCardsRoute, getCreateCardRoute } from '../../api/routes'
 import ListCard from './ListCard'
 import './ListOfCards.css'
+
 const exampleList = [
     {
         id:0,

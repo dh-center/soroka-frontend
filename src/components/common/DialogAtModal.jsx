@@ -3,6 +3,7 @@ import { Modal } from 'react-bootstrap'
 
 function DialogAtModal({ show, setShow }) {
     const handleClose = () => setShow(false)
+
     return (
         <Modal show={show} onHide={handleClose}>
             <Modal.Body>

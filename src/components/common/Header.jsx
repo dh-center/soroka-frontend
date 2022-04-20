@@ -5,6 +5,7 @@ import DialogAtModal from './DialogAtModal'
 function Header({ avatarSrc, userName = 'Имя пользователя' }) {
     const [show, setShow] = useState(false)
     const handleShow = () => setShow(true)
+
     return (
         <Container>
             <Row className="justify-content-between align-items-center header p-2 mb-3">

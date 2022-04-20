@@ -4,8 +4,6 @@ import { Button, Col, Container, Form, Modal, Overlay, Row, Tooltip } from 'reac
 import { Link } from 'react-router-dom'
 import './dashboardGlobal.css'
 import { observer } from 'mobx-react'
-import { makeAutoObservable } from 'mobx'
-import SaveAlert from '../../components/dashboard/SaveAlert'
 import PropertiesObservable from '../../stores/propertiesObservable'
 import { CARDS_ROUTE } from '../../api/routes'
 

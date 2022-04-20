@@ -4,12 +4,13 @@ import { Link } from 'react-router-dom'
 import './Registration.css'
 import './auth.css'
 import { LOGIN_ROUTE } from '../../api/routes'
+
 function Registration() {
     const password = useRef(null)
     const repeatPassword = useRef(null)
 
     const passwordButtonHandler = (event) => {
-        if (password.current.getAttribute('type') == 'password') {
+        if (password.current.getAttribute('type') === 'password') {
             password.current.setAttribute('type', 'text')
             repeatPassword.current.setAttribute('type', 'text')
         } else {
@@ -17,6 +18,7 @@ function Registration() {
             repeatPassword.current.setAttribute('type', 'password')
         }
     }
+
     return (
         <Container>
             <Row className="justify-content-center">
