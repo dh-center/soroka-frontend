@@ -5,8 +5,11 @@ import './Login.css'
 import './auth.css'
 import { REGISTRATION_ROUTE } from '../../utils/routes'
 import { AuthAPI } from "../../api/auth";
+import CreateAuthStore from "../../stores/createAuthStore";
 
-function Login() {
+const authStore = new CreateAuthStore()
+
+const Login = () => {
     const email = useRef(null)
     const password = useRef(null)
 
@@ -18,10 +21,13 @@ function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        await AuthAPI.login({
+        const response = await AuthAPI.login({
             email: email.current.value,
-            password: email.current.value,
+            password: password.current.value,
         })
+
+        authStore.setAccessToken(response.data.accessToken)
+        authStore.setRefreshToken(response.data.refreshToken)
     }
 
     return (

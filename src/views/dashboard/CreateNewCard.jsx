@@ -2,12 +2,12 @@ import { observer } from 'mobx-react'
 import React, { useState } from 'react'
 import { Col, Container, Form, Modal, Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import CreateNewPropertiesObservable from '../../stores/createNewPropertyObservable'
+import CreateCardStore from '../../stores/createCardStore'
 import './CreateNewCard.css'
 import './dashboardGlobal.css'
 import { CARDS_ROUTE } from '../../utils/routes'
 
-const createNewProperties = new CreateNewPropertiesObservable()
+const createCardStore = new CreateCardStore()
 
 const CreateNewCard = observer(() => {
     const [show, setShow] = useState(false)
@@ -15,10 +15,10 @@ const CreateNewCard = observer(() => {
     const handleShow = () => setShow(true)
 
     const handleAddNewProperties = (e) => {
-        console.log(e.currentTarget.innerText)
-        createNewProperties.addNewProperties(e.currentTarget.innerText)
+        createCardStore.addNewProperties(e.currentTarget.innerText)
         handleClose()
     }
+
     return (
         <Container>
             <Row>
@@ -66,7 +66,7 @@ const CreateNewCard = observer(() => {
                                         </Form.Select>
                                     </Form.Group>
 
-                                    {createNewProperties.arrayWithNewProperties.map((el) => {
+                                    {createCardStore.arrayWithNewProperties.map((el) => {
                                         return (
                                             <Form.Group className="mb-4 d-flex align-items-center flex-row">
                                                 <Form.Label className="me-2 col-xl-2 col-sm-3">{el.name}</Form.Label>
@@ -97,7 +97,7 @@ const CreateNewCard = observer(() => {
                     <div className="create-new-card__save-alert">
                         <div className="save-alert">
                             <p>Добавьте любые нужные свойства, заполните карточку и сохраните</p>
-                            <button className="dashboard-button" disabled={!createNewProperties.isUserAddNewProperties}>
+                            <button className="dashboard-button" disabled={!createCardStore.isUserAddNewProperties}>
                                 <svg
                                     width="26"
                                     height="24"

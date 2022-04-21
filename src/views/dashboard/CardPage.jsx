@@ -4,10 +4,10 @@ import { Button, Col, Container, Form, Modal, Overlay, Row, Tooltip } from 'reac
 import { Link } from 'react-router-dom'
 import './dashboardGlobal.css'
 import { observer } from 'mobx-react'
-import PropertiesObservable from '../../stores/propertiesObservable'
+import ChangeCardStore from '../../stores/changeCardStore'
 import { CARDS_ROUTE } from '../../utils/routes'
 
-const propertiesObserver = new PropertiesObservable()
+const changeCardStore = new ChangeCardStore()
 
 const CardPage = observer(() => {
     const [show, setShow] = useState(false)
@@ -45,7 +45,7 @@ const CardPage = observer(() => {
                         <Col>
                             <Form>
                                 <div className="current-card__properties offset-md-1">
-                                    {propertiesObserver.observingArray.map((element) => {
+                                    {changeCardStore.observingArray.map((element) => {
                                         if (element.type == 'text') {
                                             return (
                                                 <Form.Group className="mb-4 d-flex align-items-center flex-row">
@@ -59,8 +59,7 @@ const CardPage = observer(() => {
                                                         placeholder=""
                                                         value={element.value}
                                                         onChange={(event) => {
-                                                            console.log('wwww')
-                                                            propertiesObserver.changeValue(
+                                                            changeCardStore.changeValue(
                                                                 element.id,
                                                                 event.target.value
                                                             )
@@ -115,12 +114,12 @@ const CardPage = observer(() => {
                 <Col md="3">
                     <div className="current-card__save-alert">
                         <div className="save-alert">
-                            {propertiesObserver.hasEmptyProperties && (
+                            {changeCardStore.hasEmptyProperties && (
                                 <p>Эта карточка заполнена не до конца: в ней есть пустые поля.</p>
                             )}
                             <button
                                 className="dashboard-button"
-                                disabled={propertiesObserver.isUserNotChangedProperties}>
+                                disabled={changeCardStore.isUserNotChangedProperties}>
                                 <svg
                                     width="26"
                                     height="24"
