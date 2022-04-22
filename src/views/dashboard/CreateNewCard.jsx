@@ -105,15 +105,27 @@ const CreateNewCard = observer(({
                             {userIsAdmin && (
                                 <Form>
                                     <Form.Group className="mb-2">
-                                        <Form.Check type={'checkbox'} label={'Запретить удаление'} />
+                                        <Form.Check
+                                            type={'checkbox'}
+                                            label={'Запретить удаление'}
+                                            onClick={() => {createNewProperties.toggleProhibitUpdate()}}
+                                        />
                                     </Form.Group>
-                                    <Form.Select className="mb-2">
+                                    <Form.Select
+                                        className="mb-2"
+                                        onClick={(e) => {
+                                            createNewProperties.setOrganizationOption(e.target.value)
+                                        }}>
                                         <option>Организация</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
+                                        <option value="One">One</option>
+                                        <option value="Two">Two</option>
+                                        <option value="Three">Three</option>
                                     </Form.Select>
-                                    <Form.Select className="mb-2">
+                                    <Form.Select
+                                        className="mb-2"
+                                        onClick={(e) => {
+                                            createNewProperties.setOwnerOption(e.target.value)
+                                        }}>
                                         <option>Владелец</option>
                                         <option value="1">One</option>
                                         <option value="2">Two</option>
