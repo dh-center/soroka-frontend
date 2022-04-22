@@ -1,8 +1,11 @@
 import React from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { getCreateCardRoute, getIdDynamicRoute } from '../../api/routes'
 import './CardTemplate.css'
+
+
+
 function CardTemplates({
     listOfTemplates = [
         {

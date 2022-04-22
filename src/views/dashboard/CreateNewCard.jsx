@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react'
 import React, { useState } from 'react'
 import { Button, Col, Container, Form, FormLabel, Modal, Row } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import CreateNewPropertiesObservable from '../../stores/createNewPropertyObservable'
 import './CreateNewCard.css'
 import './dashboardGlobal.css'
@@ -10,20 +10,24 @@ import { CARDS_ROUTE } from '../../api/routes'
 
 const createNewProperties = new CreateNewPropertiesObservable()
 
-const CreateNewCard = observer(({
-    userIsAdmin=true,
-}) => {
+function useQuery() {
+    const { search } = useLocation()
+
+    return React.useMemo(() => new URLSearchParams(search), [search])
+}
+
+const CreateNewCard = observer(({ userIsAdmin = true }) => {
     const [show, setShow] = useState(false)
     const handleClose = () => setShow(false)
     const handleShow = () => setShow(true)
 
-    const [newProperties, setNewProperties] = useState([])
-
     const handleAddNewProperties = (e) => {
-        console.log(e.currentTarget.innerText)
         createNewProperties.addNewProperties(e.currentTarget.innerText)
         handleClose()
     }
+
+    let query = useQuery()
+
     return (
         <Container>
             <Row>
@@ -57,6 +61,8 @@ const CreateNewCard = observer(({
                         <Col>
                             <Form>
                                 <div className="create-new-card__properties offset-md-1">
+                                    <h1>{query.get('template')}</h1>
+
                                     <Form.Group className="mb-4 d-flex align-items-center flex-row">
                                         <Form.Label className="me-2 col-xl-2 col-sm-3">Название</Form.Label>
                                         <Form.Control type="text" placeholder="Новая карточка" />
