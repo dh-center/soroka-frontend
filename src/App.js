@@ -7,7 +7,8 @@ import Registration from './views/auth/Registration'
 import CreateNewCard from './views/dashboard/CreateNewCard'
 import CardPage from './views/dashboard/CardPage'
 import Header from './components/common/Header'
-import { CARDS_ROUTE, CREATE_ROUTE, getCreateCardRoute, getIdDynamicRoute, LOGIN_ROUTE, REGISTRATION_ROUTE } from './api/routes'
+import { CARDS_ROUTE, CREATE_ROUTE, getCreateCardRoute, getCreateCardWithTemplatesRoute, getIdDynamicRoute, LOGIN_ROUTE, REGISTRATION_ROUTE } from './api/routes'
+import CardTemplates from './views/dashboard/CardTemplates'
 
 function App() {
     return (
@@ -20,6 +21,7 @@ function App() {
                     <Route path={CARDS_ROUTE} element={<Dashboard />} />
                     <Route path={getIdDynamicRoute()} element={<CardPage />} />
                     <Route path={getCreateCardRoute()} element={<CreateNewCard />} />
+                    <Route path={getCreateCardWithTemplatesRoute()} element={<CardTemplates/>}/>
                     <Route path="*" element={<div>404</div>} />
                 </Routes>
             </div>

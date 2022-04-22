@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react'
 import React, { useState } from 'react'
-import { Button, Col, Container, Form, Modal, Row } from 'react-bootstrap'
+import { Button, Col, Container, Form, FormLabel, Modal, Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import CreateNewPropertiesObservable from '../../stores/createNewPropertyObservable'
 import './CreateNewCard.css'
@@ -10,7 +10,9 @@ import { CARDS_ROUTE } from '../../api/routes'
 
 const createNewProperties = new CreateNewPropertiesObservable()
 
-const CreateNewCard = observer(() => {
+const CreateNewCard = observer(({
+    userIsAdmin=true,
+}) => {
     const [show, setShow] = useState(false)
     const handleClose = () => setShow(false)
     const handleShow = () => setShow(true)
@@ -100,6 +102,26 @@ const CreateNewCard = observer(() => {
                     <div className="create-new-card__save-alert">
                         <div className="save-alert">
                             <p>Добавьте любые нужные свойства, заполните карточку и сохраните</p>
+                            {userIsAdmin && (
+                                <Form>
+                                    <Form.Group className="mb-2">
+                                        <Form.Check type={'checkbox'} label={'Запретить удаление'} />
+                                    </Form.Group>
+                                    <Form.Select className="mb-2">
+                                        <option>Организация</option>
+                                        <option value="1">One</option>
+                                        <option value="2">Two</option>
+                                        <option value="3">Three</option>
+                                    </Form.Select>
+                                    <Form.Select className="mb-2">
+                                        <option>Владелец</option>
+                                        <option value="1">One</option>
+                                        <option value="2">Two</option>
+                                        <option value="3">Three</option>
+                                    </Form.Select>
+                                </Form>
+                            )}
+
                             <button className="dashboard-button" disabled={!createNewProperties.isUserAddNewProperties}>
                                 <svg
                                     width="26"
