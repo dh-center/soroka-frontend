@@ -25,11 +25,13 @@ function Registration() {
         if (password.current.value !== repeatPassword.current.value) return
         if (!acceptsTermsOfUse.current.value) return;
 
+        const timezoneOffset = new Date().getTimezoneOffset() / 60;
+
         await AuthAPI.register({
             name: name.current.value,
             email: email.current.value,
             password: password.current.value,
-            timezone: "GMT+3",
+            timezone: `GMT${timezoneOffset}`,
             hasAcceptTermsOfUse: acceptsTermsOfUse.current.value,
             userRole: 1,
             organization: 1

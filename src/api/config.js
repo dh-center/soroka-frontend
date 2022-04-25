@@ -1,10 +1,10 @@
-import axios from 'axios'
+import axios from "axios";
 import CreateAuthStore from "../stores/createAuthStore";
 
-const apiURL = 'http://51.250.102.199/v1/'
+const { API_URL } = process.env;
 
 const instance = axios.create({
-    baseURL: apiURL
+    baseURL: API_URL
 })
 
 const authStore = new CreateAuthStore()
