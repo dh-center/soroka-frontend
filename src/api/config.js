@@ -1,10 +1,10 @@
 import axios from "axios";
 import CreateAuthStore from "../stores/createAuthStore";
 
-const { API_URL } = process.env;
+const { REACT_APP_API_URL } = process.env;
 
 const instance = axios.create({
-    baseURL: API_URL
+    baseURL: REACT_APP_API_URL
 })
 
 const authStore = new CreateAuthStore()
