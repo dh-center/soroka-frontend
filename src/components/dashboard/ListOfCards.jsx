@@ -1,5 +1,6 @@
 import React from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
+import { FormattedMessage } from 'react-intl'
 import { Link } from 'react-router-dom'
 import { CARDS_ROUTE, CREATE_ROUTE, getCardsRoute, getCreateCardRoute } from '../../api/routes'
 import ListCard from './ListCard'
@@ -28,7 +29,11 @@ function ListOfCards() {
                                 <use xlinkHref="bootstrap-icons.svg#heart-fill" />
                             </svg>
 
-                            <h3 className="list-of-cards__title">Добавить новую карточку</h3>
+                            <h3 className="list-of-cards__title">
+                                <FormattedMessage id={'addNewCard'}/>
+                                    
+                        
+                                </h3>
                         </div>
                     </Link>
                 </Col>

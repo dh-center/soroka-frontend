@@ -1,8 +1,15 @@
 import React, { useState } from 'react'
 import { Col, Container, Row, Modal, ModalDialog } from 'react-bootstrap'
+import { LOCALES } from '../../lang/message'
 import DialogAtModal from './DialogAtModal'
 
-function Header({ avatarSrc, userName = 'Имя пользователя' }) {
+const languages = [
+    { name: 'English', code: LOCALES.ENGLISH },
+    { name: 'Русский', code: LOCALES.RUSSIAN }
+]
+
+function Header({ avatarSrc, userName = 'Имя пользователя', currentLocale, setCurrentLocale }) {
+    const [smShow, setSmShow] = useState(false)
     const [show, setShow] = useState(false)
     const handleShow = () => setShow(true)
     return (
@@ -46,8 +53,8 @@ function Header({ avatarSrc, userName = 'Имя пользователя' }) {
                     </div>
                 </Col>
 
-                <Col md="2">
-                    <button className="dashboard-button" onClick={handleShow}>
+                <Col lg="3" md="4" className="d-flex">
+                    <button className="dashboard-button me-1" onClick={handleShow}>
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path
                                 fill-rule="evenodd"
@@ -62,9 +69,35 @@ function Header({ avatarSrc, userName = 'Имя пользователя' }) {
                         </svg>
                         <span>Выйти</span>
                     </button>
+                    <button className="dashboard-button" onClick={() => setSmShow(true)}>
+                        <span>Смена языка</span>
+                    </button>
                 </Col>
             </Row>
             <DialogAtModal show={show} setShow={setShow} />
+            <Modal
+                size="sm"
+                show={smShow}
+                onHide={() => setSmShow(false)}
+                aria-labelledby="example-modal-sizes-title-sm">
+                <Modal.Header closeButton>
+                    <Modal.Title id="example-modal-sizes-title-sm">Смена языка:</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    {languages.map((el) => {
+                        return (
+                            <button
+                                className="dashboard-button mb-2"
+                                onClick={() => {
+                                    setCurrentLocale(el.code)
+                                    setSmShow(false)
+                                }}>
+                                <span>{el.name}</span>
+                            </button>
+                        )
+                    })}
+                </Modal.Body>
+            </Modal>
         </Container>
     )
 }
