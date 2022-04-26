@@ -7,21 +7,35 @@ import Registration from './views/auth/Registration'
 import CreateNewCard from './views/dashboard/CreateNewCard'
 import CardPage from './views/dashboard/CardPage'
 import Header from './components/common/Header'
-import { CARDS_ROUTE, CREATE_ROUTE, getCreateCardRoute, getIdDynamicRoute, LOGIN_ROUTE, REGISTRATION_ROUTE } from './api/routes'
+import { CARDS_ROUTE, getCreateCardRoute, getIdDynamicRoute, LOGIN_ROUTE, REGISTRATION_ROUTE } from './api/routes'
 import { IntlProvider } from 'react-intl'
-import { LOCALES } from './lang/message'
-import { message } from './lang/locales'
-import { useState } from 'react'
+import { LOCALES } from './lang/locales'
+import { message } from './lang/message'
+import BaseStore from "./stores/baseStore";
+import { observer } from 'mobx-react'
+import { useEffect } from "react";
 
-function App() {
+const baseStore = new BaseStore()
 
-    const [currentLocale, setCurrentLocale] = useState(LOCALES.RUSSIAN)
+const App = observer(() => {
+    const locale = navigator.language;
+    if (locale === "ru") {
+        baseStore.setUiLang(LOCALES.RUSSIAN)
+    } else {
+        if (locale === "ru") {
+            baseStore.setUiLang(LOCALES.RUSSIAN)
+        }
+    }
+
+    useEffect(() => {
+        console.log('useEffect baseStore.uiLang = ', baseStore.uiLang);
+    }, [baseStore.uiLang])
 
     return (
         <BrowserRouter>
-            <IntlProvider defaultLocale={LOCALES.RUSSIAN} locale={currentLocale} messages={message[currentLocale]}>
+            <IntlProvider defaultLocale={LOCALES.RUSSIAN} locale={baseStore.uiLang} messages={message[baseStore.uiLang]}>
                 <div className="App">
-                    <Header currentLocale = {currentLocale} setCurrentLocale={setCurrentLocale} />
+                    <Header />
                     <Routes>
                         <Route path={LOGIN_ROUTE} element={<Login />} />
                         <Route path={REGISTRATION_ROUTE} element={<Registration />} />
@@ -34,6 +48,6 @@ function App() {
             </IntlProvider>
         </BrowserRouter>
     )
-}
+});
 
 export default App

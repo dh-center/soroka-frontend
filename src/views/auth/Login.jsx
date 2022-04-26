@@ -1,9 +1,10 @@
-import { useRef } from 'react'
+import React, { useRef } from 'react'
 import { Button, Col, Container, Form, Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import './Login.css'
 import './auth.css'
 import { REGISTRATION_ROUTE } from '../../api/routes'
+import { FormattedMessage } from "react-intl";
 
 function Login() {
     const password = useRef(null)
@@ -15,18 +16,21 @@ function Login() {
             password.current.setAttribute('type', 'password')
         }
     }
+
     return (
         <Container>
             <Row className="justify-content-center">
                 <Col lg={'4'}>
                     {/* <div className="container login"> */}
-                    <span className="login__span">Вход</span>
+                    <span className="login__span">
+                        <FormattedMessage id={"loginTitle"} />
+                    </span>
                     <Form>
                         <Form.Group controlId="formBasicEmail">
                             <input
                                 type="text"
                                 placeholder="Почта или телефон"
-                                className="login__input login__email login__password-wrap__password 
+                                className="login__input login__email login__password-wrap__password
 "
                             />
                         </Form.Group>

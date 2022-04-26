@@ -1,14 +1,12 @@
 import React, { useState } from 'react'
-import { Col, Container, Row, Modal, ModalDialog } from 'react-bootstrap'
-import { LOCALES } from '../../lang/message'
+import { Col, Container, Row, Modal } from 'react-bootstrap'
 import DialogAtModal from './DialogAtModal'
+import { LANGUAGES } from "../../utils/constants";
+import BaseStore from "../../stores/baseStore";
 
-const languages = [
-    { name: 'English', code: LOCALES.ENGLISH },
-    { name: 'Русский', code: LOCALES.RUSSIAN }
-]
+const baseStore = new BaseStore()
 
-function Header({ avatarSrc, userName = 'Имя пользователя', currentLocale, setCurrentLocale }) {
+function Header({ avatarSrc, userName = 'Имя пользователя' }) {
     const [smShow, setSmShow] = useState(false)
     const [show, setShow] = useState(false)
     const handleShow = () => setShow(true)
@@ -84,12 +82,13 @@ function Header({ avatarSrc, userName = 'Имя пользователя', curre
                     <Modal.Title id="example-modal-sizes-title-sm">Смена языка:</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    {languages.map((el) => {
+                    {LANGUAGES.map((el, index) => {
                         return (
                             <button
                                 className="dashboard-button mb-2"
+                                key={index}
                                 onClick={() => {
-                                    setCurrentLocale(el.code)
+                                    baseStore.setUiLang(el.code)
                                     setSmShow(false)
                                 }}>
                                 <span>{el.name}</span>
