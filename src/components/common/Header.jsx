@@ -1,12 +1,10 @@
 import React, { useState } from 'react'
 import { Col, Container, Row, Modal } from 'react-bootstrap'
 import DialogAtModal from './DialogAtModal'
-import { LANGUAGES } from "../../utils/constants";
-import BaseStore from "../../stores/baseStore";
+import { LANGUAGES } from '../../utils/constants'
+import { FormattedMessage } from 'react-intl'
 
-const baseStore = new BaseStore()
-
-function Header({ avatarSrc, userName = 'Имя пользователя' }) {
+const Header = ({ avatarSrc, userName = 'Имя пользователя',baseStore }) => {
     const [smShow, setSmShow] = useState(false)
     const [show, setShow] = useState(false)
     const handleShow = () => setShow(true)
@@ -65,10 +63,14 @@ function Header({ avatarSrc, userName = 'Имя пользователя' }) {
                             <path d="M12.5 12H21.5" stroke="black" stroke-linecap="round" />
                             <path d="M18.5 15L21.5 12L18.5 9" stroke="black" stroke-linecap="round" />
                         </svg>
-                        <span>Выйти</span>
+                        <span>
+                            <FormattedMessage id="exit" />
+                        </span>
                     </button>
                     <button className="dashboard-button" onClick={() => setSmShow(true)}>
-                        <span>Смена языка</span>
+                        <span>
+                            <FormattedMessage id="changeLanguage" />
+                        </span>
                     </button>
                 </Col>
             </Row>

@@ -6,10 +6,12 @@ import './dashboardGlobal.css'
 import { observer } from 'mobx-react'
 import PropertiesObservable from '../../stores/propertiesObservable'
 import { CARDS_ROUTE } from '../../api/routes'
+import { FormattedMessage } from 'react-intl'
 
 const propertiesObserver = new PropertiesObservable()
 
 const CardPage = observer(() => {
+
     const [show, setShow] = useState(false)
     const target = useRef(null)
     return (
@@ -33,12 +35,16 @@ const CardPage = observer(() => {
                                             stroke-linecap="round"
                                         />
                                     </svg>
-                                    <span>Назад к карточкам</span>
+                                    <span>
+                                        <FormattedMessage id="buttonBackToCards" />
+                                    </span>
                                 </div>
                             </Link>
                         </Col>
                         <Col md="8">
-                            <h3 className="current-card__current-title">Новая карточка</h3>
+                            <h3 className="current-card__current-title">
+                                <FormattedMessage id="newCard" />
+                            </h3>
                         </Col>
                     </Row>
                     <Row className="justify-content-center">
@@ -99,12 +105,14 @@ const CardPage = observer(() => {
                                         <path d="M20 12H4" stroke="black" stroke-linecap="round" />
                                         <path d="M12 4V20" stroke="black" stroke-linecap="round" />
                                     </svg>
-                                    <span>Добавить свойство</span>
+                                    <span>
+                                        <FormattedMessage id="buttonAddProperty" />
+                                    </span>
                                 </button>
                                 <Overlay target={target.current} show={show} placement="right">
                                     {(props) => (
                                         <Tooltip id="overlay-example" {...props}>
-                                            Все возможные свойства уже добавлены
+                                            <FormattedMessage id="tooltipAllPropertiesAlreadyAdded" />
                                         </Tooltip>
                                     )}
                                 </Overlay>
@@ -116,7 +124,9 @@ const CardPage = observer(() => {
                     <div className="current-card__save-alert">
                         <div className="save-alert">
                             {propertiesObserver.hasEmptyProperties && (
-                                <p>Эта карточка заполнена не до конца: в ней есть пустые поля.</p>
+                                <p>
+                                    <FormattedMessage id="changeCardWarningModalText" />
+                                </p>
                             )}
                             <button
                                 className="dashboard-button"
@@ -152,7 +162,9 @@ const CardPage = observer(() => {
                                         stroke-linejoin="round"
                                     />
                                 </svg>
-                                <span>Сохранить</span>
+                                <span>
+                                    <FormattedMessage id="buttonToSave" />
+                                </span>
                             </button>
                         </div>
                     </div>

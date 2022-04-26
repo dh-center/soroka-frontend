@@ -17,25 +17,24 @@ import { useEffect } from "react";
 
 const baseStore = new BaseStore()
 
-const App = observer(() => {
+const App=observer (() => {
     const locale = navigator.language;
-    if (locale === "ru") {
-        baseStore.setUiLang(LOCALES.RUSSIAN)
-    } else {
-        if (locale === "ru") {
-            baseStore.setUiLang(LOCALES.RUSSIAN)
-        }
-    }
-
+    // if (locale === "ru") {
+    //     baseStore.setUiLang(LOCALES.RUSSIAN)
+    // } else {
+    //     if (locale === "ru") {
+    //         baseStore.setUiLang(LOCALES.RUSSIAN)
+    //     }
+    // }
     useEffect(() => {
         console.log('useEffect baseStore.uiLang = ', baseStore.uiLang);
-    }, [baseStore.uiLang])
+    })
 
     return (
         <BrowserRouter>
             <IntlProvider defaultLocale={LOCALES.RUSSIAN} locale={baseStore.uiLang} messages={message[baseStore.uiLang]}>
                 <div className="App">
-                    <Header />
+                    <Header baseStore={baseStore}/>
                     <Routes>
                         <Route path={LOGIN_ROUTE} element={<Login />} />
                         <Route path={REGISTRATION_ROUTE} element={<Registration />} />

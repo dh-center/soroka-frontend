@@ -1,5 +1,6 @@
 import React from 'react'
 import { Modal } from 'react-bootstrap'
+import { FormattedMessage } from 'react-intl'
 
 function DialogAtModal({ show, setShow }) {
     const handleClose = () => setShow(false)
@@ -7,7 +8,9 @@ function DialogAtModal({ show, setShow }) {
         <Modal show={show} onHide={handleClose}>
             <Modal.Body>
                 <div className="save-before-exit d-flex flex-column align-items-center ">
-                    <p>Сохранить перед выходом?</p>
+                    <p>
+                        <FormattedMessage id="saveBeforeExit" />
+                    </p>
                     <div className="save-before-exit__buttons d-flex alig-items-center">
                         <button className="dashboard-button m-1" onClick={handleClose}>
                             <svg
@@ -24,7 +27,9 @@ function DialogAtModal({ show, setShow }) {
                                     stroke="black"
                                 />
                             </svg>
-                            <span>Да</span>
+                            <span>
+                                <FormattedMessage id="answerIsYes" />
+                            </span>
                         </button>
 
                         <button className="dashboard-button m-1" onClick={handleClose}>
@@ -43,7 +48,9 @@ function DialogAtModal({ show, setShow }) {
                                     stroke="black"
                                 />
                             </svg>
-                            <span>Нет</span>
+                            <span>
+                                <FormattedMessage id="answerIsNo" />
+                            </span>
                         </button>
                     </div>
                 </div>
