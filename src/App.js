@@ -13,11 +13,10 @@ import { LOCALES } from './lang/locales'
 import { message } from './lang/message'
 import BaseStore from "./stores/baseStore";
 import { observer } from 'mobx-react'
-import { useEffect } from "react";
 
 const baseStore = new BaseStore()
 
-const App = observer(() => {
+const App = observer (() => {
     const locale = navigator.language;
     if (locale === "ru") {
         baseStore.setUiLang(LOCALES.RUSSIAN)
@@ -27,15 +26,11 @@ const App = observer(() => {
         }
     }
 
-    useEffect(() => {
-        console.log('useEffect baseStore.uiLang = ', baseStore.uiLang);
-    }, [baseStore.uiLang])
-
     return (
         <BrowserRouter>
             <IntlProvider defaultLocale={LOCALES.RUSSIAN} locale={baseStore.uiLang} messages={message[baseStore.uiLang]}>
                 <div className="App">
-                    <Header />
+                    <Header baseStore={baseStore}/>
                     <Routes>
                         <Route path={LOGIN_ROUTE} element={<Login />} />
                         <Route path={REGISTRATION_ROUTE} element={<Registration />} />

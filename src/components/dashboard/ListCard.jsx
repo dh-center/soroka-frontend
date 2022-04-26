@@ -1,4 +1,5 @@
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import './ListCard.css'
 function ListCard(
     { titleOfCard = 'Название карточки', srcOfPlaceholder = require('../../assets/Image.png') },
@@ -10,9 +11,13 @@ function ListCard(
             <div className="card__header">
                 <img src={srcOfPlaceholder} alt="" />
                 {isComplete ? (
-                    <span className="card__is-complete">Не заполнена</span>
+                    <span className="card__is-complete">
+                        <FormattedMessage id="notFill" />
+                    </span>
                 ) : (
-                    <span className="card__is-complete">Заполнена</span>
+                    <span className="card__is-complete">
+                        <FormattedMessage id="Fill" />
+                    </span>
                 )}
             </div>
             <h4 className="card__title">{titleOfCard}</h4>
