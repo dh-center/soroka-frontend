@@ -8,6 +8,7 @@ const Header = ({ avatarSrc, userName = 'Имя пользователя',baseSt
     const [smShow, setSmShow] = useState(false)
     const [show, setShow] = useState(false)
     const handleShow = () => setShow(true)
+
     return (
         <Container>
             <Row className="justify-content-between align-items-center header p-2 mb-3">

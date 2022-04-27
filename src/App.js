@@ -11,23 +11,20 @@ import { CARDS_ROUTE, getCreateCardRoute, getIdDynamicRoute, LOGIN_ROUTE, REGIST
 import { IntlProvider } from 'react-intl'
 import { LOCALES } from './lang/locales'
 import { message } from './lang/message'
-import BaseStore from "./stores/baseStore";
+import BaseStore from './stores/baseStore'
 import { observer } from 'mobx-react'
-import { useEffect } from "react";
 
 const baseStore = new BaseStore()
 
-const App=observer (() => {
-    const locale = navigator.language;
-    useEffect(() => {
-        console.log('useEffect baseStore.uiLang = ', baseStore.uiLang);
-    })
-
+const App = observer(() => {
     return (
         <BrowserRouter>
-            <IntlProvider defaultLocale={LOCALES.RUSSIAN} locale={baseStore.uiLang} messages={message[baseStore.uiLang]}>
+            <IntlProvider
+                defaultLocale={LOCALES.RUSSIAN}
+                locale={baseStore.uiLang}
+                messages={message[baseStore.uiLang]}>
                 <div className="App">
-                    <Header baseStore={baseStore}/>
+                    <Header baseStore={baseStore} />
                     <Routes>
                         <Route path={LOGIN_ROUTE} element={<Login />} />
                         <Route path={REGISTRATION_ROUTE} element={<Registration />} />
@@ -40,6 +37,6 @@ const App=observer (() => {
             </IntlProvider>
         </BrowserRouter>
     )
-});
+})
 
 export default App
