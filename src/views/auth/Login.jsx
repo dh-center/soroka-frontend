@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import './Login.css'
 import './auth.css'
 import { REGISTRATION_ROUTE } from '../../api/routes'
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage } from 'react-intl'
 
 function Login() {
     const password = useRef(null)
@@ -23,7 +23,7 @@ function Login() {
                 <Col lg={'4'}>
                     {/* <div className="container login"> */}
                     <span className="login__span">
-                        <FormattedMessage id={"loginTitle"} />
+                        <FormattedMessage id="loginTitle" />
                     </span>
                     <Form>
                         <Form.Group controlId="formBasicEmail">

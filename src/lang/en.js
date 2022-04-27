@@ -10,13 +10,15 @@ const English = {
     // Header
     exit: 'Exit',
     changeLanguage: 'Change language',
+    changingLanguage: 'Choose language:',
+
     // Страница логина
     loginTitle: 'Login',
 
     // Список карточек
     addNewCard: 'Add new card',
-    notFill: 'Not filled',
-    fill: 'Filled',
+    notFilled: 'Not filled',
+    filled: 'Filled',
 
     // Страница создания карточки
     newCardWarningModalText: 'Add any desired properties, fill out the card and save',

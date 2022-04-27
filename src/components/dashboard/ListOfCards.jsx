@@ -31,7 +31,7 @@ function ListOfCards() {
                             </svg>
 
                             <h3 className="list-of-cards__title">
-                                <FormattedMessage id={"addNewCard"} />
+                                <FormattedMessage id="addNewCard" />
                             </h3>
                         </div>
                     </Link>

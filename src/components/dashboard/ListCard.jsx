@@ -12,11 +12,11 @@ function ListCard(
                 <img src={srcOfPlaceholder} alt="" />
                 {isComplete ? (
                     <span className="card__is-complete">
-                        <FormattedMessage id="notFill" />
+                        <FormattedMessage id="notFilled" />
                     </span>
                 ) : (
                     <span className="card__is-complete">
-                        <FormattedMessage id="Fill" />
+                        <FormattedMessage id="Filled" />
                     </span>
                 )}
             </div>

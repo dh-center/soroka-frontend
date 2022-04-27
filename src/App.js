@@ -19,13 +19,6 @@ const baseStore = new BaseStore()
 
 const App=observer (() => {
     const locale = navigator.language;
-    // if (locale === "ru") {
-    //     baseStore.setUiLang(LOCALES.RUSSIAN)
-    // } else {
-    //     if (locale === "ru") {
-    //         baseStore.setUiLang(LOCALES.RUSSIAN)
-    //     }
-    // }
     useEffect(() => {
         console.log('useEffect baseStore.uiLang = ', baseStore.uiLang);
     })

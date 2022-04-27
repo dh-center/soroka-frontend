@@ -81,7 +81,9 @@ const Header = ({ avatarSrc, userName = 'Имя пользователя',baseSt
                 onHide={() => setSmShow(false)}
                 aria-labelledby="example-modal-sizes-title-sm">
                 <Modal.Header closeButton>
-                    <Modal.Title id="example-modal-sizes-title-sm">Смена языка:</Modal.Title>
+                    <Modal.Title id="example-modal-sizes-title-sm">
+                        <FormattedMessage id="changingLanguage" />
+                    </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     {LANGUAGES.map((el, index) => {

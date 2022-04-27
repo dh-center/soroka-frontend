@@ -9,13 +9,14 @@ const Russian = {
     // Header
     exit: 'Выйти',
     changeLanguage: 'Сменить язык',
+    changingLanguage:'Смена языка: ',
     // Страница логина
     loginTitle: 'Вход',
 
     // Список карточек
     addNewCard: 'Добавить новую карточку',
-    notFill: 'Не заполнена',
-    fill: 'Заполнена',
+    notFilled: 'Не заполнена',
+    filled: 'Заполнена',
 
     // Страница создания карточки
     newCardWarningModalText: 'Добавьте любые нужные свойства, заполните карточку и сохраните',
