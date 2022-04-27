@@ -16,7 +16,8 @@ const exampleProperties = [
         type: 'text'
     }
 ]
-export default class PropertiesObservable {
+
+export default class ChangeCardStore {
     observingArray = exampleProperties
     isUserNotChangedProperties = true
     hasEmptyProperties = false
@@ -30,11 +31,13 @@ export default class PropertiesObservable {
     setIsUserNotChangedProperties(index, newValue) {
         return exampleProperties[index].value === newValue;
     }
+
     changeValue(index, newValue) {
         this.observingArray[index].value = newValue
         this.isUserNotChangedProperties = this.setIsUserNotChangedProperties(index, newValue)
         this.setHasEmptyProperties()
     }
+
     setHasEmptyProperties() {
         this.hasEmptyProperties = false
         this.observingArray.forEach((el) => {
