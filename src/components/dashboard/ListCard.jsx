@@ -1,6 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import './ListCard.css'
+
 function ListCard(
     { titleOfCard = 'Название карточки', srcOfPlaceholder = require('../../assets/Image.png') },
     isComplete = false,

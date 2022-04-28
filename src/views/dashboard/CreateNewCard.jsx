@@ -1,18 +1,24 @@
 import { observer } from 'mobx-react'
 import React, { useState } from 'react'
-import { Button, Col, Container, Form, Modal, Row } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
-import CreateNewPropertiesObservable from '../../stores/createNewPropertyObservable'
+import { Button, Col, Container, Form, FormLabel, Modal, Row } from 'react-bootstrap'
+import { Link, useLocation } from 'react-router-dom'
+import CreateCardStore from '../../stores/createCardStore'
 import './CreateNewCard.css'
 import './dashboardGlobal.css'
 import SaveAlert from '../../components/dashboard/SaveAlert'
-import { CARDS_ROUTE } from '../../api/routes'
+import { CARDS_ROUTE } from '../../utils/routes'
 import { FormattedMessage, useIntl } from 'react-intl'
 import { injectIntl, intlShape } from 'react-intl'
 
-const createNewProperties = new CreateNewPropertiesObservable()
+const createCardStore = new CreateCardStore()
 
-const CreateNewCard = observer(() => {
+function useQuery() {
+    const { search } = useLocation()
+
+    return React.useMemo(() => new URLSearchParams(search), [search])
+}
+
+const CreateNewCard = observer(({ userIsAdmin = true }) => {
     const intl = useIntl()
 
     const placeholder = intl.formatMessage({ id: 'placeholderNewCard' })
@@ -24,10 +30,12 @@ const CreateNewCard = observer(() => {
     const [newProperties, setNewProperties] = useState([])
 
     const handleAddNewProperties = (e) => {
-        console.log(e.currentTarget.innerText)
-        createNewProperties.addNewProperties(e.currentTarget.innerText)
+        createCardStore.addNewProperties(e.currentTarget.innerText)
         handleClose()
     }
+
+    const query = useQuery()
+
     return (
         <Container>
             <Row>
@@ -42,11 +50,11 @@ const CreateNewCard = observer(() => {
                                         viewBox="0 0 26 24"
                                         fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M22.7076 12L3.99284 12" stroke="black" stroke-linecap="round" />
+                                        <path d="M22.7076 12L3.99284 12" stroke="black" strokeLinecap="round" />
                                         <path
                                             d="M10.2311 6L3.99281 12L10.2311 18"
                                             stroke="black"
-                                            stroke-linecap="round"
+                                            strokeLinecap="round"
                                         />
                                     </svg>
                                     <span>
@@ -65,6 +73,8 @@ const CreateNewCard = observer(() => {
                         <Col>
                             <Form>
                                 <div className="create-new-card__properties offset-md-1">
+                                    <h1>{query.get('template')}</h1>
+
                                     <Form.Group className="mb-4 d-flex align-items-center flex-row">
                                         <Form.Label className="me-2 col-xl-2 col-sm-3">
                                             <FormattedMessage id="nameOfCard" />
@@ -81,7 +91,7 @@ const CreateNewCard = observer(() => {
                                         </Form.Select>
                                     </Form.Group>
 
-                                    {createNewProperties.arrayWithNewProperties.map((el) => {
+                                    {createCardStore.arrayWithNewProperties.map((el) => {
                                         return (
                                             <Form.Group className="mb-4 d-flex align-items-center flex-row">
                                                 <Form.Label className="me-2 col-xl-2 col-sm-3">{el.name}</Form.Label>
@@ -93,15 +103,16 @@ const CreateNewCard = observer(() => {
                             </Form>
                             <button
                                 onClick={handleShow}
-                                className="create-new-card__button dashboard-button d-flex align-items-center offset-md-3">
+                                className="create-new-card__button dashboard-button d-flex align-items-center offset-md-3"
+                            >
                                 <svg
                                     width="24"
                                     height="24"
                                     viewBox="0 0 24 24"
                                     fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M20 12H4" stroke="black" stroke-linecap="round" />
-                                    <path d="M12 4V20" stroke="black" stroke-linecap="round" />
+                                    <path d="M20 12H4" stroke="black" strokeLinecap="round" />
+                                    <path d="M12 4V20" stroke="black" strokeLinecap="round" />
                                 </svg>
                                 <span>
                                     <FormattedMessage id="buttonAddProperty" />
@@ -116,20 +127,60 @@ const CreateNewCard = observer(() => {
                             <p>
                                 <FormattedMessage id="newCardWarningModalText" />
                             </p>
-                            <button className="dashboard-button" disabled={!createNewProperties.isUserAddNewProperties}>
+                            {userIsAdmin && (
+                                <Form>
+                                    <Form.Group className="mb-2">
+                                        <Form.Check
+                                            id={'preventDeletion'}
+                                            type={'checkbox'}
+                                            label={'Запретить удаление'}
+                                            onClick={() => {
+                                                createCardStore.toggleProhibitUpdate()
+                                            }}
+                                        />
+                                    </Form.Group>
+                                    <Form.Select
+                                        id={'chooseOrganization'}
+                                        className="mb-2"
+                                        onClick={(e) => {
+                                            createCardStore.setOrganizationOption(e.target.value)
+                                        }}
+                                    >
+                                        <option>Организация</option>
+                                        <option value="One">One</option>
+                                        <option value="Two">Two</option>
+                                        <option value="Three">Three</option>
+                                    </Form.Select>
+                                    <Form.Select
+                                        id={'chooseOwner'}
+                                        className="mb-2"
+                                        onClick={(e) => {
+                                            createCardStore.setOwnerOption(e.target.value)
+                                        }}
+                                    >
+                                        <option>Владелец</option>
+                                        <option value="1">One</option>
+                                        <option value="2">Two</option>
+                                        <option value="3">Three</option>
+                                    </Form.Select>
+                                </Form>
+                            )}
+
+                            <button className="dashboard-button" disabled={!createCardStore.isUserAddNewProperties}>
                                 <svg
                                     width="26"
                                     height="24"
                                     viewBox="0 0 26 24"
                                     fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
                                     <path
-                                        fill-rule="evenodd"
-                                        clip-rule="evenodd"
+                                        fillRule="evenodd"
+                                        clipRule="evenodd"
                                         d="M18.1459 3C18.4044 3 18.6529 3.10008 18.8391 3.27926L22.7076 7L22.7076 20C22.7076 20.5523 22.2599 21 21.7076 21L4.99284 21C4.44056 21 3.99284 20.5523 3.99284 20L3.99284 4C3.99284 3.44772 4.44055 3 4.99284 3L18.1459 3Z"
                                         stroke="black"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
                                     />
                                     <rect
                                         x="8.1517"
@@ -137,7 +188,7 @@ const CreateNewCard = observer(() => {
                                         width="10.3971"
                                         height="8"
                                         stroke="black"
-                                        stroke-linejoin="round"
+                                        strokeLinejoin="round"
                                     />
                                     <rect
                                         x="9.19141"
@@ -145,7 +196,7 @@ const CreateNewCard = observer(() => {
                                         width="8.31769"
                                         height="5"
                                         stroke="black"
-                                        stroke-linejoin="round"
+                                        strokeLinejoin="round"
                                     />
                                 </svg>
                                 <span>
@@ -167,14 +218,16 @@ const CreateNewCard = observer(() => {
                         <Form.Group
                             className="mb-4 d-flex align-items-center flex-row"
                             onClick={handleAddNewProperties}
-                            role="button">
+                            role="button"
+                        >
                             <Form.Label className="me-2">Название</Form.Label>
                             <Form.Control type="text" placeholder={placeholder} disabled />
                         </Form.Group>
                         <Form.Group
                             className="mb-4 d-flex align-items-center flex-row"
                             onClick={handleAddNewProperties}
-                            role="button">
+                            role="button"
+                        >
                             <Form.Label className="me-2">Название</Form.Label>
                             <Form.Control type="text" placeholder={placeholder} disabled />
                         </Form.Group>
