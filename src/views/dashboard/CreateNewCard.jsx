@@ -106,12 +106,16 @@ const CreateNewCard = observer(({
                                 <Form>
                                     <Form.Group className="mb-2">
                                         <Form.Check
+                                            id={'preventDeletion'}
                                             type={'checkbox'}
                                             label={'Запретить удаление'}
-                                            onClick={() => {createNewProperties.toggleProhibitUpdate()}}
+                                            onClick={() => {
+                                                createNewProperties.toggleProhibitUpdate()
+                                            }}
                                         />
                                     </Form.Group>
                                     <Form.Select
+                                        id={'chooseOrganization'}
                                         className="mb-2"
                                         onClick={(e) => {
                                             createNewProperties.setOrganizationOption(e.target.value)
@@ -122,6 +126,7 @@ const CreateNewCard = observer(({
                                         <option value="Three">Three</option>
                                     </Form.Select>
                                     <Form.Select
+                                        id={'chooseOwner'}
                                         className="mb-2"
                                         onClick={(e) => {
                                             createNewProperties.setOwnerOption(e.target.value)
