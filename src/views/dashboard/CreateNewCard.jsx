@@ -1,27 +1,24 @@
 import { observer } from 'mobx-react'
 import React, { useState } from 'react'
-import { Button, Col, Container, Form, FormLabel, Modal, Row } from 'react-bootstrap'
+import { Col, Container, Form, Modal, Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import CreateNewPropertiesObservable from '../../stores/createNewPropertyObservable'
+import CreateCardStore from '../../stores/createCardStore'
 import './CreateNewCard.css'
 import './dashboardGlobal.css'
-import SaveAlert from '../../components/dashboard/SaveAlert'
-import { CARDS_ROUTE } from '../../api/routes'
+import { CARDS_ROUTE } from '../../utils/routes'
 
-const createNewProperties = new CreateNewPropertiesObservable()
+const createCardStore = new CreateCardStore()
 
 const CreateNewCard = observer(({ userIsAdmin = true }) => {
     const [show, setShow] = useState(false)
     const handleClose = () => setShow(false)
     const handleShow = () => setShow(true)
 
-    const [newProperties, setNewProperties] = useState([])
-
     const handleAddNewProperties = (e) => {
-        console.log(e.currentTarget.innerText)
-        createNewProperties.addNewProperties(e.currentTarget.innerText)
+        createCardStore.addNewProperties(e.currentTarget.innerText)
         handleClose()
     }
+
     return (
         <Container>
             <Row>
@@ -35,13 +32,12 @@ const CreateNewCard = observer(({ userIsAdmin = true }) => {
                                         height="24"
                                         viewBox="0 0 26 24"
                                         fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                        <path d="M22.7076 12L3.99284 12" stroke="black" stroke-linecap="round" />
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M22.7076 12L3.99284 12" stroke="black" strokeLinecap="round" />
                                         <path
                                             d="M10.2311 6L3.99281 12L10.2311 18"
                                             stroke="black"
-                                            stroke-linecap="round"
+                                            strokeLinecap="round"
                                         />
                                     </svg>
                                     <span>Назад к карточкам</span>
@@ -70,7 +66,7 @@ const CreateNewCard = observer(({ userIsAdmin = true }) => {
                                         </Form.Select>
                                     </Form.Group>
 
-                                    {createNewProperties.arrayWithNewProperties.map((el) => {
+                                    {createCardStore.arrayWithNewProperties.map((el) => {
                                         return (
                                             <Form.Group className="mb-4 d-flex align-items-center flex-row">
                                                 <Form.Label className="me-2 col-xl-2 col-sm-3">{el.name}</Form.Label>
@@ -89,10 +85,9 @@ const CreateNewCard = observer(({ userIsAdmin = true }) => {
                                     height="24"
                                     viewBox="0 0 24 24"
                                     fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path d="M20 12H4" stroke="black" stroke-linecap="round" />
-                                    <path d="M12 4V20" stroke="black" stroke-linecap="round" />
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 12H4" stroke="black" strokeLinecap="round" />
+                                    <path d="M12 4V20" stroke="black" strokeLinecap="round" />
                                 </svg>
                                 <span>Добавить свойство</span>
                             </button>
@@ -111,7 +106,7 @@ const CreateNewCard = observer(({ userIsAdmin = true }) => {
                                             type={'checkbox'}
                                             label={'Запретить удаление'}
                                             onClick={() => {
-                                                createNewProperties.toggleProhibitUpdate()
+                                                createCardStore.toggleProhibitUpdate()
                                             }}
                                         />
                                     </Form.Group>
@@ -119,7 +114,7 @@ const CreateNewCard = observer(({ userIsAdmin = true }) => {
                                         id={'chooseOrganization'}
                                         className="mb-2"
                                         onClick={(e) => {
-                                            createNewProperties.setOrganizationOption(e.target.value)
+                                            createCardStore.setOrganizationOption(e.target.value)
                                         }}
                                     >
                                         <option>Организация</option>
@@ -131,7 +126,7 @@ const CreateNewCard = observer(({ userIsAdmin = true }) => {
                                         id={'chooseOwner'}
                                         className="mb-2"
                                         onClick={(e) => {
-                                            createNewProperties.setOwnerOption(e.target.value)
+                                            createCardStore.setOwnerOption(e.target.value)
                                         }}
                                     >
                                         <option>Владелец</option>
@@ -142,7 +137,7 @@ const CreateNewCard = observer(({ userIsAdmin = true }) => {
                                 </Form>
                             )}
 
-                            <button className="dashboard-button" disabled={!createNewProperties.isUserAddNewProperties}>
+                            <button className="dashboard-button" disabled={!createCardStore.isUserAddNewProperties}>
                                 <svg
                                     width="26"
                                     height="24"
@@ -151,12 +146,12 @@ const CreateNewCard = observer(({ userIsAdmin = true }) => {
                                     xmlns="http://www.w3.org/2000/svg"
                                 >
                                     <path
-                                        fill-rule="evenodd"
-                                        clip-rule="evenodd"
+                                        fillRule="evenodd"
+                                        clipRule="evenodd"
                                         d="M18.1459 3C18.4044 3 18.6529 3.10008 18.8391 3.27926L22.7076 7L22.7076 20C22.7076 20.5523 22.2599 21 21.7076 21L4.99284 21C4.44056 21 3.99284 20.5523 3.99284 20L3.99284 4C3.99284 3.44772 4.44055 3 4.99284 3L18.1459 3Z"
                                         stroke="black"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
                                     />
                                     <rect
                                         x="8.1517"
@@ -164,7 +159,7 @@ const CreateNewCard = observer(({ userIsAdmin = true }) => {
                                         width="10.3971"
                                         height="8"
                                         stroke="black"
-                                        stroke-linejoin="round"
+                                        strokeLinejoin="round"
                                     />
                                     <rect
                                         x="9.19141"
@@ -172,7 +167,7 @@ const CreateNewCard = observer(({ userIsAdmin = true }) => {
                                         width="8.31769"
                                         height="5"
                                         stroke="black"
-                                        stroke-linejoin="round"
+                                        strokeLinejoin="round"
                                     />
                                 </svg>
                                 <span>Сохранить</span>

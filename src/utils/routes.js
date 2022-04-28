@@ -13,6 +13,6 @@ export function getCreateCardWithTemplatesRoute() {
 export function getCardsRoute(id) {
     return CARDS_ROUTE + '/' + id
 }
-export function getIdDynamicRoute() {
+export function getCardByIdRoute() {
     return CARDS_ROUTE + ID_ROUTE_DYNAMIC
 }

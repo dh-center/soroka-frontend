@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
-import { Col, Container, Row, Modal, ModalDialog } from 'react-bootstrap'
+import { Col, Container, Row } from 'react-bootstrap'
 import DialogAtModal from './DialogAtModal'
 
 function Header({ avatarSrc, userName = 'Имя пользователя' }) {
     const [show, setShow] = useState(false)
     const handleShow = () => setShow(true)
+
     return (
         <Container>
             <Row className="justify-content-between align-items-center header p-2 mb-3">
@@ -12,20 +13,19 @@ function Header({ avatarSrc, userName = 'Имя пользователя' }) {
                     <div className="header__user-info d-flex align-items-center">
                         <div className="header__avatar">
                             {avatarSrc ? (
-                                <img src={avatarSrc} />
+                                <img src={avatarSrc}  alt={""}/>
                             ) : (
                                 <svg
                                     width="48"
                                     height="48"
                                     viewBox="0 0 48 48"
                                     fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <g clip-path="url(#clip0_176_863)">
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <g clipPath="url(#clip0_176_863)">
                                         <path
                                             d="M7.33337 40.6666C7.33337 34.4166 15.6667 34.4166 19.8334 30.2499C21.9167 28.1666 15.6667 28.1666 15.6667 17.7499C15.6667 10.8062 18.4438 7.33325 24 7.33325C29.5563 7.33325 32.3334 10.8062 32.3334 17.7499C32.3334 28.1666 26.0834 28.1666 28.1667 30.2499C32.3334 34.4166 40.6667 34.4166 40.6667 40.6666"
                                             stroke="black"
-                                            stroke-linecap="round"
+                                            strokeLinecap="round"
                                         />
                                     </g>
                                     <path
@@ -51,15 +51,15 @@ function Header({ avatarSrc, userName = 'Имя пользователя' }) {
                     <button className="dashboard-button" onClick={handleShow}>
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path
-                                fill-rule="evenodd"
-                                clip-rule="evenodd"
+                                fillRule="evenodd"
+                                clipRule="evenodd"
                                 d="M15 4V20H4L4 4L15 4Z"
                                 stroke="black"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
                             />
-                            <path d="M12.5 12H21.5" stroke="black" stroke-linecap="round" />
-                            <path d="M18.5 15L21.5 12L18.5 9" stroke="black" stroke-linecap="round" />
+                            <path d="M12.5 12H21.5" stroke="black" strokeLinecap="round" />
+                            <path d="M18.5 15L21.5 12L18.5 9" stroke="black" strokeLinecap="round" />
                         </svg>
                         <span>Выйти</span>
                     </button>

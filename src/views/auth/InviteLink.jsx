@@ -1,6 +1,7 @@
 import { Button } from 'bootstrap'
 import { Col, Container, Row } from 'react-bootstrap'
 import './InviteLink.css'
+
 function InviteLink() {
     return (
         <Container>
