@@ -5,7 +5,10 @@ import { Link, useLocation } from 'react-router-dom'
 import CreateCardStore from '../../stores/createCardStore'
 import './CreateNewCard.css'
 import './dashboardGlobal.css'
+import SaveAlert from '../../components/dashboard/SaveAlert'
 import { CARDS_ROUTE } from '../../utils/routes'
+import { FormattedMessage, useIntl } from 'react-intl'
+import { injectIntl, intlShape } from 'react-intl'
 
 const createCardStore = new CreateCardStore()
 
@@ -16,12 +19,18 @@ function useQuery() {
 }
 
 const CreateNewCard = observer(({ userIsAdmin = true }) => {
+    const intl = useIntl()
+
+    const placeholder = intl.formatMessage({ id: 'placeholderNewCard' })
+
     const [show, setShow] = useState(false)
     const handleClose = () => setShow(false)
     const handleShow = () => setShow(true)
 
+    const [newProperties, setNewProperties] = useState([])
+
     const handleAddNewProperties = (e) => {
-        createNewProperties.addNewProperties(e.currentTarget.innerText)
+        createCardStore.addNewProperties(e.currentTarget.innerText)
         handleClose()
     }
 
@@ -48,12 +57,16 @@ const CreateNewCard = observer(({ userIsAdmin = true }) => {
                                             strokeLinecap="round"
                                         />
                                     </svg>
-                                    <span>Назад к карточкам</span>
+                                    <span>
+                                        <FormattedMessage id="buttonBackToCards" />
+                                    </span>
                                 </div>
                             </Link>
                         </Col>
                         <Col md="8">
-                            <h3 className="create-new-card__current-title">Новая карточка</h3>
+                            <h3 className="create-new-card__current-title">
+                                <FormattedMessage id="newCard" />
+                            </h3>
                         </Col>
                     </Row>
                     <Row className="justify-content-center">
@@ -63,8 +76,10 @@ const CreateNewCard = observer(({ userIsAdmin = true }) => {
                                     <h1>{query.get('template')}</h1>
 
                                     <Form.Group className="mb-4 d-flex align-items-center flex-row">
-                                        <Form.Label className="me-2 col-xl-2 col-sm-3">Название</Form.Label>
-                                        <Form.Control type="text" placeholder="Новая карточка" />
+                                        <Form.Label className="me-2 col-xl-2 col-sm-3">
+                                            <FormattedMessage id="nameOfCard" />
+                                        </Form.Label>
+                                        <Form.Control type="text" placeholder={placeholder} />
                                     </Form.Group>
                                     <Form.Group className="mb-4 d-flex align-items-center flex-row">
                                         <Form.Label className="me-2 col-xl-2 col-sm-3">Сущность</Form.Label>
@@ -80,7 +95,7 @@ const CreateNewCard = observer(({ userIsAdmin = true }) => {
                                         return (
                                             <Form.Group className="mb-4 d-flex align-items-center flex-row">
                                                 <Form.Label className="me-2 col-xl-2 col-sm-3">{el.name}</Form.Label>
-                                                <Form.Control type="text" placeholder="Новая карточка" />
+                                                <Form.Control type="text" placeholder={placeholder} />
                                             </Form.Group>
                                         )
                                     })}
@@ -99,7 +114,9 @@ const CreateNewCard = observer(({ userIsAdmin = true }) => {
                                     <path d="M20 12H4" stroke="black" strokeLinecap="round" />
                                     <path d="M12 4V20" stroke="black" strokeLinecap="round" />
                                 </svg>
-                                <span>Добавить свойство</span>
+                                <span>
+                                    <FormattedMessage id="buttonAddProperty" />
+                                </span>
                             </button>
                         </Col>
                     </Row>
@@ -107,7 +124,9 @@ const CreateNewCard = observer(({ userIsAdmin = true }) => {
                 <Col md="3">
                     <div className="create-new-card__save-alert">
                         <div className="save-alert">
-                            <p>Добавьте любые нужные свойства, заполните карточку и сохраните</p>
+                            <p>
+                                <FormattedMessage id="newCardWarningModalText" />
+                            </p>
                             {userIsAdmin && (
                                 <Form>
                                     <Form.Group className="mb-2">
@@ -180,7 +199,9 @@ const CreateNewCard = observer(({ userIsAdmin = true }) => {
                                         strokeLinejoin="round"
                                     />
                                 </svg>
-                                <span>Сохранить</span>
+                                <span>
+                                    <FormattedMessage id="buttonToSave" />
+                                </span>
                             </button>
                         </div>
                     </div>
@@ -188,7 +209,9 @@ const CreateNewCard = observer(({ userIsAdmin = true }) => {
             </Row>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Нажмите на нужное свойство, чтобы добавить его</Modal.Title>
+                    <Modal.Title>
+                        <FormattedMessage id="addPropertyTitle" />
+                    </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <div className="create-new-card__add-new-property">
@@ -198,7 +221,7 @@ const CreateNewCard = observer(({ userIsAdmin = true }) => {
                             role="button"
                         >
                             <Form.Label className="me-2">Название</Form.Label>
-                            <Form.Control type="text" placeholder="Новая карточка" disabled />
+                            <Form.Control type="text" placeholder={placeholder} disabled />
                         </Form.Group>
                         <Form.Group
                             className="mb-4 d-flex align-items-center flex-row"
@@ -206,7 +229,7 @@ const CreateNewCard = observer(({ userIsAdmin = true }) => {
                             role="button"
                         >
                             <Form.Label className="me-2">Название</Form.Label>
-                            <Form.Control type="text" placeholder="Новая карточка" disabled />
+                            <Form.Control type="text" placeholder={placeholder} disabled />
                         </Form.Group>
                     </div>
                 </Modal.Body>

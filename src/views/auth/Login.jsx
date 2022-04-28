@@ -1,8 +1,9 @@
-import { useRef } from 'react'
-import { Col, Container, Form, Row } from 'react-bootstrap'
+import React, { useRef } from 'react'
+import { Button, Col, Container, Form, Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import './Login.css'
 import './auth.css'
+import { FormattedMessage } from 'react-intl'
 import { REGISTRATION_ROUTE } from '../../utils/routes'
 import { AuthAPI } from "../../api/auth";
 import CreateAuthStore from "../../stores/createAuthStore";
@@ -35,7 +36,9 @@ const Login = () => {
             <Row className="justify-content-center">
                 <Col lg={'4'}>
                     {/* <div className="container login"> */}
-                    <span className="login__span">Вход</span>
+                    <span className="login__span">
+                        <FormattedMessage id="loginTitle" />
+                    </span>
                     <Form onSubmit={handleSubmit}>
                         <Form.Group controlId="formBasicEmail">
                             <input

@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
-import { Col, Container, Row } from 'react-bootstrap'
+import { Col, Container, Row, Modal } from 'react-bootstrap'
 import DialogAtModal from './DialogAtModal'
+import { LANGUAGES } from '../../utils/constants'
+import { FormattedMessage } from 'react-intl'
 
-function Header({ avatarSrc, userName = 'Имя пользователя' }) {
+const Header = ({ avatarSrc, userName = 'Имя пользователя',baseStore }) => {
+    const [smShow, setSmShow] = useState(false)
     const [show, setShow] = useState(false)
     const handleShow = () => setShow(true)
 
@@ -48,8 +51,8 @@ function Header({ avatarSrc, userName = 'Имя пользователя' }) {
                     </div>
                 </Col>
 
-                <Col md="2">
-                    <button className="dashboard-button" onClick={handleShow}>
+                <Col lg="3" md="4" className="d-flex">
+                    <button className="dashboard-button me-1" onClick={handleShow}>
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path
                                 fillRule="evenodd"
@@ -62,11 +65,44 @@ function Header({ avatarSrc, userName = 'Имя пользователя' }) {
                             <path d="M12.5 12H21.5" stroke="black" strokeLinecap="round" />
                             <path d="M18.5 15L21.5 12L18.5 9" stroke="black" strokeLinecap="round" />
                         </svg>
-                        <span>Выйти</span>
+                        <span>
+                            <FormattedMessage id="exit" />
+                        </span>
+                    </button>
+                    <button className="dashboard-button" onClick={() => setSmShow(true)}>
+                        <span>
+                            <FormattedMessage id="changeLanguage" />
+                        </span>
                     </button>
                 </Col>
             </Row>
             <DialogAtModal show={show} setShow={setShow} />
+            <Modal
+                size="sm"
+                show={smShow}
+                onHide={() => setSmShow(false)}
+                aria-labelledby="example-modal-sizes-title-sm">
+                <Modal.Header closeButton>
+                    <Modal.Title id="example-modal-sizes-title-sm">
+                        <FormattedMessage id="changingLanguage" />
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    {LANGUAGES.map((el, index) => {
+                        return (
+                            <button
+                                className="dashboard-button mb-2"
+                                key={index}
+                                onClick={() => {
+                                    baseStore.setUiLang(el.code)
+                                    setSmShow(false)
+                                }}>
+                                <span>{el.name}</span>
+                            </button>
+                        )
+                    })}
+                </Modal.Body>
+            </Modal>
         </Container>
     )
 }
