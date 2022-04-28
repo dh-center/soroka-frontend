@@ -35,7 +35,8 @@ const CreateNewCard = observer(({ userIsAdmin = true }) => {
                                         height="24"
                                         viewBox="0 0 26 24"
                                         fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
                                         <path d="M22.7076 12L3.99284 12" stroke="black" stroke-linecap="round" />
                                         <path
                                             d="M10.2311 6L3.99281 12L10.2311 18"
@@ -81,13 +82,15 @@ const CreateNewCard = observer(({ userIsAdmin = true }) => {
                             </Form>
                             <button
                                 onClick={handleShow}
-                                className="create-new-card__button dashboard-button d-flex align-items-center offset-md-3">
+                                className="create-new-card__button dashboard-button d-flex align-items-center offset-md-3"
+                            >
                                 <svg
                                     width="24"
                                     height="24"
                                     viewBox="0 0 24 24"
                                     fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
                                     <path d="M20 12H4" stroke="black" stroke-linecap="round" />
                                     <path d="M12 4V20" stroke="black" stroke-linecap="round" />
                                 </svg>
@@ -117,7 +120,8 @@ const CreateNewCard = observer(({ userIsAdmin = true }) => {
                                         className="mb-2"
                                         onClick={(e) => {
                                             createNewProperties.setOrganizationOption(e.target.value)
-                                        }}>
+                                        }}
+                                    >
                                         <option>Организация</option>
                                         <option value="One">One</option>
                                         <option value="Two">Two</option>
@@ -128,7 +132,8 @@ const CreateNewCard = observer(({ userIsAdmin = true }) => {
                                         className="mb-2"
                                         onClick={(e) => {
                                             createNewProperties.setOwnerOption(e.target.value)
-                                        }}>
+                                        }}
+                                    >
                                         <option>Владелец</option>
                                         <option value="1">One</option>
                                         <option value="2">Two</option>
@@ -143,7 +148,8 @@ const CreateNewCard = observer(({ userIsAdmin = true }) => {
                                     height="24"
                                     viewBox="0 0 26 24"
                                     fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
                                     <path
                                         fill-rule="evenodd"
                                         clip-rule="evenodd"
@@ -184,14 +190,16 @@ const CreateNewCard = observer(({ userIsAdmin = true }) => {
                         <Form.Group
                             className="mb-4 d-flex align-items-center flex-row"
                             onClick={handleAddNewProperties}
-                            role="button">
+                            role="button"
+                        >
                             <Form.Label className="me-2">Название</Form.Label>
                             <Form.Control type="text" placeholder="Новая карточка" disabled />
                         </Form.Group>
                         <Form.Group
                             className="mb-4 d-flex align-items-center flex-row"
                             onClick={handleAddNewProperties}
-                            role="button">
+                            role="button"
+                        >
                             <Form.Label className="me-2">Название</Form.Label>
                             <Form.Control type="text" placeholder="Новая карточка" disabled />
                         </Form.Group>

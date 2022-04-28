@@ -1,4 +1,4 @@
-import { makeAutoObservable } from "mobx"
+import { makeAutoObservable } from 'mobx'
 
 const exampleProperties = [
     {
@@ -28,7 +28,7 @@ export default class PropertiesObservable {
     }
 
     setIsUserNotChangedProperties(index, newValue) {
-        return exampleProperties[index].value === newValue;
+        return exampleProperties[index].value === newValue
     }
     changeValue(index, newValue) {
         this.observingArray[index].value = newValue
@@ -38,7 +38,7 @@ export default class PropertiesObservable {
     setHasEmptyProperties() {
         this.hasEmptyProperties = false
         this.observingArray.forEach((el) => {
-            this.hasEmptyProperties = this.hasEmptyProperties  || !el.value.trim()
+            this.hasEmptyProperties = this.hasEmptyProperties || !el.value.trim()
         })
     }
 }
