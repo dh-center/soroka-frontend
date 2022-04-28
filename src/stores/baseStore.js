@@ -7,13 +7,7 @@ export default class BaseStore {
     constructor() {
         makeAutoObservable(this)
         const locale = navigator.language
-        if (locale === 'ru') {
-            this.uiLang= LOCALES.RUSSIAN
-        } else {
-            if (locale === 'en') {
-                this.uiLang = LOCALES.ENGLISH
-            }
-        }
+        this.uiLang = Object.values(LOCALES).includes(locale) ? locale : LOCALES.RUSSIAN
     }
 
     setUiLang(payload) {
