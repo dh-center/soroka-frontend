@@ -27,7 +27,8 @@ const CardPage = observer(() => {
                                         height="24"
                                         viewBox="0 0 26 24"
                                         fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
                                         <path d="M22.7076 12L3.99284 12" stroke="black" stroke-linecap="round" />
                                         <path
                                             d="M10.2311 6L3.99281 12L10.2311 18"
@@ -91,13 +92,15 @@ const CardPage = observer(() => {
                                     className="create-new-card__button dashboard-button d-flex align-items-center offset-md-1 dashboard-button--disabled "
                                     ref={target}
                                     onMouseOver={() => setShow(true)}
-                                    onMouseOut={() => setShow(false)}>
+                                    onMouseOut={() => setShow(false)}
+                                >
                                     <svg
                                         width="24"
                                         height="24"
                                         viewBox="0 0 24 24"
                                         fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
                                         <path d="M20 12H4" stroke="black" stroke-linecap="round" />
                                         <path d="M12 4V20" stroke="black" stroke-linecap="round" />
                                     </svg>
@@ -122,13 +125,15 @@ const CardPage = observer(() => {
                             )}
                             <button
                                 className="dashboard-button"
-                                disabled={propertiesObserver.isUserNotChangedProperties}>
+                                disabled={propertiesObserver.isUserNotChangedProperties}
+                            >
                                 <svg
                                     width="26"
                                     height="24"
                                     viewBox="0 0 26 24"
                                     fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
                                     <path
                                         fill-rule="evenodd"
                                         clip-rule="evenodd"

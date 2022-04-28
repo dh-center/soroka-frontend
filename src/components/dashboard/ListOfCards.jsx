@@ -1,17 +1,23 @@
 import React from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import { CARDS_ROUTE, CREATE_ROUTE, getCardsRoute, getCreateCardRoute, getCreateCardWithTemplatesRoute } from '../../api/routes'
+import {
+    CARDS_ROUTE,
+    CREATE_ROUTE,
+    getCardsRoute,
+    getCreateCardRoute,
+    getCreateCardWithTemplatesRoute
+} from '../../api/routes'
 import ListCard from './ListCard'
 import './ListOfCards.css'
 const exampleList = [
     {
-        id:0,
+        id: 0,
         titleOfCard: 'Музей “Петергоф”',
         isComplete: false
     },
     {
-        id:1,
+        id: 1,
         titleOfCard: 'Музей “Петергоф 2”',
         isComplete: true
     }
