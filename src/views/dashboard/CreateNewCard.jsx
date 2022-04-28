@@ -10,9 +10,7 @@ import { CARDS_ROUTE } from '../../api/routes'
 
 const createNewProperties = new CreateNewPropertiesObservable()
 
-const CreateNewCard = observer(({
-    userIsAdmin=true,
-}) => {
+const CreateNewCard = observer(({ userIsAdmin = true }) => {
     const [show, setShow] = useState(false)
     const handleClose = () => setShow(false)
     const handleShow = () => setShow(true)

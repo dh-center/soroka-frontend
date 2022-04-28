@@ -28,26 +28,26 @@ function CardTemplates({
         {
             id: 5,
             template: 'document'
-        },
+        }
     ]
 }) {
     return (
         <Container className="card-templates">
-                <Row className="d-flex justify-content-start">
-                    {listOfTemplates.map((el) => {
-                        return (
-                            <Col key={el.id} md={'2'} className="me-3 mb-3">
-                                <Card body>
-                                    <Link
-                                        to={`${getCreateCardRoute()}?template=${el.template}`}
-                                        className="d-flex justify-content-center p-4">
-                                        {el.template}
-                                    </Link>
-                                </Card>
-                            </Col>
-                        )
-                    })}
-                </Row>
+            <Row className="d-flex justify-content-start">
+                {listOfTemplates.map((el) => {
+                    return (
+                        <Col key={el.id} md={'2'} className="me-3 mb-3">
+                            <Card body>
+                                <Link
+                                    to={`${getCreateCardRoute()}?template=${el.template}`}
+                                    className="d-flex justify-content-center p-4">
+                                    {el.template}
+                                </Link>
+                            </Card>
+                        </Col>
+                    )
+                })}
+            </Row>
         </Container>
     )
 }
