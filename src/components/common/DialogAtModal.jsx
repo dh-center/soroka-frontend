@@ -16,8 +16,9 @@ function DialogAtModal({ show, setShow }) {
                                 height="24"
                                 viewBox="0 0 24 24"
                                 fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path d="M7 13L10 16L17 9" stroke="black" strokeLinecap="round" />
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path d="M7 13L10 16L17 9" stroke="black" stroke-linecap="round" />
                                 <path
                                     fillRule="evenodd"
                                     clipRule="evenodd"
@@ -34,9 +35,10 @@ function DialogAtModal({ show, setShow }) {
                                 height="34"
                                 viewBox="0 0 34 34"
                                 fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path d="M20.5355 20.5357L13.4645 13.4647" stroke="black" strokeLinecap="round" />
-                                <path d="M13.4645 20.5357L20.5355 13.4647" stroke="black" strokeLinecap="round" />
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path d="M20.5355 20.5357L13.4645 13.4647" stroke="black" stroke-linecap="round" />
+                                <path d="M13.4645 20.5357L20.5355 13.4647" stroke="black" stroke-linecap="round" />
                                 <path
                                     fillRule="evenodd"
                                     clipRule="evenodd"
