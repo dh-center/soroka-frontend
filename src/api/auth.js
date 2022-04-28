@@ -48,5 +48,5 @@ export const AuthAPI = {
          */
 
         return API.get(`/authorization-link/${uuid}`)
-    },
+    }
 }

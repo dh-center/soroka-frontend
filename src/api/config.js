@@ -1,7 +1,7 @@
-import axios from "axios";
-import CreateAuthStore from "../stores/createAuthStore";
+import axios from 'axios'
+import CreateAuthStore from '../stores/createAuthStore'
 
-const { REACT_APP_API_URL } = process.env;
+const { REACT_APP_API_URL } = process.env
 
 const instance = axios.create({
     baseURL: REACT_APP_API_URL
@@ -11,7 +11,7 @@ const authStore = new CreateAuthStore()
 
 instance.interceptors.request.use(
     (config) => {
-        const token = authStore.accessToken;
+        const token = authStore.accessToken
 
         if (token) {
             config.headers.Authorization = `Bearer ${token}`
@@ -31,7 +31,8 @@ instance.interceptors.response.use(
 
     async (error) => {
         if (error.response.status === 401) {
-            const isInactiveAccount = error.response.data.detail === 'No active account found with the given credentials'
+            const isInactiveAccount =
+                error.response.data.detail === 'No active account found with the given credentials'
             const isRefreshInvalid = error.response.data.code === 'token_not_valid' && !error.response.data.messages
             const isTokenExist = authStore.refreshToken
 

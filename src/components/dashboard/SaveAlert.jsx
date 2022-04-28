@@ -2,8 +2,8 @@ import React, { useEffect } from 'react'
 import '../../views/dashboard/dashboardGlobal.css'
 import './SaveAlert.css'
 
-function SaveAlert({ isUserNotChangedProperties,isHaveEmptyProperties }) {
-    useEffect(()=>{
+function SaveAlert({ isUserNotChangedProperties, isHaveEmptyProperties }) {
+    useEffect(() => {
         console.log(isHaveEmptyProperties)
     })
 

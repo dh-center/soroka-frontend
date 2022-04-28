@@ -7,7 +7,8 @@ import Registration from './views/auth/Registration'
 import CreateNewCard from './views/dashboard/CreateNewCard'
 import CardPage from './views/dashboard/CardPage'
 import Header from './components/common/Header'
-import { CARDS_ROUTE, getCreateCardRoute, getCardByIdRoute, LOGIN_ROUTE, REGISTRATION_ROUTE } from "./utils/routes";
+import { CARDS_ROUTE, getCreateCardRoute, getCardByIdRoute, LOGIN_ROUTE, REGISTRATION_ROUTE, getCreateCardWithTemplatesRoute } from "./utils/routes";
+import CardTemplates from './views/dashboard/CardTemplates'
 
 const App = (props) => {
     return (
@@ -21,6 +22,7 @@ const App = (props) => {
                     <Route path={CARDS_ROUTE} element={<Dashboard />} />
                     <Route path={getCardByIdRoute()} element={<CardPage />} />
                     <Route path={getCreateCardRoute()} element={<CreateNewCard />} />
+                    <Route path={getCreateCardWithTemplatesRoute()} element={<CardTemplates />} />
                     <Route path="*" element={<div>404</div>} />
                 </Routes>
             </div>

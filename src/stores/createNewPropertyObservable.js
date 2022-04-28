@@ -1,6 +1,6 @@
 import { makeAutoObservable } from 'mobx'
 
-export default class CreateCardStore {
+export default class CreateNewPropertiesObservable {
     arrayWithNewProperties = []
     isUserAddNewProperties = false
 

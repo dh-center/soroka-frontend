@@ -9,7 +9,7 @@ import { CARDS_ROUTE } from '../../utils/routes'
 
 const createCardStore = new CreateCardStore()
 
-const CreateNewCard = observer(() => {
+const CreateNewCard = observer(({ userIsAdmin = true }) => {
     const [show, setShow] = useState(false)
     const handleClose = () => setShow(false)
     const handleShow = () => setShow(true)
@@ -78,7 +78,8 @@ const CreateNewCard = observer(() => {
                             </Form>
                             <button
                                 onClick={handleShow}
-                                className="create-new-card__button dashboard-button d-flex align-items-center offset-md-3">
+                                className="create-new-card__button dashboard-button d-flex align-items-center offset-md-3"
+                            >
                                 <svg
                                     width="24"
                                     height="24"
@@ -97,13 +98,53 @@ const CreateNewCard = observer(() => {
                     <div className="create-new-card__save-alert">
                         <div className="save-alert">
                             <p>Добавьте любые нужные свойства, заполните карточку и сохраните</p>
+                            {userIsAdmin && (
+                                <Form>
+                                    <Form.Group className="mb-2">
+                                        <Form.Check
+                                            id={'preventDeletion'}
+                                            type={'checkbox'}
+                                            label={'Запретить удаление'}
+                                            onClick={() => {
+                                                createCardStore.toggleProhibitUpdate()
+                                            }}
+                                        />
+                                    </Form.Group>
+                                    <Form.Select
+                                        id={'chooseOrganization'}
+                                        className="mb-2"
+                                        onClick={(e) => {
+                                            createCardStore.setOrganizationOption(e.target.value)
+                                        }}
+                                    >
+                                        <option>Организация</option>
+                                        <option value="One">One</option>
+                                        <option value="Two">Two</option>
+                                        <option value="Three">Three</option>
+                                    </Form.Select>
+                                    <Form.Select
+                                        id={'chooseOwner'}
+                                        className="mb-2"
+                                        onClick={(e) => {
+                                            createCardStore.setOwnerOption(e.target.value)
+                                        }}
+                                    >
+                                        <option>Владелец</option>
+                                        <option value="1">One</option>
+                                        <option value="2">Two</option>
+                                        <option value="3">Three</option>
+                                    </Form.Select>
+                                </Form>
+                            )}
+
                             <button className="dashboard-button" disabled={!createCardStore.isUserAddNewProperties}>
                                 <svg
                                     width="26"
                                     height="24"
                                     viewBox="0 0 26 24"
                                     fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
                                     <path
                                         fillRule="evenodd"
                                         clipRule="evenodd"
@@ -144,14 +185,16 @@ const CreateNewCard = observer(() => {
                         <Form.Group
                             className="mb-4 d-flex align-items-center flex-row"
                             onClick={handleAddNewProperties}
-                            role="button">
+                            role="button"
+                        >
                             <Form.Label className="me-2">Название</Form.Label>
                             <Form.Control type="text" placeholder="Новая карточка" disabled />
                         </Form.Group>
                         <Form.Group
                             className="mb-4 d-flex align-items-center flex-row"
                             onClick={handleAddNewProperties}
-                            role="button">
+                            role="button"
+                        >
                             <Form.Label className="me-2">Название</Form.Label>
                             <Form.Control type="text" placeholder="Новая карточка" disabled />
                         </Form.Group>

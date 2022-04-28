@@ -1,4 +1,4 @@
-import { makeAutoObservable } from "mobx"
+import { makeAutoObservable } from 'mobx'
 
 const exampleProperties = [
     {
@@ -29,7 +29,7 @@ export default class ChangeCardStore {
     }
 
     setIsUserNotChangedProperties(index, newValue) {
-        return exampleProperties[index].value === newValue;
+        return exampleProperties[index].value === newValue
     }
 
     changeValue(index, newValue) {
@@ -41,7 +41,7 @@ export default class ChangeCardStore {
     setHasEmptyProperties() {
         this.hasEmptyProperties = false
         this.observingArray.forEach((el) => {
-            this.hasEmptyProperties = this.hasEmptyProperties  || !el.value.trim()
+            this.hasEmptyProperties = this.hasEmptyProperties || !el.value.trim()
         })
     }
 }

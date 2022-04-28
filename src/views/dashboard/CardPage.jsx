@@ -88,7 +88,8 @@ const CardPage = observer(() => {
                                     className="create-new-card__button dashboard-button d-flex align-items-center offset-md-1 dashboard-button--disabled "
                                     ref={target}
                                     onMouseOver={() => setShow(true)}
-                                    onMouseOut={() => setShow(false)}>
+                                    onMouseOut={() => setShow(false)}
+                                >
                                     <svg
                                         width="24"
                                         height="24"
@@ -119,13 +120,15 @@ const CardPage = observer(() => {
                             )}
                             <button
                                 className="dashboard-button"
-                                disabled={changeCardStore.isUserNotChangedProperties}>
+                                disabled={changeCardStore.isUserNotChangedProperties}
+                            >
                                 <svg
                                     width="26"
                                     height="24"
                                     viewBox="0 0 26 24"
                                     fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
                                     <path
                                         fillRule="evenodd"
                                         clipRule="evenodd"
