@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Col, Container, Form, FormLabel, Modal, Row } from 'react-bootstrap'
 import { Link, useLocation } from 'react-router-dom'
 import CreateCardStore from '../../stores/createCardStore'
@@ -9,12 +9,12 @@ import SaveAlert from '../../components/dashboard/SaveAlert'
 import { CARDS_ROUTE } from '../../utils/routes'
 import { FormattedMessage, useIntl } from 'react-intl'
 import { injectIntl, intlShape } from 'react-intl'
+import { templatesAPI } from '../../api/templates'
 
 const createCardStore = new CreateCardStore()
 
 function useQuery() {
     const { search } = useLocation()
-
     return React.useMemo(() => new URLSearchParams(search), [search])
 }
 
@@ -24,10 +24,9 @@ const CreateNewCard = observer(({ userIsAdmin = true }) => {
     const placeholder = intl.formatMessage({ id: 'placeholderNewCard' })
 
     const [show, setShow] = useState(false)
+    const [templateProperties, setTemplateProperties] = useState([])
     const handleClose = () => setShow(false)
     const handleShow = () => setShow(true)
-
-    const [newProperties, setNewProperties] = useState([])
 
     const handleAddNewProperties = (e) => {
         createCardStore.addNewProperties(e.currentTarget.innerText)
@@ -35,6 +34,13 @@ const CreateNewCard = observer(({ userIsAdmin = true }) => {
     }
 
     const query = useQuery()
+
+    useEffect(() => {
+        templatesAPI
+            .getTemplateById(query.get('template'))
+            .then((res) => setTemplateProperties(res.data.propertiesList))
+            .catch((e) => console.log(e))
+    }, [])
 
     return (
         <Container>
@@ -73,8 +79,15 @@ const CreateNewCard = observer(({ userIsAdmin = true }) => {
                         <Col>
                             <Form>
                                 <div className="create-new-card__properties offset-md-1">
-                                    <h1>{query.get('template')}</h1>
-
+                                    {templateProperties.length === 0 && <h2>Загрузка свойств шаблона</h2>}
+                                    {templateProperties.map(el => {
+                                        return (
+                                            <Form.Group className="mb-4 d-flex align-items-center flex-row">
+                                                <Form.Label className="me-2 col-xl-2 col-sm-3">{el.name}</Form.Label>
+                                                <Form.Control type="text" placeholder={el.name} />
+                                            </Form.Group>
+                                        )
+                                    })}
                                     <Form.Group className="mb-4 d-flex align-items-center flex-row">
                                         <Form.Label className="me-2 col-xl-2 col-sm-3">
                                             <FormattedMessage id="nameOfCard" />
@@ -103,8 +116,7 @@ const CreateNewCard = observer(({ userIsAdmin = true }) => {
                             </Form>
                             <button
                                 onClick={handleShow}
-                                className="create-new-card__button dashboard-button d-flex align-items-center offset-md-3"
-                            >
+                                className="create-new-card__button dashboard-button d-flex align-items-center offset-md-3">
                                 <svg
                                     width="24"
                                     height="24"
@@ -144,8 +156,7 @@ const CreateNewCard = observer(({ userIsAdmin = true }) => {
                                         className="mb-2"
                                         onClick={(e) => {
                                             createCardStore.setOrganizationOption(e.target.value)
-                                        }}
-                                    >
+                                        }}>
                                         <option>Организация</option>
                                         <option value="One">One</option>
                                         <option value="Two">Two</option>
@@ -156,8 +167,7 @@ const CreateNewCard = observer(({ userIsAdmin = true }) => {
                                         className="mb-2"
                                         onClick={(e) => {
                                             createCardStore.setOwnerOption(e.target.value)
-                                        }}
-                                    >
+                                        }}>
                                         <option>Владелец</option>
                                         <option value="1">One</option>
                                         <option value="2">Two</option>
@@ -172,8 +182,7 @@ const CreateNewCard = observer(({ userIsAdmin = true }) => {
                                     height="24"
                                     viewBox="0 0 26 24"
                                     fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
+                                    xmlns="http://www.w3.org/2000/svg">
                                     <path
                                         fillRule="evenodd"
                                         clipRule="evenodd"
@@ -218,16 +227,14 @@ const CreateNewCard = observer(({ userIsAdmin = true }) => {
                         <Form.Group
                             className="mb-4 d-flex align-items-center flex-row"
                             onClick={handleAddNewProperties}
-                            role="button"
-                        >
+                            role="button">
                             <Form.Label className="me-2">Название</Form.Label>
                             <Form.Control type="text" placeholder={placeholder} disabled />
                         </Form.Group>
                         <Form.Group
                             className="mb-4 d-flex align-items-center flex-row"
                             onClick={handleAddNewProperties}
-                            role="button"
-                        >
+                            role="button">
                             <Form.Label className="me-2">Название</Form.Label>
                             <Form.Control type="text" placeholder={placeholder} disabled />
                         </Form.Group>

@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import { Card, Col, Container, Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
+import { templatesAPI } from '../../api/templates'
 import { getCreateCardRoute } from '../../utils/routes'
 import './CardTemplate.css'
 
@@ -32,18 +33,25 @@ function CardTemplates({
         }
     ]
 }) {
+    const [data, setData] = useState([])
+    useEffect(() => {
+        templatesAPI
+            .getListOfTemplates()
+            .then((res) => setData(res.data))
+            .catch((e) => console.log(e))
+    }, [])
     return (
         <Container className="card-templates">
             <Row className="d-flex justify-content-start">
-                {listOfTemplates.map((el) => {
+                {data.length === 0 && <h2>Загрузка шаблонов</h2>}
+                {data.map((el) => {
                     return (
-                        <Col key={el.id} md={'2'} className="me-3 mb-3">
-                            <Card body>
+                        <Col key={el.id} xl={'2'} className="me-3 mb-3">
+                            <Card body className="h-100">
                                 <Link
-                                    to={`${getCreateCardRoute()}?template=${el.template}`}
-                                    className="d-flex justify-content-center p-4"
-                                >
-                                    {el.template}
+                                    to={`${getCreateCardRoute()}?template=${el.id}`}
+                                    className="d-flex justify-content-center p-4">
+                                    {el.name}
                                 </Link>
                             </Card>
                         </Col>
