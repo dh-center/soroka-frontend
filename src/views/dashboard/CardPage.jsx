@@ -11,7 +11,6 @@ import { FormattedMessage } from 'react-intl'
 const changeCardStore = new ChangeCardStore()
 
 const CardPage = observer(() => {
-
     const [show, setShow] = useState(false)
     const target = useRef(null)
     return (
@@ -27,7 +26,8 @@ const CardPage = observer(() => {
                                         height="24"
                                         viewBox="0 0 26 24"
                                         fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
                                         <path d="M22.7076 12L3.99284 12" stroke="black" strokeLinecap="round" />
                                         <path
                                             d="M10.2311 6L3.99281 12L10.2311 18"
@@ -65,10 +65,7 @@ const CardPage = observer(() => {
                                                         placeholder=""
                                                         value={element.value}
                                                         onChange={(event) => {
-                                                            changeCardStore.changeValue(
-                                                                element.id,
-                                                                event.target.value
-                                                            )
+                                                            changeCardStore.changeValue(element.id, event.target.value)
                                                         }}
                                                     />
                                                 </Form.Group>
@@ -101,7 +98,8 @@ const CardPage = observer(() => {
                                         height="24"
                                         viewBox="0 0 24 24"
                                         fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
                                         <path d="M20 12H4" stroke="black" strokeLinecap="round" />
                                         <path d="M12 4V20" stroke="black" strokeLinecap="round" />
                                     </svg>
@@ -128,10 +126,7 @@ const CardPage = observer(() => {
                                     <FormattedMessage id="changeCardWarningModalText" />
                                 </p>
                             )}
-                            <button
-                                className="dashboard-button"
-                                disabled={changeCardStore.isUserNotChangedProperties}
-                            >
+                            <button className="dashboard-button" disabled={changeCardStore.isUserNotChangedProperties}>
                                 <svg
                                     width="26"
                                     height="24"

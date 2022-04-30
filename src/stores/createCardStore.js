@@ -13,7 +13,7 @@ export default class CreateCardStore {
     }
 
     addNewProperties(name) {
-        this.arrayWithNewProperties.push({ name, })
+        this.arrayWithNewProperties.push({ name })
         this.isUserAddNewProperties = true
     }
 

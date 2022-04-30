@@ -50,7 +50,8 @@ function CardTemplates({
                             <Card body className="h-100">
                                 <Link
                                     to={`${getCreateCardRoute()}?template=${el.id}`}
-                                    className="d-flex justify-content-center p-4">
+                                    className="d-flex justify-content-center p-4"
+                                >
                                     {el.name}
                                 </Link>
                             </Card>

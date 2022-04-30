@@ -5,8 +5,8 @@ import './Login.css'
 import './auth.css'
 import { FormattedMessage } from 'react-intl'
 import { REGISTRATION_ROUTE } from '../../utils/routes'
-import { AuthAPI } from "../../api/auth";
-import CreateAuthStore from "../../stores/createAuthStore";
+import { AuthAPI } from '../../api/auth'
+import CreateAuthStore from '../../stores/createAuthStore'
 
 const authStore = new CreateAuthStore()
 
@@ -15,7 +15,7 @@ const Login = () => {
     const password = useRef(null)
 
     const passwordButtonHandler = (event) => {
-        const value = password.current.getAttribute('type') === 'password' ? 'password' : 'text';
+        const value = password.current.getAttribute('type') === 'password' ? 'password' : 'text'
         password.current.setAttribute('type', value)
     }
 
@@ -24,7 +24,7 @@ const Login = () => {
 
         const response = await AuthAPI.login({
             email: email.current.value,
-            password: password.current.value,
+            password: password.current.value
         })
 
         authStore.setAccessToken(response.data.accessToken)
@@ -82,11 +82,7 @@ const Login = () => {
                         </Form.Group>
 
                         <div className="login__submit">
-                            <input
-                                type={"submit"}
-                                className="registration__submit-button"
-                                value={"Войти"}
-                            />
+                            <input type={'submit'} className="registration__submit-button" value={'Войти'} />
 
                             <Link to={REGISTRATION_ROUTE} className={'link'}>
                                 Регистрация

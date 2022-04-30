@@ -4,7 +4,7 @@ import DialogAtModal from './DialogAtModal'
 import { LANGUAGES } from '../../utils/constants'
 import { FormattedMessage } from 'react-intl'
 
-const Header = ({ avatarSrc, userName = 'Имя пользователя',baseStore }) => {
+const Header = ({ avatarSrc, userName = 'Имя пользователя', baseStore }) => {
     const [smShow, setSmShow] = useState(false)
     const [show, setShow] = useState(false)
     const handleShow = () => setShow(true)
@@ -16,7 +16,7 @@ const Header = ({ avatarSrc, userName = 'Имя пользователя',baseSt
                     <div className="header__user-info d-flex align-items-center">
                         <div className="header__avatar">
                             {avatarSrc ? (
-                                <img src={avatarSrc}  alt={""}/>
+                                <img src={avatarSrc} alt={''} />
                             ) : (
                                 <svg
                                     width="48"
@@ -81,7 +81,8 @@ const Header = ({ avatarSrc, userName = 'Имя пользователя',baseSt
                 size="sm"
                 show={smShow}
                 onHide={() => setSmShow(false)}
-                aria-labelledby="example-modal-sizes-title-sm">
+                aria-labelledby="example-modal-sizes-title-sm"
+            >
                 <Modal.Header closeButton>
                     <Modal.Title id="example-modal-sizes-title-sm">
                         <FormattedMessage id="changingLanguage" />
@@ -96,7 +97,8 @@ const Header = ({ avatarSrc, userName = 'Имя пользователя',baseSt
                                 onClick={() => {
                                     baseStore.setUiLang(el.code)
                                     setSmShow(false)
-                                }}>
+                                }}
+                            >
                                 <span>{el.name}</span>
                             </button>
                         )
