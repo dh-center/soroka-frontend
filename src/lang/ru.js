@@ -6,10 +6,12 @@ const Russian = {
     addPropertyTitle: 'Нажмите на нужное свойство, чтобы добавить его',
     placeholderNewCard: 'Новая карточка',
     tooltipAllPropertiesAlreadyAdded: 'Все возможные свойства уже добавлены',
+
     // Header
     exit: 'Выйти',
     changeLanguage: 'Сменить язык',
     changingLanguage: 'Смена языка: ',
+
     // Страница логина
     loginTitle: 'Вход',
 

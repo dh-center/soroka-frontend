@@ -24,6 +24,7 @@ const English = {
     newCardWarningModalText: 'Add any desired properties, fill out the card and save',
     newCard: 'New card',
     nameOfCard: 'Name',
+
     // Страница редактирования карточки
     changeCardWarningModalText: 'This card is not completely filled out: it has empty fields.',
 

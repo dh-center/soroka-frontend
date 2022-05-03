@@ -14,8 +14,11 @@ import { LOCALES } from './lang/locales'
 import { message } from './lang/message'
 import BaseStore from './stores/baseStore'
 import { observer } from 'mobx-react'
+import AuthStore from "./stores/authStore";
+import React from "react";
 
 const baseStore = new BaseStore()
+export const authStore = new AuthStore()
 
 const App = observer(() => {
     return (
@@ -25,9 +28,9 @@ const App = observer(() => {
                 locale={baseStore.uiLang}
                 messages={message[baseStore.uiLang]}>
                 <div className="App">
-                    <Header baseStore={baseStore} />
+                    <Header baseStore={baseStore} authStore={authStore} />
                     <Routes>
-                        <Route path={LOGIN_ROUTE} element={<Login />} />
+                        <Route path={LOGIN_ROUTE} element={<Login authStore={authStore} />} />
                         <Route path="/" element={<Navigate replace to={LOGIN_ROUTE} />} />
                         <Route path={REGISTRATION_ROUTE} element={<Registration />} />
                         <Route path={CARDS_ROUTE} element={<Dashboard />} />

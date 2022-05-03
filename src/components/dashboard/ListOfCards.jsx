@@ -37,9 +37,9 @@ function ListOfCards() {
                     </Link>
                 </Col>
 
-                {exampleList.map((element) => {
+                {exampleList.map((element, index) => {
                     return (
-                        <Col md="3" className="list-of-cards__card me-3">
+                        <Col md="3" className="list-of-cards__card me-3" key={index}>
                             <Link className="route-link" to={getCardsRoute(element.id)}>
                                 <ListCard
                                     key={element.id}
