@@ -1,18 +1,17 @@
-import React, { useRef } from 'react'
-import { Button, Col, Container, Form, Row } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import React, { useRef, useState } from "react";
+import { Col, Container, Form, Row } from 'react-bootstrap'
+import { Link, Navigate } from 'react-router-dom'
 import './Login.css'
 import './auth.css'
 import { FormattedMessage } from 'react-intl'
 import { REGISTRATION_ROUTE } from '../../utils/routes'
 import { AuthAPI } from "../../api/auth";
-import CreateAuthStore from "../../stores/createAuthStore";
 
-const authStore = new CreateAuthStore()
-
-const Login = () => {
+const Login = ({ authStore }) => {
     const email = useRef(null)
     const password = useRef(null)
+
+    const [shouldRedirect, setShouldRedirect] = useState(false)
 
     const passwordButtonHandler = (event) => {
         const value = password.current.getAttribute('type') === 'password' ? 'password' : 'text';
@@ -29,6 +28,10 @@ const Login = () => {
 
         authStore.setAccessToken(response.data.accessToken)
         authStore.setRefreshToken(response.data.refreshToken)
+
+        await authStore.getUserProfile()
+
+        setShouldRedirect(true)
     }
 
     return (
@@ -100,6 +103,8 @@ const Login = () => {
                     </Form>
                 </Col>
             </Row>
+
+            {shouldRedirect && <Navigate replace to="/cards" />}
         </Container>
     )
 }
