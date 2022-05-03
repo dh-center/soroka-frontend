@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import './CardPage.css'
 import { Col, Container, Form, Overlay, Row, Tooltip } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
@@ -7,6 +7,8 @@ import { observer } from 'mobx-react'
 import ChangeCardStore from '../../stores/changeCardStore'
 import { CARDS_ROUTE } from '../../utils/routes'
 import { FormattedMessage } from 'react-intl'
+import { useQuery } from './CreateNewCard'
+import { CardsAPI } from '../../api/cards'
 
 const changeCardStore = new ChangeCardStore()
 
@@ -14,6 +16,11 @@ const CardPage = observer(() => {
 
     const [show, setShow] = useState(false)
     const target = useRef(null)
+    const query = useQuery()
+    useEffect(()=>{
+        CardsAPI.getCardsFilledPropertiesById(query.get('id'))
+        .then((res)=>console.log(res.data))
+    },[])
     return (
         <Container>
             <Row>
@@ -73,7 +80,8 @@ const CardPage = observer(() => {
                                                     />
                                                 </Form.Group>
                                             )
-                                        } else if (element.type == 'select') {
+                                        } 
+                                        else if (element.type == 'select') {
                                             return (
                                                 <Form.Group className="mb-4 d-flex align-items-center flex-row">
                                                     <Form.Label className="me-2 col-xl-2 col-sm-3">

@@ -12,7 +12,7 @@ import { injectIntl, intlShape } from 'react-intl'
 
 const createCardStore = new CreateCardStore()
 
-function useQuery() {
+export function useQuery() {
     const { search } = useLocation()
 
     return React.useMemo(() => new URLSearchParams(search), [search])

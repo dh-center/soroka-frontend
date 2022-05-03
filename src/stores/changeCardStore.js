@@ -1,4 +1,5 @@
 import { makeAutoObservable } from 'mobx'
+import { CardsAPI } from '../api/cards'
 
 const exampleProperties = [
     {
@@ -19,10 +20,13 @@ const exampleProperties = [
 
 export default class ChangeCardStore {
     observingArray = exampleProperties
+    // observingArray = []
+
     isUserNotChangedProperties = true
     hasEmptyProperties = false
 
     constructor() {
+        // this.observingArray = CardsAPI.getCardByid().then((res)=>res.data)
         this.exampleProperties = exampleProperties
         this.setHasEmptyProperties()
         makeAutoObservable(this)
@@ -36,6 +40,10 @@ export default class ChangeCardStore {
         this.observingArray[index].value = newValue
         this.isUserNotChangedProperties = this.setIsUserNotChangedProperties(index, newValue)
         this.setHasEmptyProperties()
+    }
+
+    getPropertiesFromCardById(arrayOfProperties){
+        this.observingArray = arrayOfProperties
     }
 
     setHasEmptyProperties() {
