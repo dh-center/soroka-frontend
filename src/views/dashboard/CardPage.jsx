@@ -17,7 +17,7 @@ const CardPage = observer(() => {
     const target = useRef(null)
     const query = useQuery()
     const handleSave = () => {
-        changeCardStore.saveProperties(query.get('id'))
+        changeCardStore.saveProperties()
     }
     useEffect(() => {
         changeCardStore.getPropertiesFromCardById(query.get('id'))

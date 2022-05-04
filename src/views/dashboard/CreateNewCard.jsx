@@ -30,7 +30,7 @@ const CreateNewCard = observer(({ userIsAdmin = true }) => {
     const [newProperties, setNewProperties] = useState([])
 
     const handleAddNewProperties = (e) => {
-        createCardStore.addNewProperties(e.currentTarget.innerText)
+        createCardStore.addNewProperties(e.currentTarget.innerText,Math.round(Math.random()*1000), e.currentTarget.innerText)
         handleClose()
     }
 
@@ -79,7 +79,12 @@ const CreateNewCard = observer(({ userIsAdmin = true }) => {
                                         <Form.Label className="me-2 col-xl-2 col-sm-3">
                                             <FormattedMessage id="nameOfCard" />
                                         </Form.Label>
-                                        <Form.Control type="text" placeholder={placeholder} />
+                                        <Form.Control
+                                            type="text"
+                                            placeholder={placeholder}
+                                            value={createCardStore.nameOfCard}
+                                            onChange={(event) => createCardStore.changeNameOfCard(event.target.value)}
+                                        />
                                     </Form.Group>
                                     <Form.Group className="mb-4 d-flex align-items-center flex-row">
                                         <Form.Label className="me-2 col-xl-2 col-sm-3">Сущность</Form.Label>
@@ -91,11 +96,20 @@ const CreateNewCard = observer(({ userIsAdmin = true }) => {
                                         </Form.Select>
                                     </Form.Group>
 
-                                    {createCardStore.arrayWithNewProperties.map((el) => {
+                                    {createCardStore.arrayWithNewProperties.map((el, index) => {
                                         return (
-                                            <Form.Group className="mb-4 d-flex align-items-center flex-row">
+                                            <Form.Group
+                                                className="mb-4 d-flex align-items-center flex-row"
+                                                key={el.propertyId}>
                                                 <Form.Label className="me-2 col-xl-2 col-sm-3">{el.name}</Form.Label>
-                                                <Form.Control type="text" placeholder={placeholder} />
+                                                <Form.Control
+                                                    type="text"
+                                                    placeholder={placeholder}
+                                                    value={el.data}
+                                                    onChange={(event) =>
+                                                        createCardStore.changeValue(index, event.target.value)
+                                                    }
+                                                />
                                             </Form.Group>
                                         )
                                     })}
@@ -103,8 +117,7 @@ const CreateNewCard = observer(({ userIsAdmin = true }) => {
                             </Form>
                             <button
                                 onClick={handleShow}
-                                className="create-new-card__button dashboard-button d-flex align-items-center offset-md-3"
-                            >
+                                className="create-new-card__button dashboard-button d-flex align-items-center offset-md-3">
                                 <svg
                                     width="24"
                                     height="24"
@@ -144,21 +157,19 @@ const CreateNewCard = observer(({ userIsAdmin = true }) => {
                                         className="mb-2"
                                         onClick={(e) => {
                                             createCardStore.setOrganizationOption(e.target.value)
-                                        }}
-                                    >
-                                        <option>Организация</option>
-                                        <option value="One">One</option>
-                                        <option value="Two">Two</option>
-                                        <option value="Three">Three</option>
+                                        }}>
+                                        <option value="10">Организация</option>
+                                        <option value="1">One</option>
+                                        <option value="2">Two</option>
+                                        <option value="3">Three</option>
                                     </Form.Select>
                                     <Form.Select
                                         id={'chooseOwner'}
                                         className="mb-2"
                                         onClick={(e) => {
                                             createCardStore.setOwnerOption(e.target.value)
-                                        }}
-                                    >
-                                        <option>Владелец</option>
+                                        }}>
+                                        <option value="10">Владелец</option>
                                         <option value="1">One</option>
                                         <option value="2">Two</option>
                                         <option value="3">Three</option>
@@ -166,14 +177,16 @@ const CreateNewCard = observer(({ userIsAdmin = true }) => {
                                 </Form>
                             )}
 
-                            <button className="dashboard-button" disabled={!createCardStore.isUserAddNewProperties}>
+                            <button
+                                className="dashboard-button"
+                                disabled={!createCardStore.isUserAddNewProperties}
+                                onClick={() => createCardStore.saveCard()}>
                                 <svg
                                     width="26"
                                     height="24"
                                     viewBox="0 0 26 24"
                                     fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
+                                    xmlns="http://www.w3.org/2000/svg">
                                     <path
                                         fillRule="evenodd"
                                         clipRule="evenodd"
@@ -218,16 +231,14 @@ const CreateNewCard = observer(({ userIsAdmin = true }) => {
                         <Form.Group
                             className="mb-4 d-flex align-items-center flex-row"
                             onClick={handleAddNewProperties}
-                            role="button"
-                        >
+                            role="button">
                             <Form.Label className="me-2">Название</Form.Label>
                             <Form.Control type="text" placeholder={placeholder} disabled />
                         </Form.Group>
                         <Form.Group
                             className="mb-4 d-flex align-items-center flex-row"
                             onClick={handleAddNewProperties}
-                            role="button"
-                        >
+                            role="button">
                             <Form.Label className="me-2">Название</Form.Label>
                             <Form.Control type="text" placeholder={placeholder} disabled />
                         </Form.Group>

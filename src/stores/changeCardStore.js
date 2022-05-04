@@ -14,7 +14,6 @@ export default class ChangeCardStore {
     }
 
     setIsUserNotChangedProperties(index, newValue) {
-        // return exampleProperties[index].value === newValue
         return this.startValuesOfObservingArray[index].data === newValue
     }
 
@@ -33,10 +32,14 @@ export default class ChangeCardStore {
         this.startValuesOfObservingArray = listOfProperties
         console.log(this.observingArray, 'SSSSSSSSSSSS')
     }
-    async saveProperties(id){
-        const newArray = this.observingArray.map(({ name, propertyId,data }) => ( { name, propertyId,data }))
-        CardsAPI.createFilledPropertiesByCardId(id,newArray)
-        console.log(newArray)
+    async saveProperties() {
+        this.observingArray
+            .map(({ name, propertyId, data, id }) => CardsAPI.updatePropertyByPropertyId(id, {name,propertyId,data}))
+            // .map((el) => {
+            //     console.log(el.propertyId, el)
+            // })
+            // .then(()=>console.log("good"))
+        // console.log(newArray)
     }
 
     setHasEmptyProperties() {
