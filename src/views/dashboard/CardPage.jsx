@@ -13,14 +13,16 @@ import { CardsAPI } from '../../api/cards'
 const changeCardStore = new ChangeCardStore()
 
 const CardPage = observer(() => {
-
     const [show, setShow] = useState(false)
     const target = useRef(null)
     const query = useQuery()
-    useEffect(()=>{
-        CardsAPI.getCardsFilledPropertiesById(query.get('id'))
-        .then((res)=>console.log(res.data))
-    },[])
+    const handleSave = () => {
+        changeCardStore.saveProperties(query.get('id'))
+    }
+    useEffect(() => {
+        changeCardStore.getPropertiesFromCardById(query.get('id'))
+        console.log(changeCardStore.observingArray)
+    }, [])
     return (
         <Container>
             <Row>
@@ -58,10 +60,10 @@ const CardPage = observer(() => {
                         <Col>
                             <Form>
                                 <div className="current-card__properties offset-md-1">
-                                    {changeCardStore.observingArray.map((element) => {
-                                        if (element.type == 'text') {
+                                    {changeCardStore.observingArray.map((element,index) => {
+                                        // if (element.type == 'text') {
                                             return (
-                                                <Form.Group className="mb-4 d-flex align-items-center flex-row">
+                                                <Form.Group className="mb-4 d-flex align-items-center flex-row" key={element.id}>
                                                     <Form.Label className="me-2 col-xl-2 col-sm-3">
                                                         {element.name}
                                                     </Form.Label>
@@ -70,40 +72,35 @@ const CardPage = observer(() => {
                                                         style={{ height: '84px' }}
                                                         type="text"
                                                         placeholder=""
-                                                        value={element.value}
+                                                        value={element.data}
                                                         onChange={(event) => {
-                                                            changeCardStore.changeValue(
-                                                                element.id,
-                                                                event.target.value
-                                                            )
+                                                            changeCardStore.changeValue(index, event.target.value)
                                                         }}
                                                     />
                                                 </Form.Group>
                                             )
-                                        } 
-                                        else if (element.type == 'select') {
-                                            return (
-                                                <Form.Group className="mb-4 d-flex align-items-center flex-row">
-                                                    <Form.Label className="me-2 col-xl-2 col-sm-3">
-                                                        {element.name}
-                                                    </Form.Label>
-                                                    <Form.Select aria-label="Default select example">
-                                                        <option>{element.value}</option>
-                                                        <option value="1">One</option>
-                                                        <option value="2">Two</option>
-                                                        <option value="3">Three</option>
-                                                    </Form.Select>
-                                                </Form.Group>
-                                            )
-                                        }
+                                        // } else if (element.type == 'select') {
+                                        //     return (
+                                        //         <Form.Group className="mb-4 d-flex align-items-center flex-row">
+                                        //             <Form.Label className="me-2 col-xl-2 col-sm-3">
+                                        //                 {element.name}
+                                        //             </Form.Label>
+                                        //             <Form.Select aria-label="Default select example">
+                                        //                 <option>{element.value}</option>
+                                        //                 <option value="1">One</option>
+                                        //                 <option value="2">Two</option>
+                                        //                 <option value="3">Three</option>
+                                        //             </Form.Select>
+                                        //         </Form.Group>
+                                        //     )
+                                        // }
                                     })}
                                 </div>
                                 <button
                                     className="create-new-card__button dashboard-button d-flex align-items-center offset-md-1 dashboard-button--disabled "
                                     ref={target}
                                     onMouseOver={() => setShow(true)}
-                                    onMouseOut={() => setShow(false)}
-                                >
+                                    onMouseOut={() => setShow(false)}>
                                     <svg
                                         width="24"
                                         height="24"
@@ -136,17 +133,13 @@ const CardPage = observer(() => {
                                     <FormattedMessage id="changeCardWarningModalText" />
                                 </p>
                             )}
-                            <button
-                                className="dashboard-button"
-                                disabled={changeCardStore.isUserNotChangedProperties}
-                            >
+                            <button className="dashboard-button" disabled={changeCardStore.isUserNotChangedProperties} onClick={handleSave}>
                                 <svg
                                     width="26"
                                     height="24"
                                     viewBox="0 0 26 24"
                                     fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
+                                    xmlns="http://www.w3.org/2000/svg">
                                     <path
                                         fillRule="evenodd"
                                         clipRule="evenodd"

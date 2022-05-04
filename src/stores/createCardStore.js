@@ -12,7 +12,7 @@ export default class CreateCardStore {
         makeAutoObservable(this)
     }
 
-    addNewProperties(name) {
+    addNewProperties(name,data) {
         this.arrayWithNewProperties.push({ name: name })
         this.isUserAddNewProperties = true
     }
