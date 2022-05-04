@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 import { FormattedMessage } from 'react-intl'
 import { Link } from 'react-router-dom'
+import { CardsAPI } from '../../api/cards'
 import { getCardsRoute, getCreateCardWithTemplatesRoute } from '../../utils/routes'
 import ListCard from './ListCard'
 import './ListOfCards.css'
@@ -20,6 +21,12 @@ const exampleList = [
 ]
 
 function ListOfCards() {
+    const [cards,setCards] = useState([])
+    useEffect(()=>{
+        CardsAPI.getCardsList()
+        .then((res)=>setCards(res.data))
+        .catch((er)=>console.log(er))
+    },[])
     return (
         <Container>
             <Row>
@@ -37,14 +44,14 @@ function ListOfCards() {
                     </Link>
                 </Col>
 
-                {exampleList.map((element, index) => {
+                {cards.map((element, index) => {
                     return (
                         <Col md="3" className="list-of-cards__card me-3" key={index}>
                             <Link className="route-link" to={`${getCardsRoute(element.id)}?id=${element.id}`}>
                                 <ListCard
                                     key={element.id}
-                                    titleOfCard={element.titleOfCard}
-                                    isComplete={element.isComplete}
+                                    titleOfCard={element.name}
+                                    // isComplete={element.isComplete}
                                     className=""
                                 />
                             </Link>
