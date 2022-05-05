@@ -51,7 +51,6 @@ function ListOfCards() {
                                 <ListCard
                                     key={element.id}
                                     titleOfCard={element.name}
-                                    // isComplete={element.isComplete}
                                     className=""
                                 />
                             </Link>

@@ -6,7 +6,7 @@ const English = {
     addPropertyTitle: 'Click on the desired property to add it',
     placeholderNewCard: 'New card',
     tooltipAllPropertiesAlreadyAdded: 'All possible properties already added',
-
+    saveCard: 'You successfully save the card',
     // Header
     exit: 'Exit',
     changeLanguage: 'Change language',
