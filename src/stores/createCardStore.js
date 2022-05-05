@@ -11,6 +11,8 @@ export default class CreateCardStore {
     organizationOption = '1000'
     ownerOption = '1000'
 
+    cardId=1
+
     constructor() {
         makeAutoObservable(this)
     }
@@ -51,10 +53,12 @@ export default class CreateCardStore {
             organizationId: this.organizationOption,
             preventDelete: this.prohibitUpdate
         })
-        this.arrayWithNewProperties
+        this.cardId = await response.data.id
+        console.log(this.cardId,response,response.data.id)
+        this.arrayWithNewProperties 
             .map(({ name, propertyId, data }) => ({ name, propertyId, data }))
             .map((el) => {
-                CardsAPI.createFilledPropertiesByCardId(response.data.id, el)
+                CardsAPI.createFilledPropertiesByCardId(this.cardId, el)
             })
     }
 }
