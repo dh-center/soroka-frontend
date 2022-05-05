@@ -1,12 +1,12 @@
 import { observer } from 'mobx-react'
 import React, { useState } from 'react'
 import { Button, Col, Container, Form, FormLabel, Modal, Row } from 'react-bootstrap'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import CreateCardStore from '../../stores/createCardStore'
 import './CreateNewCard.css'
 import './dashboardGlobal.css'
 import SaveAlert from '../../components/dashboard/SaveAlert'
-import { CARDS_ROUTE } from '../../utils/routes'
+import { CARDS_ROUTE, getCardsRoute } from '../../utils/routes'
 import { FormattedMessage, useIntl } from 'react-intl'
 import { injectIntl, intlShape } from 'react-intl'
 
@@ -26,7 +26,7 @@ const CreateNewCard = observer(({ userIsAdmin = true }) => {
     const [show, setShow] = useState(false)
     const handleClose = () => setShow(false)
     const handleShow = () => setShow(true)
-
+    const nav = useNavigate()
     const handleAddNewProperties = (e) => {
         createCardStore.addNewProperties(
             e.currentTarget.innerText,
@@ -188,7 +188,10 @@ const CreateNewCard = observer(({ userIsAdmin = true }) => {
                             <button
                                 className="dashboard-button"
                                 disabled={!createCardStore.isUserAddNewProperties}
-                                onClick={() => createCardStore.saveCard()}
+                                onClick={() => {
+                                    createCardStore.saveCard().then(() => nav(getCardsRoute(createCardStore.cardId)))
+                                
+                                }}
                             >
                                 <svg
                                     width="26"
