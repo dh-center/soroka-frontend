@@ -21,7 +21,6 @@ const CardPage = observer(() => {
     }
     useEffect(() => {
         changeCardStore.getPropertiesFromCardById(query.get('id'))
-        console.log(changeCardStore.observingArray)
     }, [])
     return (
         <Container>
@@ -36,7 +35,8 @@ const CardPage = observer(() => {
                                         height="24"
                                         viewBox="0 0 26 24"
                                         fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
                                         <path d="M22.7076 12L3.99284 12" stroke="black" strokeLinecap="round" />
                                         <path
                                             d="M10.2311 6L3.99281 12L10.2311 18"
@@ -60,25 +60,28 @@ const CardPage = observer(() => {
                         <Col>
                             <Form>
                                 <div className="current-card__properties offset-md-1">
-                                    {changeCardStore.observingArray.map((element,index) => {
+                                    {changeCardStore.observingArray.map((element, index) => {
                                         // if (element.type == 'text') {
-                                            return (
-                                                <Form.Group className="mb-4 d-flex align-items-center flex-row" key={element.id}>
-                                                    <Form.Label className="me-2 col-xl-2 col-sm-3">
-                                                        {element.name}
-                                                    </Form.Label>
-                                                    <Form.Control
-                                                        as="textarea"
-                                                        style={{ height: '84px' }}
-                                                        type="text"
-                                                        placeholder=""
-                                                        value={element.data}
-                                                        onChange={(event) => {
-                                                            changeCardStore.changeValue(index, event.target.value)
-                                                        }}
-                                                    />
-                                                </Form.Group>
-                                            )
+                                        return (
+                                            <Form.Group
+                                                className="mb-4 d-flex align-items-center flex-row"
+                                                key={element.id}
+                                            >
+                                                <Form.Label className="me-2 col-xl-2 col-sm-3">
+                                                    {element.name}
+                                                </Form.Label>
+                                                <Form.Control
+                                                    as="textarea"
+                                                    style={{ height: '84px' }}
+                                                    type="text"
+                                                    placeholder=""
+                                                    value={element.data}
+                                                    onChange={(event) => {
+                                                        changeCardStore.changeValue(index, event.target.value)
+                                                    }}
+                                                />
+                                            </Form.Group>
+                                        )
                                         // } else if (element.type == 'select') {
                                         //     return (
                                         //         <Form.Group className="mb-4 d-flex align-items-center flex-row">
@@ -100,13 +103,15 @@ const CardPage = observer(() => {
                                     className="create-new-card__button dashboard-button d-flex align-items-center offset-md-1 dashboard-button--disabled "
                                     ref={target}
                                     onMouseOver={() => setShow(true)}
-                                    onMouseOut={() => setShow(false)}>
+                                    onMouseOut={() => setShow(false)}
+                                >
                                     <svg
                                         width="24"
                                         height="24"
                                         viewBox="0 0 24 24"
                                         fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
                                         <path d="M20 12H4" stroke="black" strokeLinecap="round" />
                                         <path d="M12 4V20" stroke="black" strokeLinecap="round" />
                                     </svg>
@@ -133,13 +138,18 @@ const CardPage = observer(() => {
                                     <FormattedMessage id="changeCardWarningModalText" />
                                 </p>
                             )}
-                            <button className="dashboard-button" disabled={changeCardStore.isUserNotChangedProperties} onClick={handleSave}>
+                            <button
+                                className="dashboard-button"
+                                disabled={changeCardStore.isUserNotChangedProperties}
+                                onClick={handleSave}
+                            >
                                 <svg
                                     width="26"
                                     height="24"
                                     viewBox="0 0 26 24"
                                     fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
                                     <path
                                         fillRule="evenodd"
                                         clipRule="evenodd"

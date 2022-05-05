@@ -3,7 +3,7 @@ import { Col, Container, Row, Modal } from 'react-bootstrap'
 import LogoutDialog from './LogoutDialog'
 import { LANGUAGES } from '../../utils/constants'
 import { FormattedMessage } from 'react-intl'
-import { observer } from "mobx-react";
+import { observer } from 'mobx-react'
 
 const Header = observer(({ avatarSrc, baseStore, authStore }) => {
     const [smShow, setSmShow] = useState(false)
@@ -14,11 +14,11 @@ const Header = observer(({ avatarSrc, baseStore, authStore }) => {
         <Container>
             <Row className="justify-content-between align-items-center header p-2 mb-3">
                 <Col md="5">
-                    {authStore.currentUser &&
+                    {authStore.currentUser && (
                         <div className="header__user-info d-flex align-items-center">
                             <div className="header__avatar">
                                 {avatarSrc ? (
-                                    <img src={avatarSrc} alt={""} />
+                                    <img src={avatarSrc} alt={''} />
                                 ) : (
                                     <svg
                                         width="48"
@@ -51,7 +51,7 @@ const Header = observer(({ avatarSrc, baseStore, authStore }) => {
                             </div>
                             <h2 className="header__user-name">{authStore.currentUser.name}</h2>
                         </div>
-                    }
+                    )}
                 </Col>
 
                 <Col lg="3" md="4" className="d-flex">
@@ -84,7 +84,8 @@ const Header = observer(({ avatarSrc, baseStore, authStore }) => {
                 size="sm"
                 show={smShow}
                 onHide={() => setSmShow(false)}
-                aria-labelledby="example-modal-sizes-title-sm">
+                aria-labelledby="example-modal-sizes-title-sm"
+            >
                 <Modal.Header closeButton>
                     <Modal.Title id="example-modal-sizes-title-sm">
                         <FormattedMessage id="changingLanguage" />
@@ -99,7 +100,8 @@ const Header = observer(({ avatarSrc, baseStore, authStore }) => {
                                 onClick={() => {
                                     baseStore.setUiLang(el.code)
                                     setSmShow(false)
-                                }}>
+                                }}
+                            >
                                 <span>{el.name}</span>
                             </button>
                         )

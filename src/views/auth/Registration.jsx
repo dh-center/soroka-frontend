@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import './Registration.css'
 import './auth.css'
 import { LOGIN_ROUTE } from '../../utils/routes'
-import { AuthAPI } from "../../api/auth";
+import { AuthAPI } from '../../api/auth'
 
 function Registration() {
     const name = useRef(null)
@@ -23,9 +23,9 @@ function Registration() {
         e.preventDefault()
 
         if (password.current.value !== repeatPassword.current.value) return
-        if (!acceptsTermsOfUse.current.value) return;
+        if (!acceptsTermsOfUse.current.value) return
 
-        const timezoneOffset = new Date().getTimezoneOffset() / 60;
+        const timezoneOffset = new Date().getTimezoneOffset() / 60
 
         await AuthAPI.register({
             name: name.current.value,
@@ -131,17 +131,17 @@ function Registration() {
                         <Form.Group>
                             <Form.Check
                                 ref={acceptsTermsOfUse}
-                                type={"checkbox"}
-                                label={"Принимаю правила соглашения"}
+                                type={'checkbox'}
+                                label={'Принимаю правила соглашения'}
                                 required={true}
                             />
                         </Form.Group>
 
                         <div className="registration__submit">
                             <input
-                                type={"submit"}
+                                type={'submit'}
                                 className="registration__submit-button"
-                                value={"Зарегистрироваться"}
+                                value={'Зарегистрироваться'}
                             />
 
                             <Link className="link" to={LOGIN_ROUTE}>

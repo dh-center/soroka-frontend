@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState } from 'react'
 import { Modal } from 'react-bootstrap'
 import { FormattedMessage } from 'react-intl'
-import { Navigate } from "react-router-dom";
+import { Navigate } from 'react-router-dom'
 
 function LogoutDialog({ show, setShow, authStore }) {
     const [shouldRedirect, setShouldRedirect] = useState(false)
