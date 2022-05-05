@@ -5,7 +5,7 @@ export default class AuthStore {
     accessToken = ''
     refreshToken = ''
 
-    currentUser = null;
+    currentUser = null
 
     constructor() {
         makeAutoObservable(this)
@@ -20,7 +20,7 @@ export default class AuthStore {
     }
 
     setCurrentUser(payload) {
-        this.currentUser = payload;
+        this.currentUser = payload
     }
 
     async refresh() {
@@ -35,10 +35,10 @@ export default class AuthStore {
 
     async getUserProfile() {
         const response = await AuthAPI.getUserProfile()
-        console.log(response.data);
+        console.log(response.data)
 
         this.setCurrentUser(response.data)
-        console.log(this.currentUser);
+        console.log(this.currentUser)
     }
 
     logout() {

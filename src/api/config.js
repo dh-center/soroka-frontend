@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { authStore } from "../App";
+import { authStore } from '../App'
 
 const { REACT_APP_API_URL } = process.env
 
@@ -33,9 +33,9 @@ instance.interceptors.response.use(
             //     error.response.data.detail === 'No active account found with the given credentials'
             // console.log({ isInactiveAccount });
             const isRefreshInvalid = error.response.data === 'Unauthorized'
-            console.log({ isRefreshInvalid });
+            console.log({ isRefreshInvalid })
             const isTokenExist = authStore.refreshToken
-            console.log({ isTokenExist });
+            console.log({ isTokenExist })
 
             // if (!isTokenExist) {
             //     window.location = '/'

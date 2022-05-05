@@ -97,7 +97,7 @@ export const CardsAPI = {
         return API.patch(`/cards/by-id/${cardId}`, data)
     },
 
-    async updatePropertyByPropertyId(id,data){
+    async updatePropertyByPropertyId(id, data) {
         return API.patch(`/cards/filled-properties/by-id/${id}`, data)
     }
 }

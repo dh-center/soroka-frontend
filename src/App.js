@@ -7,15 +7,22 @@ import Registration from './views/auth/Registration'
 import CreateNewCard from './views/dashboard/CreateNewCard'
 import CardPage from './views/dashboard/CardPage'
 import Header from './components/common/Header'
-import { CARDS_ROUTE, getCreateCardRoute, getCardByIdRoute, LOGIN_ROUTE, REGISTRATION_ROUTE, getCreateCardWithTemplatesRoute } from "./utils/routes";
+import {
+    CARDS_ROUTE,
+    getCreateCardRoute,
+    getCardByIdRoute,
+    LOGIN_ROUTE,
+    REGISTRATION_ROUTE,
+    getCreateCardWithTemplatesRoute
+} from './utils/routes'
 import CardTemplates from './views/dashboard/CardTemplates'
 import { IntlProvider } from 'react-intl'
 import { LOCALES } from './lang/locales'
 import { message } from './lang/message'
 import BaseStore from './stores/baseStore'
 import { observer } from 'mobx-react'
-import AuthStore from "./stores/authStore";
-import React from "react";
+import AuthStore from './stores/authStore'
+import React from 'react'
 
 const baseStore = new BaseStore()
 export const authStore = new AuthStore()
@@ -26,7 +33,8 @@ const App = observer(() => {
             <IntlProvider
                 defaultLocale={LOCALES.RUSSIAN}
                 locale={baseStore.uiLang}
-                messages={message[baseStore.uiLang]}>
+                messages={message[baseStore.uiLang]}
+            >
                 <div className="App">
                     <Header baseStore={baseStore} authStore={authStore} />
                     <Routes>

@@ -1,11 +1,11 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState } from 'react'
 import { Col, Container, Form, Row } from 'react-bootstrap'
 import { Link, Navigate } from 'react-router-dom'
 import './Login.css'
 import './auth.css'
 import { FormattedMessage } from 'react-intl'
 import { REGISTRATION_ROUTE } from '../../utils/routes'
-import { AuthAPI } from "../../api/auth";
+import { AuthAPI } from '../../api/auth'
 
 const Login = ({ authStore }) => {
     const email = useRef(null)
@@ -14,7 +14,7 @@ const Login = ({ authStore }) => {
     const [shouldRedirect, setShouldRedirect] = useState(false)
 
     const passwordButtonHandler = (event) => {
-        const value = password.current.getAttribute('type') === 'password' ? 'password' : 'text';
+        const value = password.current.getAttribute('type') === 'password' ? 'password' : 'text'
         password.current.setAttribute('type', value)
     }
 
@@ -23,7 +23,7 @@ const Login = ({ authStore }) => {
 
         const response = await AuthAPI.login({
             email: email.current.value,
-            password: password.current.value,
+            password: password.current.value
         })
 
         authStore.setAccessToken(response.data.accessToken)
@@ -85,11 +85,7 @@ const Login = ({ authStore }) => {
                         </Form.Group>
 
                         <div className="login__submit">
-                            <input
-                                type={"submit"}
-                                className="registration__submit-button"
-                                value={"Войти"}
-                            />
+                            <input type={'submit'} className="registration__submit-button" value={'Войти'} />
 
                             <Link to={REGISTRATION_ROUTE} className={'link'}>
                                 Регистрация
