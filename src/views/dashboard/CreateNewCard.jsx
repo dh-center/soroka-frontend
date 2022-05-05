@@ -5,18 +5,11 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import CreateCardStore from '../../stores/createCardStore'
 import './CreateNewCard.css'
 import './dashboardGlobal.css'
-import SaveAlert from '../../components/dashboard/SaveAlert'
 import { CARDS_ROUTE, getCardsRoute } from '../../utils/routes'
 import { FormattedMessage, useIntl } from 'react-intl'
-import { injectIntl, intlShape } from 'react-intl'
+import { useQuery } from '../../utils/hooks'
 
 const createCardStore = new CreateCardStore()
-
-export function useQuery() {
-    const { search } = useLocation()
-
-    return React.useMemo(() => new URLSearchParams(search), [search])
-}
 
 const CreateNewCard = observer(({ userIsAdmin = true }) => {
     const intl = useIntl()
@@ -188,9 +181,9 @@ const CreateNewCard = observer(({ userIsAdmin = true }) => {
                             <button
                                 className="dashboard-button"
                                 disabled={!createCardStore.isUserAddNewProperties}
-                                onClick={() => {
-                                    createCardStore.saveCard().then(() => nav(getCardsRoute(createCardStore.cardId)))
-                                
+                                onClick={async () => {
+                                    await createCardStore.saveCard()
+                                    nav(`${getCardsRoute(createCardStore.cardId)}?id=${createCardStore.cardId}`)
                                 }}
                             >
                                 <svg

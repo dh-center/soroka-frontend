@@ -1,26 +1,31 @@
 import React, { useEffect, useRef, useState } from 'react'
 import './CardPage.css'
-import { Col, Container, Form, Overlay, Row, Tooltip } from 'react-bootstrap'
+import { Col, Container, Form, Modal, Overlay, Row, Tooltip } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import './dashboardGlobal.css'
 import { observer } from 'mobx-react'
 import ChangeCardStore from '../../stores/changeCardStore'
 import { CARDS_ROUTE } from '../../utils/routes'
 import { FormattedMessage } from 'react-intl'
-import { useQuery } from './CreateNewCard'
+import { useQuery } from '../../utils/hooks'
 import { CardsAPI } from '../../api/cards'
 
 const changeCardStore = new ChangeCardStore()
 
 const CardPage = observer(() => {
+    const [nameOfCard, setNameOfCard] = useState()
     const [show, setShow] = useState(false)
+    const [showSaveModal, setShowSaveModal] = useState(false)
     const target = useRef(null)
     const query = useQuery()
     const handleSave = () => {
         changeCardStore.saveProperties()
+        setShowSaveModal(true)
+        changeCardStore.isUserNotChangedProperties = true
     }
     useEffect(() => {
         changeCardStore.getPropertiesFromCardById(query.get('id'))
+        CardsAPI.getCardByid(query.get('id')).then((res) => setNameOfCard(res.data.name))
     }, [])
     return (
         <Container>
@@ -51,9 +56,7 @@ const CardPage = observer(() => {
                             </Link>
                         </Col>
                         <Col md="8">
-                            <h3 className="current-card__current-title">
-                                <FormattedMessage id="newCard" />
-                            </h3>
+                            <h3 className="current-card__current-title">{nameOfCard}</h3>
                         </Col>
                     </Row>
                     <Row className="justify-content-center">
@@ -183,6 +186,11 @@ const CardPage = observer(() => {
                     </div>
                 </Col>
             </Row>
+            <Modal show={showSaveModal} onHide={() => setShowSaveModal(false)}>
+                <Modal.Body>
+                    <FormattedMessage id="saveCard" />{' '}
+                </Modal.Body>
+            </Modal>
         </Container>
     )
 })

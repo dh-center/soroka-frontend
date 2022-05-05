@@ -6,6 +6,7 @@ const Russian = {
     addPropertyTitle: 'Нажмите на нужное свойство, чтобы добавить его',
     placeholderNewCard: 'Новая карточка',
     tooltipAllPropertiesAlreadyAdded: 'Все возможные свойства уже добавлены',
+    saveCard: 'Вы успешно сохранили карточку !',
 
     // Header
     exit: 'Выйти',
