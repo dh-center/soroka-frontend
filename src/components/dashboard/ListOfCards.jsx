@@ -22,11 +22,13 @@ const exampleList = [
 
 function ListOfCards() {
     const [cards, setCards] = useState([])
+
     useEffect(() => {
         CardsAPI.getCardsList()
             .then((res) => setCards(res.data))
             .catch((er) => console.log(er))
     }, [])
+
     return (
         <Container>
             <Row>

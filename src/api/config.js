@@ -29,31 +29,15 @@ instance.interceptors.response.use(
 
     async (error) => {
         if (error.response.status === 401) {
-            // const isInactiveAccount =
-            //     error.response.data.detail === 'No active account found with the given credentials'
-            // console.log({ isInactiveAccount });
             const isRefreshInvalid = error.response.data === 'Unauthorized'
-            console.log({ isRefreshInvalid })
-            const isTokenExist = authStore.refreshToken
-            console.log({ isTokenExist })
-
-            // if (!isTokenExist) {
-            //     window.location = '/'
-            //     localStorage.clear()
-            // }
 
             if (isRefreshInvalid) {
+                window.location = "/";
+                localStorage.clear();
+            } else {
                 await authStore.refresh()
                 return instance.request(error.config)
             }
-
-            // if (!isInactiveAccount) {
-            //     if (!isRefreshInvalid) {
-            //         await authStore.refresh()
-            //         return instance.request(error.config)
-            //     }
-
-            // }
         }
 
         return Promise.reject(error)

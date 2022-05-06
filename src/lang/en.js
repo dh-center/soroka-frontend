@@ -7,6 +7,7 @@ const English = {
     placeholderNewCard: 'New card',
     tooltipAllPropertiesAlreadyAdded: 'All possible properties already added',
     saveCard: 'You successfully save the card',
+
     // Header
     exit: 'Exit',
     changeLanguage: 'Change language',

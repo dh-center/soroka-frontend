@@ -79,7 +79,9 @@ const Header = observer(({ avatarSrc, baseStore, authStore }) => {
                     </button>
                 </Col>
             </Row>
+
             <LogoutDialog show={show} setShow={setShow} authStore={authStore} />
+
             <Modal
                 size="sm"
                 show={smShow}

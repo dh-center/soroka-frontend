@@ -18,15 +18,18 @@ const CardPage = observer(() => {
     const [showSaveModal, setShowSaveModal] = useState(false)
     const target = useRef(null)
     const query = useQuery()
+
     const handleSave = () => {
         changeCardStore.saveProperties()
         setShowSaveModal(true)
         changeCardStore.isUserNotChangedProperties = true
     }
+
     useEffect(() => {
         changeCardStore.getPropertiesFromCardById(query.get('id'))
         CardsAPI.getCardByid(query.get('id')).then((res) => setNameOfCard(res.data.name))
     }, [])
+
     return (
         <Container>
             <Row>
@@ -55,10 +58,12 @@ const CardPage = observer(() => {
                                 </div>
                             </Link>
                         </Col>
+
                         <Col md="8">
                             <h3 className="current-card__current-title">{nameOfCard}</h3>
                         </Col>
                     </Row>
+
                     <Row className="justify-content-center">
                         <Col>
                             <Form>
@@ -102,11 +107,13 @@ const CardPage = observer(() => {
                                         // }
                                     })}
                                 </div>
+
                                 <button
                                     className="create-new-card__button dashboard-button d-flex align-items-center offset-md-1 dashboard-button--disabled "
                                     ref={target}
                                     onMouseOver={() => setShow(true)}
                                     onMouseOut={() => setShow(false)}
+                                    onClick={event => event.preventDefault()}
                                 >
                                     <svg
                                         width="24"
@@ -122,6 +129,7 @@ const CardPage = observer(() => {
                                         <FormattedMessage id="buttonAddProperty" />
                                     </span>
                                 </button>
+
                                 <Overlay target={target.current} show={show} placement="right">
                                     {(props) => (
                                         <Tooltip id="overlay-example" {...props}>
@@ -133,6 +141,7 @@ const CardPage = observer(() => {
                         </Col>
                     </Row>
                 </Col>
+
                 <Col md="3">
                     <div className="current-card__save-alert">
                         <div className="save-alert">
@@ -141,6 +150,7 @@ const CardPage = observer(() => {
                                     <FormattedMessage id="changeCardWarningModalText" />
                                 </p>
                             )}
+
                             <button
                                 className="dashboard-button"
                                 disabled={changeCardStore.isUserNotChangedProperties}
@@ -186,6 +196,7 @@ const CardPage = observer(() => {
                     </div>
                 </Col>
             </Row>
+
             <Modal show={showSaveModal} onHide={() => setShowSaveModal(false)}>
                 <Modal.Body>
                     <FormattedMessage id="saveCard" />{' '}

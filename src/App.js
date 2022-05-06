@@ -22,12 +22,28 @@ import { message } from './lang/message'
 import BaseStore from './stores/baseStore'
 import { observer } from 'mobx-react'
 import AuthStore from './stores/authStore'
-import React from 'react'
+import React, { useEffect } from "react";
 
 const baseStore = new BaseStore()
 export const authStore = new AuthStore()
 
 const App = observer(() => {
+    useEffect(() => {
+        async function checkCurrentUserTokens() {
+            const accessToken = localStorage.getItem('accessToken')
+            const refreshToken = localStorage.getItem('refreshToken')
+
+            authStore.setAccessToken(accessToken)
+            authStore.setRefreshToken(refreshToken)
+
+            if (!authStore.currentUser && accessToken && refreshToken) {
+                await authStore.getUserProfile()
+            }
+        }
+
+        checkCurrentUserTokens();
+    });
+
     return (
         <BrowserRouter>
             <IntlProvider
