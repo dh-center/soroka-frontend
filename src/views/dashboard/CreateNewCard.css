@@ -8,6 +8,19 @@
     color: #000000;
 }
 
-.modal-header{
+.modal-header {
     border-bottom: none;
+}
+
+.create-new-card__new-property label,
+input {
+    cursor: pointer;
+}
+.create-new-card__new-property {
+    padding-bottom: 5px;
+}
+.create-new-card__new-property:hover {
+    border-bottom: 1px solid black;
+    border-radius: 6px;
+    box-shadow: 1px 13px 13px -6px rgba(34, 60, 80, 0.2);
 }
