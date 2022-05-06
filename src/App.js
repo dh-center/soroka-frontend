@@ -1,7 +1,7 @@
 import './App.css'
 import Login from './views/auth/Login'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
+import { BrowserRouter, Route, Routes, Navigate, useNavigate } from 'react-router-dom'
 import Dashboard from './views/dashboard/Dashboard'
 import Registration from './views/auth/Registration'
 import CreateNewCard from './views/dashboard/CreateNewCard'
