@@ -24,7 +24,8 @@ export default class AuthStore {
     }
 
     async refresh() {
-        const response = await AuthAPI.refreshToken({ refresh: this.refreshToken })
+        const refresh = this.refreshToken || localStorage.getItem('refreshToken')
+        const response = await AuthAPI.refreshToken({ refresh })
 
         this.setAccessToken(response.data.accessToken)
 
@@ -35,10 +36,8 @@ export default class AuthStore {
 
     async getUserProfile() {
         const response = await AuthAPI.getUserProfile()
-        console.log(response.data)
 
         this.setCurrentUser(response.data)
-        console.log(this.currentUser)
     }
 
     logout() {

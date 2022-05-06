@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react'
 import React, { useState } from 'react'
-import { Button, Col, Container, Form, FormLabel, Modal, Row } from 'react-bootstrap'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Col, Container, Form, Modal, Row } from 'react-bootstrap'
+import { Link, useNavigate } from 'react-router-dom'
 import CreateCardStore from '../../stores/createCardStore'
 import './CreateNewCard.css'
 import './dashboardGlobal.css'
@@ -20,6 +20,7 @@ const CreateNewCard = observer(({ userIsAdmin = true }) => {
     const handleClose = () => setShow(false)
     const handleShow = () => setShow(true)
     const nav = useNavigate()
+
     const handleAddNewProperties = (e) => {
         createCardStore.addNewProperties(
             e.currentTarget.innerText,
@@ -85,7 +86,7 @@ const CreateNewCard = observer(({ userIsAdmin = true }) => {
                                     <Form.Group className="mb-4 d-flex align-items-center flex-row">
                                         <Form.Label className="me-2 col-xl-2 col-sm-3">Сущность</Form.Label>
                                         <Form.Select aria-label="Default select example">
-                                            <option>Выберите сущность предмета из реального мира</option>
+                                            <option disabled>Выберите сущность предмета из реального мира</option>
                                             <option value="1">One</option>
                                             <option value="2">Two</option>
                                             <option value="3">Three</option>
@@ -226,12 +227,14 @@ const CreateNewCard = observer(({ userIsAdmin = true }) => {
                     </div>
                 </Col>
             </Row>
+
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>
                         <FormattedMessage id="addPropertyTitle" />
                     </Modal.Title>
                 </Modal.Header>
+
                 <Modal.Body>
                     <div className="create-new-card__add-new-property">
                         <Form.Group
