@@ -6,9 +6,3 @@ export function useQuery() {
 
     return React.useMemo(() => new URLSearchParams(search), [search])
 }
-
-export function navigateToLogin(authStore){
-    // const nav = useNavigate()
-    // authStore.logout()
-    // nav('/')
-}
