@@ -13,9 +13,11 @@ import { CardsAPI } from '../../api/cards'
 const changeCardStore = new ChangeCardStore()
 
 const CardPage = observer(() => {
+    const [showDeleteButton, setShowDeleteButton] = useState(false)
     const [nameOfCard, setNameOfCard] = useState()
     const [show, setShow] = useState(false)
     const [showSaveModal, setShowSaveModal] = useState(false)
+    const [cardInfo, setCardInfo] = useState({})
     const target = useRef(null)
     const query = useQuery()
 
@@ -27,7 +29,11 @@ const CardPage = observer(() => {
 
     useEffect(() => {
         changeCardStore.getPropertiesFromCardById(query.get('id'))
-        CardsAPI.getCardByid(query.get('id')).then((res) => setNameOfCard(res.data.name))
+        CardsAPI.getCardByid(query.get('id')).then((res) => {
+            setCardInfo(res.data)
+            console.log(res.data)
+            setNameOfCard(res.data.name)
+        })
     }, [])
 
     return (
@@ -43,8 +49,7 @@ const CardPage = observer(() => {
                                         height="24"
                                         viewBox="0 0 26 24"
                                         fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                    >
+                                        xmlns="http://www.w3.org/2000/svg">
                                         <path d="M22.7076 12L3.99284 12" stroke="black" strokeLinecap="round" />
                                         <path
                                             d="M10.2311 6L3.99281 12L10.2311 18"
@@ -71,24 +76,41 @@ const CardPage = observer(() => {
                                     {changeCardStore.observingArray.map((element, index) => {
                                         // if (element.type == 'text') {
                                         return (
-                                            <Form.Group
-                                                className="mb-4 d-flex align-items-center flex-row"
-                                                key={element.id}
-                                            >
-                                                <Form.Label className="me-2 col-xl-2 col-sm-3">
-                                                    {element.name}
-                                                </Form.Label>
-                                                <Form.Control
-                                                    as="textarea"
-                                                    style={{ height: '84px' }}
-                                                    type="text"
-                                                    placeholder=""
-                                                    value={element.data}
-                                                    onChange={(event) => {
-                                                        changeCardStore.changeValue(index, event.target.value)
-                                                    }}
-                                                />
-                                            </Form.Group>
+                                            <div className="mb-4 d-flex flex-column align-items-end">
+                                                <Form.Group
+                                                    className="mb-2 d-flex align-items-center flex-row w-100"
+                                                    key={element.id}>
+                                                    <Form.Label className="me-2 col-xl-2 col-sm-3">
+                                                        {element.name}
+                                                    </Form.Label>
+                                                    <Form.Control
+                                                        as="textarea"
+                                                        style={{ height: '84px' }}
+                                                        type="text"
+                                                        placeholder=""
+                                                        value={element.data}
+                                                        onChange={(event) => {
+                                                            changeCardStore.changeValue(index, event.target.value)
+                                                        }}
+                                                        onFocus={() => {
+                                                            console.log(cardInfo.preventDelete)
+                                                            if (!cardInfo.preventDelete) setShowDeleteButton(true)
+                                                        }}
+                                                        // onBlur={() => setShowDeleteButton(false)}
+                                                    />
+                                                </Form.Group>
+                                                {showDeleteButton && (
+                                                    <button className="btn btn-danger" 
+                                                    type='button'
+                                                    onClick={event=>{
+                                                        console.log(element.propertyId)
+                                                        CardsAPI.deleteFilledPropertiesByCardId(cardInfo.id, {
+                                                            filledPropertyId: element.propertyId
+                                                        })
+                                                        setShowDeleteButton(false)
+                                                    }}>Удалить</button>
+                                                )}
+                                            </div>
                                         )
                                         // } else if (element.type == 'select') {
                                         //     return (
@@ -113,15 +135,13 @@ const CardPage = observer(() => {
                                     ref={target}
                                     onMouseOver={() => setShow(true)}
                                     onMouseOut={() => setShow(false)}
-                                    onClick={event => event.preventDefault()}
-                                >
+                                    onClick={(event) => event.preventDefault()}>
                                     <svg
                                         width="24"
                                         height="24"
                                         viewBox="0 0 24 24"
                                         fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                    >
+                                        xmlns="http://www.w3.org/2000/svg">
                                         <path d="M20 12H4" stroke="black" strokeLinecap="round" />
                                         <path d="M12 4V20" stroke="black" strokeLinecap="round" />
                                     </svg>
@@ -154,15 +174,13 @@ const CardPage = observer(() => {
                             <button
                                 className="dashboard-button"
                                 disabled={changeCardStore.isUserNotChangedProperties}
-                                onClick={handleSave}
-                            >
+                                onClick={handleSave}>
                                 <svg
                                     width="26"
                                     height="24"
                                     viewBox="0 0 26 24"
                                     fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
+                                    xmlns="http://www.w3.org/2000/svg">
                                     <path
                                         fillRule="evenodd"
                                         clipRule="evenodd"
