@@ -17,8 +17,8 @@ export default class ChangeCardStore {
         return this.startValuesOfObservingArray[index].data === newValue
     }
 
-    testObservingArray(){
-        this.observingArray.map((el)=>el)
+    testObservingArray() {
+        this.observingArray.map((el) => el)
     }
 
     changeValue(index, newValue) {

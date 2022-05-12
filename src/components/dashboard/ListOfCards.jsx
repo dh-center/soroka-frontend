@@ -7,19 +7,6 @@ import { getCardsRoute, getCreateCardWithTemplatesRoute } from '../../utils/rout
 import ListCard from './ListCard'
 import './ListOfCards.css'
 
-const exampleList = [
-    {
-        id: 0,
-        titleOfCard: 'Музей “Петергоф”',
-        isComplete: false
-    },
-    {
-        id: 1,
-        titleOfCard: 'Музей “Петергоф 2”',
-        isComplete: true
-    }
-]
-
 function ListOfCards() {
     const [cards, setCards] = useState([])
 
@@ -48,13 +35,9 @@ function ListOfCards() {
 
                 {cards.map((element, index) => {
                     return (
-                        <Col md="3" className="list-of-cards__card me-3" key={index}>
+                        <Col md="3" className="list-of-cards__card me-3" key={element.id}>
                             <Link className="route-link" to={`${getCardsRoute(element.id)}?id=${element.id}`}>
-                                <ListCard
-                                    key={element.id}
-                                    titleOfCard={element.name}
-                                    className=""
-                                />
+                                <ListCard key={element.id} titleOfCard={element.name} className="" />
                             </Link>
                         </Col>
                     )

@@ -32,8 +32,8 @@ instance.interceptors.response.use(
             const isRefreshInvalid = error.response.data === 'Unauthorized'
 
             if (isRefreshInvalid) {
-                window.location = "/";
-                localStorage.clear();
+                window.location = '/'
+                localStorage.clear()
             } else {
                 await authStore.refresh()
                 return instance.request(error.config)

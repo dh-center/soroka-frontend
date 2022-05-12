@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import './CardPage.css'
 import { Col, Container, Form, Modal, Overlay, Row, Tooltip } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import './dashboardGlobal.css'
 import { observer } from 'mobx-react'
 import ChangeCardStore from '../../stores/changeCardStore'
@@ -9,7 +9,6 @@ import { CARDS_ROUTE } from '../../utils/routes'
 import { FormattedMessage } from 'react-intl'
 import { useQuery } from '../../utils/hooks'
 import { CardsAPI } from '../../api/cards'
-import DeleteDialog from '../../components/common/DeleteDialog'
 import CommonDialog from '../../components/common/CommonDialog'
 
 const changeCardStore = new ChangeCardStore()
@@ -24,6 +23,7 @@ const CardPage = observer(() => {
     const [propertieDeleted, setPropertieDeleted] = useState(false)
     const [propertieId, setPropertieId] = useState(1)
     const target = useRef(null)
+    const { id } = useParams()
     const query = useQuery()
 
     const handleSave = () => {
@@ -40,8 +40,8 @@ const CardPage = observer(() => {
     }
 
     useEffect(() => {
-        changeCardStore.getPropertiesFromCardById(query.get('id'))
-        CardsAPI.getCardByid(query.get('id')).then((res) => {
+        changeCardStore.getPropertiesFromCardById(id)
+        CardsAPI.getCardByid(id).then((res) => {
             setCardInfo(res.data)
             console.log(res.data)
             setNameOfCard(res.data.name)
@@ -49,7 +49,7 @@ const CardPage = observer(() => {
     }, [])
 
     useEffect(() => {
-        changeCardStore.getPropertiesFromCardById(query.get('id'))
+        changeCardStore.getPropertiesFromCardById(id)
     }, [propertieDeleted])
 
     return (
@@ -65,7 +65,8 @@ const CardPage = observer(() => {
                                         height="24"
                                         viewBox="0 0 26 24"
                                         fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
                                         <path d="M22.7076 12L3.99284 12" stroke="black" strokeLinecap="round" />
                                         <path
                                             d="M10.2311 6L3.99281 12L10.2311 18"
@@ -129,7 +130,8 @@ const CardPage = observer(() => {
                                                             setPropertieId(element.id)
 
                                                             setShowDialogModal(true)
-                                                        }}>
+                                                        }}
+                                                    >
                                                         Удалить
                                                     </button>
                                                 )}
@@ -158,13 +160,15 @@ const CardPage = observer(() => {
                                     ref={target}
                                     onMouseOver={() => setShow(true)}
                                     onMouseOut={() => setShow(false)}
-                                    onClick={(event) => event.preventDefault()}>
+                                    onClick={(event) => event.preventDefault()}
+                                >
                                     <svg
                                         width="24"
                                         height="24"
                                         viewBox="0 0 24 24"
                                         fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
                                         <path d="M20 12H4" stroke="black" strokeLinecap="round" />
                                         <path d="M12 4V20" stroke="black" strokeLinecap="round" />
                                     </svg>
@@ -197,13 +201,15 @@ const CardPage = observer(() => {
                             <button
                                 className="dashboard-button"
                                 disabled={changeCardStore.isUserNotChangedProperties}
-                                onClick={handleSave}>
+                                onClick={handleSave}
+                            >
                                 <svg
                                     width="26"
                                     height="24"
                                     viewBox="0 0 26 24"
                                     fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
                                     <path
                                         fillRule="evenodd"
                                         clipRule="evenodd"
@@ -237,8 +243,6 @@ const CardPage = observer(() => {
                     </div>
                 </Col>
             </Row>
-
-            {/* <DeleteDialog show={showDialogModal} setShow={setShowDialogModal} /> */}
             <CommonDialog
                 formattesMessageTitleId="deleteAlert"
                 handleSubmit={async () => {
@@ -253,7 +257,7 @@ const CardPage = observer(() => {
             />
             <Modal show={showSaveModal} onHide={() => setShowSaveModal(false)}>
                 <Modal.Body>
-                    <FormattedMessage id="saveCard" />{' '}
+                    <FormattedMessage id="saveCard" />
                 </Modal.Body>
             </Modal>
         </Container>
