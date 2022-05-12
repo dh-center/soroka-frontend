@@ -16,7 +16,7 @@ export const CardsAPI = {
          * Получение свойств
          */
 
-        return API.get('/cards/data-types')
+        return API.get('/cards/properties')
     },
 
     async getCardsFilledPropertiesById(cardId) {
