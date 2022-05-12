@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { Col, Container, Row, Modal } from 'react-bootstrap'
-import LogoutDialog from './LogoutDialog'
 import { LANGUAGES } from '../../utils/constants'
 import { FormattedMessage } from 'react-intl'
 import { observer } from 'mobx-react'

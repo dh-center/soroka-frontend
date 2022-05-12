@@ -17,10 +17,6 @@ export default class ChangeCardStore {
         return this.startValuesOfObservingArray[index].data === newValue
     }
 
-    testObservingArray() {
-        this.observingArray.map((el) => el)
-    }
-
     changeValue(index, newValue) {
         this.observingArray[index].data = newValue
         this.isUserNotChangedProperties = this.setIsUserNotChangedProperties(index, newValue)
