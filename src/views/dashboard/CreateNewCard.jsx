@@ -14,7 +14,7 @@ const createCardStore = new CreateCardStore()
 const CreateNewCard = observer(({ userIsAdmin = true }) => {
     const intl = useIntl()
     const targetSaveButton = useRef(null)
-    const [showTooltip,setShowTooltip] = useState(false)
+    const [showTooltip, setShowTooltip] = useState(false)
     const placeholder = intl.formatMessage({ id: 'placeholderNewCard' })
     const [show, setShow] = useState(false)
     const handleClose = () => setShow(false)
@@ -45,7 +45,8 @@ const CreateNewCard = observer(({ userIsAdmin = true }) => {
                                         height="24"
                                         viewBox="0 0 26 24"
                                         fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
                                         <path d="M22.7076 12L3.99284 12" stroke="black" strokeLinecap="round" />
                                         <path
                                             d="M10.2311 6L3.99281 12L10.2311 18"
@@ -96,7 +97,8 @@ const CreateNewCard = observer(({ userIsAdmin = true }) => {
                                         return (
                                             <Form.Group
                                                 className="mb-4 d-flex align-items-center flex-row"
-                                                key={el.propertyId}>
+                                                key={el.propertyId}
+                                            >
                                                 <Form.Label className="me-2 col-xl-2 col-sm-3">{el.name}</Form.Label>
                                                 <Form.Control
                                                     type="text"
@@ -113,13 +115,15 @@ const CreateNewCard = observer(({ userIsAdmin = true }) => {
                             </Form>
                             <button
                                 onClick={handleShow}
-                                className="create-new-card__button dashboard-button d-flex align-items-center offset-md-3">
+                                className="create-new-card__button dashboard-button d-flex align-items-center offset-md-3"
+                            >
                                 <svg
                                     width="24"
                                     height="24"
                                     viewBox="0 0 24 24"
                                     fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
                                     <path d="M20 12H4" stroke="black" strokeLinecap="round" />
                                     <path d="M12 4V20" stroke="black" strokeLinecap="round" />
                                 </svg>
@@ -153,7 +157,8 @@ const CreateNewCard = observer(({ userIsAdmin = true }) => {
                                         className="mb-2"
                                         onClick={(e) => {
                                             createCardStore.setOrganizationOption(e.target.value)
-                                        }}>
+                                        }}
+                                    >
                                         <option value="10">Организация</option>
                                         <option value="1">One</option>
                                         <option value="2">Two</option>
@@ -164,7 +169,8 @@ const CreateNewCard = observer(({ userIsAdmin = true }) => {
                                         className="mb-2"
                                         onClick={(e) => {
                                             createCardStore.setOwnerOption(e.target.value)
-                                        }}>
+                                        }}
+                                    >
                                         <option value="10">Владелец</option>
                                         <option value="1">One</option>
                                         <option value="2">Two</option>
@@ -182,13 +188,15 @@ const CreateNewCard = observer(({ userIsAdmin = true }) => {
                                 onClick={async () => {
                                     await createCardStore.saveCard()
                                     nav(`${getCardsRoute(createCardStore.cardId)}?id=${createCardStore.cardId}`)
-                                }}>
+                                }}
+                            >
                                 <svg
                                     width="26"
                                     height="24"
                                     viewBox="0 0 26 24"
                                     fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
                                     <path
                                         fillRule="evenodd"
                                         clipRule="evenodd"
@@ -241,20 +249,26 @@ const CreateNewCard = observer(({ userIsAdmin = true }) => {
                 </Modal.Header>
 
                 <Modal.Body>
-                    <div className="create-new-card__add-new-property">
+                    <div className="create-new-card__add-new-property mb-3">
                         <Form.Group
                             className="mb-4 d-flex align-items-center flex-row create-new-card__new-property"
                             onClick={handleAddNewProperties}
-                            role="button">
-                            <Form.Label className="me-2 new-property__label">Название</Form.Label>
-                            <Form.Control type="text" placeholder={placeholder} disabled />
+                            role="button"
+                        >
+                            <Form.Label className="me-2 new-property__label" role="button">
+                                Название
+                            </Form.Label>
+                            <Form.Control type="text" placeholder={placeholder} disabled role="button" />
                         </Form.Group>
                         <Form.Group
                             className="mb-4 d-flex align-items-center flex-row create-new-card__new-property"
                             onClick={handleAddNewProperties}
-                            role="button">
-                            <Form.Label className="me-2">Название</Form.Label>
-                            <Form.Control type="text" placeholder={placeholder} disabled />
+                            role="button"
+                        >
+                            <Form.Label className="me-2" role="button">
+                                Название
+                            </Form.Label>
+                            <Form.Control type="text" placeholder={placeholder} disabled role="button" />
                         </Form.Group>
                     </div>
                 </Modal.Body>

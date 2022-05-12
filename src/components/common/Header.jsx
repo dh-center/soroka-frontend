@@ -28,7 +28,8 @@ const Header = observer(({ avatarSrc, baseStore, authStore }) => {
                                         height="48"
                                         viewBox="0 0 48 48"
                                         fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
                                         <g clipPath="url(#clip0_176_863)">
                                             <path
                                                 d="M7.33337 40.6666C7.33337 34.4166 15.6667 34.4166 19.8334 30.2499C21.9167 28.1666 15.6667 28.1666 15.6667 17.7499C15.6667 10.8062 18.4438 7.33325 24 7.33325C29.5563 7.33325 32.3334 10.8062 32.3334 17.7499C32.3334 28.1666 26.0834 28.1666 28.1667 30.2499C32.3334 34.4166 40.6667 34.4166 40.6667 40.6666"
@@ -108,7 +109,8 @@ const Header = observer(({ avatarSrc, baseStore, authStore }) => {
                 size="sm"
                 show={smShow}
                 onHide={() => setSmShow(false)}
-                aria-labelledby="example-modal-sizes-title-sm">
+                aria-labelledby="example-modal-sizes-title-sm"
+            >
                 <Modal.Header closeButton>
                     <Modal.Title id="example-modal-sizes-title-sm">
                         <FormattedMessage id="changingLanguage" />
@@ -123,7 +125,8 @@ const Header = observer(({ avatarSrc, baseStore, authStore }) => {
                                 onClick={() => {
                                     baseStore.setUiLang(el.code)
                                     setSmShow(false)
-                                }}>
+                                }}
+                            >
                                 <span>{el.name}</span>
                             </button>
                         )

@@ -42,14 +42,14 @@ export const CardsAPI = {
         return API.post(`/cards/filled-properties/${cardId}`, data)
     },
 
-    async deleteFilledPropertiesByCardId(cardId,data) {
+    async deleteFilledPropertiesByCardId(cardId, data) {
         /**
          * Удаления свойства у карточки
          *
          * @param {number} cardId
          */
 
-        return API.delete(`/cards/filled-properties/${cardId}`,{data})
+        return API.delete(`/cards/filled-properties/${cardId}`, { data })
     },
 
     async getCardsList() {

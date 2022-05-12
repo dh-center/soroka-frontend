@@ -22,7 +22,7 @@ import { message } from './lang/message'
 import BaseStore from './stores/baseStore'
 import { observer } from 'mobx-react'
 import AuthStore from './stores/authStore'
-import React, { useEffect } from "react";
+import React, { useEffect } from 'react'
 
 const baseStore = new BaseStore()
 export const authStore = new AuthStore()
@@ -41,8 +41,8 @@ const App = observer(() => {
             }
         }
 
-        checkCurrentUserTokens();
-    });
+        checkCurrentUserTokens()
+    })
 
     return (
         <BrowserRouter>

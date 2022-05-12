@@ -12,13 +12,6 @@
     border-bottom: none;
 }
 
-.create-new-card__new-property label,
-input {
-    cursor: pointer;
-}
-.create-new-card__new-property {
-    padding-bottom: 5px;
-}
 .create-new-card__new-property:hover {
     border-bottom: 1px solid black;
     border-radius: 6px;
