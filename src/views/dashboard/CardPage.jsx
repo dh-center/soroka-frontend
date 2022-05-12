@@ -10,6 +10,7 @@ import { FormattedMessage } from 'react-intl'
 import { useQuery } from '../../utils/hooks'
 import { CardsAPI } from '../../api/cards'
 import DeleteDialog from '../../components/common/DeleteDialog'
+import CommonDialog from '../../components/common/CommonDialog'
 
 const changeCardStore = new ChangeCardStore()
 
@@ -19,7 +20,9 @@ const CardPage = observer(() => {
     const [show, setShow] = useState(false)
     const [showSaveModal, setShowSaveModal] = useState(false)
     const [cardInfo, setCardInfo] = useState({})
-    const [showDialogModal,setShowDialogModal] = useState(false)
+    const [showDialogModal, setShowDialogModal] = useState(false)
+    const [propertieDeleted, setPropertieDeleted] = useState(false)
+    const [propertieId, setPropertieId] = useState(1)
     const target = useRef(null)
     const query = useQuery()
 
@@ -27,6 +30,13 @@ const CardPage = observer(() => {
         changeCardStore.saveProperties()
         setShowSaveModal(true)
         changeCardStore.isUserNotChangedProperties = true
+    }
+
+    async function handleDelete() {
+        await CardsAPI.deleteFilledPropertiesByCardId(cardInfo.id, {
+            filledPropertyId: propertieId
+        })
+        setPropertieDeleted(!propertieDeleted)
     }
 
     useEffect(() => {
@@ -37,6 +47,10 @@ const CardPage = observer(() => {
             setNameOfCard(res.data.name)
         })
     }, [])
+
+    useEffect(() => {
+        changeCardStore.getPropertiesFromCardById(query.get('id'))
+    }, [propertieDeleted])
 
     return (
         <Container>
@@ -103,12 +117,18 @@ const CardPage = observer(() => {
                                                     <button
                                                         className="btn btn-danger"
                                                         type="button"
-                                                        onClick={(event) => {
-                                                            console.log(element.propertyId)
-                                                            CardsAPI.deleteFilledPropertiesByCardId(cardInfo.id, {
-                                                                "filledPropertyId": element.propertyId
-                                                            })
-                                                            setShowDeleteButton(false)
+                                                        // onClick={async () => {
+                                                        //     console.log(element)
+                                                        //     console.log(element.propertyId)
+                                                        //     await CardsAPI.deleteFilledPropertiesByCardId(cardInfo.id, {
+                                                        //         filledPropertyId: element.id
+                                                        //     })
+                                                        //     setPropertieDeleted(!propertieDeleted)
+                                                        // }}
+                                                        onClick={() => {
+                                                            setPropertieId(element.id)
+
+                                                            setShowDialogModal(true)
                                                         }}>
                                                         Удалить
                                                     </button>
@@ -218,7 +238,19 @@ const CardPage = observer(() => {
                 </Col>
             </Row>
 
-            <DeleteDialog show={showDialogModal} setShow={setShowDialogModal} />
+            {/* <DeleteDialog show={showDialogModal} setShow={setShowDialogModal} /> */}
+            <CommonDialog
+                formattesMessageTitleId="deleteAlert"
+                handleSubmit={async () => {
+                    await CardsAPI.deleteFilledPropertiesByCardId(cardInfo.id, {
+                        filledPropertyId: propertieId
+                    })
+                    setPropertieDeleted(!propertieDeleted)
+                    setShowDialogModal(false)
+                }}
+                show={showDialogModal}
+                setShow={setShowDialogModal}
+            />
             <Modal show={showSaveModal} onHide={() => setShowSaveModal(false)}>
                 <Modal.Body>
                     <FormattedMessage id="saveCard" />{' '}

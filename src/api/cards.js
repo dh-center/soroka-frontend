@@ -49,7 +49,7 @@ export const CardsAPI = {
          * @param {number} cardId
          */
 
-        return API.delete(`/cards/filled-properties/${cardId}`,data)
+        return API.delete(`/cards/filled-properties/${cardId}`,{data})
     },
 
     async getCardsList() {

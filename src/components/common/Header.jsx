@@ -4,11 +4,14 @@ import LogoutDialog from './LogoutDialog'
 import { LANGUAGES } from '../../utils/constants'
 import { FormattedMessage } from 'react-intl'
 import { observer } from 'mobx-react'
+import CommonDialog from './CommonDialog'
+import { useNavigate } from 'react-router-dom'
 
 const Header = observer(({ avatarSrc, baseStore, authStore }) => {
     const [smShow, setSmShow] = useState(false)
     const [show, setShow] = useState(false)
     const handleShow = () => setShow(true)
+    const nav = useNavigate()
 
     return (
         <Container>
@@ -79,7 +82,18 @@ const Header = observer(({ avatarSrc, baseStore, authStore }) => {
                 </Col>
             </Row>
 
-            <LogoutDialog
+            {/* <LogoutDialog
+                show={show}
+                handleClose={() => {
+                    setShow(false)
+                    nav('/')
+                    authStore.logout()
+                }}
+                setShow={setShow}
+                authStore={authStore}
+            /> */}
+            <CommonDialog
+                formattesMessageTitleId={'saveBeforeExit'}
                 show={show}
                 handleClose={() => {
                     setShow(false)
