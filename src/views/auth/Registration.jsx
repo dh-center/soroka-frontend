@@ -1,5 +1,5 @@
 import { useRef } from 'react'
-import { Button, Col, Container, Form, Row } from 'react-bootstrap'
+import { Col, Container, Form, Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import './Registration.css'
 import './auth.css'
@@ -13,7 +13,7 @@ function Registration() {
     const repeatPassword = useRef(null)
     const acceptsTermsOfUse = useRef(null)
 
-    const passwordButtonHandler = (event) => {
+    const passwordButtonHandler = () => {
         const value = password.current.getAttribute('type') === 'password' ? 'text' : 'password'
         password.current.setAttribute('type', value)
         repeatPassword.current.setAttribute('type', value)

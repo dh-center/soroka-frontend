@@ -5,6 +5,7 @@ img {
     text-decoration: none;
     color: black;
 }
+
 .dashboard-button {
     display: flex;
     flex-direction: row;
@@ -20,12 +21,15 @@ img {
     font-size: 16px;
     line-height: 21px;
 }
+
 .dashboard-button--disabled {
     opacity: 0.3;
 }
+
 .dashboard-button svg {
     margin-right: 16px;
 }
+
 .tooltip-inner {
     background: #ffffff;
     border: 1px solid #000000;
