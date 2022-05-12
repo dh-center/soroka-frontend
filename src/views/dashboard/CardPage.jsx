@@ -9,6 +9,7 @@ import { CARDS_ROUTE } from '../../utils/routes'
 import { FormattedMessage } from 'react-intl'
 import { useQuery } from '../../utils/hooks'
 import { CardsAPI } from '../../api/cards'
+import DeleteDialog from '../../components/common/DeleteDialog'
 
 const changeCardStore = new ChangeCardStore()
 
@@ -18,6 +19,7 @@ const CardPage = observer(() => {
     const [show, setShow] = useState(false)
     const [showSaveModal, setShowSaveModal] = useState(false)
     const [cardInfo, setCardInfo] = useState({})
+    const [showDialogModal,setShowDialogModal] = useState(false)
     const target = useRef(null)
     const query = useQuery()
 
@@ -76,10 +78,8 @@ const CardPage = observer(() => {
                                     {changeCardStore.observingArray.map((element, index) => {
                                         // if (element.type == 'text') {
                                         return (
-                                            <div className="mb-4 d-flex flex-column align-items-end">
-                                                <Form.Group
-                                                    className="mb-2 d-flex align-items-center flex-row w-100"
-                                                    key={element.id}>
+                                            <div className="mb-4 d-flex flex-column align-items-end" key={element.id}>
+                                                <Form.Group className="mb-2 d-flex align-items-center flex-row w-100">
                                                     <Form.Label className="me-2 col-xl-2 col-sm-3">
                                                         {element.name}
                                                     </Form.Label>
@@ -100,15 +100,18 @@ const CardPage = observer(() => {
                                                     />
                                                 </Form.Group>
                                                 {showDeleteButton && (
-                                                    <button className="btn btn-danger" 
-                                                    type='button'
-                                                    onClick={event=>{
-                                                        console.log(element.propertyId)
-                                                        CardsAPI.deleteFilledPropertiesByCardId(cardInfo.id, {
-                                                            filledPropertyId: element.propertyId
-                                                        })
-                                                        setShowDeleteButton(false)
-                                                    }}>Удалить</button>
+                                                    <button
+                                                        className="btn btn-danger"
+                                                        type="button"
+                                                        onClick={(event) => {
+                                                            console.log(element.propertyId)
+                                                            CardsAPI.deleteFilledPropertiesByCardId(cardInfo.id, {
+                                                                "filledPropertyId": element.propertyId
+                                                            })
+                                                            setShowDeleteButton(false)
+                                                        }}>
+                                                        Удалить
+                                                    </button>
                                                 )}
                                             </div>
                                         )
@@ -215,6 +218,7 @@ const CardPage = observer(() => {
                 </Col>
             </Row>
 
+            <DeleteDialog show={showDialogModal} setShow={setShowDialogModal} />
             <Modal show={showSaveModal} onHide={() => setShowSaveModal(false)}>
                 <Modal.Body>
                     <FormattedMessage id="saveCard" />{' '}
