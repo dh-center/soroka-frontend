@@ -3,10 +3,6 @@ import '../../views/dashboard/dashboardGlobal.css'
 import './SaveAlert.css'
 
 function SaveAlert({ isUserNotChangedProperties, isHaveEmptyProperties }) {
-    useEffect(() => {
-        console.log(isHaveEmptyProperties)
-    })
-
     return (
         <div className="save-alert">
             {isHaveEmptyProperties && <p>Эта карточка заполнена не до конца: в ней есть пустые поля.</p>}
