@@ -245,7 +245,7 @@ const CardPage = observer(() => {
                 formattesMessageTitleId="deleteAlert"
                 handleSubmit={async () => {
                     await CardsAPI.deleteFilledPropertiesByCardId(cardInfo.id, {
-                        filledPropertyId: propertieId
+                        data:{filledPropertyId: propertieId}
                     })
                     setPropertieDeleted(!propertieDeleted)
                     setShowDialogModal(false)

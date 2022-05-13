@@ -23,6 +23,13 @@ export default class CreateCardStore {
         this.ownerOption = res.data.userRole
     }
 
+    refreshCreatingCard() {
+        this.nameOfCard = ''
+        this.arrayWithNewProperties = []
+        this.isUserAddNewProperties = false
+        this.prohibitUpdate = false
+    }
+
     addNewProperties(name, propertyId, data) {
         this.setOrganiztionAndOwner()
         this.arrayWithNewProperties.push({ name, propertyId, data })

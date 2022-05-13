@@ -49,7 +49,7 @@ export const CardsAPI = {
          * @param {number} cardId
          */
 
-        return API.delete(`/cards/filled-properties/${cardId}`, { data })
+        return API.delete(`/cards/filled-properties/${cardId}`,  data )
     },
 
     async getCardsList() {
@@ -97,7 +97,15 @@ export const CardsAPI = {
         return API.patch(`/cards/by-id/${cardId}`, data)
     },
 
-    async updatePropertyByPropertyId(id, data) {
+    async updatePropertyById(id, data) {
+        /**
+         * Обновление свойства по его id
+         *
+         * @param {number} propertyId
+         * @param {string} data.name
+         * @param {number} data.propertyId
+         * @param {string} data.data
+         */
         return API.patch(`/cards/filled-properties/by-id/${id}`, data)
     }
 }
