@@ -31,7 +31,7 @@ export default class ChangeCardStore {
 
     async saveProperties() {
         this.observingArray.map(({ name, propertyId, data, id }) =>
-            CardsAPI.updatePropertyByPropertyId(id, { name, propertyId, data })
+            CardsAPI.updatePropertyById(id, { name, propertyId, data })
         )
     }
 

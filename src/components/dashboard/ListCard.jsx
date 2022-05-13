@@ -4,7 +4,7 @@ import './ListCard.css'
 
 function ListCard(
     { titleOfCard = 'Название карточки', srcOfPlaceholder = require('../../assets/Image.png') },
-    isComplete = false,
+    isComplete = false
 ) {
     return (
         <div className="card__wrap">

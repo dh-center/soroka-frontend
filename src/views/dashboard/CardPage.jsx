@@ -41,7 +41,6 @@ const CardPage = observer(() => {
         changeCardStore.getPropertiesFromCardById(id)
         CardsAPI.getCardByid(id).then((res) => {
             setCardInfo(res.data)
-            console.log(res.data)
             setNameOfCard(res.data.name)
         })
     }, [])
@@ -106,24 +105,14 @@ const CardPage = observer(() => {
                                                             changeCardStore.changeValue(index, event.target.value)
                                                         }}
                                                         onFocus={() => {
-                                                            console.log(cardInfo.preventDelete)
                                                             if (!cardInfo.preventDelete) setShowDeleteButton(true)
                                                         }}
-                                                        // onBlur={() => setShowDeleteButton(false)}
                                                     />
                                                 </Form.Group>
                                                 {showDeleteButton && (
                                                     <button
                                                         className="btn btn-danger"
                                                         type="button"
-                                                        // onClick={async () => {
-                                                        //     console.log(element)
-                                                        //     console.log(element.propertyId)
-                                                        //     await CardsAPI.deleteFilledPropertiesByCardId(cardInfo.id, {
-                                                        //         filledPropertyId: element.id
-                                                        //     })
-                                                        //     setPropertieDeleted(!propertieDeleted)
-                                                        // }}
                                                         onClick={() => {
                                                             setPropertieId(element.id)
 
@@ -245,7 +234,7 @@ const CardPage = observer(() => {
                 formattesMessageTitleId="deleteAlert"
                 handleSubmit={async () => {
                     await CardsAPI.deleteFilledPropertiesByCardId(cardInfo.id, {
-                        data:{filledPropertyId: propertieId}
+                        data: { filledPropertyId: propertieId }
                     })
                     setPropertieDeleted(!propertieDeleted)
                     setShowDialogModal(false)
