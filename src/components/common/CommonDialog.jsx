@@ -7,7 +7,6 @@ const CommonDialog = ({
     show,
     setShow,
     handleClose = () => setShow(false),
-    authStore,
     handleSubmit = () => {}
 }) => {
     return (

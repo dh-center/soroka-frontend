@@ -1,8 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Modal } from 'react-bootstrap'
 import { FormattedMessage } from 'react-intl'
 import { useNavigate } from 'react-router-dom'
-import { navigateToLogin } from '../../utils/hooks'
 
 function LogoutDialog({ show, setShow, authStore }) {
     const nav = useNavigate()

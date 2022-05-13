@@ -7,7 +7,6 @@ import { observer } from 'mobx-react'
 import ChangeCardStore from '../../stores/changeCardStore'
 import { CARDS_ROUTE } from '../../utils/routes'
 import { FormattedMessage } from 'react-intl'
-import { useQuery } from '../../utils/hooks'
 import { CardsAPI } from '../../api/cards'
 import CommonDialog from '../../components/common/CommonDialog'
 
@@ -24,7 +23,6 @@ const CardPage = observer(() => {
     const [propertieId, setPropertieId] = useState(1)
     const target = useRef(null)
     const { id } = useParams()
-    const query = useQuery()
 
     const handleSave = () => {
         changeCardStore.saveProperties()
