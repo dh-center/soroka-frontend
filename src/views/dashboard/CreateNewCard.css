@@ -11,9 +11,12 @@
 .modal-header {
     border-bottom: none;
 }
-
+.create-new-card__new-property{
+    border-radius:6px;
+}
 .create-new-card__new-property:hover {
     border-bottom: 1px solid black;
     border-radius: 6px;
-    box-shadow: 1px 13px 13px -6px rgba(34, 60, 80, 0.2);
+    padding-bottom: 5px;
+box-shadow: 0px 5px 5px -5px rgba(34, 60, 80, 0.6);
 }

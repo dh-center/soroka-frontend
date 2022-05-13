@@ -36,7 +36,7 @@ function ListOfCards() {
                 {cards.map((element, index) => {
                     return (
                         <Col md="3" className="list-of-cards__card me-3" key={element.id}>
-                            <Link className="route-link" to={`${getCardsRoute(element.id)}?id=${element.id}`}>
+                            <Link className="route-link" to={`${getCardsRoute(element.id)}`}>
                                 <ListCard key={element.id} titleOfCard={element.name} className="" />
                             </Link>
                         </Col>
