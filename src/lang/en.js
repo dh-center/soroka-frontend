@@ -7,7 +7,10 @@ const English = {
     placeholderNewCard: 'New card',
     tooltipAllPropertiesAlreadyAdded: 'All possible properties already added',
     saveCard: 'You successfully save the card',
-
+    property: 'Property',
+    enity: 'Enity',
+    organization: 'Organization',
+    owner: 'Owner',
     // Header
     exit: 'Exit',
     changeLanguage: 'Change language',
@@ -25,6 +28,7 @@ const English = {
     newCardWarningModalText: 'Add any desired properties, fill out the card and save',
     newCard: 'New card',
     nameOfCard: 'Name',
+    preventDelete: 'Prevent delete',
 
     // Страница редактирования карточки
     changeCardWarningModalText: 'This card is not completely filled out: it has empty fields.',
