@@ -36,6 +36,7 @@ const English = {
     // Модкала с диалогом
     saveBeforeExit: 'Save before leaving?',
     deleteAlert: 'Delete propertie and value?',
+    doYouSure: 'Do you sure that you want exit?',
     answerIsYes: 'Yes',
     answerIsNo: 'No'
 }

@@ -8,6 +8,7 @@ import './dashboardGlobal.css'
 import { CARDS_ROUTE, getCardsRoute } from '../../utils/routes'
 import { FormattedMessage, useIntl } from 'react-intl'
 import { useQuery } from '../../utils/hooks'
+import CommonDialog from '../../components/common/CommonDialog'
 
 const createCardStore = new CreateCardStore()
 
@@ -20,6 +21,7 @@ const CreateNewCard = observer(() => {
     const handleClose = () => setShow(false)
     const handleShow = () => setShow(true)
     const nav = useNavigate()
+    const [showDialog, setShowDialog] = useState(false)
 
     const handleAddNewProperties = (e) => {
         createCardStore.addNewProperties(
@@ -42,7 +44,8 @@ const CreateNewCard = observer(() => {
                 <Col md="9">
                     <Row className="mb-4 d-flex align-items-center">
                         <Col md="4">
-                            <Link to={CARDS_ROUTE} className="route-link">
+                            {/* <Link to={CARDS_ROUTE} className="route-link"> */}
+                            <div className="route-link" onClick={() => setShowDialog(true)}>
                                 <div className="dashboard-button back-to-list">
                                     <svg
                                         width="26"
@@ -61,7 +64,8 @@ const CreateNewCard = observer(() => {
                                         <FormattedMessage id="buttonBackToCards" />
                                     </span>
                                 </div>
-                            </Link>
+                            </div>
+                            {/* </Link> */}
                         </Col>
                         <Col md="8">
                             <h3 className="create-new-card__current-title">
@@ -275,6 +279,16 @@ const CreateNewCard = observer(() => {
                     </div>
                 </Modal.Body>
             </Modal>
+            <CommonDialog
+                formattesMessageTitleId={'saveBeforeExit'}
+                show={showDialog}
+                handleSubmit={async () => {
+                    await createCardStore.saveCard()
+                    nav(`${getCardsRoute(createCardStore.cardId)}?id=${createCardStore.cardId}`)
+                }}
+                handleClose={()=>nav(CARDS_ROUTE)}
+                setShow={setShowDialog}
+            />
         </Container>
     )
 })
