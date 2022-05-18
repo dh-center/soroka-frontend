@@ -6,10 +6,10 @@ export default class CreateCardStore {
     nameOfCard = ''
     arrayWithNewProperties = []
     isUserAddNewProperties = false
-
+    
     prohibitUpdate = false
     organizationOption = '1000'
-    ownerOption = '1000'
+    ownerOption = '2'
 
     cardId = 1
 
