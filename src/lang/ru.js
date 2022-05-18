@@ -35,6 +35,7 @@ const Russian = {
 
     // Модкала с диалогом
     saveBeforeExit: 'Сохранить перед выходом?',
+    doYouSure:"Вы уверены, что хотите выйти ?",
     deleteAlert: 'Удалить свойство и данные? ',
     answerIsYes: 'Да',
     answerIsNo: 'Нет'

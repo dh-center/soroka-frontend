@@ -82,20 +82,10 @@ const Header = observer(({ avatarSrc, baseStore, authStore }) => {
                 </Col>
             </Row>
 
-            {/* <LogoutDialog
-                show={show}
-                handleClose={() => {
-                    setShow(false)
-                    nav('/')
-                    authStore.logout()
-                }}
-                setShow={setShow}
-                authStore={authStore}
-            /> */}
             <CommonDialog
-                formattesMessageTitleId={'saveBeforeExit'}
+                formattesMessageTitleId={'doYouSure'}
                 show={show}
-                handleClose={() => {
+                handleSubmit={() => {
                     setShow(false)
                     nav('/')
                     authStore.logout()
