@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Col, Container, Row, Modal } from 'react-bootstrap'
 import { LANGUAGES } from '../../utils/constants'
 import { FormattedMessage } from 'react-intl'
@@ -57,23 +57,31 @@ const Header = observer(({ avatarSrc, baseStore, authStore }) => {
                 </Col>
 
                 <Col lg="3" md="4" className="d-flex">
-                    <button className="dashboard-button me-1" onClick={handleShow}>
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                fillRule="evenodd"
-                                clipRule="evenodd"
-                                d="M15 4V20H4L4 4L15 4Z"
-                                stroke="black"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                            />
-                            <path d="M12.5 12H21.5" stroke="black" strokeLinecap="round" />
-                            <path d="M18.5 15L21.5 12L18.5 9" stroke="black" strokeLinecap="round" />
-                        </svg>
-                        <span>
-                            <FormattedMessage id="exit" />
-                        </span>
-                    </button>
+                    {authStore.currentUser && (
+                        <button className="dashboard-button me-1" onClick={handleShow}>
+                            <svg
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    fillRule="evenodd"
+                                    clipRule="evenodd"
+                                    d="M15 4V20H4L4 4L15 4Z"
+                                    stroke="black"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                />
+                                <path d="M12.5 12H21.5" stroke="black" strokeLinecap="round" />
+                                <path d="M18.5 15L21.5 12L18.5 9" stroke="black" strokeLinecap="round" />
+                            </svg>
+                            <span>
+                                <FormattedMessage id="exit" />
+                            </span>
+                        </button>
+                    )}
                     <button className="dashboard-button" onClick={() => setSmShow(true)}>
                         <span>
                             <FormattedMessage id="changeLanguage" />
@@ -83,7 +91,7 @@ const Header = observer(({ avatarSrc, baseStore, authStore }) => {
             </Row>
 
             <CommonDialog
-                formattesMessageTitleId={'doYouSure'}
+                formattesMessageTitleId={'sureExit'}
                 show={show}
                 handleSubmit={() => {
                     setShow(false)

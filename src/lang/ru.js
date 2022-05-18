@@ -7,10 +7,10 @@ const Russian = {
     placeholderNewCard: 'Новая карточка',
     tooltipAllPropertiesAlreadyAdded: 'Все возможные свойства уже добавлены',
     saveCard: 'Вы успешно сохранили карточку !',
-    property:'Свойство',
-    enity:"Сущность",
-    organization:"Организация",
-    owner:'Владелец',
+    property: 'Свойство',
+    enity: 'Сущность',
+    organization: 'Организация',
+    owner: 'Владелец',
     // Header
     exit: 'Выйти',
     changeLanguage: 'Сменить язык',
@@ -28,14 +28,15 @@ const Russian = {
     newCardWarningModalText: 'Добавьте любые нужные свойства, заполните карточку и сохраните',
     newCard: 'Новая карточка',
     nameOfCard: 'Название',
-    preventDelete:'Запретить удаление',
+    preventDelete: 'Запретить удаление',
 
     // Страница редактирования карточки
     changeCardWarningModalText: 'Эта карточка заполнена не до конца: в ней есть пустые поля.',
 
     // Модкала с диалогом
     saveBeforeExit: 'Сохранить перед выходом?',
-    doYouSure:"Вы уверены, что хотите выйти ?",
+    sureExit: 'Вы уверены, что хотите выйти ?',
+    sureCancel: 'Вы уверены, что хотите отменить создание ?',
     deleteAlert: 'Удалить свойство и данные? ',
     answerIsYes: 'Да',
     answerIsNo: 'Нет'
