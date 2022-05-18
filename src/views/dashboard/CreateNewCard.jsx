@@ -11,7 +11,7 @@ import { useQuery } from '../../utils/hooks'
 
 const createCardStore = new CreateCardStore()
 
-const CreateNewCard = observer(({ userIsAdmin = true }) => {
+const CreateNewCard = observer(() => {
     const intl = useIntl()
     const targetSaveButton = useRef(null)
     const [showTooltip, setShowTooltip] = useState(false)
@@ -142,7 +142,7 @@ const CreateNewCard = observer(({ userIsAdmin = true }) => {
                             <p>
                                 <FormattedMessage id="newCardWarningModalText" />
                             </p>
-                            {userIsAdmin && (
+                            {createCardStore.ownerOption == 1 && (
                                 <Form>
                                     <Form.Group className="mb-2">
                                         <Form.Check
