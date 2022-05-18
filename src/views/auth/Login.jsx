@@ -38,7 +38,6 @@ const Login = ({ authStore }) => {
         <Container>
             <Row className="justify-content-center">
                 <Col lg={'4'}>
-                    {/* <div className="container login"> */}
                     <span className="login__span">
                         <FormattedMessage id="loginTitle" />
                     </span>
