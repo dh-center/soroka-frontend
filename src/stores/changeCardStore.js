@@ -1,4 +1,5 @@
 import { makeAutoObservable } from 'mobx'
+import { AuthAPI } from '../api/auth'
 import { CardsAPI } from '../api/cards'
 
 export default class ChangeCardStore {
@@ -8,6 +9,14 @@ export default class ChangeCardStore {
     isUserNotChangedProperties = true
     hasEmptyProperties = false
 
+    prohibitUpdate = false
+
+    organizationOption = '1000'
+    ownerOption = '2'
+
+    userRole = '2'
+    cardInfo = {}
+    nameOfCard = ''
     constructor() {
         this.setHasEmptyProperties()
         makeAutoObservable(this)
@@ -16,7 +25,35 @@ export default class ChangeCardStore {
     setIsUserNotChangedProperties(index, newValue) {
         return this.startValuesOfObservingArray[index].data === newValue
     }
+    async setOrganiztionAndOwner() {
+        const res = await AuthAPI.getUserProfile()
+        console.log(res.data)
+        this.organizationOption = res.data.organization
+        this.ownerOption = res.data.userRole
+        this.userRole = res.data.userRole
+    }
+    setCardInfo(data) {
+        this.cardInfo = data
+        this.nameOfCard = data.name
+    }
 
+    changeNameOfCard(value) {
+        this.nameOfCard = value
+        this.isUserNotChangedProperties = false
+    }
+    toggleProhibitUpdate() {
+        this.prohibitUpdate = !this.prohibitUpdate
+        this.isUserNotChangedProperties = false
+    }
+    setOrganizationOption(value) {
+        this.organizationOption = value
+        this.isUserNotChangedProperties = false
+    }
+
+    setOwnerOption(value) {
+        this.ownerOption = value
+        this.isUserNotChangedProperties = false
+    }
     changeValue(index, newValue) {
         this.observingArray[index].data = newValue
         this.isUserNotChangedProperties = this.setIsUserNotChangedProperties(index, newValue)
@@ -33,6 +70,12 @@ export default class ChangeCardStore {
         this.observingArray.map(({ name, propertyId, data, id }) =>
             CardsAPI.updatePropertyById(id, { name, propertyId, data })
         )
+        CardsAPI.updateCardById(this.cardInfo.id, {
+            name: this.nameOfCard,
+            userId: this.ownerOption,
+            organizationId: this.organizationOption,
+            preventDelete: this.prohibitUpdate
+        })
     }
 
     setHasEmptyProperties() {
