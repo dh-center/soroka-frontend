@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import '../../views/dashboard/dashboardGlobal.css'
 import './SaveAlert.css'
 
