@@ -67,15 +67,18 @@ export default class ChangeCardStore {
     }
 
     async saveProperties() {
+        
         this.observingArray.map(({ name, propertyId, data, id }) =>
             CardsAPI.updatePropertyById(id, { name, propertyId, data })
         )
-        CardsAPI.updateCardById(this.cardInfo.id, {
+        console.log(this.nameOfCard,this.ownerOption,this.organizationOption,this.prohibitUpdate)
+        const res = await CardsAPI.updateCardById(this.cardInfo.id, {
             name: this.nameOfCard,
             userId: this.ownerOption,
             organizationId: this.organizationOption,
             preventDelete: this.prohibitUpdate
         })
+        this.nameOfCard = res.data.name
     }
 
     setHasEmptyProperties() {

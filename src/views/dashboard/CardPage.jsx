@@ -84,7 +84,7 @@ const CardPage = observer(() => {
                         </Col>
 
                         <Col md="8">
-                            <h3 className="current-card__current-title">{nameOfCard}</h3>
+                            <h3 className="current-card__current-title">{changeCardStore.nameOfCard}</h3>
                         </Col>
                     </Row>
 
