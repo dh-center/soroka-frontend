@@ -148,7 +148,7 @@ const CreateNewCard = observer(() => {
                             <p>
                                 <FormattedMessage id="newCardWarningModalText" />
                             </p>
-                            {createCardStore.ownerOption == 1 && (
+                            {createCardStore.userRole == 1 && (
                                 <Form>
                                     <Form.Group className="mb-2">
                                         <Form.Check
@@ -272,7 +272,7 @@ const CreateNewCard = observer(() => {
                             <Form.Label className="me-2 new-property__label" role="button">
                                 <FormattedMessage id="property" />
                             </Form.Label>
-                            <Form.Control type="text" placeholder={placeholder} disabled role="button" />
+                            <Form.Control type="text" placeholder={placeholder}  role="button" />
                         </Form.Group>
                         <Form.Group
                             className="mb-4 d-flex align-items-center flex-row create-new-card__new-property"
@@ -282,7 +282,7 @@ const CreateNewCard = observer(() => {
                             <Form.Label className="me-2" role="button">
                                 <FormattedMessage id="property" />
                             </Form.Label>
-                            <Form.Control type="text" placeholder={placeholder} disabled role="button" />
+                            <Form.Control type="text" placeholder={placeholder}  role="button" />
                         </Form.Group>
                     </div>
                 </Modal.Body>
@@ -305,7 +305,6 @@ const CreateNewCard = observer(() => {
                     handleSubmit={async () => {
                         nav(CARDS_ROUTE)
                     }}
-                    handleClose={() => {}}
                     setShow={setShowDialog}
                 />
             )}
