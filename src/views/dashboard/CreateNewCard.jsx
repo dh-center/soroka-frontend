@@ -9,6 +9,7 @@ import { CARDS_ROUTE, getCardsRoute } from '../../utils/routes'
 import { FormattedMessage, useIntl } from 'react-intl'
 import { useQuery } from '../../utils/hooks'
 import CommonDialog from '../../components/common/CommonDialog'
+import { USER_ROLES } from '../../utils/constants'
 
 const createCardStore = new CreateCardStore()
 
@@ -148,7 +149,7 @@ const CreateNewCard = observer(() => {
                             <p>
                                 <FormattedMessage id="newCardWarningModalText" />
                             </p>
-                            {createCardStore.userRole == 1 && (
+                            {createCardStore.userRole == USER_ROLES.admin && (
                                 <Form>
                                     <Form.Group className="mb-2">
                                         <Form.Check

@@ -6,13 +6,17 @@ import './dashboardGlobal.css'
 import { observer } from 'mobx-react'
 import ChangeCardStore from '../../stores/changeCardStore'
 import { CARDS_ROUTE } from '../../utils/routes'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, useIntl } from 'react-intl'
 import { CardsAPI } from '../../api/cards'
 import CommonDialog from '../../components/common/CommonDialog'
+import { USER_ROLES } from '../../utils/constants'
 
 const changeCardStore = new ChangeCardStore()
 
 const CardPage = observer(() => {
+    const intl = useIntl()
+    const placeholder = intl.formatMessage({ id: 'placeholderNewCard' })
+
     const [showDeleteButton, setShowDeleteButton] = useState(false)
     const [nameOfCard, setNameOfCard] = useState()
     const [show, setShow] = useState(false)
@@ -39,9 +43,11 @@ const CardPage = observer(() => {
 
     useEffect(() => {
         changeCardStore.getPropertiesFromCardById(id)
+        changeCardStore.setOrganiztionAndOwner()
         CardsAPI.getCardByid(id).then((res) => {
             setCardInfo(res.data)
             setNameOfCard(res.data.name)
+            changeCardStore.setCardInfo(res.data)
         })
     }, [])
 
@@ -62,8 +68,7 @@ const CardPage = observer(() => {
                                         height="24"
                                         viewBox="0 0 26 24"
                                         fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                    >
+                                        xmlns="http://www.w3.org/2000/svg">
                                         <path d="M22.7076 12L3.99284 12" stroke="black" strokeLinecap="round" />
                                         <path
                                             d="M10.2311 6L3.99281 12L10.2311 18"
@@ -87,6 +92,17 @@ const CardPage = observer(() => {
                         <Col>
                             <Form>
                                 <div className="current-card__properties offset-md-1">
+                                    <Form.Group className="mb-4 d-flex align-items-center flex-row">
+                                        <Form.Label className="me-2 col-xl-2 col-sm-3">
+                                            <FormattedMessage id="nameOfCard" />
+                                        </Form.Label>
+                                        <Form.Control
+                                            type="text"
+                                            placeholder={placeholder}
+                                            value={changeCardStore.nameOfCard}
+                                            onChange={(event) => changeCardStore.changeNameOfCard(event.target.value)}
+                                        />
+                                    </Form.Group>
                                     {changeCardStore.observingArray.map((element, index) => {
                                         // if (element.type == 'text') {
                                         return (
@@ -117,28 +133,12 @@ const CardPage = observer(() => {
                                                             setPropertieId(element.id)
 
                                                             setShowDialogModal(true)
-                                                        }}
-                                                    >
+                                                        }}>
                                                         Удалить
                                                     </button>
                                                 )}
                                             </div>
                                         )
-                                        // } else if (element.type == 'select') {
-                                        //     return (
-                                        //         <Form.Group className="mb-4 d-flex align-items-center flex-row">
-                                        //             <Form.Label className="me-2 col-xl-2 col-sm-3">
-                                        //                 {element.name}
-                                        //             </Form.Label>
-                                        //             <Form.Select aria-label="Default select example">
-                                        //                 <option>{element.value}</option>
-                                        //                 <option value="1">One</option>
-                                        //                 <option value="2">Two</option>
-                                        //                 <option value="3">Three</option>
-                                        //             </Form.Select>
-                                        //         </Form.Group>
-                                        //     )
-                                        // }
                                     })}
                                 </div>
 
@@ -147,15 +147,13 @@ const CardPage = observer(() => {
                                     ref={target}
                                     onMouseOver={() => setShow(true)}
                                     onMouseOut={() => setShow(false)}
-                                    onClick={(event) => event.preventDefault()}
-                                >
+                                    onClick={(event) => event.preventDefault()}>
                                     <svg
                                         width="24"
                                         height="24"
                                         viewBox="0 0 24 24"
                                         fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                    >
+                                        xmlns="http://www.w3.org/2000/svg">
                                         <path d="M20 12H4" stroke="black" strokeLinecap="round" />
                                         <path d="M12 4V20" stroke="black" strokeLinecap="round" />
                                     </svg>
@@ -184,19 +182,58 @@ const CardPage = observer(() => {
                                     <FormattedMessage id="changeCardWarningModalText" />
                                 </p>
                             )}
-
+                            {changeCardStore.userRole == USER_ROLES.admin && (
+                                <Form>
+                                    <Form.Group className="mb-2">
+                                        <Form.Check
+                                            id={'preventDeletion'}
+                                            type={'checkbox'}
+                                            label={<FormattedMessage id="preventDelete" />}
+                                            onClick={() => {
+                                                changeCardStore.toggleProhibitUpdate()
+                                            }}
+                                        />
+                                    </Form.Group>
+                                    <Form.Select
+                                        id={'chooseOrganization'}
+                                        className="mb-2"
+                                        defaultValue="10"
+                                        onClick={(e) => {
+                                            changeCardStore.setOrganizationOption(e.target.value)
+                                        }}>
+                                        <option value="10" disabled>
+                                            <FormattedMessage id="organization" />
+                                        </option>
+                                        <option value="1">One</option>
+                                        <option value="2">Two</option>
+                                        <option value="3">Three</option>
+                                    </Form.Select>
+                                    <Form.Select
+                                        id={'chooseOwner'}
+                                        className="mb-2"
+                                        defaultValue="10"
+                                        onClick={(e) => {
+                                            changeCardStore.setOwnerOption(e.target.value)
+                                        }}>
+                                        <option value="10" disabled>
+                                            <FormattedMessage id="owner" />
+                                        </option>
+                                        <option value="1">One</option>
+                                        <option value="2">Two</option>
+                                        <option value="3">Three</option>
+                                    </Form.Select>
+                                </Form>
+                            )}
                             <button
                                 className="dashboard-button"
                                 disabled={changeCardStore.isUserNotChangedProperties}
-                                onClick={handleSave}
-                            >
+                                onClick={handleSave}>
                                 <svg
                                     width="26"
                                     height="24"
                                     viewBox="0 0 26 24"
                                     fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
+                                    xmlns="http://www.w3.org/2000/svg">
                                     <path
                                         fillRule="evenodd"
                                         clipRule="evenodd"
