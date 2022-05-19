@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Col, Container, Row, Modal } from 'react-bootstrap'
 import { LANGUAGES } from '../../utils/constants'
 import { FormattedMessage } from 'react-intl'
