@@ -86,9 +86,9 @@ const Login = ({ authStore }) => {
                         <div className="login__submit">
                             <input type={'submit'} className="registration__submit-button" value={'Войти'} />
 
-                            <Link to={REGISTRATION_ROUTE} className={'link'}>
+                            {/* <Link to={REGISTRATION_ROUTE} className={'link'}>
                                 Регистрация
-                            </Link>
+                            </Link> */}
                         </div>
 
                         <div className="login__wrong-auth">

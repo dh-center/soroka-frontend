@@ -10,6 +10,7 @@ import { FormattedMessage, useIntl } from 'react-intl'
 import { CardsAPI } from '../../api/cards'
 import CommonDialog from '../../components/common/CommonDialog'
 import { USER_ROLES } from '../../utils/constants'
+import Property from '../../components/dashboard/Property'
 
 const changeCardStore = new ChangeCardStore()
 
@@ -17,7 +18,7 @@ const CardPage = observer(() => {
     const intl = useIntl()
     const placeholder = intl.formatMessage({ id: 'placeholderNewCard' })
 
-    const [showDeleteButton, setShowDeleteButton] = useState(false)
+    // const [showDeleteButton, setShowDeleteButton] = useState(false)
     const [nameOfCard, setNameOfCard] = useState()
     const [show, setShow] = useState(false)
     const [showSaveModal, setShowSaveModal] = useState(false)
@@ -42,6 +43,7 @@ const CardPage = observer(() => {
     }
 
     useEffect(() => {
+        console.log(changeCardStore.observingArray)
         changeCardStore.getPropertiesFromCardById(id)
         changeCardStore.setOrganiztionAndOwner()
         CardsAPI.getCardByid(id).then((res) => {
@@ -84,7 +86,11 @@ const CardPage = observer(() => {
                         </Col>
 
                         <Col md="8">
-                            <h3 className="current-card__current-title">{changeCardStore.nameOfCard}</h3>
+                            <h3
+                                className="current-card__current
+                            -title">
+                                {changeCardStore.nameOfCard}
+                            </h3>
                         </Col>
                     </Row>
 
@@ -106,38 +112,46 @@ const CardPage = observer(() => {
                                     {changeCardStore.observingArray.map((element, index) => {
                                         // if (element.type == 'text') {
                                         return (
-                                            <div className="mb-4 d-flex flex-column align-items-end" key={element.id}>
-                                                <Form.Group className="mb-2 d-flex align-items-center flex-row w-100">
-                                                    <Form.Label className="me-2 col-xl-2 col-sm-3">
-                                                        {element.name}
-                                                    </Form.Label>
-                                                    <Form.Control
-                                                        as="textarea"
-                                                        style={{ height: '84px' }}
-                                                        type="text"
-                                                        placeholder=""
-                                                        value={element.data}
-                                                        onChange={(event) => {
-                                                            changeCardStore.changeValue(index, event.target.value)
-                                                        }}
-                                                        onFocus={() => {
-                                                            if (!cardInfo.preventDelete) setShowDeleteButton(true)
-                                                        }}
-                                                    />
-                                                </Form.Group>
-                                                {showDeleteButton && (
-                                                    <button
-                                                        className="btn btn-danger"
-                                                        type="button"
-                                                        onClick={() => {
-                                                            setPropertieId(element.id)
+                                            <Property
+                                                element={element}
+                                                index={index}
+                                                store={changeCardStore}
+                                                // showDeleteButton={showDeleteButton}
+                                                // setShowDeleteButton={setShowDeleteButton}
+                                                setShowDialogModall = {setShowDialogModal}
+                                            />
+                                            // <div className="mb-4 d-flex flex-column align-items-end" key={element.id}>
+                                            //     <Form.Group className="mb-2 d-flex align-items-center flex-row w-100">
+                                            //         <Form.Label className="me-2 col-xl-2 col-sm-3">
+                                            //             {element.name}
+                                            //         </Form.Label>
+                                            //         <Form.Control
+                                            //             as="textarea"
+                                            //             style={{ height: '84px' }}
+                                            //             type="text"
+                                            //             placeholder=""
+                                            //             value={element.data}
+                                            //             onChange={(event) => {
+                                            //                 changeCardStore.changeValue(index, event.target.value)
+                                            //             }}
+                                            //             onFocus={() => {
+                                            //                 if (!cardInfo.preventDelete) setShowDeleteButton(true)
+                                            //             }}
+                                            //         />
+                                            //     </Form.Group>
+                                            //     {showDeleteButton && (
+                                            //         <button
+                                            //             className="btn btn-danger"
+                                            //             type="button"
+                                            //             onClick={() => {
+                                            //                 setPropertieId(element.id)
 
-                                                            setShowDialogModal(true)
-                                                        }}>
-                                                        Удалить
-                                                    </button>
-                                                )}
-                                            </div>
+                                            //                 setShowDialogModal(true)
+                                            //             }}>
+                                            //             Удалить
+                                            //         </button>
+                                            //     )}
+                                            // </div>
                                         )
                                     })}
                                 </div>
@@ -267,7 +281,7 @@ const CardPage = observer(() => {
                     </div>
                 </Col>
             </Row>
-            <CommonDialog
+            {/* <CommonDialog
                 formattesMessageTitleId="deleteAlert"
                 handleSubmit={async () => {
                     await CardsAPI.deleteFilledPropertiesByCardId(cardInfo.id, {
@@ -278,7 +292,7 @@ const CardPage = observer(() => {
                 }}
                 show={showDialogModal}
                 setShow={setShowDialogModal}
-            />
+            /> */}
             <Modal show={showSaveModal} onHide={() => setShowSaveModal(false)}>
                 <Modal.Body>
                     <FormattedMessage id="saveCard" />
