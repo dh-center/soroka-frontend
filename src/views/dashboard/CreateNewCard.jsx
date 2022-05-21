@@ -45,7 +45,10 @@ const CreateNewCard = observer(() => {
                 <Col md="9">
                     <Row className="mb-4 d-flex align-items-center">
                         <Col md="4">
-                            <div className="route-link" onClick={() => setShowDialog(true)}>
+                            <div className="route-link" onClick={() => {
+                                setShowDialog(true)
+                                if (!createCardStore.isUserAddNewProperties) nav(CARDS_ROUTE)
+                                }}>
                                 <div className="dashboard-button back-to-list">
                                     <svg
                                         width="26"
@@ -288,7 +291,7 @@ const CreateNewCard = observer(() => {
                     </div>
                 </Modal.Body>
             </Modal>
-            {createCardStore.isUserAddNewProperties ? (
+            {createCardStore.isUserAddNewProperties && 
                 <CommonDialog
                     formattesMessageTitleId={'saveBeforeExit'}
                     show={showDialog}
@@ -299,16 +302,7 @@ const CreateNewCard = observer(() => {
                     handleClose={() => nav(CARDS_ROUTE)}
                     setShow={setShowDialog}
                 />
-            ) : (
-                <CommonDialog
-                    formattesMessageTitleId={'sureCancel'}
-                    show={showDialog}
-                    handleSubmit={async () => {
-                        nav(CARDS_ROUTE)
-                    }}
-                    setShow={setShowDialog}
-                />
-            )}
+                }
         </Container>
     )
 })

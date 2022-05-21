@@ -55,6 +55,7 @@ export default class ChangeCardStore {
         this.isUserNotChangedProperties = false
     }
     changeValue(index, newValue) {
+        console.log(this.observingArray[index].data)
         this.observingArray[index].data = newValue
         this.isUserNotChangedProperties = this.setIsUserNotChangedProperties(index, newValue)
         this.setHasEmptyProperties()
@@ -85,6 +86,21 @@ export default class ChangeCardStore {
         this.hasEmptyProperties = false
         this.observingArray.forEach((el) => {
             this.hasEmptyProperties = this.hasEmptyProperties || !el.data.trim()
+        })
+    }
+
+    deletePropertyLocal(id){
+        // copyOfArray = this.observingArray.
+        this.observingArray
+        .copyWithin()
+        .forEach((el,index)=>{
+            if (el.id ===id){
+                console.log(id,index)
+                console.log(this.observingArray)
+                this.observingArray.splice(index,1)
+                console.log(this.observingArray,"SSSSSSS")
+                this.isUserNotChangedProperties= false
+            }
         })
     }
 }
