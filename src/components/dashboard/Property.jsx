@@ -31,7 +31,6 @@ const Property =observer( ({ element, index, store, setShowDialogModall }) => {
                         className="btn btn-danger"
                         type="button"
                         onClick={() => {
-                            // setPropertieId(element.id)
                             setShowDialogModal(true)
                         }}>
                         Удалить
@@ -41,12 +40,7 @@ const Property =observer( ({ element, index, store, setShowDialogModall }) => {
             <CommonDialog
                 formattesMessageTitleId="deleteAlert"
                 handleSubmit={async () => {
-                    // await CardsAPI.deleteFilledPropertiesByCardId(cardInfo.id, {
-                    //     data: { filledPropertyId: propertieId }
-                    // })
                     store.deletePropertyLocal(element.id)
-
-                    // setPropertieDeleted(!propertieDeleted)
                     setShowDialogModal(false)
                 }}
                 show={showDialogModal}

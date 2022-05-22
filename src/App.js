@@ -22,13 +22,21 @@ import { message } from './lang/message'
 import BaseStore from './stores/baseStore'
 import { observer } from 'mobx-react'
 import AuthStore from './stores/authStore'
-import React, { useEffect } from 'react'
+import React, {  useEffect } from 'react'
+import { organizationsAPI } from './api/organizations'
+import { mainContext } from './context/mainContext'
 
 const baseStore = new BaseStore()
 export const authStore = new AuthStore()
 
 const App = observer(() => {
+    const {Provider} = mainContext
     useEffect(() => {
+        async function getOrg(){
+            const res =await organizationsAPI.getOrganizations()
+            baseStore.setOrganizations(res.data)
+        }
+
         async function checkCurrentUserTokens() {
             const accessToken = localStorage.getItem('accessToken')
             const refreshToken = localStorage.getItem('refreshToken')
@@ -40,31 +48,32 @@ const App = observer(() => {
                 await authStore.getUserProfile()
             }
         }
-
+        getOrg()
         checkCurrentUserTokens()
     })
 
     return (
         <BrowserRouter>
-            <IntlProvider
-                defaultLocale={LOCALES.RUSSIAN}
-                locale={baseStore.uiLang}
-                messages={message[baseStore.uiLang]}
-            >
-                <div className="App">
-                    <Header baseStore={baseStore} authStore={authStore} />
-                    <Routes>
-                        <Route path={LOGIN_ROUTE} element={<Login authStore={authStore} />} />
-                        <Route path="/" element={<Navigate replace to={LOGIN_ROUTE} />} />
-                        <Route path={REGISTRATION_ROUTE} element={<Registration />} />
-                        <Route path={CARDS_ROUTE} element={<Dashboard />} />
-                        <Route path={getCardByIdRoute()} element={<CardPage />} />
-                        <Route path={getCreateCardRoute()} element={<CreateNewCard />} />
-                        <Route path={getCreateCardWithTemplatesRoute()} element={<CardTemplates />} />
-                        <Route path="*" element={<div>404</div>} />
-                    </Routes>
-                </div>
-            </IntlProvider>
+            <Provider value={baseStore}>
+                <IntlProvider
+                    defaultLocale={LOCALES.RUSSIAN}
+                    locale={baseStore.uiLang}
+                    messages={message[baseStore.uiLang]}>
+                    <div className="App">
+                        <Header baseStore={baseStore} authStore={authStore} />
+                        <Routes>
+                            <Route path={LOGIN_ROUTE} element={<Login authStore={authStore} />} />
+                            <Route path="/" element={<Navigate replace to={LOGIN_ROUTE} />} />
+                            <Route path={REGISTRATION_ROUTE} element={<Registration />} />
+                            <Route path={CARDS_ROUTE} element={<Dashboard />} />
+                            <Route path={getCardByIdRoute()} element={<CardPage />} />
+                            <Route path={getCreateCardRoute()} element={<CreateNewCard />} />
+                            <Route path={getCreateCardWithTemplatesRoute()} element={<CardTemplates />} />
+                            <Route path="*" element={<div>404</div>} />
+                        </Routes>
+                    </div>
+                </IntlProvider>
+            </Provider>
         </BrowserRouter>
     )
 })
