@@ -41,6 +41,9 @@ export default class ChangeCardStore {
         this.nameOfCard = value
         this.isUserNotChangedProperties = false
     }
+    checkDataIsEmpty(el){
+        if(el.data.trim() === "") return true
+    }
     toggleProhibitUpdate() {
         this.prohibitUpdate = !this.prohibitUpdate
         this.isUserNotChangedProperties = false
