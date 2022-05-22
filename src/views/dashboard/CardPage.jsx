@@ -178,9 +178,9 @@ const CardPage = observer(() => {
                                                 onClick={(e) => {
                                                     changeCardStore.setOrganizationOption(e.target.value)
                                                 }}>
-                                                <option value="10" disabled>
+                                                {/* <option value="10" disabled>
                                                     <FormattedMessage id="organization" />
-                                                </option>
+                                                </option> */}
                                                 {baseStore.organizations.map((el) => {
                                                     return (
                                                         <option key={el.id} value={el.id}>
@@ -196,9 +196,9 @@ const CardPage = observer(() => {
                                                 onClick={(e) => {
                                                     changeCardStore.setOwnerOption(e.target.value)
                                                 }}>
-                                                <option value="10" disabled>
+                                                {/* <option value="10" disabled>
                                                     <FormattedMessage id="owner" />
-                                                </option>
+                                                </option> */}
                                                 {owners.map((el) => {
                                                     console.log(el)
                                                     return (
