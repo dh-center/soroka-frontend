@@ -12,6 +12,7 @@ import CommonDialog from '../../components/common/CommonDialog'
 import { USER_ROLES } from '../../utils/constants'
 import { mainContext } from '../../context/mainContext'
 import { organizationsAPI } from '../../api/organizations'
+import Property from '../../components/dashboard/Property'
 
 const createCardStore = new CreateCardStore()
 
@@ -24,6 +25,7 @@ const CreateNewCard = observer(() => {
     const [show, setShow] = useState(false)
     const handleClose = () => setShow(false)
     const handleShow = () => setShow(true)
+    const [nameOfCard,setNameOfCard] = useState("")
     const nav = useNavigate()
     const [showDialog, setShowDialog] = useState(false)
     const [owners, setOwners] = useState([{}])
@@ -97,9 +99,10 @@ const CreateNewCard = observer(() => {
                                                 <Form.Control
                                                     type="text"
                                                     placeholder={placeholder}
-                                                    value={createCardStore.nameOfCard}
+                                                    value={nameOfCard}
                                                     onChange={(event) =>
-                                                        createCardStore.changeNameOfCard(event.target.value)
+                                                        {setNameOfCard(event.target.value)
+                                                        createCardStore.changeNameOfCard(event.target.value)}
                                                     }
                                                 />
                                             </Form.Group>
@@ -119,21 +122,23 @@ const CreateNewCard = observer(() => {
 
                                             {createCardStore.arrayWithNewProperties.map((el, index) => {
                                                 return (
-                                                    <Form.Group
-                                                        className="mb-4 d-flex align-items-center flex-row"
-                                                        key={el.propertyId}>
-                                                        <Form.Label className="me-2 col-xl-2 col-sm-3">
-                                                            {el.name}
-                                                        </Form.Label>
-                                                        <Form.Control
-                                                            type="text"
-                                                            placeholder={placeholder}
-                                                            value={el.data}
-                                                            onChange={(event) =>
-                                                                createCardStore.changeValue(index, event.target.value)
-                                                            }
-                                                        />
-                                                    </Form.Group>
+                                                    <Property key={el.id} element={el} index={index} store={createCardStore} />
+
+                                                    // <Form.Group
+                                                    //     className="mb-4 d-flex align-items-center flex-row"
+                                                    //     key={el.propertyId}>
+                                                    //     <Form.Label className="me-2 col-xl-2 col-sm-3">
+                                                    //         {el.name}
+                                                    //     </Form.Label>
+                                                    //     <Form.Control
+                                                    //         type="text"
+                                                    //         placeholder={placeholder}
+                                                    //         value={el.data}
+                                                    //         onChange={(event) =>
+                                                    //             createCardStore.changeValue(index, event.target.value)
+                                                    //         }
+                                                    //     />
+                                                    // </Form.Group>
                                                 )
                                             })}
                                         </div>

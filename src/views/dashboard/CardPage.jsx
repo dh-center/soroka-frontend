@@ -19,20 +19,17 @@ const changeCardStore = new ChangeCardStore()
 const CardPage = observer(() => {
     const { Consumer } = mainContext
 
-    const setIsFilled = useParams().setIsFilled
     const intl = useIntl()
     const placeholder = intl.formatMessage({ id: 'placeholderNewCard' })
-    const [nameOfCard, setNameOfCard] = useState()
+    const [nameOfCard, setNameOfCard] = useState("")
     const [show, setShow] = useState(false)
     const [showSaveModal, setShowSaveModal] = useState(false)
     const [cardInfo, setCardInfo] = useState({})
-    const [showDialogModal, setShowDialogModal] = useState(false)
     const [propertieDeleted, setPropertieDeleted] = useState(false)
-    const [propertieId, setPropertieId] = useState(1)
     const target = useRef(null)
     const { id } = useParams()
     const [owners, setOwners] = useState([{}])
-
+    const [userId, setUserId] = useState('1')
     const handleSave = () => {
         changeCardStore.saveProperties()
         setShowSaveModal(true)
@@ -47,7 +44,10 @@ const CardPage = observer(() => {
 
         CardsAPI.getCardByid(id).then((res) => {
             setCardInfo(res.data)
+            // console.log()
+            setUserId(res.data.userId)
             setNameOfCard(res.data.name)
+            changeCardStore.changeNameOfCard(nameOfCard)
             changeCardStore.setCardInfo(res.data)
         })
     }, [])
@@ -90,7 +90,7 @@ const CardPage = observer(() => {
                                     <h3
                                         className="current-card__current
                             -title">
-                                        {changeCardStore.nameOfCard}
+                                        {nameOfCard}
                                     </h3>
                                 </Col>
                             </Row>
@@ -106,15 +106,20 @@ const CardPage = observer(() => {
                                                 <Form.Control
                                                     type="text"
                                                     placeholder={placeholder}
-                                                    value={changeCardStore.nameOfCard}
-                                                    onChange={(event) =>
+                                                    value={nameOfCard}
+                                                    onChange={(event) => {
+                                                        setNameOfCard(event.target.value)
                                                         changeCardStore.changeNameOfCard(event.target.value)
-                                                    }
+                                                    }}
                                                 />
                                             </Form.Group>
                                             {changeCardStore.observingArray.map((element, index) => {
                                                 return (
-                                                    <Property element={element} index={index} store={changeCardStore} />
+                                                    <Property
+                                                        element={element}
+                                                        index={index}
+                                                        store={changeCardStore}
+                                                    />
                                                 )
                                             })}
                                         </div>
@@ -194,13 +199,20 @@ const CardPage = observer(() => {
                                                 className="mb-2"
                                                 defaultValue="10"
                                                 onClick={(e) => {
+                                                    console.log(owners[cardInfo.userId].name)
                                                     changeCardStore.setOwnerOption(e.target.value)
                                                 }}>
-                                                {/* <option value="10" disabled>
-                                                    <FormattedMessage id="owner" />
+                                                {/* <option  disabled>
+                                                    {owners[userId].name}
                                                 </option> */}
                                                 {owners.map((el) => {
-                                                    console.log(el)
+                                                    if (el.id == userId) {
+                                                        return (
+                                                            <option key={el.id} value={el.id} disabled>
+                                                                {el.name}
+                                                            </option>
+                                                        )
+                                                    }
                                                     return (
                                                         <option key={el.id} value={el.id}>
                                                             {el.name}

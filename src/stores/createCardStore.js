@@ -11,7 +11,7 @@ export default class CreateCardStore {
     organizationOption = '1000'
     ownerOption = '2'
 
-    userRole ='2'
+    userRole = '2'
     cardId = 1
 
     constructor() {
@@ -69,5 +69,15 @@ export default class CreateCardStore {
             .map((el) => {
                 CardsAPI.createFilledPropertiesByCardId(this.cardId, el)
             })
+    }
+    deletePropertyLocal(id) {
+        this.arrayWithNewProperties.copyWithin().forEach((el, index) => {
+            if (el.id === id) {
+                console.log(id, index)
+                console.log(this.observingArray)
+                this.arrayWithNewProperties.splice(index, 1)
+                console.log(this.observingArray, 'SSSSSSS')
+            }
+        })
     }
 }
