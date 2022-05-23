@@ -12,7 +12,7 @@ const Login = ({ authStore }) => {
     const password = useRef(null)
     const nav = useNavigate()
     const passwordButtonHandler = (event) => {
-        const value = password.current.getAttribute('type') === 'password' ? 'password' : 'text'
+        const value = password.current.getAttribute('type') === 'password' ? 'text' : 'password'
         password.current.setAttribute('type', value)
     }
 

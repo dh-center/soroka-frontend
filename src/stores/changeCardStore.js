@@ -93,7 +93,6 @@ export default class ChangeCardStore {
     }
 
     deletePropertyLocal(id){
-        // copyOfArray = this.observingArray.
         this.observingArray
         .copyWithin()
         .forEach((el,index)=>{
