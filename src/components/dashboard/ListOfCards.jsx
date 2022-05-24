@@ -3,7 +3,7 @@ import { Col, Container, Row } from 'react-bootstrap'
 import { FormattedMessage } from 'react-intl'
 import { Link } from 'react-router-dom'
 import { CardsAPI } from '../../api/cards'
-import { getCardsRoute, getCreateCardWithTemplatesRoute } from '../../utils/routes'
+import { getCreateCardWithTemplatesRoute } from '../../utils/routes'
 import ListCard from './ListCard'
 import './ListOfCards.css'
 

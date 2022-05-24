@@ -8,7 +8,6 @@ import ChangeCardStore from '../../stores/changeCardStore'
 import { CARDS_ROUTE } from '../../utils/routes'
 import { FormattedMessage, useIntl } from 'react-intl'
 import { CardsAPI } from '../../api/cards'
-import CommonDialog from '../../components/common/CommonDialog'
 import { USER_ROLES } from '../../utils/constants'
 import Property from '../../components/dashboard/Property'
 import { mainContext } from '../../context/mainContext'
@@ -274,7 +273,7 @@ const CardPage = observer(() => {
             /> */}
                     <Modal show={showSaveModal} onHide={() => setShowSaveModal(false)}>
                         <Modal.Body>
-                            <FormattedMessage id="saveCard" />
+                            <FormattedMessage id="saved" />
                         </Modal.Body>
                     </Modal>
                 </Container>

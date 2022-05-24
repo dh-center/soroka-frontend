@@ -16,6 +16,7 @@ const Header = observer(({ avatarSrc, baseStore, authStore }) => {
         <Container>
             <Row className="justify-content-between align-items-center header p-2 mb-3">
                 <Col md="5">
+                    {/* TODO проверить здесь верстку (скоорее всего можно сделать одним authStore.currentUser) */}
                     {authStore.currentUser && (
                         <div className="header__user-info d-flex align-items-center">
                             <div className="header__avatar">

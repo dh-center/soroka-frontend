@@ -6,7 +6,7 @@ const Russian = {
     addPropertyTitle: 'Нажмите на нужное свойство, чтобы добавить его',
     placeholderNewCard: 'Новая карточка',
     tooltipAllPropertiesAlreadyAdded: 'Все возможные свойства уже добавлены',
-    saveCard: 'Вы успешно сохранили карточку !',
+    saved: 'Сохранено',
     property: 'Свойство',
     enity: 'Сущность',
     organization: 'Организация',
