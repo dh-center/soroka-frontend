@@ -9,13 +9,12 @@ function ListCard({
     srcOfPlaceholder = require('../../assets/Image.png'),
     element
 }) {
-    const [isFilled, setIsFilled] = useState(false)
     return (
         <Link className="route-link" to={`${getCardsRoute(element.id)}`}>
             <div className="card__wrap">
                 <div className="card__header">
                     <img src={srcOfPlaceholder} alt="" />
-                    {isFilled ? (
+                    {!element.isFilled ? (
                         <span className="card__is-complete">
                             <FormattedMessage id="notFilled" />
                         </span>

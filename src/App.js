@@ -22,7 +22,7 @@ import { message } from './lang/message'
 import BaseStore from './stores/baseStore'
 import { observer } from 'mobx-react'
 import AuthStore from './stores/authStore'
-import React, {  useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { organizationsAPI } from './api/organizations'
 import { mainContext } from './context/mainContext'
 
@@ -30,10 +30,10 @@ const baseStore = new BaseStore()
 export const authStore = new AuthStore()
 
 const App = observer(() => {
-    const {Provider} = mainContext
+    const { Provider } = mainContext
     useEffect(() => {
-        async function getOrg(){
-            const res =await organizationsAPI.getOrganizations()
+        async function getOrg() {
+            const res = await organizationsAPI.getOrganizations()
             baseStore.setOrganizations(res.data)
         }
 
@@ -58,7 +58,8 @@ const App = observer(() => {
                 <IntlProvider
                     defaultLocale={LOCALES.RUSSIAN}
                     locale={baseStore.uiLang}
-                    messages={message[baseStore.uiLang]}>
+                    messages={message[baseStore.uiLang]}
+                >
                     <div className="App">
                         <Header baseStore={baseStore} authStore={authStore} />
                         <Routes>

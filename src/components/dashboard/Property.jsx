@@ -3,14 +3,14 @@ import React, { useState } from 'react'
 import { Form } from 'react-bootstrap'
 import CommonDialog from '../common/CommonDialog'
 
-const Property = observer( ({ element, index, store }) => {
+const Property = observer(({ element, index, store }) => {
     const [showDialogModal, setShowDialogModal] = useState(false)
     const [showDeleteButton, setShowDeleteButton] = useState(false)
-    const [propertyDeleted,setPropertyDeleted] = useState(false)
+    const [propertyDeleted, setPropertyDeleted] = useState(false)
     return (
-        <>
+        <div key={element.id}>
             {!propertyDeleted && (
-                <div key={element.id} className="mb-4 d-flex flex-column align-items-end" key={element.id}>
+                <div className="mb-4 d-flex flex-column align-items-end" key={element.id}>
                     <Form.Group className="mb-2 d-flex align-items-center flex-row w-100">
                         <Form.Label className="me-2 col-xl-2 col-sm-3">{element.name}</Form.Label>
                         <Form.Control
@@ -33,7 +33,8 @@ const Property = observer( ({ element, index, store }) => {
                             type="button"
                             onClick={() => {
                                 setShowDialogModal(true)
-                            }}>
+                            }}
+                        >
                             Удалить
                         </button>
                     )}
@@ -50,7 +51,7 @@ const Property = observer( ({ element, index, store }) => {
                 show={showDialogModal}
                 setShow={setShowDialogModal}
             />
-        </>
+        </div>
     )
 })
 

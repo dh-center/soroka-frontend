@@ -25,7 +25,7 @@ const CreateNewCard = observer(() => {
     const [show, setShow] = useState(false)
     const handleClose = () => setShow(false)
     const handleShow = () => setShow(true)
-    const [nameOfCard,setNameOfCard] = useState("")
+    const [nameOfCard, setNameOfCard] = useState('')
     const nav = useNavigate()
     const [showDialog, setShowDialog] = useState(false)
     const [owners, setOwners] = useState([{}])
@@ -58,15 +58,17 @@ const CreateNewCard = observer(() => {
                                         className="route-link"
                                         onClick={() => {
                                             setShowDialog(true)
-                                            if (!createCardStore.isUserAddNewProperties) nav(CARDS_ROUTE)
-                                        }}>
+                                            if (createCardStore.saved) nav(CARDS_ROUTE)
+                                        }}
+                                    >
                                         <div className="dashboard-button back-to-list">
                                             <svg
                                                 width="26"
                                                 height="24"
                                                 viewBox="0 0 26 24"
                                                 fill="none"
-                                                xmlns="http://www.w3.org/2000/svg">
+                                                xmlns="http://www.w3.org/2000/svg"
+                                            >
                                                 <path d="M22.7076 12L3.99284 12" stroke="black" strokeLinecap="round" />
                                                 <path
                                                     d="M10.2311 6L3.99281 12L10.2311 18"
@@ -100,10 +102,10 @@ const CreateNewCard = observer(() => {
                                                     type="text"
                                                     placeholder={placeholder}
                                                     value={nameOfCard}
-                                                    onChange={(event) =>
-                                                        {setNameOfCard(event.target.value)
-                                                        createCardStore.changeNameOfCard(event.target.value)}
-                                                    }
+                                                    onChange={(event) => {
+                                                        setNameOfCard(event.target.value)
+                                                        createCardStore.changeNameOfCard(event.target.value)
+                                                    }}
                                                 />
                                             </Form.Group>
                                             <Form.Group className="mb-4 d-flex align-items-center flex-row">
@@ -122,36 +124,27 @@ const CreateNewCard = observer(() => {
 
                                             {createCardStore.arrayWithNewProperties.map((el, index) => {
                                                 return (
-                                                    <Property key={el.id} element={el} index={index} store={createCardStore} />
-
-                                                    // <Form.Group
-                                                    //     className="mb-4 d-flex align-items-center flex-row"
-                                                    //     key={el.propertyId}>
-                                                    //     <Form.Label className="me-2 col-xl-2 col-sm-3">
-                                                    //         {el.name}
-                                                    //     </Form.Label>
-                                                    //     <Form.Control
-                                                    //         type="text"
-                                                    //         placeholder={placeholder}
-                                                    //         value={el.data}
-                                                    //         onChange={(event) =>
-                                                    //             createCardStore.changeValue(index, event.target.value)
-                                                    //         }
-                                                    //     />
-                                                    // </Form.Group>
+                                                    <Property
+                                                        key={el.id}
+                                                        element={el}
+                                                        index={index}
+                                                        store={createCardStore}
+                                                    />
                                                 )
                                             })}
                                         </div>
                                     </Form>
                                     <button
                                         onClick={handleShow}
-                                        className="create-new-card__button dashboard-button d-flex align-items-center offset-md-3">
+                                        className="create-new-card__button dashboard-button d-flex align-items-center offset-md-3"
+                                    >
                                         <svg
                                             width="24"
                                             height="24"
                                             viewBox="0 0 24 24"
                                             fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
                                             <path d="M20 12H4" stroke="black" strokeLinecap="round" />
                                             <path d="M12 4V20" stroke="black" strokeLinecap="round" />
                                         </svg>
@@ -186,7 +179,8 @@ const CreateNewCard = observer(() => {
                                                 defaultValue="10"
                                                 onClick={(e) => {
                                                     createCardStore.setOrganizationOption(e.target.value)
-                                                }}>
+                                                }}
+                                            >
                                                 <option value="10" disabled>
                                                     <FormattedMessage id="organization" />
                                                 </option>
@@ -204,7 +198,8 @@ const CreateNewCard = observer(() => {
                                                 defaultValue="10"
                                                 onClick={(e) => {
                                                     createCardStore.setOwnerOption(e.target.value)
-                                                }}>
+                                                }}
+                                            >
                                                 <option value="10" disabled>
                                                     <FormattedMessage id="owner" />
                                                 </option>
@@ -221,20 +216,22 @@ const CreateNewCard = observer(() => {
 
                                     <button
                                         className="dashboard-button"
-                                        disabled={!createCardStore.isUserAddNewProperties}
+                                        disabled={createCardStore.saved}
                                         ref={targetSaveButton}
                                         onMouseOver={() => setShowTooltip(true)}
                                         onMouseOut={() => setShowTooltip(false)}
                                         onClick={async () => {
                                             await createCardStore.saveCard()
                                             nav(`${getCardsRoute(createCardStore.cardId)}?id=${createCardStore.cardId}`)
-                                        }}>
+                                        }}
+                                    >
                                         <svg
                                             width="26"
                                             height="24"
                                             viewBox="0 0 26 24"
                                             fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
                                             <path
                                                 fillRule="evenodd"
                                                 clipRule="evenodd"
@@ -265,7 +262,7 @@ const CreateNewCard = observer(() => {
                                         </span>
                                     </button>
 
-                                    {!createCardStore.isUserAddNewProperties && (
+                                    {createCardStore.saved && (
                                         <Overlay target={targetSaveButton.current} show={showTooltip} placement="right">
                                             {(props) => (
                                                 <Tooltip id="overlay-example" {...props}>
@@ -291,7 +288,8 @@ const CreateNewCard = observer(() => {
                                 <Form.Group
                                     className="mb-4 d-flex align-items-center flex-row create-new-card__new-property"
                                     onClick={handleAddNewProperties}
-                                    role="button">
+                                    role="button"
+                                >
                                     <Form.Label className="me-2 new-property__label" role="button">
                                         <FormattedMessage id="property" />
                                     </Form.Label>
@@ -300,7 +298,8 @@ const CreateNewCard = observer(() => {
                                 <Form.Group
                                     className="mb-4 d-flex align-items-center flex-row create-new-card__new-property"
                                     onClick={handleAddNewProperties}
-                                    role="button">
+                                    role="button"
+                                >
                                     <Form.Label className="me-2" role="button">
                                         <FormattedMessage id="property" />
                                     </Form.Label>
@@ -309,7 +308,7 @@ const CreateNewCard = observer(() => {
                             </div>
                         </Modal.Body>
                     </Modal>
-                    {createCardStore.isUserAddNewProperties && (
+                    {!createCardStore.saved && (
                         <CommonDialog
                             formattesMessageTitleId={'saveBeforeExit'}
                             show={showDialog}

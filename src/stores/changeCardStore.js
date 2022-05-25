@@ -6,7 +6,7 @@ export default class ChangeCardStore {
     observingArray = []
     startValuesOfObservingArray = []
 
-    isUserNotChangedProperties = true
+    saved = true
     hasEmptyProperties = false
 
     prohibitUpdate = false
@@ -39,28 +39,28 @@ export default class ChangeCardStore {
 
     changeNameOfCard(value) {
         this.nameOfCard = value
-        this.isUserNotChangedProperties = false
+        this.saved = false
     }
-    checkDataIsEmpty(el){
-        if(el.data.trim() === "") return true
+    checkDataIsEmpty(el) {
+        if (el.data.trim() === '') return true
     }
     toggleProhibitUpdate() {
         this.prohibitUpdate = !this.prohibitUpdate
-        this.isUserNotChangedProperties = false
+        this.saved = false
     }
     setOrganizationOption(value) {
         this.organizationOption = value
-        this.isUserNotChangedProperties = false
+        this.saved = false
     }
 
     setOwnerOption(value) {
         this.ownerOption = value
-        this.isUserNotChangedProperties = false
+        this.saved = false
     }
     changeValue(index, newValue) {
         console.log(this.observingArray[index].data)
         this.observingArray[index].data = newValue
-        this.isUserNotChangedProperties = this.setIsUserNotChangedProperties(index, newValue)
+        this.saved = this.setIsUserNotChangedProperties(index, newValue)
         this.setHasEmptyProperties()
     }
 
@@ -71,11 +71,10 @@ export default class ChangeCardStore {
     }
 
     async saveProperties() {
-        
         this.observingArray.map(({ name, propertyId, data, id }) =>
             CardsAPI.updatePropertyById(id, { name, propertyId, data })
         )
-        console.log(this.nameOfCard,this.ownerOption,this.organizationOption,this.prohibitUpdate)
+        console.log(this.nameOfCard, this.ownerOption, this.organizationOption, this.prohibitUpdate)
         const res = await CardsAPI.updateCardById(this.cardInfo.id, {
             name: this.nameOfCard,
             userId: this.ownerOption,
@@ -92,16 +91,14 @@ export default class ChangeCardStore {
         })
     }
 
-    deletePropertyLocal(id){
-        this.observingArray
-        .copyWithin()
-        .forEach((el,index)=>{
-            if (el.id ===id){
-                console.log(id,index)
+    deletePropertyLocal(id) {
+        this.observingArray.copyWithin().forEach((el, index) => {
+            if (el.id === id) {
+                console.log(id, index)
                 console.log(this.observingArray)
-                this.observingArray.splice(index,1)
-                console.log(this.observingArray,"SSSSSSS")
-                this.isUserNotChangedProperties= false
+                this.observingArray.splice(index, 1)
+                console.log(this.observingArray, 'SSSSSSS')
+                this.saved = false
             }
         })
     }

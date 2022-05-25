@@ -10,7 +10,7 @@ export default class BaseStore {
         this.uiLang = Object.values(LOCALES).includes(locale) ? locale : LOCALES.RUSSIAN
     }
 
-    setOrganizations(data){
+    setOrganizations(data) {
         this.organizations = data
     }
     setUiLang(payload) {

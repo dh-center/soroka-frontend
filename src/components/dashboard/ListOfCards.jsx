@@ -37,8 +37,8 @@ function ListOfCards() {
                     return (
                         <Col md="3" className="list-of-cards__card me-3" key={element.id}>
                             {/* <Link className="route-link" to={`${getCardsRoute(element.id)}`}> */}
-                                <ListCard key={element.id} titleOfCard={element.name} className="" element= {element}/>
-                                {/* </Link> */}
+                            <ListCard key={element.id} titleOfCard={element.name} className="" element={element} />
+                            {/* </Link> */}
                         </Col>
                     )
                 })}
