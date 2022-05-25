@@ -39,7 +39,13 @@ const Russian = {
     sureCancel: 'Вы уверены, что хотите отменить создание ?',
     deleteAlert: 'Удалить свойство и данные? ',
     answerIsYes: 'Да',
-    answerIsNo: 'Нет'
+    answerIsNo: 'Нет',
+    // Регистрация
+    placeholderName: 'Имя',
+    placeholderPhoneOrEmail: 'Почта или телефон',
+    placeholderPassword: 'Пароль',
+    placeholderRepeatPassword: 'Повторите пароль',
+    acceptsTermsOfUse: 'Принимаю правила соглашения'
 }
 
 export default Russian

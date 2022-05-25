@@ -1,3 +1,3 @@
-import React from "react";
+import React from 'react'
 
-export const mainContext = React.createContext("")
+export const mainContext = React.createContext('')

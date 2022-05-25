@@ -39,7 +39,13 @@ const English = {
     sureExit: 'Do you sure that you want exit?',
     sureCancel: 'Do you sure that you want cancel creating card?',
     answerIsYes: 'Yes',
-    answerIsNo: 'No'
+    answerIsNo: 'No',
+    // Регистрация
+    placeholderName: 'Name',
+    placeholderPhoneOrEmail: 'Email or phone',
+    placeholderPassword: 'Password',
+    placeholderRepeatPassword: 'Repeat password',
+    acceptsTermsOfUse: 'Accept terms of use'
 }
 
 export default English

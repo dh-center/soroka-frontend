@@ -20,7 +20,7 @@ const CardPage = observer(() => {
 
     const intl = useIntl()
     const placeholder = intl.formatMessage({ id: 'placeholderNewCard' })
-    const [nameOfCard, setNameOfCard] = useState("")
+    const [nameOfCard, setNameOfCard] = useState('')
     const [show, setShow] = useState(false)
     const [showSaveModal, setShowSaveModal] = useState(false)
     const [cardInfo, setCardInfo] = useState({})
@@ -32,7 +32,7 @@ const CardPage = observer(() => {
     const handleSave = () => {
         changeCardStore.saveProperties()
         setShowSaveModal(true)
-        changeCardStore.isUserNotChangedProperties = true
+        changeCardStore.saved = true
     }
 
     useEffect(() => {
@@ -43,17 +43,16 @@ const CardPage = observer(() => {
 
         CardsAPI.getCardByid(id).then((res) => {
             setCardInfo(res.data)
-            // console.log()
             setUserId(res.data.userId)
             setNameOfCard(res.data.name)
             changeCardStore.changeNameOfCard(nameOfCard)
             changeCardStore.setCardInfo(res.data)
         })
-    }, [])
+    }, [id])
 
     useEffect(() => {
         changeCardStore.getPropertiesFromCardById(id)
-    }, [propertieDeleted])
+    }, [propertieDeleted,id])
 
     return (
         <Consumer>
@@ -70,7 +69,8 @@ const CardPage = observer(() => {
                                                 height="24"
                                                 viewBox="0 0 26 24"
                                                 fill="none"
-                                                xmlns="http://www.w3.org/2000/svg">
+                                                xmlns="http://www.w3.org/2000/svg"
+                                            >
                                                 <path d="M22.7076 12L3.99284 12" stroke="black" strokeLinecap="round" />
                                                 <path
                                                     d="M10.2311 6L3.99281 12L10.2311 18"
@@ -88,7 +88,8 @@ const CardPage = observer(() => {
                                 <Col md="8">
                                     <h3
                                         className="current-card__current
-                            -title">
+                            -title"
+                                    >
                                         {nameOfCard}
                                     </h3>
                                 </Col>
@@ -114,11 +115,7 @@ const CardPage = observer(() => {
                                             </Form.Group>
                                             {changeCardStore.observingArray.map((element, index) => {
                                                 return (
-                                                    <Property
-                                                        element={element}
-                                                        index={index}
-                                                        store={changeCardStore}
-                                                    />
+                                                    <Property element={element} index={index} store={changeCardStore} />
                                                 )
                                             })}
                                         </div>
@@ -128,13 +125,15 @@ const CardPage = observer(() => {
                                             ref={target}
                                             onMouseOver={() => setShow(true)}
                                             onMouseOut={() => setShow(false)}
-                                            onClick={(event) => event.preventDefault()}>
+                                            onClick={(event) => event.preventDefault()}
+                                        >
                                             <svg
                                                 width="24"
                                                 height="24"
                                                 viewBox="0 0 24 24"
                                                 fill="none"
-                                                xmlns="http://www.w3.org/2000/svg">
+                                                xmlns="http://www.w3.org/2000/svg"
+                                            >
                                                 <path d="M20 12H4" stroke="black" strokeLinecap="round" />
                                                 <path d="M12 4V20" stroke="black" strokeLinecap="round" />
                                             </svg>
@@ -181,7 +180,8 @@ const CardPage = observer(() => {
                                                 defaultValue="10"
                                                 onClick={(e) => {
                                                     changeCardStore.setOrganizationOption(e.target.value)
-                                                }}>
+                                                }}
+                                            >
                                                 {baseStore.organizations.map((el) => {
                                                     return (
                                                         <option key={el.id} value={el.id}>
@@ -197,8 +197,8 @@ const CardPage = observer(() => {
                                                 onClick={(e) => {
                                                     console.log(owners[cardInfo.userId].name)
                                                     changeCardStore.setOwnerOption(e.target.value)
-                                                }}>
-
+                                                }}
+                                            >
                                                 {owners.map((el) => {
                                                     if (el.id == userId) {
                                                         return (
@@ -218,14 +218,16 @@ const CardPage = observer(() => {
                                     )}
                                     <button
                                         className="dashboard-button"
-                                        disabled={changeCardStore.isUserNotChangedProperties}
-                                        onClick={handleSave}>
+                                        disabled={changeCardStore.saved}
+                                        onClick={handleSave}
+                                    >
                                         <svg
                                             width="26"
                                             height="24"
                                             viewBox="0 0 26 24"
                                             fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
                                             <path
                                                 fillRule="evenodd"
                                                 clipRule="evenodd"
@@ -259,18 +261,6 @@ const CardPage = observer(() => {
                             </div>
                         </Col>
                     </Row>
-                    {/* <CommonDialog
-                formattesMessageTitleId="deleteAlert"
-                handleSubmit={async () => {
-                    await CardsAPI.deleteFilledPropertiesByCardId(cardInfo.id, {
-                        data: { filledPropertyId: propertieId }
-                    })
-                    setPropertieDeleted(!propertieDeleted)
-                    setShowDialogModal(false)
-                }}
-                show={showDialogModal}
-                setShow={setShowDialogModal}
-            /> */}
                     <Modal show={showSaveModal} onHide={() => setShowSaveModal(false)}>
                         <Modal.Body>
                             <FormattedMessage id="saved" />

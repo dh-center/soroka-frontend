@@ -5,6 +5,7 @@ import './Registration.css'
 import './auth.css'
 import { LOGIN_ROUTE } from '../../utils/routes'
 import { AuthAPI } from '../../api/auth'
+import { useIntl } from 'react-intl'
 
 function Registration() {
     const name = useRef(null)
@@ -12,7 +13,12 @@ function Registration() {
     const password = useRef(null)
     const repeatPassword = useRef(null)
     const acceptsTermsOfUse = useRef(null)
-
+    const intl = useIntl()
+    const placeholderName = intl.formatMessage({ id: 'placeholderName' })
+    const placeholderPassword = intl.formatMessage({ id: 'placeholderPawword' })
+    const placeholderRepeatPassword = intl.formatMessage({ id: 'placeholderRepeatPassword' })
+    const placeholderPhoneOrEmail = intl.formatMessage({ id: 'placeholderPhoneOrEmail' })
+    const labelAccept = intl.formatMessage({ id: 'acceptsTermsOfUse' })
     const passwordButtonHandler = () => {
         const value = password.current.getAttribute('type') === 'password' ? 'text' : 'password'
         password.current.setAttribute('type', value)
@@ -50,7 +56,7 @@ function Registration() {
                             <input
                                 ref={name}
                                 type="text"
-                                placeholder="Имя"
+                                placeholder={placeholderName}
                                 className="registration__input registration__email registration__password-wrap__password"
                                 required={true}
                             />
@@ -60,7 +66,7 @@ function Registration() {
                             <input
                                 ref={email}
                                 type="text"
-                                placeholder="Почта или телефон"
+                                placeholder={placeholderPhoneOrEmail}
                                 className="registration__input registration__email registration__password-wrap__password"
                                 required={true}
                             />
@@ -71,7 +77,7 @@ function Registration() {
                                 <input
                                     ref={password}
                                     type="password"
-                                    placeholder="Пароль"
+                                    placeholder={placeholderPassword}
                                     className="login__input login__password-wrap__password"
                                     required={true}
                                 />
@@ -102,7 +108,7 @@ function Registration() {
                                 <input
                                     ref={repeatPassword}
                                     type="password"
-                                    placeholder="Повторите пароль"
+                                    placeholder={placeholderRepeatPassword}
                                     className="registration__input registration__password-wrap__password"
                                     required={true}
                                 />
@@ -129,12 +135,7 @@ function Registration() {
                         </Form.Group>
 
                         <Form.Group>
-                            <Form.Check
-                                ref={acceptsTermsOfUse}
-                                type={'checkbox'}
-                                label={'Принимаю правила соглашения'}
-                                required={true}
-                            />
+                            <Form.Check ref={acceptsTermsOfUse} type={'checkbox'} label={labelAccept} required={true} />
                         </Form.Group>
 
                         <div className="registration__submit">
