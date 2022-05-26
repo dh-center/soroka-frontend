@@ -44,7 +44,10 @@ export default class ChangeCardStore {
         this.nameOfCard = value
         console.log(this.saved)
     }
-
+    addNewProperties(name, propertyId, data) {
+        this.observingArray.push({ name, propertyId, data })
+        this.setSaved(true)
+    }
     changeNameOfCard(value) {
         this.nameOfCard = value
         this.setSaved(true)

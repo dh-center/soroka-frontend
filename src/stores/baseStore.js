@@ -4,6 +4,7 @@ import { LOCALES } from '../lang/locales'
 export default class BaseStore {
     uiLang = LOCALES.RUSSIAN
     organizations = [{}]
+    allProperties =[{}]
     constructor() {
         makeAutoObservable(this)
         const locale = navigator.language
@@ -16,4 +17,5 @@ export default class BaseStore {
     setUiLang(payload) {
         this.uiLang = payload
     }
+
 }

@@ -45,7 +45,10 @@ const English = {
     placeholderPhoneOrEmail: 'Email or phone',
     placeholderPassword: 'Password',
     placeholderRepeatPassword: 'Repeat password',
-    acceptsTermsOfUse: 'Accept terms of use'
+    acceptsTermsOfUse: 'Accept terms of use',
+    // Свойства
+    ADRESS: 'Свойства',
+    LEGAL_NAME: 'Юридическое название'
 }
 
 export default English
