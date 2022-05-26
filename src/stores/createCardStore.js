@@ -4,7 +4,7 @@ import { CardsAPI } from '../api/cards'
 
 export default class CreateCardStore {
     nameOfCard = ''
-    arrayWithNewProperties = []
+    observingArray = []
     saved = true
 
     prohibitUpdate = false
@@ -28,18 +28,18 @@ export default class CreateCardStore {
 
     refreshCreatingCard() {
         this.nameOfCard = ''
-        this.arrayWithNewProperties = []
+        this.observingArray = []
         this.saved = true
         this.prohibitUpdate = false
     }
 
     addNewProperties(name, propertyId, data) {
         this.setOrganiztionAndOwner()
-        this.arrayWithNewProperties.push({ name, propertyId, data })
+        this.observingArray.push({ name, propertyId, data })
         this.saved = false
     }
     changeValue(index, newValue) {
-        this.arrayWithNewProperties[index].data = newValue
+        this.observingArray[index].data = newValue
     }
     changeNameOfCard(value) {
         this.nameOfCard = value
@@ -72,16 +72,16 @@ export default class CreateCardStore {
             preventDelete: this.prohibitUpdate
         })
         this.cardId = response.data.id
-        const promises = this.arrayWithNewProperties
+        const promises = this.observingArray
             .map(({ name, propertyId, data }) => ({ name, propertyId, data }))
             .map((el) => this.createNewProperty(this.cardId, el))
         await Promise.all(promises)
         this.saved = true
     }
     deletePropertyLocal(id) {
-        this.arrayWithNewProperties.copyWithin().forEach((el, index) => {
+        this.observingArray.copyWithin().forEach((el, index) => {
             if (el.id === id) {
-                this.arrayWithNewProperties.splice(index, 1)
+                this.observingArray.splice(index, 1)
             }
         })
     }
