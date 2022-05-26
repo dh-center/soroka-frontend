@@ -1,4 +1,4 @@
-import { makeAutoObservable } from 'mobx'
+import { makeAutoObservable, observable } from 'mobx'
 import { AuthAPI } from '../api/auth'
 import { CardsAPI } from '../api/cards'
 
@@ -6,7 +6,7 @@ export default class ChangeCardStore {
     observingArray = []
     startValuesOfObservingArray = []
 
-    saved = true
+    unSaved = false
     hasEmptyProperties = false
 
     prohibitUpdate = false
@@ -22,6 +22,9 @@ export default class ChangeCardStore {
         makeAutoObservable(this)
     }
 
+    setUnsaved(boolean) {
+        this.unSaved = boolean
+    }
     setIsUserNotChangedProperties(index, newValue) {
         return this.startValuesOfObservingArray[index].data === newValue
     }
@@ -39,28 +42,30 @@ export default class ChangeCardStore {
 
     changeNameOfCard(value) {
         this.nameOfCard = value
-        this.saved = false
+        console.log(this.nameOfCard, this.unSaved)
+        setUnsaved(true)
     }
     checkDataIsEmpty(el) {
         if (el.data.trim() === '') return true
     }
     toggleProhibitUpdate() {
         this.prohibitUpdate = !this.prohibitUpdate
-        this.saved = false
+        setUnsaved(true)
     }
     setOrganizationOption(value) {
         this.organizationOption = value
-        this.saved = false
+        setUnsaved(true)
     }
 
     setOwnerOption(value) {
         this.ownerOption = value
-        this.saved = false
+        setUnsaved(true)
     }
     changeValue(index, newValue) {
         console.log(this.observingArray[index].data)
         this.observingArray[index].data = newValue
-        this.saved = this.setIsUserNotChangedProperties(index, newValue)
+        setUnsaved(this.setIsUserNotChangedProperties(index, newValue))
+
         this.setHasEmptyProperties()
     }
 
