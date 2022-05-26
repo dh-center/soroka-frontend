@@ -25,11 +25,13 @@ export default class CreateCardStore {
         this.ownerOption = res.data.userRole
         this.userRole = res.data.userRole
     }
-
+    setSaved(boolean){
+        this.saved=boolean
+    }
     refreshCreatingCard() {
         this.nameOfCard = ''
         this.observingArray = []
-        this.saved = true
+        // this.saved = false
         this.prohibitUpdate = false
     }
 
@@ -43,21 +45,21 @@ export default class CreateCardStore {
     }
     changeNameOfCard(value) {
         this.nameOfCard = value
-        this.saved = true
+        this.saved = false
     }
     toggleProhibitUpdate() {
+        console.log("ssssssssssssssssssss")
         this.prohibitUpdate = !this.prohibitUpdate
-        this.saved = true
     }
 
     setOrganizationOption(value) {
         this.organizationOption = value
-        this.saved = true
+        this.saved = false
     }
 
     setOwnerOption(value) {
         this.ownerOption = value
-        this.saved = true
+        this.saved = false
     }
 
     async createNewProperty(cardId, el) {

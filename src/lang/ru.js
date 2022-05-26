@@ -45,7 +45,11 @@ const Russian = {
     placeholderPhoneOrEmail: 'Почта или телефон',
     placeholderPassword: 'Пароль',
     placeholderRepeatPassword: 'Повторите пароль',
-    acceptsTermsOfUse: 'Принимаю правила соглашения'
+    acceptsTermsOfUse: 'Принимаю правила соглашения',
+    // Свойства
+    ADRESS: 'Свойства',
+    LEGAL_NAME: 'Юридическое название',
+    
 }
 
 export default Russian

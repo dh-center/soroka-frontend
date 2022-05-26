@@ -27,9 +27,7 @@ const Property = observer(({ element, index, store }) => {
                             onChange={(event) => {
                                 store.changeValue(index, event.target.value)
                             }}
-                            // onFocus={() => {
-                            //     setShowDeleteButton(true)
-                            // }}
+
                         />
                     </Form.Group>
                     {showDeleteButton && (

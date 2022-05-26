@@ -21,6 +21,7 @@ const CardPage = observer(() => {
     const intl = useIntl()
     const placeholder = intl.formatMessage({ id: 'placeholderNewCard' })
     const [nameOfCard, setNameOfCard] = useState('')
+    const [showAddingProp,setShowAddingProp] = useState(false)
     const [show, setShow] = useState(false)
     const [showSaveModal, setShowSaveModal] = useState(false)
     const [cardInfo, setCardInfo] = useState({})
@@ -29,11 +30,20 @@ const CardPage = observer(() => {
     const { id } = useParams()
     const [owners, setOwners] = useState([{}])
     const [userId, setUserId] = useState('1')
+    const [properties, setProperties] = useState([{}])
+
     const handleSave = () => {
         changeCardStore.saveProperties()
         setShowSaveModal(true)
     }
-
+    const handleAddNewProperties = (e) => {
+        changeCardStore.addNewProperties(
+            e.currentTarget.innerText,
+            Math.round(Math.random() * 1000),
+            e.currentTarget.innerText
+        )
+        setShowAddingProp(false)
+    }
     useEffect(() => {
         changeCardStore.getPropertiesFromCardById(id)
         changeCardStore.setOrganiztionAndOwner().then(() => {
@@ -50,7 +60,13 @@ const CardPage = observer(() => {
             changeCardStore.setCardInfo(res.data)
         })
     }, [id])
-
+    useEffect(
+        () =>
+            {CardsAPI.getCardsProperties().then((res) => {
+                setProperties(res.data)
+            })},
+        []
+    )
     useEffect(() => {
         changeCardStore.getPropertiesFromCardById(id)
     }, [propertieDeleted, id])
@@ -120,26 +136,6 @@ const CardPage = observer(() => {
                                             })}
                                         </div>
 
-                                        <button
-                                            className="create-new-card__button dashboard-button d-flex align-items-center offset-md-1 dashboard-button--disabled "
-                                            ref={target}
-                                            onMouseOver={() => setShow(true)}
-                                            onMouseOut={() => setShow(false)}
-                                            onClick={(event) => event.preventDefault()}>
-                                            <svg
-                                                width="24"
-                                                height="24"
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M20 12H4" stroke="black" strokeLinecap="round" />
-                                                <path d="M12 4V20" stroke="black" strokeLinecap="round" />
-                                            </svg>
-                                            <span>
-                                                <FormattedMessage id="buttonAddProperty" />
-                                            </span>
-                                        </button>
-
                                         <Overlay target={target.current} show={show} placement="right">
                                             {(props) => (
                                                 <Tooltip id="overlay-example" {...props}>
@@ -148,6 +144,35 @@ const CardPage = observer(() => {
                                             )}
                                         </Overlay>
                                     </Form>
+                                    <button
+                                        disabled={changeCardStore.observingArray.length == properties.length}
+                                        className="create-new-card__button dashboard-button d-flex align-items-center offset-md-1 "
+                                        ref={target}
+                                        onMouseOver={() => {
+                                            if (changeCardStore.observingArray.length == properties.length) {
+                                                setShow(true)
+                                            }
+                                        }}
+                                        onMouseOut={() => setShow(false)}
+                                        onClick={(event) => {
+                                            // event.preventDefault()
+                                            setShowAddingProp(true)
+                                                                                        console.log(show)
+
+                                        }}>
+                                        <svg
+                                            width="24"
+                                            height="24"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M20 12H4" stroke="black" strokeLinecap="round" />
+                                            <path d="M12 4V20" stroke="black" strokeLinecap="round" />
+                                        </svg>
+                                        <span>
+                                            <FormattedMessage id="buttonAddProperty" />
+                                        </span>
+                                    </button>
                                 </Col>
                             </Row>
                         </Col>
@@ -263,6 +288,33 @@ const CardPage = observer(() => {
                     <Modal show={showSaveModal} onHide={() => setShowSaveModal(false)}>
                         <Modal.Body>
                             <FormattedMessage id="saved" />
+                        </Modal.Body>
+                    </Modal>
+
+                    {/* Add new property */}
+                    <Modal show={showAddingProp} onHide={()=>setShowAddingProp(false)}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>
+                                <FormattedMessage id="addPropertyTitle" />
+                            </Modal.Title>
+                        </Modal.Header>
+
+                        <Modal.Body>
+                            <div className="create-new-card__add-new-property mb-3">
+                                {properties.map((el) => {
+                                    return (
+                                        <Form.Group
+                                            className="mb-4 d-flex align-items-center flex-row create-new-card__new-property"
+                                            onClick={handleAddNewProperties}
+                                            role="button">
+                                            <Form.Label className="me-2 new-property__label" role="button">
+                                                <FormattedMessage id={el.name} />
+                                            </Form.Label>
+                                            <Form.Control type="text" placeholder={placeholder} role="button" />
+                                        </Form.Group>
+                                    )
+                                })}
+                            </div>
                         </Modal.Body>
                     </Modal>
                 </Container>
