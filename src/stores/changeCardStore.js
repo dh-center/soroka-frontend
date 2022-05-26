@@ -6,7 +6,7 @@ export default class ChangeCardStore {
     observingArray = []
     startValuesOfObservingArray = []
 
-    unSaved = false
+    saved = false
     hasEmptyProperties = false
 
     prohibitUpdate = false
@@ -22,8 +22,8 @@ export default class ChangeCardStore {
         makeAutoObservable(this)
     }
 
-    setUnsaved(boolean) {
-        this.unSaved = boolean
+    setSaved(boolean) {
+        this.saved = boolean
     }
     setIsUserNotChangedProperties(index, newValue) {
         return this.startValuesOfObservingArray[index].data === newValue
@@ -40,38 +40,46 @@ export default class ChangeCardStore {
         this.nameOfCard = data.name
     }
 
+    setOriginNameOfCard(value) {
+        this.nameOfCard = value
+        console.log(this.saved)
+    }
+
     changeNameOfCard(value) {
         this.nameOfCard = value
-        console.log(this.nameOfCard, this.unSaved)
-        setUnsaved(true)
+        this.setSaved(true)
+        console.log(this.nameOfCard, this.saved)
     }
     checkDataIsEmpty(el) {
         if (el.data.trim() === '') return true
     }
     toggleProhibitUpdate() {
         this.prohibitUpdate = !this.prohibitUpdate
-        setUnsaved(true)
+        this.setSaved(true)
     }
     setOrganizationOption(value) {
         this.organizationOption = value
-        setUnsaved(true)
+        this.setSaved(true)
     }
 
     setOwnerOption(value) {
         this.ownerOption = value
-        setUnsaved(true)
+        this.setSaved(true)
+        console.log(this.ownerOption)
     }
     changeValue(index, newValue) {
         console.log(this.observingArray[index].data)
         this.observingArray[index].data = newValue
-        setUnsaved(this.setIsUserNotChangedProperties(index, newValue))
+        this.setSaved(!this.setIsUserNotChangedProperties(index, newValue))
 
         this.setHasEmptyProperties()
     }
 
     async getPropertiesFromCardById(id) {
         const listOfProperties = await CardsAPI.getCardsFilledPropertiesById(id).then((res) => res.data)
-        this.observingArray = listOfProperties
+        this.observingArray = listOfProperties.map((el) => {
+            return { ...el, data: JSON.parse(el.data) }
+        })
         this.startValuesOfObservingArray = listOfProperties
     }
 

@@ -18,7 +18,8 @@ const Property = observer(({ element, index, store }) => {
                             style={{ height: '84px' }}
                             type="text"
                             placeholder=""
-                            value={element.data}
+                            // value={element.data}
+                            value={store.observingArray[index].data}
                             onChange={(event) => {
                                 store.changeValue(index, event.target.value)
                             }}
