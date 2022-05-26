@@ -32,7 +32,6 @@ const CardPage = observer(() => {
     const handleSave = () => {
         changeCardStore.saveProperties()
         setShowSaveModal(true)
-        changeCardStore.saved = true
     }
 
     useEffect(() => {
@@ -42,21 +41,24 @@ const CardPage = observer(() => {
         })
 
         CardsAPI.getCardByid(id).then((res) => {
+            console.log(res.data)
             setCardInfo(res.data)
             setUserId(res.data.userId)
+            changeCardStore.ownerOption
             setNameOfCard(res.data.name)
-            changeCardStore.changeNameOfCard(nameOfCard)
+            changeCardStore.setOriginNameOfCard(nameOfCard)
             changeCardStore.setCardInfo(res.data)
         })
     }, [id])
 
     useEffect(() => {
         changeCardStore.getPropertiesFromCardById(id)
-    }, [propertieDeleted, id])
+    }, [propertieDeleted, id,changeCardStore.saved])
+
 
     return (
-        // <Consumer>
-        // {(baseStore) => (
+        <Consumer>
+        {(baseStore) => (
         <Container>
             <Row>
                 <Col md="9">
@@ -175,13 +177,13 @@ const CardPage = observer(() => {
                                         onClick={(e) => {
                                             changeCardStore.setOrganizationOption(e.target.value)
                                         }}>
-                                        {/* {baseStore.organizations.map((el) => {
+                                        {baseStore.organizations.map((el) => {
                                                     return (
                                                         <option key={el.id} value={el.id}>
                                                             {el.name}
                                                         </option>
                                                     )
-                                                })} */}
+                                                })}
                                     </Form.Select>
                                     <Form.Select
                                         id={'chooseOwner'}
@@ -194,11 +196,12 @@ const CardPage = observer(() => {
                                         {owners.map((el) => {
                                             if (el.id == userId) {
                                                 return (
-                                                    <option key={el.id} value={el.id} selected>
+                                                    <option defaultValue={el.id} key={el.id} value={el.id} selected>
                                                         {el.name}
                                                     </option>
                                                 )
                                             }
+                                            
                                             return (
                                                 <option key={el.id} value={el.id}>
                                                     {el.name}
@@ -208,8 +211,7 @@ const CardPage = observer(() => {
                                     </Form.Select>
                                 </Form>
                             )}
-                            <button className="dashboard-button" disabled={changeCardStore.saved} onClick={handleSave}>
-                                {changeCardStore.saved}
+                            <button className="dashboard-button" disabled={!changeCardStore.saved} onClick={handleSave}>
                                 <svg
                                     width="26"
                                     height="24"
@@ -255,8 +257,8 @@ const CardPage = observer(() => {
                 </Modal.Body>
             </Modal>
         </Container>
-        // )}
-        // </Consumer>
+        )}
+        </Consumer>
     )
 })
 
