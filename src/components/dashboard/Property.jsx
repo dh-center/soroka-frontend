@@ -10,7 +10,11 @@ const Property = observer(({ element, index, store }) => {
     return (
         <div key={element.id}>
             {!propertyDeleted && (
-                <div className="mb-4 d-flex flex-column align-items-end" key={element.id}>
+                <div
+                    onMouseEnter={() => setShowDeleteButton(true)}
+                    onMouseLeave={() => setShowDeleteButton(false)}
+                    className="mb-4 d-flex flex-column align-items-end"
+                    key={element.id}>
                     <Form.Group className="mb-2 d-flex align-items-center flex-row w-100">
                         <Form.Label className="me-2 col-xl-2 col-sm-3">{element.name}</Form.Label>
                         <Form.Control
@@ -23,9 +27,9 @@ const Property = observer(({ element, index, store }) => {
                             onChange={(event) => {
                                 store.changeValue(index, event.target.value)
                             }}
-                            onFocus={() => {
-                                setShowDeleteButton(true)
-                            }}
+                            // onFocus={() => {
+                            //     setShowDeleteButton(true)
+                            // }}
                         />
                     </Form.Group>
                     {showDeleteButton && (
@@ -34,8 +38,7 @@ const Property = observer(({ element, index, store }) => {
                             type="button"
                             onClick={() => {
                                 setShowDialogModal(true)
-                            }}
-                        >
+                            }}>
                             Удалить
                         </button>
                     )}
