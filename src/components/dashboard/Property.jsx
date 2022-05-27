@@ -23,7 +23,7 @@ const Property = observer(({ element, index, store }) => {
                             type="text"
                             placeholder=""
                             // value={element.data}
-                            value={store.observingArray[index].data}
+                            value={store.observingArray[index]?.data}
                             onChange={(event) => {
                                 store.changeValue(index, event.target.value)
                             }}
