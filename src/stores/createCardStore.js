@@ -20,7 +20,6 @@ export default class CreateCardStore {
 
     async setOrganiztionAndOwner() {
         const res = await AuthAPI.getUserProfile()
-        console.log(res.data)
         this.organizationOption = res.data.organization
         this.ownerOption = res.data.userRole
         this.userRole = res.data.userRole
@@ -48,7 +47,6 @@ export default class CreateCardStore {
         this.saved = false
     }
     toggleProhibitUpdate() {
-        console.log("ssssssssssssssssssss")
         this.prohibitUpdate = !this.prohibitUpdate
     }
 
