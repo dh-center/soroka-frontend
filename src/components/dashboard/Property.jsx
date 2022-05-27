@@ -46,7 +46,7 @@ const Property = observer(({ element, index, store }) => {
             <CommonDialog
                 formattesMessageTitleId="deleteAlert"
                 handleSubmit={async () => {
-                    store.deletePropertyLocal(element.id)
+                    store.deletePropertyLocal(element)
                     setPropertyDeleted(true)
                     setShowDialogModal(false)
                 }}

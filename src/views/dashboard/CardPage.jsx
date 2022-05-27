@@ -40,7 +40,8 @@ const CardPage = observer(() => {
         changeCardStore.addNewProperties(
             e.currentTarget.innerText,
             Math.round(Math.random() * 1000),
-            e.currentTarget.innerText
+            e.currentTarget.innerText,
+            Math.round(Math.random() * 1000)
         )
         setShowAddingProp(false)
     }
@@ -68,7 +69,7 @@ const CardPage = observer(() => {
     )
     useEffect(() => {
         changeCardStore.getPropertiesFromCardById(id)
-    }, [propertieDeleted, id])
+    }, [ id])
     useEffect(() => {}, [changeCardStore.saved])
 
     return (
@@ -154,7 +155,7 @@ const CardPage = observer(() => {
                                         }}
                                         onMouseOut={() => setShow(false)}
                                         onClick={(event) => {
-                                            // event.preventDefault()
+                                            console.log(changeCardStore.observingArray.length, properties.length)
                                             setShowAddingProp(true)
 
                                         }}>

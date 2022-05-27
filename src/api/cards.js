@@ -107,5 +107,23 @@ export const CardsAPI = {
          * @param {string} data.data
          */
         return API.patch(`/cards/filled-properties/by-id/${id}`, data)
+    },
+    async updateProperties(data) {
+        /**
+         * Обновление свойства массивом
+         *
+
+         * @param {object} data.data
+         */
+        return API.patch(`/cards/filled-properties/bulk/update`,data)
+    },
+    async deleteProperties(cardId, data) {
+        /**
+         * Удаление свойства массивом
+         *
+         *  @param {string} cardId
+         * @param {object} data
+         */
+        return API.delete(`/cards/filled-properties/bulk/delete/${cardId}`,data)
     }
 }
