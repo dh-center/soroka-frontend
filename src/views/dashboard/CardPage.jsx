@@ -51,7 +51,6 @@ const CardPage = observer(() => {
         })
 
         CardsAPI.getCardByid(id).then((res) => {
-            console.log(res.data)
             setCardInfo(res.data)
             setUserId(res.data.userId)
             changeCardStore.ownerOption
@@ -157,7 +156,6 @@ const CardPage = observer(() => {
                                         onClick={(event) => {
                                             // event.preventDefault()
                                             setShowAddingProp(true)
-                                                                                        console.log(show)
 
                                         }}>
                                         <svg
@@ -217,7 +215,6 @@ const CardPage = observer(() => {
                                                 className="mb-2"
                                                 defaultValue="10"
                                                 onClick={(e) => {
-                                                    console.log(owners[cardInfo.userId].name)
                                                     changeCardStore.setOwnerOption(e.target.value)
                                                 }}>
                                                 {owners.map((el) => {

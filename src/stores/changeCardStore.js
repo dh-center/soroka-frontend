@@ -26,11 +26,10 @@ export default class ChangeCardStore {
         this.saved = boolean
     }
     setIsUserNotChangedProperties(index, newValue) {
-        return this.startValuesOfObservingArray[index].data === newValue
+        return this.startValuesOfObservingArray[index]?.data === newValue
     }
     async setOrganiztionAndOwner() {
         const res = await AuthAPI.getUserProfile()
-        console.log(res.data)
         this.organizationOption = res.data.organization
         this.ownerOption = res.data.userRole
         this.userRole = res.data.userRole
@@ -42,7 +41,6 @@ export default class ChangeCardStore {
 
     setOriginNameOfCard(value) {
         this.nameOfCard = value
-        console.log(this.saved)
     }
     addNewProperties(name, propertyId, data) {
         this.observingArray.push({ name, propertyId, data })
@@ -51,7 +49,6 @@ export default class ChangeCardStore {
     changeNameOfCard(value) {
         this.nameOfCard = value
         this.setSaved(true)
-        console.log(this.nameOfCard, this.saved)
     }
     checkDataIsEmpty(el) {
         if (el.data.trim() === '') return true
@@ -68,10 +65,8 @@ export default class ChangeCardStore {
     setOwnerOption(value) {
         this.ownerOption = value
         this.setSaved(true)
-        console.log(this.ownerOption)
     }
     changeValue(index, newValue) {
-        console.log(this.observingArray[index].data)
         this.observingArray[index].data = newValue
         this.setSaved(!this.setIsUserNotChangedProperties(index, newValue))
 
@@ -87,10 +82,11 @@ export default class ChangeCardStore {
     }
 
     async saveProperties() {
-        this.observingArray.map(({ name, propertyId, data, id }) =>
-            CardsAPI.updatePropertyById(id, { name, propertyId, data })
-        )
-        console.log(this.nameOfCard, this.ownerOption, this.organizationOption, this.prohibitUpdate)
+        this.observingArray.map(({ name, propertyId, data, id }) => {
+            if (id) {
+                CardsAPI.updatePropertyById(id, { name, propertyId, data })
+            }
+        })
         const res = await CardsAPI.updateCardById(this.cardInfo.id, {
             name: this.nameOfCard,
             userId: this.ownerOption,
@@ -110,10 +106,7 @@ export default class ChangeCardStore {
     deletePropertyLocal(id) {
         this.observingArray.copyWithin().forEach((el, index) => {
             if (el.id === id) {
-                console.log(id, index)
-                console.log(this.observingArray)
                 this.observingArray.splice(index, 1)
-                console.log(this.observingArray, 'SSSSSSS')
                 this.saved = false
             }
         })
