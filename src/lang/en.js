@@ -11,6 +11,7 @@ const English = {
     enity: 'Enity',
     organization: 'Organization',
     owner: 'Owner',
+
     // Header
     exit: 'Exit',
     changeLanguage: 'Change language',
@@ -40,15 +41,18 @@ const English = {
     sureCancel: 'Do you sure that you want cancel creating card?',
     answerIsYes: 'Yes',
     answerIsNo: 'No',
+
     // Регистрация
     placeholderName: 'Name',
     placeholderPhoneOrEmail: 'Email or phone',
     placeholderPassword: 'Password',
     placeholderRepeatPassword: 'Repeat password',
     acceptsTermsOfUse: 'Accept terms of use',
+
     // Свойства
-    ADRESS: 'Свойства',
-    LEGAL_NAME: 'Юридическое название'
+    ADDRESS: 'Address',
+    LEGAL_NAME: 'Legal name',
+    ARTISTIC_TEXT: 'Artistic text'
 }
 
 export default English

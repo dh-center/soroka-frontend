@@ -11,6 +11,7 @@ const Russian = {
     enity: 'Сущность',
     organization: 'Организация',
     owner: 'Владелец',
+
     // Header
     exit: 'Выйти',
     changeLanguage: 'Сменить язык',
@@ -40,16 +41,18 @@ const Russian = {
     deleteAlert: 'Удалить свойство и данные? ',
     answerIsYes: 'Да',
     answerIsNo: 'Нет',
+
     // Регистрация
     placeholderName: 'Имя',
     placeholderPhoneOrEmail: 'Почта или телефон',
     placeholderPassword: 'Пароль',
     placeholderRepeatPassword: 'Повторите пароль',
     acceptsTermsOfUse: 'Принимаю правила соглашения',
+
     // Свойства
-    ADRESS: 'Свойства',
+    ADDRESS: 'Адрес',
     LEGAL_NAME: 'Юридическое название',
-    
+    ARTISTIC_TEXT: 'Художественный текст'
 }
 
 export default Russian
