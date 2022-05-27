@@ -248,7 +248,8 @@ const CreateNewCard = observer(() => {
                                         onMouseOut={() => setShowTooltip(false)}
                                         onClick={async () => {
                                             await createCardStore.saveCard()
-                                            nav(`${getCardsRoute(createCardStore.cardId)}?id=${createCardStore.cardId}`)
+                                            // nav(`${getCardsRoute(createCardStore.cardId)}?id=${createCardStore.cardId}`)
+                                            nav(`${getCardsRoute(createCardStore.cardId)}`)
                                         }}>
                                         <svg
                                             width="26"
@@ -322,7 +323,6 @@ const CreateNewCard = observer(() => {
                                         </Form.Group>
                                     )
                                 })}
-
                             </div>
                         </Modal.Body>
                     </Modal>

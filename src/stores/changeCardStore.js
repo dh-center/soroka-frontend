@@ -6,6 +6,7 @@ export default class ChangeCardStore {
     observingArray = []
     startValuesOfObservingArray = []
 
+    localArrayOfProperties = []
     saved = false
     hasEmptyProperties = false
 
@@ -39,12 +40,18 @@ export default class ChangeCardStore {
         this.nameOfCard = data.name
     }
 
+    addPropertyInLocalArray(name, propertyId, data) {
+        this.localArrayOfProperties.push({ name, propertyId, data })
+    }
+
     setOriginNameOfCard(value) {
         this.nameOfCard = value
     }
-    addNewProperties(name, propertyId, data) {
-        this.observingArray.push({ name, propertyId, data })
+    addNewProperties(name, propertyId, data,id) {
+        this.observingArray.push({ name, propertyId, data,id })
+        // this.localArrayOfProperties.push({ name, propertyId, data })
         this.setSaved(true)
+        console.log('Добавлено ', this.observingArray)
     }
     changeNameOfCard(value) {
         this.nameOfCard = value
@@ -82,11 +89,10 @@ export default class ChangeCardStore {
     }
 
     async saveProperties() {
-        this.observingArray.map(({ name, propertyId, data, id }) => {
-            if (id) {
-                CardsAPI.updatePropertyById(id, { name, propertyId, data })
-            }
-        })
+        console.log(this.observingArray)
+        const resS = await CardsAPI.updateProperties({
+            properties: this.observingArray
+        }).catch(e=>console.log("Пиздааааа",e))
         const res = await CardsAPI.updateCardById(this.cardInfo.id, {
             name: this.nameOfCard,
             userId: this.ownerOption,
@@ -95,7 +101,9 @@ export default class ChangeCardStore {
         })
         this.nameOfCard = res.data.name
     }
-
+    async createNewProperty(cardId, el) {
+        await CardsAPI.createFilledPropertiesByCardId(cardId, el)
+    }
     setHasEmptyProperties() {
         this.hasEmptyProperties = false
         this.observingArray.forEach((el) => {
@@ -103,12 +111,12 @@ export default class ChangeCardStore {
         })
     }
 
-    deletePropertyLocal(id) {
-        this.observingArray.copyWithin().forEach((el, index) => {
-            if (el.id === id) {
-                this.observingArray.splice(index, 1)
-                this.saved = false
-            }
+    deletePropertyLocal(element) {
+        console.log(this.observingArray, 'АААААААААААААААААААААааа')
+        this.observingArray = this.observingArray.filter((el) => {
+            return el.propertyId !== element.propertyId
         })
+        this.setSaved(true)
+        console.log(this.observingArray)
     }
 }
