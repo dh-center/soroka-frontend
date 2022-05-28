@@ -155,7 +155,6 @@ const CardPage = observer(() => {
                                         }}
                                         onMouseOut={() => setShow(false)}
                                         onClick={(event) => {
-                                            console.log(changeCardStore.observingArray.length, properties.length)
                                             setShowAddingProp(true)
 
                                         }}>
