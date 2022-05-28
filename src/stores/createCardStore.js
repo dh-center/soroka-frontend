@@ -6,7 +6,7 @@ export default class CreateCardStore {
     nameOfCard = ''
     observingArray = []
     saved = true
-    
+
     prohibitUpdate = false
     organizationOption = '1000'
     ownerOption = '2'
@@ -65,7 +65,6 @@ export default class CreateCardStore {
     }
 
     async saveCard() {
-        console.log(this.observingArray)
         const response = await CardsAPI.createCard({
             name: this.nameOfCard,
             userId: this.ownerOption,
@@ -80,9 +79,7 @@ export default class CreateCardStore {
         this.saved = true
     }
     deletePropertyLocal(element) {
-
         this.observingArray =  this.observingArray.filter((el)=>{
             return el.propertyId!==element.propertyId})
-        console.log(this.observingArray)
     }
 }

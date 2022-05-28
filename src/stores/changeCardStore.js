@@ -1,4 +1,4 @@
-import { makeAutoObservable, observable } from 'mobx'
+import { makeAutoObservable } from 'mobx'
 import { AuthAPI } from '../api/auth'
 import { CardsAPI } from '../api/cards'
 
@@ -51,7 +51,6 @@ export default class ChangeCardStore {
         this.observingArray.push({ name, propertyId, data,id })
         // this.localArrayOfProperties.push({ name, propertyId, data })
         this.setSaved(true)
-        console.log('Добавлено ', this.observingArray)
     }
     changeNameOfCard(value) {
         this.nameOfCard = value
@@ -92,7 +91,7 @@ export default class ChangeCardStore {
         console.log(this.observingArray)
         const resS = await CardsAPI.updateProperties({
             properties: this.observingArray
-        }).catch(e=>console.log("Пиздааааа",e))
+        }).catch(e=>console.log(e))
         const res = await CardsAPI.updateCardById(this.cardInfo.id, {
             name: this.nameOfCard,
             userId: this.ownerOption,
@@ -112,11 +111,9 @@ export default class ChangeCardStore {
     }
 
     deletePropertyLocal(element) {
-        console.log(this.observingArray, 'АААААААААААААААААААААааа')
         this.observingArray = this.observingArray.filter((el) => {
             return el.propertyId !== element.propertyId
         })
         this.setSaved(true)
-        console.log(this.observingArray)
     }
 }
