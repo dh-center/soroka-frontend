@@ -32,12 +32,29 @@ const CreateNewCard = observer(() => {
     const [owners, setOwners] = useState([{}])
     const [properties, setProperties] = useState([{}])
 
-    const handleAddNewProperties = (id, name, isLink) => {
+    const handleAddNewProperties = (event) => {
+        const { target } = event
+
+        console.log('target is', target)
+
+        const { id, name, isLink } = target.dataset
+
+        console.log('data is', id, name, isLink)
+
         createCardStore.addNewProperties(
             name,
             id
         )
+
         handleClose()
+    }
+
+    const handleOrganizationChange = (event) => {
+        createCardStore.setOrganizationOption(event.target.value)
+
+        organizationsAPI.getOwnersById(createCardStore.organizationOption).then(
+            (res) => setOwners(res.data)
+        )        
     }
 
     useEffect(() => {
@@ -113,7 +130,8 @@ const CreateNewCard = observer(() => {
                                                     }}
                                                 />
                                             </Form.Group>
-                                            <Form.Group className="mb-4 d-flex align-items-center flex-row">
+                                            {/* Сущность должна быть добавлена в задаче с темплейтами */}
+                                            <Form.Group className="mb-4 d-flex align-items-center flex-row d-none">
                                                 <Form.Label className="me-2 col-xl-2 col-sm-3">
                                                     <FormattedMessage id="enity" />
                                                 </Form.Label>
@@ -181,59 +199,38 @@ const CreateNewCard = observer(() => {
                                             <Form.Select
                                                 id={'chooseOrganization'}
                                                 className="mb-2"
-                                                defaultValue="10"
-                                                onClick={(e) => {
-                                                    createCardStore.setOrganizationOption(e.target.value)
+                                                defaultValue="null"
+                                                value={createCardStore.organizationOption}
+                                                onChange={(e) => {
+                                                    handleOrganizationChange(e)
                                                 }}>
-                                                {/* <option value="10" disabled>
-                                                    <FormattedMessage id="organization" />
-                                                </option> */}
+                                                <option value="null" disabled>
+                                                    <FormattedMessage id="organization"/>
+                                                </option>
                                                 {baseStore.organizations.map((el) => {
-                                                    if (el.id == createCardStore.organizationOption) {
-                                                        return (
-                                                            <option
-                                                                defaultValue={el.id}
-                                                                key={el.id}
-                                                                value={el.id}
-                                                                selected>
-                                                                {el.name}
-                                                            </option>
-                                                        )
-                                                    } else
-                                                        return (
-                                                            <option key={el.id} value={el.id}>
-                                                                {el.name}
-                                                            </option>
-                                                        )
+                                                    return (
+                                                        <option key={el.id} value={el.id}>
+                                                            {el.name}
+                                                        </option>
+                                                    )
                                                 })}
                                             </Form.Select>
                                             <Form.Select
                                                 id={'chooseOwner'}
                                                 className="mb-2"
-                                                defaultValue="10"
-                                                onClick={(e) => {
+                                                defaultValue="null"
+                                                onChange={(e) => {
                                                     createCardStore.setOwnerOption(e.target.value)
                                                 }}>
-                                                {/* <option value="10" disabled>
+                                                <option value="null" disabled>
                                                     <FormattedMessage id="owner" />
-                                                </option> */}
+                                                </option>
                                                 {owners.map((el) => {
-                                                    if (el.id == createCardStore.ownerOption) {
-                                                        return (
-                                                            <option
-                                                                defaultValue={el.id}
-                                                                key={el.id}
-                                                                value={el.id}
-                                                                selected>
-                                                                {el.name}
-                                                            </option>
-                                                        )
-                                                    } else
-                                                        return (
-                                                            <option key={el.id} value={el.id}>
-                                                                {el.name}
-                                                            </option>
-                                                        )
+                                                    return (
+                                                        <option key={el.id} value={el.id}>
+                                                            {el.name}
+                                                        </option>
+                                                    )
                                                 })}
                                             </Form.Select>
                                         </Form>
@@ -313,12 +310,25 @@ const CreateNewCard = observer(() => {
                                     return (
                                         <Form.Group
                                             className="mb-4 d-flex align-items-center flex-row create-new-card__new-property"
-                                            onClick={handleAddNewProperties(el.id, el.name, el.isLink)}
+                                            onClick={handleAddNewProperties}
                                             role="button">
-                                            <Form.Label className="me-2 new-property__label" role="button">
+                                            <Form.Label
+                                                className="me-2 new-property__label"
+                                                role="button"
+                                                data-id={el.id}
+                                                data-name={el.name}
+                                                data-is-link={el.isLink}
+                                            >
                                                 <FormattedMessage id={el.name} />
                                             </Form.Label>
-                                            <Form.Control type="text" placeholder={placeholder} role="button" />
+                                            <Form.Control
+                                                type="text"
+                                                placeholder={placeholder}
+                                                role="button"
+                                                data-id={el.id}
+                                                data-name={el.name}
+                                                data-is-link={el.isLink}
+                                            />
                                         </Form.Group>
                                     )
                                 })}

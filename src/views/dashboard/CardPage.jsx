@@ -337,7 +337,14 @@ const CardPage = observer(() => {
                                             >
                                                 <FormattedMessage id={el.name} />
                                             </Form.Label>
-                                            <Form.Control type="text" placeholder={placeholder} role="button" />
+                                            <Form.Control
+                                                type="text"
+                                                placeholder={placeholder}
+                                                role="button"
+                                                data-id={el.id}
+                                                data-name={el.name}
+                                                data-is-link={el.isLink}
+                                            />
                                         </Form.Group>
                                     )
                                 })}
