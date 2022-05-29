@@ -24,8 +24,8 @@ export default class CreateCardStore {
         this.ownerOption = res.data.userRole
         this.userRole = res.data.userRole
     }
-    setSaved(boolean){
-        this.saved=boolean
+    setSaved(boolean) {
+        this.saved = boolean
     }
     refreshCreatingCard() {
         this.nameOfCard = ''
@@ -71,15 +71,21 @@ export default class CreateCardStore {
             organizationId: this.organizationOption,
             preventDelete: this.prohibitUpdate
         })
+
         this.cardId = response.data.id
+
         const promises = this.observingArray
             .map(({ name, propertyId, data }) => ({ name, propertyId, data }))
             .map((el) => this.createNewProperty(this.cardId, el))
+
         await Promise.all(promises)
+
         this.saved = true
     }
+
     deletePropertyLocal(element) {
-        this.observingArray =  this.observingArray.filter((el)=>{
-            return el.propertyId!==element.propertyId})
+        this.observingArray = this.observingArray.filter((el) => {
+            return el.propertyId !== element.propertyId
+        })
     }
 }
