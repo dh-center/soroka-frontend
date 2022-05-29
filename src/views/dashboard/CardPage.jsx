@@ -21,11 +21,10 @@ const CardPage = observer(() => {
     const intl = useIntl()
     const placeholder = intl.formatMessage({ id: 'placeholderNewCard' })
     const [nameOfCard, setNameOfCard] = useState('')
-    const [showAddingProp,setShowAddingProp] = useState(false)
+    const [showAddingProp, setShowAddingProp] = useState(false)
     const [show, setShow] = useState(false)
     const [showSaveModal, setShowSaveModal] = useState(false)
     const [cardInfo, setCardInfo] = useState({})
-    const [propertieDeleted, setPropertieDeleted] = useState(false)
     const target = useRef(null)
     const { id } = useParams()
     const [owners, setOwners] = useState([{}])
@@ -36,26 +35,45 @@ const CardPage = observer(() => {
         changeCardStore.saveProperties()
         setShowSaveModal(true)
     }
-    const handleAddNewProperties = (e) => {
+
+    const handleAddNewProperties = (event) => {
+        const { target } = event
+
+        const { id, name, isLink } = target.dataset
+
         changeCardStore.addNewProperties(
-            e.currentTarget.innerText,
-            Math.round(Math.random() * 1000),
-            e.currentTarget.innerText,
-            Math.round(Math.random() * 1000)
+            name,
+            id
         )
+
         setShowAddingProp(false)
     }
+
+    const handleOrganizationChange = (event) => {
+        changeCardStore.setOrganizationOption(event.target.value)
+
+        organizationsAPI.getOwnersById(changeCardStore.organizationOption).then(
+            (res) => setOwners(res.data)
+        )        
+    }
+
     useEffect(() => {
         changeCardStore.getPropertiesFromCardById(id)
+
         changeCardStore.setOrganiztionAndOwner().then(() => {
-            organizationsAPI.getOwnersById(changeCardStore.organizationOption).then((res) => setOwners(res.data))
+            organizationsAPI.getOwnersById(changeCardStore.organizationOption).then(
+                (res) => setOwners(res.data)
+            )
         })
 
         CardsAPI.getCardByid(id).then((res) => {
             setCardInfo(res.data)
             setUserId(res.data.userId)
+
             changeCardStore.ownerOption
+
             setNameOfCard(res.data.name)
+
             changeCardStore.setOriginNameOfCard(nameOfCard)
             changeCardStore.setCardInfo(res.data)
         })
@@ -104,8 +122,7 @@ const CardPage = observer(() => {
 
                                 <Col md="8">
                                     <h3
-                                        className="current-card__current
-                            -title">
+                                        className="current-card__current-title">
                                         {nameOfCard}
                                     </h3>
                                 </Col>
@@ -198,10 +215,14 @@ const CardPage = observer(() => {
                                             <Form.Select
                                                 id={'chooseOrganization'}
                                                 className="mb-2"
-                                                defaultValue="10"
-                                                onClick={(e) => {
-                                                    changeCardStore.setOrganizationOption(e.target.value)
+                                                defaultValue="null"
+                                                value={changeCardStore.organizationOption}
+                                                onChange={(e) => {
+                                                    handleOrganizationChange(e)
                                                 }}>
+                                                <option value="null" disabled>
+                                                    <FormattedMessage id="organization"/>
+                                                </option>
                                                 {baseStore.organizations.map((el) => {
                                                     return (
                                                         <option key={el.id} value={el.id}>
@@ -213,10 +234,13 @@ const CardPage = observer(() => {
                                             <Form.Select
                                                 id={'chooseOwner'}
                                                 className="mb-2"
-                                                defaultValue="10"
-                                                onClick={(e) => {
+                                                defaultValue="null"
+                                                onChange={(e) => {
                                                     changeCardStore.setOwnerOption(e.target.value)
                                                 }}>
+                                                <option value="null" disabled>
+                                                    <FormattedMessage id="owner" />
+                                                </option>
                                                 {owners.map((el) => {
                                                     if (el.id == userId) {
                                                         return (
@@ -304,7 +328,13 @@ const CardPage = observer(() => {
                                             className="mb-4 d-flex align-items-center flex-row create-new-card__new-property"
                                             onClick={handleAddNewProperties}
                                             role="button">
-                                            <Form.Label className="me-2 new-property__label" role="button">
+                                            <Form.Label
+                                                className="me-2 new-property__label"
+                                                role="button"
+                                                data-id={el.id}
+                                                data-name={el.name}
+                                                data-is-link={el.isLink}    
+                                            >
                                                 <FormattedMessage id={el.name} />
                                             </Form.Label>
                                             <Form.Control type="text" placeholder={placeholder} role="button" />

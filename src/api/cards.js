@@ -49,7 +49,7 @@ export const CardsAPI = {
          * @param {number} cardId
          */
 
-        return API.delete(`/cards/filled-properties/${cardId}`, data)
+        return API.delete(`/cards/filled-properties/${cardId}`, { data })
     },
 
     async getCardsList() {
@@ -115,7 +115,7 @@ export const CardsAPI = {
 
          * @param {object} data.data
          */
-        return API.patch(`/cards/filled-properties/bulk/update`,data)
+        return API.patch(`/cards/filled-properties/bulk/update`, data)
     },
     async deleteProperties(cardId, data) {
         /**
@@ -124,6 +124,6 @@ export const CardsAPI = {
          *  @param {string} cardId
          * @param {object} data
          */
-        return API.delete(`/cards/filled-properties/bulk/delete/${cardId}`,data)
+        return API.delete(`/cards/filled-properties/bulk/delete/${cardId}`, { data })
     }
 }

@@ -32,11 +32,10 @@ const CreateNewCard = observer(() => {
     const [owners, setOwners] = useState([{}])
     const [properties, setProperties] = useState([{}])
 
-    const handleAddNewProperties = (e) => {
+    const handleAddNewProperties = (id, name, isLink) => {
         createCardStore.addNewProperties(
-            e.currentTarget.innerText,
-            Math.round(Math.random() * 1000),
-            e.currentTarget.innerText
+            name,
+            id
         )
         handleClose()
     }
@@ -314,7 +313,7 @@ const CreateNewCard = observer(() => {
                                     return (
                                         <Form.Group
                                             className="mb-4 d-flex align-items-center flex-row create-new-card__new-property"
-                                            onClick={handleAddNewProperties}
+                                            onClick={handleAddNewProperties(el.id, el.name, el.isLink)}
                                             role="button">
                                             <Form.Label className="me-2 new-property__label" role="button">
                                                 <FormattedMessage id={el.name} />
