@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import './CardPage.css'
 import { Col, Container, Form, Modal, Overlay, Row, Tooltip } from 'react-bootstrap'
 import { Link, useParams } from 'react-router-dom'
@@ -16,8 +16,8 @@ import { organizationsAPI } from '../../api/organizations'
 const changeCardStore = new ChangeCardStore()
 
 const CardPage = observer(() => {
-    const { Consumer } = mainContext
-
+    // const { Consumer } = mainContext
+    const baseStore = useContext(mainContext)
     const intl = useIntl()
     const placeholder = intl.formatMessage({ id: 'placeholderNewCard' })
     const [nameOfCard, setNameOfCard] = useState('')
@@ -85,14 +85,15 @@ const CardPage = observer(() => {
             })},
         []
     )
+    
     useEffect(() => {
         changeCardStore.getPropertiesFromCardById(id)
     }, [ id])
-    useEffect(() => {}, [changeCardStore.saved])
+    useEffect(() => {}, [changeCardStore.saved,changeCardStore.observingArrayLenght])
 
     return (
-        <Consumer>
-            {(baseStore) => (
+        // <Consumer>
+        //     {(baseStore) => (
                 <Container>
                     <Row>
                         <Col md="9">
@@ -121,10 +122,7 @@ const CardPage = observer(() => {
                                 </Col>
 
                                 <Col md="8">
-                                    <h3
-                                        className="current-card__current-title">
-                                        {nameOfCard}
-                                    </h3>
+                                    <h3 className="current-card__current-title">{nameOfCard}</h3>
                                 </Col>
                             </Row>
 
@@ -162,7 +160,8 @@ const CardPage = observer(() => {
                                         </Overlay>
                                     </Form>
                                     <button
-                                        disabled={changeCardStore.observingArray.length == properties.length}
+                                        // disabled={changeCardStore.observingArray.length == properties.length}
+                                        disabled={changeCardStore.observingArrayLenght == properties.length}
                                         className="create-new-card__button dashboard-button d-flex align-items-center offset-md-1 "
                                         ref={target}
                                         onMouseOver={() => {
@@ -173,7 +172,6 @@ const CardPage = observer(() => {
                                         onMouseOut={() => setShow(false)}
                                         onClick={(event) => {
                                             setShowAddingProp(true)
-
                                         }}>
                                         <svg
                                             width="24"
@@ -221,7 +219,7 @@ const CardPage = observer(() => {
                                                     handleOrganizationChange(e)
                                                 }}>
                                                 <option value="null" disabled>
-                                                    <FormattedMessage id="organization"/>
+                                                    <FormattedMessage id="organization" />
                                                 </option>
                                                 {baseStore.organizations.map((el) => {
                                                     return (
@@ -313,7 +311,7 @@ const CardPage = observer(() => {
                     </Modal>
 
                     {/* Add new property */}
-                    <Modal show={showAddingProp} onHide={()=>setShowAddingProp(false)}>
+                    <Modal show={showAddingProp} onHide={() => setShowAddingProp(false)}>
                         <Modal.Header closeButton>
                             <Modal.Title>
                                 <FormattedMessage id="addPropertyTitle" />
@@ -333,8 +331,7 @@ const CardPage = observer(() => {
                                                 role="button"
                                                 data-id={el.id}
                                                 data-name={el.name}
-                                                data-is-link={el.isLink}    
-                                            >
+                                                data-is-link={el.isLink}>
                                                 <FormattedMessage id={el.name} />
                                             </Form.Label>
                                             <Form.Control
@@ -352,8 +349,8 @@ const CardPage = observer(() => {
                         </Modal.Body>
                     </Modal>
                 </Container>
-            )}
-        </Consumer>
+        //     )}
+        // </Consumer>
     )
 })
 
