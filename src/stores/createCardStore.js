@@ -13,10 +13,11 @@ export default class CreateCardStore {
 
     userRole = '2'
     cardId = 1
-
+    
     constructor() {
         makeAutoObservable(this)
     }
+
 
     async setOrganiztionAndOwner() {
         const res = await AuthAPI.getUserProfile()
@@ -24,9 +25,11 @@ export default class CreateCardStore {
         this.ownerOption = res.data.userRole
         this.userRole = res.data.userRole
     }
+
     setSaved(boolean) {
         this.saved = boolean
     }
+
     refreshCreatingCard() {
         this.nameOfCard = ''
         this.observingArray = []

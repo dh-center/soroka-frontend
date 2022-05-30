@@ -16,6 +16,7 @@ export default class ChangeCardStore {
 
     organizationOption = null
     ownerOption = null
+    observingArrayLenght = 0
 
     userRole = '2'
     cardInfo = {}
@@ -28,6 +29,10 @@ export default class ChangeCardStore {
 
     setSaved(boolean) {
         this.saved = boolean
+    }
+
+    updateObservigArrayLenght() {
+        this.observingArrayLenght = this.observingArray.length
     }
 
     setIsUserNotChangedProperties(index, newValue) {
@@ -57,6 +62,7 @@ export default class ChangeCardStore {
     addNewProperties(name, propertyId, data = null, id = null) {
         this.observingArray.push({ name, propertyId, data, id })
         // this.localArrayOfProperties.push({ name, propertyId, data })
+        this.updateObservigArrayLenght()
         this.setSaved(true)
     }
 
@@ -96,13 +102,14 @@ export default class ChangeCardStore {
         this.observingArray = listOfProperties.map((el) => {
             return { ...el, data: JSON.parse(el.data) }
         })
+        this.updateObservigArrayLenght()
         this.startValuesOfObservingArray = listOfProperties
     }
 
     async saveProperties() {
         const updatedProperties = this.observingArray.filter((prop) => prop.id)
         const createdProperties = this.observingArray.filter((prop) => !prop.id)
-        const deletedProperties = this.deletedProperties.filter(prop => prop)
+        const deletedProperties = this.deletedProperties.filter((prop) => prop)
 
         for (const prop of createdProperties) {
             await CardsAPI.createFilledPropertiesByCardId(this.cardInfo.id, prop)
@@ -143,7 +150,7 @@ export default class ChangeCardStore {
         this.observingArray = this.observingArray.filter((el) => {
             return el.id !== element.id
         })
-
+        this.updateObservigArrayLenght()
         this.deletedProperties.push(element.id)
 
         this.setSaved(true)
