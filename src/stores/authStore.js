@@ -13,6 +13,7 @@ export default class AuthStore {
 
     setAccessToken(payload) {
         this.accessToken = payload
+        localStorage.setItem('accessToken', payload)
     }
 
     setRefreshToken(payload) {
@@ -24,8 +25,8 @@ export default class AuthStore {
     }
 
     async refresh() {
-        const refresh = this.refreshToken || localStorage.getItem('refreshToken')
-        const response = await AuthAPI.refreshToken({ refresh })
+        const refreshToken = this.refreshToken || localStorage.getItem('refreshToken')
+        const response = await AuthAPI.refreshToken({ refreshToken })
 
         this.setAccessToken(response.data.accessToken)
 
