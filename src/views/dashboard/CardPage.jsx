@@ -202,8 +202,9 @@ const CardPage = observer(() => {
                                             id={'preventDeletion'}
                                             type={'checkbox'}
                                             label={<FormattedMessage id="preventDelete" />}
+                                            defaultChecked={cardStore.cardInfo.preventDelete}
                                             onClick={() => {
-                                                cardStore.setProhibitUpdate()
+                                                cardStore.togglePreventDelete()
                                             }}
                                         />
                                     </Form.Group>
