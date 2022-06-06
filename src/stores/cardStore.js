@@ -1,6 +1,7 @@
 import { makeAutoObservable } from 'mobx'
 import { AuthAPI } from '../api/auth'
 import { CardsAPI } from '../api/cards'
+import { USER_ROLES } from '../utils/constants'
 
 export default class CardStore {
     observingArray = []
@@ -8,7 +9,6 @@ export default class CardStore {
 
     deletedProperties = []
 
-    localArrayOfProperties = []
     saved = false
 
     prohibitUpdate = false
@@ -24,7 +24,26 @@ export default class CardStore {
         makeAutoObservable(this)
     }
 
+    reset() {
+        this.observingArray = []
+        this.startValuesOfObservingArray = []
+    
+        this.deletedProperties = []
+    
+        this.saved = false
+    
+        this.prohibitUpdate = false
+    
+        this.organizationOption = null
+        this.ownerOption = null
+    
+        this.userRole = '2'
+        this.cardInfo = {}
+        this.nameOfCard = ''
+    }
+
     setSaved(boolean) {
+        console.log('set saved:', boolean)
         this.saved = boolean
     }
 
@@ -34,18 +53,20 @@ export default class CardStore {
 
     async setOrganiztionAndOwner() {
         const res = await AuthAPI.getUserProfile()
-        this.organizationOption = res.data.organization
-        this.ownerOption = res.data.userRole
         this.userRole = res.data.userRole
+
+        if (this.userRole === USER_ROLES.admin && !this.cardInfo.id) {
+            this.organizationOption = res.data.organization
+            this.ownerOption = res.data.id
+        } else {
+            this.organizationOption = this.cardInfo.organizationId
+            this.ownerOption = this.cardInfo.userId
+        }
     }
 
     setCardInfo(data) {
         this.cardInfo = data
         this.nameOfCard = data.name
-    }
-
-    addPropertyInLocalArray(name, propertyId, data) {
-        this.localArrayOfProperties.push({ name, propertyId, data })
     }
 
     setOriginNameOfCard(value) {
@@ -135,6 +156,8 @@ export default class CardStore {
         this.nameOfCard = this.cardInfo.name
 
         this.getPropertiesFromCardById(this.cardInfo.id)
+
+        this.setSaved(false)
     }
 
     async createNewProperty(cardId, el) {
