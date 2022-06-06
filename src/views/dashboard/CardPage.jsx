@@ -23,12 +23,10 @@ const CardPage = observer(() => {
     const [showAddingProp, setShowAddingProp] = useState(false)
     const [show, setShow] = useState(false)
     const [showSaveModal, setShowSaveModal] = useState(false)
-    const [cardInfo, setCardInfo] = useState({})
     const target = useRef(null)
     const { id } = useParams()
     const nav = useNavigate()
     const [owners, setOwners] = useState([{}])
-    const [userId, setUserId] = useState('1')
     const [properties, setProperties] = useState([{}])
 
     const handleSave = async () => {
@@ -58,25 +56,22 @@ const CardPage = observer(() => {
     }
 
     useEffect(() => {
-        cardStore.setOrganiztionAndOwner().then(() => {
-            organizationsAPI.getOwnersById(cardStore.organizationOption).then(
-                (res) => setOwners(res.data)
-            )
-        })
-
         if (id) {
             cardStore.getPropertiesFromCardById(id)
 
             CardsAPI.getCardByid(id).then((res) => {
-                setCardInfo(res.data)
-                setUserId(res.data.userId)
-
                 setNameOfCard(res.data.name)
 
                 cardStore.setOriginNameOfCard(nameOfCard)
                 cardStore.setCardInfo(res.data)
             })
         }
+
+        cardStore.setOrganiztionAndOwner().then(() => {
+            organizationsAPI.getOwnersById(cardStore.organizationOption).then(
+                (res) => setOwners(res.data)
+            )
+        })
     }, [id])
     useEffect(
         () =>
@@ -215,7 +210,6 @@ const CardPage = observer(() => {
                                     <Form.Select
                                         id={'chooseOrganization'}
                                         className="mb-2"
-                                        defaultValue="null"
                                         value={cardStore.organizationOption}
                                         onChange={(e) => {
                                             handleOrganizationChange(e)
@@ -223,9 +217,9 @@ const CardPage = observer(() => {
                                         <option value="null" disabled>
                                             <FormattedMessage id="organization" />
                                         </option>
-                                        {baseStore.organizations.map((el) => {
+                                        {baseStore.organizations.map((el, index) => {
                                             return (
-                                                <option key={el.id} value={el.id}>
+                                                <option key={index} value={el.id}>
                                                     {el.name}
                                                 </option>
                                             )
@@ -234,28 +228,17 @@ const CardPage = observer(() => {
                                     <Form.Select
                                         id={'chooseOwner'}
                                         className="mb-2"
-                                        defaultValue="null"
+                                        value={cardStore.ownerOption}
                                         onChange={(e) => {
                                             cardStore.setOwnerOption(e.target.value)
-                                        }}>
+                                        }}
+                                    >
                                         <option value="null" disabled>
                                             <FormattedMessage id="owner" />
                                         </option>
-                                        {owners.map((el) => {
-                                            if (el.id == userId) {
-                                                return (
-                                                    <option
-                                                        defaultValue={el.id}
-                                                        key={el.id}
-                                                        value={el.id}
-                                                        selected>
-                                                        {el.name}
-                                                    </option>
-                                                )
-                                            }
-
+                                        {owners.map((el, index) => {
                                             return (
-                                                <option key={el.id} value={el.id}>
+                                                <option key={index} value={el.id}>
                                                     {el.name}
                                                 </option>
                                             )
