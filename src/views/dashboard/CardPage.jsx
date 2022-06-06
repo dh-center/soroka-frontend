@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import './CardPage.css'
 import { Col, Container, Form, Modal, Overlay, Row, Tooltip } from 'react-bootstrap'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams, useNavigate } from 'react-router-dom'
 import './dashboardGlobal.css'
 import { observer } from 'mobx-react'
-import ChangeCardStore from '../../stores/changeCardStore'
-import { CARDS_ROUTE } from '../../utils/routes'
+import CardStore from '../../stores/cardStore'
+import { CARDS_ROUTE, getCreateCardRoute, getCardsRoute } from '../../utils/routes'
 import { FormattedMessage, useIntl } from 'react-intl'
 import { CardsAPI } from '../../api/cards'
 import { USER_ROLES } from '../../utils/constants'
@@ -13,7 +13,7 @@ import Property from '../../components/dashboard/Property'
 import { mainContext } from '../../context/mainContext'
 import { organizationsAPI } from '../../api/organizations'
 
-const changeCardStore = new ChangeCardStore()
+const cardStore = new CardStore()
 
 const CardPage = observer(() => {
     const baseStore = useContext(mainContext)
@@ -26,17 +26,22 @@ const CardPage = observer(() => {
     const [cardInfo, setCardInfo] = useState({})
     const target = useRef(null)
     const { id } = useParams()
+    const nav = useNavigate()
     const [owners, setOwners] = useState([{}])
     const [userId, setUserId] = useState('1')
     const [properties, setProperties] = useState([{}])
 
-    const handleSave = () => {
-        changeCardStore.saveProperties()
+    const handleSave = async () => {
+        await cardStore.saveProperties()
         setShowSaveModal(true)
+
+        if (location.href.includes(getCreateCardRoute())) {
+            nav(`${getCardsRoute(cardStore.cardInfo.id)}`)
+        }
     }
 
     const handleAddNewProperties = (id, name, isLink) => {
-        changeCardStore.addNewProperties(
+        cardStore.addNewProperties(
             name,
             id
         )
@@ -45,33 +50,33 @@ const CardPage = observer(() => {
     }
 
     const handleOrganizationChange = (event) => {
-        changeCardStore.setOrganizationOption(event.target.value)
+        cardStore.setOrganizationOption(event.target.value)
 
-        organizationsAPI.getOwnersById(changeCardStore.organizationOption).then(
+        organizationsAPI.getOwnersById(cardStore.organizationOption).then(
             (res) => setOwners(res.data)
         )        
     }
 
     useEffect(() => {
-        changeCardStore.getPropertiesFromCardById(id)
-
-        changeCardStore.setOrganiztionAndOwner().then(() => {
-            organizationsAPI.getOwnersById(changeCardStore.organizationOption).then(
+        cardStore.setOrganiztionAndOwner().then(() => {
+            organizationsAPI.getOwnersById(cardStore.organizationOption).then(
                 (res) => setOwners(res.data)
             )
         })
 
-        CardsAPI.getCardByid(id).then((res) => {
-            setCardInfo(res.data)
-            setUserId(res.data.userId)
+        if (id) {
+            cardStore.getPropertiesFromCardById(id)
 
-            changeCardStore.ownerOption
+            CardsAPI.getCardByid(id).then((res) => {
+                setCardInfo(res.data)
+                setUserId(res.data.userId)
 
-            setNameOfCard(res.data.name)
+                setNameOfCard(res.data.name)
 
-            changeCardStore.setOriginNameOfCard(nameOfCard)
-            changeCardStore.setCardInfo(res.data)
-        })
+                cardStore.setOriginNameOfCard(nameOfCard)
+                cardStore.setCardInfo(res.data)
+            })
+        }
     }, [id])
     useEffect(
         () =>
@@ -80,11 +85,8 @@ const CardPage = observer(() => {
             })},
         []
     )
-    
-    useEffect(() => {
-        changeCardStore.getPropertiesFromCardById(id)
-    }, [ id])
-    useEffect(() => {}, [changeCardStore.saved])
+
+    useEffect(() => {}, [cardStore.saved])
 
     return (
         <Container>
@@ -92,7 +94,9 @@ const CardPage = observer(() => {
                 <Col md="9">
                     <Row className="mb-4 d-flex align-items-center">
                         <Col md="4">
-                            <Link className="route-link" to={CARDS_ROUTE}>
+                            <Link className="route-link" to={CARDS_ROUTE} onClick={(e) => {
+                                cardStore.reset()
+                            }}>
                                 <div className="dashboard-button back-to-list">
                                     <svg
                                         width="26"
@@ -115,7 +119,10 @@ const CardPage = observer(() => {
                         </Col>
 
                         <Col md="8">
-                            <h3 className="current-card__current-title">{nameOfCard}</h3>
+                            <h3 className="current-card__current-title">
+                                {!location.href.includes(getCreateCardRoute()) && nameOfCard}
+                                {location.href.includes(getCreateCardRoute()) && <FormattedMessage id="newCard" />}
+                            </h3>
                         </Col>
                     </Row>
 
@@ -133,14 +140,14 @@ const CardPage = observer(() => {
                                             value={nameOfCard}
                                             onChange={(event) => {
                                                 setNameOfCard(event.target.value)
-                                                changeCardStore.changeNameOfCard(event.target.value)
+                                                cardStore.changeNameOfCard(event.target.value)
                                             }}
                                         />
                                     </Form.Group>
-                                    {changeCardStore.observingArray.map((element, index) => {
+                                    {cardStore.observingArray.map((element, index) => {
                                         return (
                                             <Property
-                                                element={element} index={index} store={changeCardStore}
+                                                element={element} index={index} store={cardStore}
                                                 className={element.hidden ? 'd-none' : ''}
                                             />
                                         )
@@ -156,11 +163,11 @@ const CardPage = observer(() => {
                                 </Overlay>
                             </Form>
                             <button
-                                disabled={changeCardStore.observingArray.filter(el => !el.hidden).length === properties.length}
+                                disabled={cardStore.observingArray.filter(el => !el.hidden).length === properties.length}
                                 className="create-new-card__button dashboard-button d-flex align-items-center offset-md-1 "
                                 ref={target}
                                 onMouseOver={() => {
-                                    if (changeCardStore.observingArray.filter(el => !el.hidden).length == properties.length) {
+                                    if (cardStore.observingArray.filter(el => !el.hidden).length == properties.length) {
                                         setShow(true)
                                     }
                                 }}
@@ -188,12 +195,12 @@ const CardPage = observer(() => {
                 <Col md="3">
                     <div className="current-card__save-alert">
                         <div className="save-alert">
-                            {changeCardStore.hasEmptyProperties && (
+                            {cardStore.hasEmptyProperties && (
                                 <p>
                                     <FormattedMessage id="changeCardWarningModalText" />
                                 </p>
                             )}
-                            {changeCardStore.userRole == USER_ROLES.admin && (
+                            {cardStore.userRole == USER_ROLES.admin && (
                                 <Form>
                                     <Form.Group className="mb-2">
                                         <Form.Check
@@ -201,7 +208,7 @@ const CardPage = observer(() => {
                                             type={'checkbox'}
                                             label={<FormattedMessage id="preventDelete" />}
                                             onClick={() => {
-                                                changeCardStore.setProhibitUpdate()
+                                                cardStore.setProhibitUpdate()
                                             }}
                                         />
                                     </Form.Group>
@@ -209,7 +216,7 @@ const CardPage = observer(() => {
                                         id={'chooseOrganization'}
                                         className="mb-2"
                                         defaultValue="null"
-                                        value={changeCardStore.organizationOption}
+                                        value={cardStore.organizationOption}
                                         onChange={(e) => {
                                             handleOrganizationChange(e)
                                         }}>
@@ -229,7 +236,7 @@ const CardPage = observer(() => {
                                         className="mb-2"
                                         defaultValue="null"
                                         onChange={(e) => {
-                                            changeCardStore.setOwnerOption(e.target.value)
+                                            cardStore.setOwnerOption(e.target.value)
                                         }}>
                                         <option value="null" disabled>
                                             <FormattedMessage id="owner" />
@@ -258,7 +265,7 @@ const CardPage = observer(() => {
                             )}
                             <button
                                 className="dashboard-button"
-                                disabled={!changeCardStore.saved}
+                                disabled={!cardStore.saved}
                                 onClick={handleSave}>
                                 <svg
                                     width="26"

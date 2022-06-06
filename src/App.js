@@ -4,7 +4,6 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import { BrowserRouter, Route, Routes, Navigate, useNavigate } from 'react-router-dom'
 import Dashboard from './views/dashboard/Dashboard'
 import Registration from './views/auth/Registration'
-import CreateNewCard from './views/dashboard/CreateNewCard'
 import CardPage from './views/dashboard/CardPage'
 import Header from './components/common/Header'
 import {
@@ -68,7 +67,7 @@ const App = observer(() => {
                             <Route path={REGISTRATION_ROUTE} element={<Registration />} />
                             <Route path={CARDS_ROUTE} element={<Dashboard />} />
                             <Route path={getCardByIdRoute()} element={<CardPage />} />
-                            <Route path={getCreateCardRoute()} element={<CreateNewCard />} />
+                            <Route path={getCreateCardRoute()} element={<CardPage />} />
                             <Route path={getCreateCardWithTemplatesRoute()} element={<CardTemplates />} />
                             <Route path="*" element={<div>404</div>} />
                         </Routes>
