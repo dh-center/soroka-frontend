@@ -7,8 +7,6 @@ export default class CardStore {
     observingArray = []
     startValuesOfObservingArray = []
 
-    deletedProperties = []
-
     saved = false
 
     prohibitUpdate = false
@@ -27,8 +25,6 @@ export default class CardStore {
     reset() {
         this.observingArray = []
         this.startValuesOfObservingArray = []
-    
-        this.deletedProperties = []
     
         this.saved = false
     
@@ -137,7 +133,7 @@ export default class CardStore {
 
         const updatedProperties = this.observingArray.filter((prop) => prop.id && !prop.hidden)
         const createdProperties = this.observingArray.filter((prop) => !prop.id && !prop.hidden)
-        const deletedProperties = this.deletedProperties.filter((prop) => prop)
+        const deletedProperties = this.observingArray.filter((prop) => prop.id && prop.hidden).map((prop) => prop.id)
 
         for (const prop of createdProperties) {
             await CardsAPI.createFilledPropertiesByCardId(this.cardInfo.id, prop)
@@ -172,10 +168,6 @@ export default class CardStore {
 
             return el
         })
-        
-        if (element.id) {
-            this.deletedProperties.push(element.id)
-        }
 
         this.setSaved(true)
     }
