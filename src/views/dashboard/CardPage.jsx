@@ -307,23 +307,34 @@ const CardPage = observer(() => {
                 <Modal.Body>
                     <div className="create-new-card__add-new-property mb-3">
                         {properties.map((el) => {
+                            const cardHasProp = cardStore.observingArray.filter(prop => !prop.hidden).some(prop => prop.propertyId === el.id)
+
+                            let propClassName = "mb-4 d-flex align-items-center flex-row create-new-card__new-property"
+                            let propLabelClassName = "me-2 new-property__label"
+
+                            if (cardHasProp) {
+                                propClassName += " cursor-not-allowed"
+                                propLabelClassName += " cursor-not-allowed"
+                            }
+
                             return (
                                 <Form.Group
-                                    className="mb-4 d-flex align-items-center flex-row create-new-card__new-property"
+                                    className={propClassName}
                                     onClick={(e) => {
+                                        if (cardHasProp) return
                                         handleAddNewProperties(el.id, el.name, el.isLink)
                                     }}
-                                    role="button">
+                                    role="button"
+                                >
                                     <Form.Label
-                                        className="me-2 new-property__label"
-                                        role="button"
+                                        className={propLabelClassName}
                                     >
                                         <FormattedMessage id={el.name} />
                                     </Form.Label>
                                     <Form.Control
                                         type="text"
                                         placeholder={placeholder}
-                                        role="button"
+                                        disabled={cardHasProp}
                                     />
                                 </Form.Group>
                             )

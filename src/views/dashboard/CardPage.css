@@ -1,0 +1,4 @@
+.create-new-card__new-property,
+.create-new-card__new-property:not(.cursor-not-allowed) > * {
+    cursor: pointer;
+}
