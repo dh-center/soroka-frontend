@@ -5,7 +5,7 @@ import { Button, Col, Form, Row } from 'react-bootstrap'
 import { FormattedMessage } from 'react-intl'
 import CommonDialog from '../common/CommonDialog'
 
-const Property = observer(({ type = 'textInput', element, index, store }) => {
+const Property = observer(({ type = 'textInput', element,containClue=false ,index, store }) => {
     const [showDialogModal, setShowDialogModal] = useState(false)
     const [showDeleteButton, setShowDeleteButton] = useState(false)
     const [propertyDeleted, setPropertyDeleted] = useState(false)
@@ -75,7 +75,7 @@ const Property = observer(({ type = 'textInput', element, index, store }) => {
                         )}
                     </Form.Group>
                     <Row className="d-flex ">
-                        {showHelpButton && (
+                        {(showHelpButton && containClue) && (
                             <Col>
                                 <Button
                                     variant="primary"
