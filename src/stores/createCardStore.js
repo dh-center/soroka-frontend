@@ -78,6 +78,7 @@ export default class CreateCardStore {
         this.cardId = response.data.id
 
         const promises = this.observingArray
+            .filter(el => !el.hidden)
             .map(({ name, propertyId, data }) => ({ name, propertyId, data }))
             .map((el) => this.createNewProperty(this.cardId, el))
 
@@ -87,8 +88,12 @@ export default class CreateCardStore {
     }
 
     deletePropertyLocal(element) {
-        this.observingArray = this.observingArray.filter((el) => {
-            return el.propertyId !== element.propertyId
+        this.observingArray = this.observingArray.map((el) => {
+            if (el.propertyId === element.propertyId) {
+                el.hidden = true
+            }
+
+            return el
         })
     }
 }

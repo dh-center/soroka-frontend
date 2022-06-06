@@ -34,13 +34,7 @@ const CreateNewCard = observer(() => {
     const [owners, setOwners] = useState([{}])
     const [properties, setProperties] = useState([{}])
 
-    const handleAddNewProperties = (event) => {
-        const { target } = event
-
-        console.log('target is', target)
-
-        const { id, name, isLink } = target.dataset
-
+    const handleAddNewProperties = (id, name, isLink) => {
         console.log('data is', id, name, isLink)
 
         createCardStore.addNewProperties(name, id)
@@ -139,13 +133,13 @@ const CreateNewCard = observer(() => {
 
                                     {createCardStore.observingArray.map((el, index) => {
                                         return (
-                                            <Property key={el.id} element={el} index={index} store={createCardStore} />
+                                            <Property key={el.id} element={el} index={index} store={createCardStore} className={el.hidden ? 'd-none' : ''} />
                                         )
                                     })}
                                 </div>
                             </Form>
                             <button
-                                disabled={createCardStore.observingArray.length == properties.length}
+                                disabled={createCardStore.observingArray.filter(el => !el.hidden).length == properties.length}
                                 onClick={handleShow}
                                 className="create-new-card__button dashboard-button d-flex align-items-center offset-md-3">
                                 <svg
@@ -312,23 +306,19 @@ const CreateNewCard = observer(() => {
                             return (
                                 <Form.Group
                                     className="mb-4 d-flex align-items-center flex-row create-new-card__new-property"
-                                    onClick={handleAddNewProperties}
+                                    onClick={(e) => {
+                                        handleAddNewProperties(el.id, el.name, el.isLink)
+                                    }}
                                     role="button">
                                     <Form.Label
                                         className="me-2 new-property__label"
-                                        role="button"
-                                        data-id={el.id}
-                                        data-name={el.name}
-                                        data-is-link={el.isLink}>
+                                        role="button">
                                         <FormattedMessage id={el.name} />
                                     </Form.Label>
                                     <Form.Control
                                         type="text"
                                         placeholder={placeholder}
                                         role="button"
-                                        data-id={el.id}
-                                        data-name={el.name}
-                                        data-is-link={el.isLink}
                                     />
                                 </Form.Group>
                             )

@@ -16,7 +16,6 @@ export default class ChangeCardStore {
 
     organizationOption = null
     ownerOption = null
-    observingArrayLenght = 0
 
     userRole = '2'
     cardInfo = {}
@@ -29,10 +28,6 @@ export default class ChangeCardStore {
 
     setSaved(boolean) {
         this.saved = boolean
-    }
-
-    updateObservigArrayLenght() {
-        this.observingArrayLenght = this.observingArray.length
     }
 
     setIsUserNotChangedProperties(index, newValue) {
@@ -99,16 +94,17 @@ export default class ChangeCardStore {
 
     async getPropertiesFromCardById(id) {
         const listOfProperties = await CardsAPI.getCardsFilledPropertiesById(id).then((res) => res.data)
+
         this.observingArray = listOfProperties.map((el) => {
             return { ...el, data: JSON.parse(el.data) }
         })
-        this.updateObservigArrayLenght()
+
         this.startValuesOfObservingArray = listOfProperties
     }
 
     async saveProperties() {
-        const updatedProperties = this.observingArray.filter((prop) => prop.id)
-        const createdProperties = this.observingArray.filter((prop) => !prop.id)
+        const updatedProperties = this.observingArray.filter((prop) => prop.id && !prop.hidden)
+        const createdProperties = this.observingArray.filter((prop) => !prop.id && !prop.hidden)
         const deletedProperties = this.deletedProperties.filter((prop) => prop)
 
         for (const prop of createdProperties) {
@@ -147,11 +143,19 @@ export default class ChangeCardStore {
     }
 
     deletePropertyLocal(element) {
-        this.observingArray = this.observingArray.filter((el) => {
-            return el.id !== element.id
+        this.observingArray = this.observingArray.map((el) => {
+            if (el.propertyId === element.propertyId) {
+                el.hidden = true
+            }
+
+            return el
         })
+        
         this.updateObservigArrayLenght()
-        this.deletedProperties.push(element.id)
+
+        if (element.id) {
+            this.deletedProperties.push(element.id)
+        }
 
         this.setSaved(true)
     }
