@@ -2,7 +2,7 @@ import { makeAutoObservable } from 'mobx'
 import { AuthAPI } from '../api/auth'
 import { CardsAPI } from '../api/cards'
 
-export default class ChangeCardStore {
+export default class CardStore {
     observingArray = []
     startValuesOfObservingArray = []
 
@@ -10,7 +10,6 @@ export default class ChangeCardStore {
 
     localArrayOfProperties = []
     saved = false
-    hasEmptyProperties = false
 
     prohibitUpdate = false
 
@@ -22,7 +21,6 @@ export default class ChangeCardStore {
     nameOfCard = ''
 
     constructor() {
-        this.setHasEmptyProperties()
         makeAutoObservable(this)
     }
 
@@ -56,8 +54,6 @@ export default class ChangeCardStore {
 
     addNewProperties(name, propertyId, data = null, id = null) {
         this.observingArray.push({ name, propertyId, data, id })
-        // this.localArrayOfProperties.push({ name, propertyId, data })
-        this.updateObservigArrayLenght()
         this.setSaved(true)
     }
 
@@ -88,8 +84,6 @@ export default class ChangeCardStore {
     changeValue(index, newValue) {
         this.observingArray[index].data = newValue
         this.setSaved(!this.setIsUserNotChangedProperties(index, newValue))
-
-        this.setHasEmptyProperties()
     }
 
     async getPropertiesFromCardById(id) {
@@ -103,6 +97,23 @@ export default class ChangeCardStore {
     }
 
     async saveProperties() {
+        const cardData = {
+            name: this.nameOfCard,
+            userId: this.ownerOption,
+            organizationId: this.organizationOption,
+            preventDelete: this.prohibitUpdate
+        }
+
+        if (!this.cardInfo.id) {
+            const response = await CardsAPI.createCard(cardData)
+
+            this.setCardInfo(response.data)
+        } else {
+            const response = await CardsAPI.updateCardById(this.cardInfo.id, cardData)
+
+            this.setCardInfo(response.data)
+        }
+
         const updatedProperties = this.observingArray.filter((prop) => prop.id && !prop.hidden)
         const createdProperties = this.observingArray.filter((prop) => !prop.id && !prop.hidden)
         const deletedProperties = this.deletedProperties.filter((prop) => prop)
@@ -111,35 +122,23 @@ export default class ChangeCardStore {
             await CardsAPI.createFilledPropertiesByCardId(this.cardInfo.id, prop)
         }
 
-        await CardsAPI.updateProperties({
-            properties: updatedProperties
-        }).catch((e) => console.log(e))
+        if (updatedProperties.length) {
+            await CardsAPI.updateProperties({
+                properties: updatedProperties
+            }).catch((e) => console.log(e))
+        }
 
         if (deletedProperties.length) {
             await CardsAPI.deleteProperties(this.cardInfo.id, { properties: deletedProperties })
         }
 
-        const res = await CardsAPI.updateCardById(this.cardInfo.id, {
-            name: this.nameOfCard,
-            userId: this.ownerOption,
-            organizationId: this.organizationOption,
-            preventDelete: this.prohibitUpdate
-        })
-
-        this.nameOfCard = res.data.name
+        this.nameOfCard = this.cardInfo.name
 
         this.getPropertiesFromCardById(this.cardInfo.id)
     }
 
     async createNewProperty(cardId, el) {
         await CardsAPI.createFilledPropertiesByCardId(cardId, el)
-    }
-
-    setHasEmptyProperties() {
-        this.hasEmptyProperties = false
-        this.observingArray.forEach((el) => {
-            this.hasEmptyProperties = this.hasEmptyProperties || !el.data.trim()
-        })
     }
 
     deletePropertyLocal(element) {
@@ -151,8 +150,6 @@ export default class ChangeCardStore {
             return el
         })
         
-        this.updateObservigArrayLenght()
-
         if (element.id) {
             this.deletedProperties.push(element.id)
         }
