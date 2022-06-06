@@ -9,7 +9,7 @@ export default class CardStore {
 
     saved = false
 
-    prohibitUpdate = false
+    preventDelete = false
 
     organizationOption = null
     ownerOption = null
@@ -27,8 +27,6 @@ export default class CardStore {
         this.startValuesOfObservingArray = []
     
         this.saved = false
-    
-        this.prohibitUpdate = false
     
         this.organizationOption = null
         this.ownerOption = null
@@ -83,8 +81,8 @@ export default class CardStore {
         if (el.data.trim() === '') return true
     }
 
-    toggleProhibitUpdate() {
-        this.prohibitUpdate = !this.prohibitUpdate
+    togglePreventDelete() {
+        this.cardInfo.preventDelete = !this.cardInfo.preventDelete
         this.setSaved(true)
     }
 
@@ -118,7 +116,7 @@ export default class CardStore {
             name: this.nameOfCard,
             userId: this.ownerOption,
             organizationId: this.organizationOption,
-            preventDelete: this.prohibitUpdate
+            preventDelete: this.cardInfo.preventDelete
         }
 
         if (!this.cardInfo.id) {
