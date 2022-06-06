@@ -28,8 +28,8 @@ instance.interceptors.response.use(
     (response) => response,
 
     async (error) => {
-        if (error.response.status === 401) {
-            const isRefreshInvalid = error.response.data === 'Unauthorized'
+        if (error.response.status === 401 && !location.href.includes('login')) {
+            const isRefreshInvalid = error.response.data.error
 
             if (isRefreshInvalid) {
                 window.location = '/'

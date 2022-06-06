@@ -149,8 +149,6 @@ export default class CardStore {
 
         this.nameOfCard = this.cardInfo.name
 
-        this.getPropertiesFromCardById(this.cardInfo.id)
-
         this.setSaved(false)
     }
 
