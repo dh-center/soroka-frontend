@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import './CardPage.css'
 import { Col, Container, Form, Modal, Overlay, Row, Tooltip } from 'react-bootstrap'
-import { Link, useParams, useNavigate } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import './dashboardGlobal.css'
 import { observer } from 'mobx-react'
 import CardStore from '../../stores/cardStore'
@@ -40,7 +40,7 @@ const CardPage = observer(() => {
         }
     }
 
-    const handleAddNewProperties = (id, name, isLink) => {
+    const handleAddNewProperties = (id, name) => {
         cardStore.addNewProperties(name, id)
 
         setShowAddingProp(false)
@@ -91,8 +91,8 @@ const CardPage = observer(() => {
                                         nav(CARDS_ROUTE)
                                         return
                                     }
+
                                     setShowSureCancel(true)
-                                    setTimeout(() => console.log({ showSureCancel }), 0)
                                 }}>
                                 <div className="dashboard-button back-to-list">
                                     <svg
