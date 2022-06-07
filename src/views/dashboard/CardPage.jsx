@@ -12,6 +12,7 @@ import { USER_ROLES } from '../../utils/constants'
 import Property from '../../components/dashboard/Property'
 import { mainContext } from '../../context/mainContext'
 import { organizationsAPI } from '../../api/organizations'
+import CommonDialog from "../../components/common/CommonDialog";
 
 const cardStore = new CardStore()
 
@@ -22,6 +23,7 @@ const CardPage = observer(() => {
     const [nameOfCard, setNameOfCard] = useState('')
     const [showAddingProp, setShowAddingProp] = useState(false)
     const [show, setShow] = useState(false)
+    const [showSureCancel, setShowSureCancel] = useState(false)
     const [showSaveModal, setShowSaveModal] = useState(false)
     const target = useRef(null)
     const { id } = useParams()
@@ -52,7 +54,7 @@ const CardPage = observer(() => {
 
         organizationsAPI.getOwnersById(cardStore.organizationOption).then(
             (res) => setOwners(res.data)
-        )        
+        )
     }
 
     useEffect(() => {
@@ -73,6 +75,7 @@ const CardPage = observer(() => {
             )
         })
     }, [id])
+
     useEffect(
         () =>
             {CardsAPI.getCardsProperties().then((res) => {
@@ -81,7 +84,7 @@ const CardPage = observer(() => {
         []
     )
 
-    useEffect(() => {}, [cardStore.saved])
+    useEffect(() => {}, [cardStore.changed])
 
     return (
         <Container>
@@ -90,7 +93,15 @@ const CardPage = observer(() => {
                     <Row className="mb-4 d-flex align-items-center">
                         <Col md="4">
                             <Link className="route-link" to={CARDS_ROUTE} onClick={(e) => {
-                                cardStore.reset()
+                                if (!cardStore.changed) {
+                                    cardStore.reset();
+
+                                    return;
+                                }
+
+                                setShowSureCancel(true);
+
+                                setTimeout(() => console.log({ showSureCancel }), 0)
                             }}>
                                 <div className="dashboard-button back-to-list">
                                     <svg
@@ -139,6 +150,7 @@ const CardPage = observer(() => {
                                             }}
                                         />
                                     </Form.Group>
+
                                     {cardStore.observingArray.map((element, index) => {
                                         return (
                                             <Property
@@ -157,6 +169,7 @@ const CardPage = observer(() => {
                                     )}
                                 </Overlay>
                             </Form>
+
                             <button
                                 disabled={cardStore.observingArray.filter(el => !el.hidden).length === properties.length}
                                 className="create-new-card__button dashboard-button d-flex align-items-center offset-md-1 "
@@ -208,6 +221,7 @@ const CardPage = observer(() => {
                                             }}
                                         />
                                     </Form.Group>
+
                                     <Form.Select
                                         id={'chooseOrganization'}
                                         className="mb-2"
@@ -226,6 +240,7 @@ const CardPage = observer(() => {
                                             )
                                         })}
                                     </Form.Select>
+
                                     <Form.Select
                                         id={'chooseOwner'}
                                         className="mb-2"
@@ -247,10 +262,12 @@ const CardPage = observer(() => {
                                     </Form.Select>
                                 </Form>
                             )}
+
                             <button
                                 className="dashboard-button"
-                                disabled={!cardStore.saved}
-                                onClick={handleSave}>
+                                disabled={!cardStore.changed}
+                                onClick={handleSave}
+                            >
                                 <svg
                                     width="26"
                                     height="24"
@@ -290,9 +307,10 @@ const CardPage = observer(() => {
                     </div>
                 </Col>
             </Row>
+
             <Modal show={showSaveModal} onHide={() => setShowSaveModal(false)}>
                 <Modal.Body>
-                    <FormattedMessage id="saved" />
+                    <FormattedMessage id="changed" />
                 </Modal.Body>
             </Modal>
 
@@ -342,6 +360,15 @@ const CardPage = observer(() => {
                     </div>
                 </Modal.Body>
             </Modal>
+
+            <CommonDialog
+                formattesMessageTitleId={'sureCancel'}
+                show={showSureCancel}
+                handleSubmit={() => {
+                    console.log('hey');
+                }}
+                setShow={setShowSureCancel}
+            />
         </Container>
     )
 })

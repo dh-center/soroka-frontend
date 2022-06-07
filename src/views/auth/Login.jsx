@@ -41,6 +41,7 @@ const Login = ({ authStore }) => {
                     <span className="login__span">
                         <FormattedMessage id="loginTitle" />
                     </span>
+
                     <Form onSubmit={handleSubmit}>
                         <Form.Group controlId="formBasicEmail">
                             <input
