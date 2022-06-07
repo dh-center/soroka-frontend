@@ -38,7 +38,7 @@ const English = {
     saveBeforeExit: 'Save before leaving?',
     deleteAlert: 'Delete propertie and value?',
     sureExit: 'Do you sure that you want exit?',
-    sureCancel: 'Do you sure that you want cancel creating card?',
+    sureCancel: 'Do you sure that you want cancel changing card?',
     answerIsYes: 'Yes',
     answerIsNo: 'No',
 
