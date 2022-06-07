@@ -12,7 +12,7 @@ import { USER_ROLES } from '../../utils/constants'
 import Property from '../../components/dashboard/Property'
 import { mainContext } from '../../context/mainContext'
 import { organizationsAPI } from '../../api/organizations'
-import CommonDialog from "../../components/common/CommonDialog";
+import CommonDialog from '../../components/common/CommonDialog'
 
 const cardStore = new CardStore()
 
@@ -41,10 +41,7 @@ const CardPage = observer(() => {
     }
 
     const handleAddNewProperties = (id, name, isLink) => {
-        cardStore.addNewProperties(
-            name,
-            id
-        )
+        cardStore.addNewProperties(name, id)
 
         setShowAddingProp(false)
     }
@@ -52,9 +49,7 @@ const CardPage = observer(() => {
     const handleOrganizationChange = (event) => {
         cardStore.setOrganizationOption(event.target.value)
 
-        organizationsAPI.getOwnersById(cardStore.organizationOption).then(
-            (res) => setOwners(res.data)
-        )
+        organizationsAPI.getOwnersById(cardStore.organizationOption).then((res) => setOwners(res.data))
     }
 
     useEffect(() => {
@@ -70,19 +65,15 @@ const CardPage = observer(() => {
         }
 
         cardStore.setOrganiztionAndOwner().then(() => {
-            organizationsAPI.getOwnersById(cardStore.organizationOption).then(
-                (res) => setOwners(res.data)
-            )
+            organizationsAPI.getOwnersById(cardStore.organizationOption).then((res) => setOwners(res.data))
         })
     }, [id])
 
-    useEffect(
-        () =>
-            {CardsAPI.getCardsProperties().then((res) => {
-                setProperties(res.data)
-            })},
-        []
-    )
+    useEffect(() => {
+        CardsAPI.getCardsProperties().then((res) => {
+            setProperties(res.data)
+        })
+    }, [])
 
     useEffect(() => {}, [cardStore.changed])
 
@@ -92,17 +83,17 @@ const CardPage = observer(() => {
                 <Col md="9">
                     <Row className="mb-4 d-flex align-items-center">
                         <Col md="4">
-                            <Link className="route-link" to={CARDS_ROUTE} onClick={(e) => {
-                                if (!cardStore.changed) {
-                                    cardStore.reset();
-
-                                    return;
-                                }
-
-                                setShowSureCancel(true);
-
-                                setTimeout(() => console.log({ showSureCancel }), 0)
-                            }}>
+                            <a
+                                className="route-link"
+                                onClick={(e) => {
+                                    if (!cardStore.changed) {
+                                        cardStore.reset()
+                                        nav(CARDS_ROUTE)
+                                        return
+                                    }
+                                    setShowSureCancel(true)
+                                    setTimeout(() => console.log({ showSureCancel }), 0)
+                                }}>
                                 <div className="dashboard-button back-to-list">
                                     <svg
                                         width="26"
@@ -121,7 +112,7 @@ const CardPage = observer(() => {
                                         <FormattedMessage id="buttonBackToCards" />
                                     </span>
                                 </div>
-                            </Link>
+                            </a>
                         </Col>
 
                         <Col md="8">
@@ -154,7 +145,9 @@ const CardPage = observer(() => {
                                     {cardStore.observingArray.map((element, index) => {
                                         return (
                                             <Property
-                                                element={element} index={index} store={cardStore}
+                                                element={element}
+                                                index={index}
+                                                store={cardStore}
                                                 className={element.hidden ? 'd-none' : ''}
                                             />
                                         )
@@ -171,11 +164,15 @@ const CardPage = observer(() => {
                             </Form>
 
                             <button
-                                disabled={cardStore.observingArray.filter(el => !el.hidden).length === properties.length}
+                                disabled={
+                                    cardStore.observingArray.filter((el) => !el.hidden).length === properties.length
+                                }
                                 className="create-new-card__button dashboard-button d-flex align-items-center offset-md-1 "
                                 ref={target}
                                 onMouseOver={() => {
-                                    if (cardStore.observingArray.filter(el => !el.hidden).length == properties.length) {
+                                    if (
+                                        cardStore.observingArray.filter((el) => !el.hidden).length == properties.length
+                                    ) {
                                         setShow(true)
                                     }
                                 }}
@@ -247,8 +244,7 @@ const CardPage = observer(() => {
                                         value={cardStore.ownerOption}
                                         onChange={(e) => {
                                             cardStore.setOwnerOption(e.target.value)
-                                        }}
-                                    >
+                                        }}>
                                         <option value="null" disabled>
                                             <FormattedMessage id="owner" />
                                         </option>
@@ -263,11 +259,7 @@ const CardPage = observer(() => {
                                 </Form>
                             )}
 
-                            <button
-                                className="dashboard-button"
-                                disabled={!cardStore.changed}
-                                onClick={handleSave}
-                            >
+                            <button className="dashboard-button" disabled={!cardStore.changed} onClick={handleSave}>
                                 <svg
                                     width="26"
                                     height="24"
@@ -325,14 +317,16 @@ const CardPage = observer(() => {
                 <Modal.Body>
                     <div className="create-new-card__add-new-property mb-3">
                         {properties.map((el) => {
-                            const cardHasProp = cardStore.observingArray.filter(prop => !prop.hidden).some(prop => prop.propertyId === el.id)
+                            const cardHasProp = cardStore.observingArray
+                                .filter((prop) => !prop.hidden)
+                                .some((prop) => prop.propertyId === el.id)
 
-                            let propClassName = "mb-4 d-flex align-items-center flex-row create-new-card__new-property"
-                            let propLabelClassName = "me-2 new-property__label"
+                            let propClassName = 'mb-4 d-flex align-items-center flex-row create-new-card__new-property'
+                            let propLabelClassName = 'me-2 new-property__label'
 
                             if (cardHasProp) {
-                                propClassName += " cursor-not-allowed"
-                                propLabelClassName += " cursor-not-allowed"
+                                propClassName += ' cursor-not-allowed'
+                                propLabelClassName += ' cursor-not-allowed'
                             }
 
                             return (
@@ -342,18 +336,11 @@ const CardPage = observer(() => {
                                         if (cardHasProp) return
                                         handleAddNewProperties(el.id, el.name, el.isLink)
                                     }}
-                                    role="button"
-                                >
-                                    <Form.Label
-                                        className={propLabelClassName}
-                                    >
+                                    role="button">
+                                    <Form.Label className={propLabelClassName}>
                                         <FormattedMessage id={el.name} />
                                     </Form.Label>
-                                    <Form.Control
-                                        type="text"
-                                        placeholder={placeholder}
-                                        disabled={cardHasProp}
-                                    />
+                                    <Form.Control type="text" placeholder={placeholder} disabled={cardHasProp} />
                                 </Form.Group>
                             )
                         })}
@@ -365,7 +352,10 @@ const CardPage = observer(() => {
                 formattesMessageTitleId={'sureCancel'}
                 show={showSureCancel}
                 handleSubmit={() => {
-                    console.log('hey');
+                    nav(CARDS_ROUTE)
+                }}
+                handleClose={() => {
+                    cardStore.saveProperties().then((res) => nav(CARDS_ROUTE))
                 }}
                 setShow={setShowSureCancel}
             />
