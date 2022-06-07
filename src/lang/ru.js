@@ -6,7 +6,7 @@ const Russian = {
     addPropertyTitle: 'Нажмите на нужное свойство, чтобы добавить его',
     placeholderNewCard: 'Новая карточка',
     tooltipAllPropertiesAlreadyAdded: 'Все возможные свойства уже добавлены',
-    saved: 'Сохранено',
+    changed: 'Сохранено',
     property: 'Свойство',
     enity: 'Сущность',
     organization: 'Организация',
@@ -50,9 +50,9 @@ const Russian = {
     acceptsTermsOfUse: 'Принимаю правила соглашения',
 
     // Свойства
-    ADDRESS: 'Адрес',
-    LEGAL_NAME: 'Юридическое название',
-    ARTISTIC_TEXT: 'Художественный текст'
+    address: 'Адрес',
+    legalName: 'Юридическое название',
+    artisticText: 'Художественный текст'
 }
 
 export default Russian

@@ -3,8 +3,8 @@ import { LOCALES } from '../lang/locales'
 
 export default class BaseStore {
     uiLang = LOCALES.RUSSIAN
-    organizations = [{}]
-    allProperties = [{}]
+    organizations = []
+
     constructor() {
         makeAutoObservable(this)
         const locale = navigator.language

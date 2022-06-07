@@ -6,7 +6,7 @@ const English = {
     addPropertyTitle: 'Click on the desired property to add it',
     placeholderNewCard: 'New card',
     tooltipAllPropertiesAlreadyAdded: 'All possible properties already added',
-    saved: 'Saved',
+    changed: 'Saved',
     property: 'Property',
     enity: 'Enity',
     organization: 'Organization',
@@ -50,9 +50,9 @@ const English = {
     acceptsTermsOfUse: 'Accept terms of use',
 
     // Свойства
-    ADDRESS: 'Address',
-    LEGAL_NAME: 'Legal name',
-    ARTISTIC_TEXT: 'Artistic text'
+    address: 'Address',
+    legalName: 'Legal name',
+    artisticText: 'Artistic text'
 }
 
 export default English

@@ -19,6 +19,7 @@ function Registration() {
     const placeholderRepeatPassword = intl.formatMessage({ id: 'placeholderRepeatPassword' })
     const placeholderPhoneOrEmail = intl.formatMessage({ id: 'placeholderPhoneOrEmail' })
     const labelAccept = intl.formatMessage({ id: 'acceptsTermsOfUse' })
+
     const passwordButtonHandler = () => {
         const value = password.current.getAttribute('type') === 'password' ? 'text' : 'password'
         password.current.setAttribute('type', value)

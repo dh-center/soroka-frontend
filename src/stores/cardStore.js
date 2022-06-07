@@ -7,7 +7,7 @@ export default class CardStore {
     observingArray = []
     startValuesOfObservingArray = []
 
-    saved = false
+    changed = false
 
     preventDelete = false
 
@@ -25,24 +25,19 @@ export default class CardStore {
     reset() {
         this.observingArray = []
         this.startValuesOfObservingArray = []
-    
-        this.saved = false
-    
+
+        this.changed = false
+
         this.organizationOption = null
         this.ownerOption = null
-    
+
         this.userRole = '2'
         this.cardInfo = {}
         this.nameOfCard = ''
     }
 
-    setSaved(boolean) {
-        console.log('set saved:', boolean)
-        this.saved = boolean
-    }
-
-    setIsUserNotChangedProperties(index, newValue) {
-        return this.startValuesOfObservingArray[index]?.data === newValue
+    setChanged(boolean) {
+        this.changed = boolean
     }
 
     async setOrganiztionAndOwner() {
@@ -69,36 +64,32 @@ export default class CardStore {
 
     addNewProperties(name, propertyId, data = null, id = null) {
         this.observingArray.push({ name, propertyId, data, id })
-        this.setSaved(true)
+        this.setChanged(true)
     }
 
     changeNameOfCard(value) {
         this.nameOfCard = value
-        this.setSaved(true)
-    }
-
-    checkDataIsEmpty(el) {
-        if (el.data.trim() === '') return true
+        this.setChanged(true)
     }
 
     togglePreventDelete() {
         this.cardInfo.preventDelete = !this.cardInfo.preventDelete
-        this.setSaved(true)
+        this.setChanged(true)
     }
 
     setOrganizationOption(value) {
         this.organizationOption = value
-        this.setSaved(true)
+        this.setChanged(true)
     }
 
     setOwnerOption(value) {
         this.ownerOption = value
-        this.setSaved(true)
+        this.setChanged(true)
     }
 
     changeValue(index, newValue) {
         this.observingArray[index].data = newValue
-        this.setSaved(!this.setIsUserNotChangedProperties(index, newValue))
+            this.setChanged(true)
     }
 
     async getPropertiesFromCardById(id) {
@@ -116,7 +107,7 @@ export default class CardStore {
             name: this.nameOfCard,
             userId: this.ownerOption,
             organizationId: this.organizationOption,
-            preventDelete: this.cardInfo.preventDelete
+            preventDelete: !!this.cardInfo.preventDelete
         }
 
         if (!this.cardInfo.id) {
@@ -133,6 +124,10 @@ export default class CardStore {
         const createdProperties = this.observingArray.filter((prop) => !prop.id && !prop.hidden)
         const deletedProperties = this.observingArray.filter((prop) => prop.id && prop.hidden).map((prop) => prop.id)
 
+        if (deletedProperties.length) {
+            await CardsAPI.deleteProperties(this.cardInfo.id, { properties: deletedProperties })
+        }
+
         for (const prop of createdProperties) {
             await CardsAPI.createFilledPropertiesByCardId(this.cardInfo.id, prop)
         }
@@ -143,17 +138,9 @@ export default class CardStore {
             }).catch((e) => console.log(e))
         }
 
-        if (deletedProperties.length) {
-            await CardsAPI.deleteProperties(this.cardInfo.id, { properties: deletedProperties })
-        }
-
         this.nameOfCard = this.cardInfo.name
 
-        this.setSaved(false)
-    }
-
-    async createNewProperty(cardId, el) {
-        await CardsAPI.createFilledPropertiesByCardId(cardId, el)
+        this.setChanged(false)
     }
 
     deletePropertyLocal(element) {
@@ -165,6 +152,6 @@ export default class CardStore {
             return el
         })
 
-        this.setSaved(true)
+        this.setChanged(true)
     }
 }
