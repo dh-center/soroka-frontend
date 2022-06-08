@@ -52,7 +52,17 @@ const English = {
     // Свойства
     address: 'Address',
     legalName: 'Legal name',
-    artisticText: 'Artistic text'
+    artisticText: 'Artistic text',
+
+    help: 'Помощь',
+    hideHelp: 'Скрыть помощь',
+    delete: 'Удалить',
+
+    noSuchDate: 'Такой даты нет в календаре',
+    calendarGrigorian: 'Григорианский календарь',
+    calendarJulian: 'Юлианский (старый стиль) календарь',
+    calendarHelp:
+        '<p>Все даты хранятся в формате julian date и могут сравниваться между собой. При смене календаря введённые даты не меняются</p><p> На данный момент поддерживаются юлианский и григорианский календарь.</p><p>Например, можно ввести точные даты “12.04.1698”</p>'
 }
 
 export default English

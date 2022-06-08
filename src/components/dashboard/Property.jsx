@@ -1,29 +1,25 @@
-import axios from 'axios'
 import { observer } from 'mobx-react-lite'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Button, Col, Form, Row } from 'react-bootstrap'
 import { FormattedMessage } from 'react-intl'
 import CommonDialog from '../common/CommonDialog'
 
-const Property = observer(({ type = 'textInput', element,containClue=false ,index, store }) => {
+const Property = observer(({ type = 'textInput', element, index, store }) => {
     const [showDialogModal, setShowDialogModal] = useState(false)
-    const [showDeleteButton, setShowDeleteButton] = useState(false)
     const [propertyDeleted, setPropertyDeleted] = useState(false)
-    const [showHelpButton, setShowHelpButton] = useState(false)
+    const [showPanel, setShowPanel] = useState(false)
     const [helpButtonPressed, setHelpButtonPressed] = useState(false)
 
-    const [formateDateIsCorrect, setFormateDateIsCorrect] = useState(false)
+    const formateDateIsCorrect = false
     return (
         <div key={element.id}>
             {!propertyDeleted && (
                 <div
                     onMouseEnter={() => {
-                        setShowHelpButton(true)
-                        setShowDeleteButton(true)
+                        setShowPanel(true)
                     }}
                     onMouseLeave={() => {
-                        setShowDeleteButton(false)
-                        setShowHelpButton(false)
+                        setShowPanel(false)
                     }}
                     className="mb-4 d-flex flex-column align-items-end"
                     key={element.id}>
@@ -31,72 +27,72 @@ const Property = observer(({ type = 'textInput', element,containClue=false ,inde
                         <Form.Label className="me-2 col-xl-2 col-sm-3">
                             {<FormattedMessage id={element.name} />}
                         </Form.Label>
-                        {type === 'textInput' && (
-                            <Form.Control
-                                as="textarea"
-                                style={{ height: '84px' }}
-                                type="text"
-                                placeholder=""
-                                // value={element.data}
-                                value={store.observingArray[index]?.data}
-                                onChange={(event) => {
-                                    store.changeValue(index, event.target.value)
-                                }}
-                            />
-                        )}
-                        {type === 'date' && (
-                            <div className="w-100 p-4 border">
-                                <Form.Group className="mb-2">
-                                    <Form.Select className="mb-2">
-                                        <option value="1">Григорианский календарь</option>
-                                        <option value="2">Юлианский (старый стиль) календарь</option>
-                                    </Form.Select>
-                                    <Form.Control
-                                        type="date"
-                                        placeholder="12.04.1689"
-                                        className="w-25"
-                                        style={{
-                                            border: formateDateIsCorrect ? '1px solid black' : '1px dashed red'
-                                        }}
-                                    />
-                                    {!formateDateIsCorrect && <Form.Text className="text-danger">Такой даты в календаре нет</Form.Text>}
-                                </Form.Group>
-                                {helpButtonPressed && (
-                                    <div className="">
-                                        <p>
-                                            Все даты хранятся в формате julian date и могут сравниваться между собой.
-                                            При смене календаря введённые даты не меняются
-                                        </p>
-                                        <p> На данный момент поддерживаются юлианский и григорианский календарь.</p>
-                                        <p>Например, можно ввести точные даты “12.04.1698”</p>
-                                    </div>
-                                )}
-                            </div>
-                        )}
+                        <div className="w-100 p-4 border">
+                            {type === 'textInput' && (
+                                <Form.Control
+                                    as="textarea"
+                                    style={{ height: '84px' }}
+                                    type="text"
+                                    placeholder=""
+                                    value={store.observingArray[index]?.data}
+                                    onChange={(event) => {
+                                        store.changeValue(index, event.target.value)
+                                    }}
+                                />
+                            )}
+                            {type === 'date' && (
+                                <>
+                                    <Form.Group className="mb-2">
+                                        <Form.Select className="mb-2">
+                                            <option value="1">
+                                                <FormattedMessage id="calendarGrigorian" />
+                                            </option>
+                                            <option value="2">
+                                                <FormattedMessage id="calendarJulian" />
+                                            </option>
+                                        </Form.Select>
+                                        <Form.Control
+                                            type="text"
+                                            placeholder="12.04.1689"
+                                            className={`w-25 ${formateDateIsCorrect ? '' : 'is-invalid'}`}
+                                        />
+                                        <div className="invalid-feedback">
+                                            <FormattedMessage id="noSuchDate" />
+                                        </div>
+                                    </Form.Group>
+                                    {helpButtonPressed && (
+                                        <div>
+                                            <FormattedMessage
+                                                id="calendarHelp"
+                                                values={{
+                                                    p: (chunks) => <p>{chunks}</p>
+                                                }}
+                                            />
+                                        </div>
+                                    )}
+                                </>
+                            )}
+                        </div>
                     </Form.Group>
-                    <Row className="d-flex ">
-                        {(showHelpButton && containClue) && (
-                            <Col>
-                                <Button
-                                    variant="primary"
-                                    onClick={() => setHelpButtonPressed((prevValue) => !prevValue)}>
-                                    Помощь
-                                </Button>
-                            </Col>
-                        )}
+                    <Row className={`d-flex ${showPanel ? 'visible' : 'invisible'}`}>
+                        <Col>
+                            <Button
+                                variant="primary"
+                                className="text-nowrap"
+                                onClick={() => setHelpButtonPressed((prevValue) => !prevValue)}>
+                                <FormattedMessage id={helpButtonPressed ? 'hideHelp' : 'help'} />
+                            </Button>
+                        </Col>
 
-                        {showDeleteButton && (
-                            <Col>
-                                <button
-                                    className="btn btn-danger"
-                                    type="button"
-                                    onClick={() => {
-                                        setShowDialogModal(true)
-                                    }}>
-                                    Удалить
-                                </button>
-                            </Col>
-                        )}
+                        <Col>
+                            <Button
+                                variant="danger"
+                                onClick={() => {
+                                    setShowDialogModal(true)
+                                }}>
+                                <FormattedMessage id="delete" />
+                            </Button>
+                        </Col>
                     </Row>
                 </div>
             )}
