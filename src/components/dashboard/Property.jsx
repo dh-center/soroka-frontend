@@ -10,7 +10,7 @@ const Property = observer(({ type = 'textInput', element, index, store }) => {
     const [showPanel, setShowPanel] = useState(false)
     const [helpButtonPressed, setHelpButtonPressed] = useState(false)
 
-    const formateDateIsCorrect = false
+    const isDateFormatCorrect = false
     return (
         <div key={element.id}>
             {!propertyDeleted && (
@@ -54,7 +54,7 @@ const Property = observer(({ type = 'textInput', element, index, store }) => {
                                         <Form.Control
                                             type="text"
                                             placeholder="12.04.1689"
-                                            className={`w-25 ${formateDateIsCorrect ? '' : 'is-invalid'}`}
+                                            className={`w-25 ${isDateFormatCorrect ? '' : 'is-invalid'}`}
                                         />
                                         <div className="invalid-feedback">
                                             <FormattedMessage id="noSuchDate" />

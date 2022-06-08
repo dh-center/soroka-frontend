@@ -54,15 +54,15 @@ const English = {
     legalName: 'Legal name',
     artisticText: 'Artistic text',
 
-    help: 'Помощь',
-    hideHelp: 'Скрыть помощь',
-    delete: 'Удалить',
+    help: 'Help',
+    hideHelp: 'Hide help',
+    delete: 'Delete',
 
-    noSuchDate: 'Такой даты нет в календаре',
-    calendarGrigorian: 'Григорианский календарь',
-    calendarJulian: 'Юлианский (старый стиль) календарь',
+    noSuchDate: 'No such date in that calender',
+    calendarGrigorian: 'Gregorian calendar',
+    calendarJulian: 'Julian calendar',
     calendarHelp:
-        '<p>Все даты хранятся в формате julian date и могут сравниваться между собой. При смене календаря введённые даты не меняются</p><p> На данный момент поддерживаются юлианский и григорианский календарь.</p><p>Например, можно ввести точные даты “12.04.1698”</p>'
+        '<p>All dates are stored in julian date format and can be compared with each other. When you change the calendar, the entered dates do not change</p><p> Currently, the Julian and Gregorian calendars are supported.</p><p>For example, you can enter the exact dates “04/12/1698”</p>'
 }
 
 export default English
