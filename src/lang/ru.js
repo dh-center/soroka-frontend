@@ -48,6 +48,8 @@ const Russian = {
     placeholderPassword: 'Пароль',
     placeholderRepeatPassword: 'Повторите пароль',
     acceptsTermsOfUse: 'Принимаю правила соглашения',
+    alreadyRegistered: 'Я уже зарегистрировался',
+    signUpButton: 'Зарегистрироваться',
 
     // Свойства
     address: 'Адрес',

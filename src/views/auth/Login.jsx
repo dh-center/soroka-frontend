@@ -1,13 +1,12 @@
 import React, { useRef } from 'react'
 import { Col, Container, Form, Row } from 'react-bootstrap'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import './Login.css'
 import './auth.css'
 import { FormattedMessage } from 'react-intl'
-import { REGISTRATION_ROUTE } from '../../utils/routes'
-import { AuthAPI } from '../../api/auth'
+import { observer } from "mobx-react-lite";
 
-const Login = ({ authStore }) => {
+const Login = observer(({ authStore }) => {
     const email = useRef(null)
     const password = useRef(null)
     const nav = useNavigate()
@@ -19,19 +18,22 @@ const Login = ({ authStore }) => {
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        const response = await AuthAPI.login({
+        const response = await authStore.login({
             email: email.current.value,
             password: password.current.value
         })
-        authStore.setAccessToken(response.data.accessToken)
-        authStore.setRefreshToken(response.data.refreshToken)
-        // TODO изменение логики хранения токена.
-        localStorage.setItem('accessToken', response.data.accessToken)
-        localStorage.setItem('refreshToken', response.data.refreshToken)
 
-        await authStore.getUserProfile()
+        if (response) {
+            authStore.setAccessToken(response.accessToken)
+            authStore.setRefreshToken(response.refreshToken)
+            // TODO изменение логики хранения токена.
+            localStorage.setItem('accessToken', response.accessToken)
+            localStorage.setItem('refreshToken', response.refreshToken)
 
-        nav('/cards')
+            await authStore.getUserProfile()
+
+            nav('/cards')
+        }
     }
 
     return (
@@ -86,21 +88,19 @@ const Login = ({ authStore }) => {
 
                         <div className="login__submit">
                             <input type={'submit'} className="registration__submit-button" value={'Войти'} />
-
-                            {/* <Link to={REGISTRATION_ROUTE} className={'link'}>
-                                Регистрация
-                            </Link> */}
                         </div>
 
-                        <div className="login__wrong-auth">
-                            Неправильный логин или пароль. <br /> Попробуйте ещё раз, а в крайнем случае напишите
-                            администратору: hvost@soroka.app
-                        </div>
+                        {authStore.incorrectPassword === true &&
+                            <div className="login__wrong-auth">
+                                Неправильный логин или пароль. <br /> Попробуйте ещё раз, а в крайнем случае напишите
+                                администратору: hvost@soroka.app
+                            </div>
+                        }
                     </Form>
                 </Col>
             </Row>
         </Container>
     )
-}
+})
 
 export default Login

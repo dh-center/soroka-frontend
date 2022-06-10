@@ -1,7 +1,7 @@
 import './App.css'
 import Login from './views/auth/Login'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import { BrowserRouter, Route, Routes, Navigate, useNavigate } from 'react-router-dom'
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
 import Dashboard from './views/dashboard/Dashboard'
 import Registration from './views/auth/Registration'
 import CardPage from './views/dashboard/CardPage'
@@ -12,8 +12,8 @@ import {
     getCardByIdRoute,
     LOGIN_ROUTE,
     REGISTRATION_ROUTE,
-    getCreateCardWithTemplatesRoute
-} from './utils/routes'
+    getCreateCardWithTemplatesRoute, INVITE_LINK_ROUTE
+} from "./utils/routes";
 import CardTemplates from './views/dashboard/CardTemplates'
 import { IntlProvider } from 'react-intl'
 import { LOCALES } from './lang/locales'
@@ -24,6 +24,7 @@ import AuthStore from './stores/authStore'
 import React, { useEffect } from 'react'
 import { organizationsAPI } from './api/organizations'
 import { mainContext } from './context/mainContext'
+import InviteLink from "./views/auth/InviteLink";
 
 const baseStore = new BaseStore()
 export const authStore = new AuthStore()
@@ -62,9 +63,10 @@ const App = observer(() => {
                     <div className="App">
                         <Header baseStore={baseStore} authStore={authStore} />
                         <Routes>
+                            <Route path={REGISTRATION_ROUTE} element={<Registration />} />
+                            <Route path={INVITE_LINK_ROUTE} element={<InviteLink />} />
                             <Route path={LOGIN_ROUTE} element={<Login authStore={authStore} />} />
                             <Route path="/" element={<Navigate replace to={LOGIN_ROUTE} />} />
-                            <Route path={REGISTRATION_ROUTE} element={<Registration />} />
                             <Route path={CARDS_ROUTE} element={<Dashboard />} />
                             <Route path={getCardByIdRoute()} element={<CardPage />} />
                             <Route path={getCreateCardRoute()} element={<CardPage />} />

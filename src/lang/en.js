@@ -48,6 +48,8 @@ const English = {
     placeholderPassword: 'Password',
     placeholderRepeatPassword: 'Repeat password',
     acceptsTermsOfUse: 'Accept terms of use',
+    alreadyRegistered: 'I have already registered',
+    signUpButton: 'Sign up',
 
     // Свойства
     address: 'Address',

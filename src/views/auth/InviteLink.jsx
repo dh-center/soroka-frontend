@@ -1,11 +1,24 @@
-import { Button } from 'bootstrap'
 import { Col, Container, Row } from 'react-bootstrap'
 import './InviteLink.css'
+import { useNavigate, useParams } from "react-router-dom";
+import { authStore } from "../../App";
 
 function InviteLink() {
+    const nav = useNavigate()
+
+    const { token } = useParams();
+
+    const acceptTermsOfRules = async () => {
+        const user = await authStore.acceptsTermsOfUse(true)
+
+        if (user.hasAcceptTermsOfUse) {
+            await nav(`/registration/${token}`)
+        }
+    }
+
     return (
         <Container>
-            <Row>
+            <Row className="justify-content-center">
                 <Col lg={6}>
                     <p className="invite-link__text">
                         Здравствуйте, Музей Старинных предметов! Вас пригласили участвовать в коллективном сборе данных
@@ -18,7 +31,7 @@ function InviteLink() {
                         кнопку продолжить, вы соглашаетесь с пользовательским соглашением и подтверждаете, что являетесь
                         представителем музея, который имеет право на подобные обязательства
                     </p>
-                    <Button className={'invite-link__button'}>Продолжить</Button>
+                    <button className={'invite-link__button'} onClick={acceptTermsOfRules}>Продолжить</button>
                 </Col>
             </Row>
         </Container>

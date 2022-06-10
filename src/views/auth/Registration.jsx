@@ -1,24 +1,25 @@
-import { useRef } from 'react'
+import React, { useEffect, useRef } from "react";
 import { Col, Container, Form, Row } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { Link, useParams, useNavigate } from 'react-router-dom'
 import './Registration.css'
 import './auth.css'
 import { LOGIN_ROUTE } from '../../utils/routes'
-import { AuthAPI } from '../../api/auth'
-import { useIntl } from 'react-intl'
+import { FormattedMessage, useIntl } from "react-intl";
+import { authStore } from "../../App";
 
 function Registration() {
-    const name = useRef(null)
-    const email = useRef(null)
     const password = useRef(null)
     const repeatPassword = useRef(null)
-    const acceptsTermsOfUse = useRef(null)
+
     const intl = useIntl()
-    const placeholderName = intl.formatMessage({ id: 'placeholderName' })
-    const placeholderPassword = intl.formatMessage({ id: 'placeholderPawword' })
+    const placeholderPassword = intl.formatMessage({ id: 'placeholderPassword' })
     const placeholderRepeatPassword = intl.formatMessage({ id: 'placeholderRepeatPassword' })
-    const placeholderPhoneOrEmail = intl.formatMessage({ id: 'placeholderPhoneOrEmail' })
-    const labelAccept = intl.formatMessage({ id: 'acceptsTermsOfUse' })
+    const signUpButton = intl.formatMessage({ id: 'signUpButton' })
+
+    const nav = useNavigate()
+
+    const { token } = useParams();
+
 
     const passwordButtonHandler = () => {
         const value = password.current.getAttribute('type') === 'password' ? 'text' : 'password'
@@ -30,49 +31,32 @@ function Registration() {
         e.preventDefault()
 
         if (password.current.value !== repeatPassword.current.value) return
-        if (!acceptsTermsOfUse.current.value) return
 
-        const timezoneOffset = new Date().getTimezoneOffset() / 60
-
-        await AuthAPI.register({
-            name: name.current.value,
-            email: email.current.value,
+        const passwordSuccessfullyCreated = await authStore.setUserPassword(token,{
             password: password.current.value,
-            timezone: `GMT${timezoneOffset}`,
-            hasAcceptTermsOfUse: acceptsTermsOfUse.current.value,
-            userRole: 1,
-            organization: 1
+            rePassword: password.current.value
         })
+
+        if (passwordSuccessfullyCreated) {
+            nav('/login')
+        }
     }
+
+    useEffect(() => {
+        if (token) {
+            authStore.getUserData(token).then(user => {
+                if (!user.hasAcceptTermsOfUse) {
+                    nav(`/invite/${token}`)
+                }
+            })
+        }
+    }, [])
 
     return (
         <Container>
             <Row className="justify-content-center">
                 <Col lg={'4'}>
-                    {/* <div className="container registration"> */}
-                    <span className="registration__span">Регистрация</span>
-
                     <Form onSubmit={handleSubmit}>
-                        <Form.Group controlId="formBasicEmail">
-                            <input
-                                ref={name}
-                                type="text"
-                                placeholder={placeholderName}
-                                className="registration__input registration__email registration__password-wrap__password"
-                                required={true}
-                            />
-                        </Form.Group>
-
-                        <Form.Group controlId="formBasicEmail">
-                            <input
-                                ref={email}
-                                type="text"
-                                placeholder={placeholderPhoneOrEmail}
-                                className="registration__input registration__email registration__password-wrap__password"
-                                required={true}
-                            />
-                        </Form.Group>
-
                         <Form.Group>
                             <div className="input-group flex-nowrap">
                                 <input
@@ -135,19 +119,15 @@ function Registration() {
                             </div>
                         </Form.Group>
 
-                        <Form.Group>
-                            <Form.Check ref={acceptsTermsOfUse} type={'checkbox'} label={labelAccept} required={true} />
-                        </Form.Group>
-
                         <div className="registration__submit">
                             <input
                                 type={'submit'}
                                 className="registration__submit-button"
-                                value={'Зарегистрироваться'}
+                                value={signUpButton}
                             />
 
                             <Link className="link" to={LOGIN_ROUTE}>
-                                Я уже зарегистрировался
+                                <FormattedMessage id="alreadyRegistered" />
                             </Link>
                         </div>
                     </Form>

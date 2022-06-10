@@ -56,5 +56,26 @@ export const AuthAPI = {
          */
 
         return API.get('/users/profile')
+    },
+
+    async setUserPassword(uuid, data) {
+        /**
+         * Устанавливает юзеру пароль при регистрации
+         * @param {string} password
+         * @param {string} rePassword
+         */
+
+        return API.post(`/authorization-link/${uuid}`, data)
+    },
+
+    async acceptsTermsOfUse(data) {
+        /**
+         * Проставляет пользователю termsOfUse
+         *
+         * @param {boolean} hasAcceptTermsOfUse
+         * @param {boolean} hasAcceptTermsOfUse
+         */
+
+        return API.post('/users/accept-terms', data)
     }
 }
