@@ -7,5 +7,16 @@ export const LANGUAGES = [
 export const USER_ROLES = {
     admin: 1,
     editor: 2,
-    user: 3
+    author: 3
+}
+export const USER_ROLES_DEFINITION = {
+    [USER_ROLES.admin]: {
+        asRoleMessageId: 'asAdministrator'
+    },
+    [USER_ROLES.editor]: {
+        asRoleMessageId: 'asEditor'
+    },
+    [USER_ROLES.author]: {
+        asRoleMessageId: 'asAuthor'
+    }
 }

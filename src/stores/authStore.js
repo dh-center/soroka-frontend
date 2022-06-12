@@ -6,6 +6,7 @@ export default class AuthStore {
     refreshToken = ''
 
     currentUser = null
+    invitationData = null
 
     incorrectPassword = false
 
@@ -26,9 +27,12 @@ export default class AuthStore {
         this.currentUser = payload
     }
 
+    setInivitationData(payload) {
+        this.invitationData = payload
+    }
+
     setIncorrectPassword(payload) {
         this.incorrectPassword = payload
-        console.log(this.incorrectPassword);
     }
 
     async refresh() {
@@ -48,20 +52,19 @@ export default class AuthStore {
         this.setCurrentUser(response.data)
     }
 
-    async getUserData(token) {
+    async getInvatationData(token) {
         const response = await AuthAPI.getAuthLink(token)
 
-        this.setCurrentUser(response.data)
-        return response.data;
+        this.setInivitationData(response.data)
+        return response.data
     }
 
     async acceptsTermsOfUse(isAccepted) {
         const response = await AuthAPI.acceptsTermsOfUse({
             hasAcceptTermsOfUse: isAccepted,
-            userId: this.currentUser.id
+            userId: this.invitationData.id
         })
 
-        this.setCurrentUser(response.data)
         return response.data
     }
 
@@ -69,7 +72,7 @@ export default class AuthStore {
         const response = await AuthAPI.setUserPassword(uuid, data)
 
         if (response.status === 204) {
-            return true;
+            return true
         }
     }
 
@@ -78,7 +81,7 @@ export default class AuthStore {
             this.setIncorrectPassword(false)
 
             const response = await AuthAPI.login(data)
-            return response.data;
+            return response.data
         } catch (e) {
             this.setIncorrectPassword(true)
         }

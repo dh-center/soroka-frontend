@@ -8,12 +8,13 @@ import CardPage from './views/dashboard/CardPage'
 import Header from './components/common/Header'
 import {
     CARDS_ROUTE,
-    getCreateCardRoute,
-    getCardByIdRoute,
+    CARD_BY_ID_ROUTE,
     LOGIN_ROUTE,
-    REGISTRATION_ROUTE,
-    getCreateCardWithTemplatesRoute, INVITE_LINK_ROUTE
-} from "./utils/routes";
+    INVITE_BY_TOKEN_ROUTE,
+    REGISTRATION_BY_TOKEN_ROUTE,
+    CARDS_CREATE_ROUTE,
+    CARDS_TEMPLATES_ROUTE
+} from './utils/routes'
 import CardTemplates from './views/dashboard/CardTemplates'
 import { IntlProvider } from 'react-intl'
 import { LOCALES } from './lang/locales'
@@ -24,7 +25,7 @@ import AuthStore from './stores/authStore'
 import React, { useEffect } from 'react'
 import { organizationsAPI } from './api/organizations'
 import { mainContext } from './context/mainContext'
-import InviteLink from "./views/auth/InviteLink";
+import InviteLink from './views/auth/InviteLink'
 
 const baseStore = new BaseStore()
 export const authStore = new AuthStore()
@@ -32,11 +33,6 @@ export const authStore = new AuthStore()
 const App = observer(() => {
     const { Provider } = mainContext
     useEffect(() => {
-        async function getOrg() {
-            const res = await organizationsAPI.getOrganizations()
-            baseStore.setOrganizations(res.data)
-        }
-
         async function checkCurrentUserTokens() {
             const accessToken = localStorage.getItem('accessToken')
             const refreshToken = localStorage.getItem('refreshToken')
@@ -48,7 +44,8 @@ const App = observer(() => {
                 await authStore.getUserProfile()
             }
         }
-        getOrg()
+
+        baseStore.getOrganizations()
         checkCurrentUserTokens()
     })
 
@@ -58,19 +55,18 @@ const App = observer(() => {
                 <IntlProvider
                     defaultLocale={LOCALES.RUSSIAN}
                     locale={baseStore.uiLang}
-                    messages={message[baseStore.uiLang]}
-                >
+                    messages={message[baseStore.uiLang]}>
                     <div className="App">
                         <Header baseStore={baseStore} authStore={authStore} />
                         <Routes>
-                            <Route path={REGISTRATION_ROUTE} element={<Registration />} />
-                            <Route path={INVITE_LINK_ROUTE} element={<InviteLink />} />
+                            <Route path={REGISTRATION_BY_TOKEN_ROUTE} element={<Registration />} />
+                            <Route path={INVITE_BY_TOKEN_ROUTE} element={<InviteLink />} />
                             <Route path={LOGIN_ROUTE} element={<Login authStore={authStore} />} />
                             <Route path="/" element={<Navigate replace to={LOGIN_ROUTE} />} />
                             <Route path={CARDS_ROUTE} element={<Dashboard />} />
-                            <Route path={getCardByIdRoute()} element={<CardPage />} />
-                            <Route path={getCreateCardRoute()} element={<CardPage />} />
-                            <Route path={getCreateCardWithTemplatesRoute()} element={<CardTemplates />} />
+                            <Route path={CARD_BY_ID_ROUTE} element={<CardPage />} />
+                            <Route path={CARDS_CREATE_ROUTE} element={<CardPage />} />
+                            <Route path={CARDS_TEMPLATES_ROUTE} element={<CardTemplates />} />
                             <Route path="*" element={<div>404</div>} />
                         </Routes>
                     </div>

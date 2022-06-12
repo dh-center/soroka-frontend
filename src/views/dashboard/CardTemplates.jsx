@@ -1,7 +1,7 @@
 import React from 'react'
 import { Card, Col, Container, Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import { getCreateCardRoute } from '../../utils/routes'
+import { CARDS_CREATE_ROUTE } from '../../utils/routes'
 import './CardTemplate.css'
 
 function CardTemplates({
@@ -40,9 +40,8 @@ function CardTemplates({
                         <Col key={el.id} md={'2'} className="me-3 mb-3">
                             <Card body>
                                 <Link
-                                    to={`${getCreateCardRoute()}?template=${el.template}`}
-                                    className="d-flex justify-content-center p-4"
-                                >
+                                    to={`${CARDS_CREATE_ROUTE}?template=${el.template}`}
+                                    className="d-flex justify-content-center p-4">
                                     {el.template}
                                 </Link>
                             </Card>
