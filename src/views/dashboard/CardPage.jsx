@@ -13,6 +13,7 @@ import Property from '../../components/dashboard/Property'
 import { mainContext } from '../../context/mainContext'
 import { organizationsAPI } from '../../api/organizations'
 import CommonDialog from '../../components/common/CommonDialog'
+import GeoProperty from '../../components/properties/GeoProperty'
 
 const cardStore = new CardStore()
 
@@ -155,6 +156,7 @@ const CardPage = observer(() => {
                                             />
                                         )
                                     })}
+                                    <GeoProperty/>
                                 </div>
 
                                 <Overlay target={target.current} show={show} placement="right">
