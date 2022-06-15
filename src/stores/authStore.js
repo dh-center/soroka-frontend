@@ -6,6 +6,9 @@ export default class AuthStore {
     refreshToken = ''
 
     currentUser = null
+    invitationData = null
+
+    incorrectPassword = false
 
     constructor() {
         makeAutoObservable(this)
@@ -24,6 +27,14 @@ export default class AuthStore {
         this.currentUser = payload
     }
 
+    setInivitationData(payload) {
+        this.invitationData = payload
+    }
+
+    setIncorrectPassword(payload) {
+        this.incorrectPassword = payload
+    }
+
     async refresh() {
         const refreshToken = this.refreshToken || localStorage.getItem('refreshToken')
         const response = await AuthAPI.refreshToken({ refreshToken })
@@ -39,6 +50,41 @@ export default class AuthStore {
         const response = await AuthAPI.getUserProfile()
 
         this.setCurrentUser(response.data)
+    }
+
+    async getInvatationData(token) {
+        const response = await AuthAPI.getAuthLink(token)
+
+        this.setInivitationData(response.data)
+        return response.data
+    }
+
+    async acceptsTermsOfUse(isAccepted) {
+        const response = await AuthAPI.acceptsTermsOfUse({
+            hasAcceptTermsOfUse: isAccepted,
+            userId: this.invitationData.id
+        })
+
+        return response.data
+    }
+
+    async setUserPassword(uuid, data) {
+        const response = await AuthAPI.setUserPassword(uuid, data)
+
+        if (response.status === 204) {
+            return true
+        }
+    }
+
+    async login(data) {
+        try {
+            this.setIncorrectPassword(false)
+
+            const response = await AuthAPI.login(data)
+            return response.data
+        } catch (e) {
+            this.setIncorrectPassword(true)
+        }
     }
 
     logout() {

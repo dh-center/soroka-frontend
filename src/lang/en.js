@@ -11,6 +11,7 @@ const English = {
     enity: 'Enity',
     organization: 'Organization',
     owner: 'Owner',
+    loading: 'Loading',
 
     // Header
     exit: 'Exit',
@@ -19,6 +20,8 @@ const English = {
 
     // Страница логина
     loginTitle: 'Login',
+    login: 'Login',
+    incorrectLogin: 'Incorrect login or password. {br} Please, try again, or ask for help: {email}',
 
     // Список карточек
     addNewCard: 'Add new card',
@@ -43,11 +46,18 @@ const English = {
     answerIsNo: 'No',
 
     // Регистрация
-    placeholderName: 'Name',
-    placeholderPhoneOrEmail: 'Email or phone',
-    placeholderPassword: 'Password',
-    placeholderRepeatPassword: 'Repeat password',
-    acceptsTermsOfUse: 'Accept terms of use',
+    emailOrPhone: 'Email or phone',
+    password: 'Password',
+    repeatPassword: 'Repeat password',
+    signUp: 'Sign up',
+    asAuthor: 'as author',
+    asAdministrator: 'as administrator',
+    asEditor: 'as editor',
+    inviteBrief:
+        '<p>Здравствуйте, <b>{name}</b> ({organizationName})! Вас пригласили участвовать в коллективном сборе данных в рамках Ассамблеи петровских музеев в <b>{userRole}</b>.</p><p>Собирать данные будем здесь, в новом приложении “Сорока”, которое создаёт ИТМО. А показывать ирассказывать — на сайте проекта Wunderkammer.</p><p>Нам не терпится увидеть уникальные объекты и истории, о которых знаете только вы, но, прежде всего, необходимы юридические формальности.</p><p>Пожалуйста, внимательно прочтите <agreement>    пользовательское соглашение</agreement>. В нём детально описано, как будут использоваться полученные материалы. Также у нас есть “<simpleAgreement>перевод</simpleAgreement>” соглашения — упрощённое объяснение каждого пункта.</p><p>Нажимая кнопку продолжить, вы соглашаетесь с <agreement>    пользовательским соглашением</agreement> и подтверждаете, что являетесь представителем музея, который имеет право на подобные обязательства</p>',
+    continue: 'Продолжить',
+    passwordsDoNotMatch: 'Passwords do not match',
+    registrationByInvitation: 'Registration by invitation',
 
     // Свойства
     address: 'Address',

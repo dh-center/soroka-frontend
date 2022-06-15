@@ -5,7 +5,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import './dashboardGlobal.css'
 import { observer } from 'mobx-react'
 import CardStore from '../../stores/cardStore'
-import { CARDS_ROUTE, getCreateCardRoute, getCardsRoute } from '../../utils/routes'
+import { CARDS_ROUTE, getCardById, DYNAMIC_ID, CARDS_CREATE_ROUTE } from '../../utils/routes'
 import { FormattedMessage, useIntl } from 'react-intl'
 import { CardsAPI } from '../../api/cards'
 import { USER_ROLES } from '../../utils/constants'
@@ -26,7 +26,7 @@ const CardPage = observer(() => {
     const [showSureCancel, setShowSureCancel] = useState(false)
     const [showSaveModal, setShowSaveModal] = useState(false)
     const target = useRef(null)
-    const { id } = useParams()
+    const { [DYNAMIC_ID]: id } = useParams()
     const nav = useNavigate()
     const [owners, setOwners] = useState([{}])
     const [properties, setProperties] = useState([{}])
@@ -35,8 +35,8 @@ const CardPage = observer(() => {
         await cardStore.saveProperties()
         setShowSaveModal(true)
 
-        if (location.href.includes(getCreateCardRoute())) {
-            nav(`${getCardsRoute(cardStore.cardInfo.id)}`)
+        if (location.href.includes(CARDS_CREATE_ROUTE)) {
+            nav(`${getCardById(cardStore.cardInfo.id)}`)
         }
     }
 
@@ -117,8 +117,11 @@ const CardPage = observer(() => {
 
                         <Col md="8">
                             <h3 className="current-card__current-title">
-                                {!location.href.includes(getCreateCardRoute()) && nameOfCard}
-                                {location.href.includes(getCreateCardRoute()) && <FormattedMessage id="newCard" />}
+                                {location.href.includes(CARDS_CREATE_ROUTE) ? (
+                                    <FormattedMessage id="newCard" />
+                                ) : (
+                                    nameOfCard
+                                )}
                             </h3>
                         </Col>
                     </Row>

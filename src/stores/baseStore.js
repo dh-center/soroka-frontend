@@ -1,4 +1,5 @@
 import { makeAutoObservable } from 'mobx'
+import { organizationsAPI } from '../api/organizations'
 import { LOCALES } from '../lang/locales'
 
 export default class BaseStore {
@@ -9,6 +10,12 @@ export default class BaseStore {
         makeAutoObservable(this)
         const locale = navigator.language
         this.uiLang = Object.values(LOCALES).includes(locale) ? locale : LOCALES.RUSSIAN
+    }
+
+    async getOrganizations() {
+        if (this.organizations.length) return
+        const res = await organizationsAPI.getOrganizations()
+        this.setOrganizations(res.data)
     }
 
     setOrganizations(data) {
