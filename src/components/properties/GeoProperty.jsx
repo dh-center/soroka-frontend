@@ -1,6 +1,6 @@
 import { Map, Placemark, useYMaps, YMaps } from '@pbe/react-yandex-maps'
 import { set } from 'mobx'
-import React, { useRef, useState } from 'react'
+import React, { useState } from 'react'
 import { useEffect } from 'react'
 import { Col, Form } from 'react-bootstrap'
 import { useIntl } from 'react-intl'
@@ -17,31 +17,21 @@ const GeoProperty = ({ showHelp }) => {
     const intl = useIntl()
     const placeholderNameOfPlace = intl.formatMessage({ id: 'placeName' })
 
-    const yandexRef = useRef()
-
     useEffect(() => {
-        // console.log(yandexRef.current.events)
-    }, [])
+        console.log(coordinates)
+        coordinatesIsCorrect()
+    }, [coordinates])
 
-    const coordinatesIsCorrect = (e) => {
-        const reg = new RegExp('/^[0-9,.]*$/')
+    const coordinatesIsCorrect = () => {
+        const regExp =
+            /^(?<latitude>[-]?[0-8]?[0-9]\.\d+|[-]?90\.0+?)(?<delimeter>.)(?<longitude>[-]?1[0-7][0-9]\.\d+|[-]?[0-9]?[0-9]\.\d+|[-]?180\.0+?)$/
         let validationCompleteF = true
-        console.log(coordinates.split(','))
-        if (coordinates.split(',').length < 2) {
-            validationCompleteF = false
-        }
-        coordinates.split(',')?.forEach((coord) => {
-            if (coord.length < 2) validationCompleteF = false
-            if (coord.includes('-')) validationCompleteF = false
-            if (coord.includes(',')) validationCompleteF = false
-            if (!coord.includes('.')) validationCompleteF = false
-            // if (!reg.test(coord)) validationCompleteF = false
-        })
+        if (!regExp.test(coordinates)) validationCompleteF = false
+
         if (validationCompleteF) {
             setValidationComplete(true)
             setMarkCoordinates(coordinates.split(','))
             setMapCoordinates((prevCoord) => ({ ...prevCoord, center: coordinates.split(',') }))
-            console.log(mapCoordinates, 'Аааааа')
         } else {
             setValidationComplete(false)
         }
@@ -58,10 +48,9 @@ const GeoProperty = ({ showHelp }) => {
                                 value={coordinates}
                                 onChange={(e) => {
                                     setCoordinates(e.target.value)
-                                    coordinatesIsCorrect()
                                 }}
                             />
-                            <Form.Text>Неправильные координаты</Form.Text>
+                            {!validationComplete && <Form.Text>Неправильные координаты</Form.Text>}
                         </Form.Group>
                     </Col>
                     <Col>
@@ -75,13 +64,14 @@ const GeoProperty = ({ showHelp }) => {
 
                 <YMaps>
                     <Map
-                        width={"100%"}
+                        width={'100%'}
                         defaultState={mapCoordinates}
                         state={mapCoordinates}
                         onClick={(e) => {
                             setMarkCoordinates(e.get('coords'))
                             setCoordinates(e.get('coords'))
-                        }}>
+                        }}
+                    >
                         {markCoordinates && <Placemark geometry={markCoordinates} onDragEnd={(e) => console.log(e)} />}
                     </Map>
                 </YMaps>
