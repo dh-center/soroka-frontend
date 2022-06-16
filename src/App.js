@@ -56,20 +56,18 @@ const App = observer(() => {
                     defaultLocale={LOCALES.RUSSIAN}
                     locale={baseStore.uiLang}
                     messages={message[baseStore.uiLang]}>
-                    <div className="App">
-                        <Header baseStore={baseStore} authStore={authStore} />
-                        <Routes>
-                            <Route path={REGISTRATION_BY_TOKEN_ROUTE} element={<Registration />} />
-                            <Route path={INVITE_BY_TOKEN_ROUTE} element={<InviteLink />} />
-                            <Route path={LOGIN_ROUTE} element={<Login authStore={authStore} />} />
-                            <Route path="/" element={<Navigate replace to={LOGIN_ROUTE} />} />
-                            <Route path={CARDS_ROUTE} element={<Dashboard />} />
-                            <Route path={CARD_BY_ID_ROUTE} element={<CardPage />} />
-                            <Route path={CARDS_CREATE_ROUTE} element={<CardPage />} />
-                            <Route path={CARDS_TEMPLATES_ROUTE} element={<CardTemplates />} />
-                            <Route path="*" element={<div>404</div>} />
-                        </Routes>
-                    </div>
+                    <Header baseStore={baseStore} authStore={authStore} />
+                    <Routes>
+                        <Route path={REGISTRATION_BY_TOKEN_ROUTE} element={<Registration />} />
+                        <Route path={INVITE_BY_TOKEN_ROUTE} element={<InviteLink />} />
+                        <Route path={LOGIN_ROUTE} element={<Login authStore={authStore} />} />
+                        <Route path="/" element={<Navigate replace to={CARDS_ROUTE} />} />
+                        <Route path={CARDS_ROUTE} element={<Dashboard />} />
+                        <Route path={CARD_BY_ID_ROUTE} element={<CardPage />} />
+                        <Route path={CARDS_CREATE_ROUTE} element={<CardPage />} />
+                        <Route path={CARDS_TEMPLATES_ROUTE} element={<CardTemplates />} />
+                        <Route path="*" element={<div>404</div>} />
+                    </Routes>
                 </IntlProvider>
             </Provider>
         </BrowserRouter>

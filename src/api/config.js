@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { authStore } from '../App'
+import { LOGIN_ROUTE } from '../utils/routes'
 
 const { REACT_APP_API_URL } = process.env
 
@@ -32,7 +33,7 @@ instance.interceptors.response.use(
             const isRefreshInvalid = error.response.data.error
 
             if (isRefreshInvalid) {
-                window.location = '/'
+                window.location = LOGIN_ROUTE
                 localStorage.clear()
             } else {
                 await authStore.refresh()

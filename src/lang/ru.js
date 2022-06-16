@@ -1,4 +1,7 @@
 const Russian = {
+    soroka: 'Сорока',
+    language: 'Язык',
+
     // Общее
     buttonBackToCards: 'Назад к карточкам',
     buttonToSave: 'Сохранить',
@@ -14,9 +17,7 @@ const Russian = {
     loading: 'Загрузка',
 
     // Header
-    exit: 'Выйти',
-    changeLanguage: 'Сменить язык',
-    changingLanguage: 'Смена языка: ',
+    exit: 'Выход',
 
     // Страница логина
     loginTitle: 'Вход',
@@ -40,7 +41,6 @@ const Russian = {
 
     // Модкала с диалогом
     saveBeforeExit: 'Сохранить перед выходом?',
-    sureExit: 'Вы уверены, что хотите выйти ?',
     sureCancel: 'Вы уверены, что хотите отменить изменения ?',
     deleteAlert: 'Удалить свойство и данные? ',
     answerIsYes: 'Да',

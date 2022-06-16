@@ -1,4 +1,7 @@
 const English = {
+    soroka: 'Soroka',
+    language: 'Language',
+
     // Общее
     buttonBackToCards: 'Back to cards',
     buttonToSave: 'Save',
@@ -15,8 +18,6 @@ const English = {
 
     // Header
     exit: 'Exit',
-    changeLanguage: 'Change language',
-    changingLanguage: 'Choose language:',
 
     // Страница логина
     loginTitle: 'Login',
@@ -40,7 +41,6 @@ const English = {
     // Модкала с диалогом
     saveBeforeExit: 'Save before leaving?',
     deleteAlert: 'Delete propertie and value?',
-    sureExit: 'Do you sure that you want exit?',
     sureCancel: 'Do you sure that you want cancel changing card?',
     answerIsYes: 'Yes',
     answerIsNo: 'No',
