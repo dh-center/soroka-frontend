@@ -41,8 +41,7 @@ function CardTemplates({
                             <Card body>
                                 <Link
                                     to={`${CARDS_CREATE_ROUTE}?template=${el.template}`}
-                                    className="d-flex justify-content-center p-4"
-                                >
+                                    className="d-flex justify-content-center p-4">
                                     {el.template}
                                 </Link>
                             </Card>

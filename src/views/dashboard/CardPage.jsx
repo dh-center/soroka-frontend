@@ -94,16 +94,14 @@ const CardPage = observer(() => {
                                     }
 
                                     setShowSureCancel(true)
-                                }}
-                            >
+                                }}>
                                 <div className="dashboard-button back-to-list">
                                     <svg
                                         width="26"
                                         height="24"
                                         viewBox="0 0 26 24"
                                         fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                    >
+                                        xmlns="http://www.w3.org/2000/svg">
                                         <path d="M22.7076 12L3.99284 12" stroke="black" strokeLinecap="round" />
                                         <path
                                             d="M10.2311 6L3.99281 12L10.2311 18"
@@ -158,7 +156,7 @@ const CardPage = observer(() => {
                                             />
                                         )
                                     })}
-                                    <GeoProperty />
+                                    {/* <GeoProperty /> */}
                                 </div>
 
                                 <Overlay target={target.current} show={show} placement="right">
@@ -186,15 +184,13 @@ const CardPage = observer(() => {
                                 onMouseOut={() => setShow(false)}
                                 onClick={(event) => {
                                     setShowAddingProp(true)
-                                }}
-                            >
+                                }}>
                                 <svg
                                     width="24"
                                     height="24"
                                     viewBox="0 0 24 24"
                                     fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
+                                    xmlns="http://www.w3.org/2000/svg">
                                     <path d="M20 12H4" stroke="black" strokeLinecap="round" />
                                     <path d="M12 4V20" stroke="black" strokeLinecap="round" />
                                 </svg>
@@ -234,8 +230,7 @@ const CardPage = observer(() => {
                                         value={cardStore.organizationOption}
                                         onChange={(e) => {
                                             handleOrganizationChange(e)
-                                        }}
-                                    >
+                                        }}>
                                         <option value="null" disabled>
                                             <FormattedMessage id="organization" />
                                         </option>
@@ -254,8 +249,7 @@ const CardPage = observer(() => {
                                         value={cardStore.ownerOption}
                                         onChange={(e) => {
                                             cardStore.setOwnerOption(e.target.value)
-                                        }}
-                                    >
+                                        }}>
                                         <option value="null" disabled>
                                             <FormattedMessage id="owner" />
                                         </option>
@@ -276,8 +270,7 @@ const CardPage = observer(() => {
                                     height="24"
                                     viewBox="0 0 26 24"
                                     fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
+                                    xmlns="http://www.w3.org/2000/svg">
                                     <path
                                         fillRule="evenodd"
                                         clipRule="evenodd"
@@ -348,8 +341,7 @@ const CardPage = observer(() => {
                                         if (cardHasProp) return
                                         handleAddNewProperties(el.id, el.name, el.isLink)
                                     }}
-                                    role="button"
-                                >
+                                    role="button">
                                     <Form.Label className={propLabelClassName}>
                                         <FormattedMessage id={el.name} />
                                     </Form.Label>

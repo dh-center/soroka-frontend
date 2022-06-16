@@ -55,8 +55,7 @@ const App = observer(() => {
                 <IntlProvider
                     defaultLocale={LOCALES.RUSSIAN}
                     locale={baseStore.uiLang}
-                    messages={message[baseStore.uiLang]}
-                >
+                    messages={message[baseStore.uiLang]}>
                     <div className="App">
                         <Header baseStore={baseStore} authStore={authStore} />
                         <Routes>

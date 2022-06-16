@@ -22,8 +22,7 @@ const Property = observer(({ type = 'textInput', element, index, store }) => {
                         setShowPanel(false)
                     }}
                     className="mb-4 d-flex flex-column align-items-end"
-                    key={element.id}
-                >
+                    key={element.id}>
                     <Form.Group className="mb-2 d-flex align-items-center flex-row w-100">
                         <Form.Label className="me-2 col-xl-2 col-sm-3">
                             {<FormattedMessage id={element.name} />}
@@ -80,8 +79,7 @@ const Property = observer(({ type = 'textInput', element, index, store }) => {
                             <Button
                                 variant="primary"
                                 className="text-nowrap"
-                                onClick={() => setHelpButtonPressed((prevValue) => !prevValue)}
-                            >
+                                onClick={() => setHelpButtonPressed((prevValue) => !prevValue)}>
                                 <FormattedMessage id={helpButtonPressed ? 'hideHelp' : 'help'} />
                             </Button>
                         </Col>
@@ -91,8 +89,7 @@ const Property = observer(({ type = 'textInput', element, index, store }) => {
                                 variant="danger"
                                 onClick={() => {
                                     setShowDialogModal(true)
-                                }}
-                            >
+                                }}>
                                 <FormattedMessage id="delete" />
                             </Button>
                         </Col>

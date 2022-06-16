@@ -1,86 +1,102 @@
-import { Map, Placemark, useYMaps, YMaps } from '@pbe/react-yandex-maps'
-import { set } from 'mobx'
 import React, { useState } from 'react'
-import { useEffect } from 'react'
-import { Col, Form } from 'react-bootstrap'
-import { useIntl } from 'react-intl'
+import { Map, Placemark, YMaps } from '@pbe/react-yandex-maps'
+import { Col, Container, Form, Row } from 'react-bootstrap'
+import { FormattedMessage, useIntl } from 'react-intl'
 
-const GeoProperty = ({ showHelp }) => {
-    const [mapCoordinates, setMapCoordinates] = useState({
-        center: [55.76, 37.64],
-        zoom: 10
-    })
-    const [coordinates, setCoordinates] = useState('')
-    const [placeName, setPlaceName] = useState('')
-    const [markCoordinates, setMarkCoordinates] = useState()
-    const [validationComplete, setValidationComplete] = useState(false)
+export const FIELD_GEO = 'location'
+const getCoordsFromString = (coordsString) => (coordsString !== '' ? coordsString.split(',') : null)
+const getStringFromCoords = (coordsArray) => coordsArray.join(',')
+const isValidCoordinatesString = (value) => {
+    if (value === '') {
+        return true
+    }
+
+    const regExp =
+        /^(?<latitude>[-]?[0-8]?[0-9]\.\d+|[-]?90\.0+?)(?<delimeter>.)(?<longitude>[-]?1[0-7][0-9]\.\d+|[-]?[0-9]?[0-9]\.\d+|[-]?180\.0+?)$/
+
+    return regExp.test(value)
+}
+
+const GeoProperty = ({ showHelp = true, initialCoordsString = '' }) => {
     const intl = useIntl()
     const placeholderNameOfPlace = intl.formatMessage({ id: 'placeName' })
 
-    useEffect(() => {
-        console.log(coordinates)
-        coordinatesIsCorrect()
-    }, [coordinates])
+    const [mapOptions, setMapOptions] = useState(() => ({
+        center: getCoordsFromString(initialCoordsString) ?? [55.76, 37.64],
+        zoom: 10
+    }))
 
-    const coordinatesIsCorrect = () => {
-        const regExp =
-            /^(?<latitude>[-]?[0-8]?[0-9]\.\d+|[-]?90\.0+?)(?<delimeter>.)(?<longitude>[-]?1[0-7][0-9]\.\d+|[-]?[0-9]?[0-9]\.\d+|[-]?180\.0+?)$/
-        let validationCompleteF = true
-        if (!regExp.test(coordinates)) validationCompleteF = false
+    // input value
+    const [dirtyValue, setDirtyValue] = useState(initialCoordsString)
 
-        if (validationCompleteF) {
-            setValidationComplete(true)
-            setMarkCoordinates(coordinates.split(','))
-            setMapCoordinates((prevCoord) => ({ ...prevCoord, center: coordinates.split(',') }))
+    // processed to coordinates array input value
+    const [coordinates, setCoordinates] = useState(() => getCoordsFromString(initialCoordsString))
+
+    // validation for input
+    const [isInputValid, setIsInputValid] = useState(() => isValidCoordinatesString(initialCoordsString))
+
+    const updateCoordinates = (coordsString, updateMapCenter) => {
+        setDirtyValue(coordsString)
+
+        const isValid = isValidCoordinatesString(coordsString)
+        setIsInputValid(isValid)
+
+        if (isValid && coordsString !== '') {
+            const newCoordinates = getCoordsFromString(coordsString)
+            setCoordinates(newCoordinates)
+
+            if (updateMapCenter) {
+                setMapOptions((prevCoord) => ({ ...prevCoord, center: newCoordinates }))
+            }
         } else {
-            setValidationComplete(false)
+            setCoordinates(null)
         }
     }
 
     return (
-        <div className="geo-property p-3">
-            <div className="geo-property__content">
-                <Form className="d-flex mb-4">
-                    <Col className="me-3">
-                        <Form.Group>
-                            <Form.Control
-                                placeholder="54.782569, 32.046266"
-                                value={coordinates}
-                                onChange={(e) => {
-                                    setCoordinates(e.target.value)
-                                }}
-                            />
-                            {!validationComplete && <Form.Text>Неправильные координаты</Form.Text>}
-                        </Form.Group>
-                    </Col>
-                    <Col>
+        <Container>
+            <Row className="mb-3">
+                <Col>
+                    <Form.Group>
                         <Form.Control
-                            placeholder={placeholderNameOfPlace}
-                            value={placeName}
-                            onChange={(e) => setPlaceName(e.target.value)}
+                            name={FIELD_GEO}
+                            placeholder="54.782569,32.046266"
+                            value={dirtyValue}
+                            onChange={(e) => {
+                                updateCoordinates(e.target.value, true)
+                            }}
+                            isInvalid={!isInputValid}
                         />
-                    </Col>
-                </Form>
-
+                        <Form.Control.Feedback type="invalid">
+                            <FormattedMessage id="invalidCoordinates" />
+                        </Form.Control.Feedback>
+                    </Form.Group>
+                </Col>
+                <Col>
+                    <Form.Control placeholder={placeholderNameOfPlace} defaultValue="" />
+                </Col>
+            </Row>
+            <Row>
                 <YMaps>
                     <Map
-                        width={'100%'}
-                        defaultState={mapCoordinates}
-                        state={mapCoordinates}
+                        width="100%"
+                        state={mapOptions}
                         onClick={(e) => {
-                            setMarkCoordinates(e.get('coords'))
-                            setCoordinates(e.get('coords'))
-                        }}
-                    >
-                        {markCoordinates && <Placemark geometry={markCoordinates} onDragEnd={(e) => console.log(e)} />}
+                            const newCoordinates = getStringFromCoords(e.get('coords'))
+                            updateCoordinates(newCoordinates, false)
+                        }}>
+                        {coordinates && <Placemark geometry={coordinates} />}
                     </Map>
                 </YMaps>
-            </div>
-            <div className="geo-property__help mt-3">
-                Выберите точку на карте или введите координаты в градусах (в виде десятичной дроби), например, для
-                координат 55°24'32.1"N 32°15'32.3"E нужно ввести 55.408902, 32.258976
-            </div>
-        </div>
+            </Row>
+            {showHelp && (
+                <Row>
+                    <Col>
+                        <FormattedMessage id="coordinatesHelp" values={{ b: (chunks) => <b>{chunks}</b> }} />
+                    </Col>
+                </Row>
+            )}
+        </Container>
     )
 }
 

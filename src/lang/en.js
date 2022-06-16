@@ -73,7 +73,10 @@ const English = {
     calendarJulian: 'Julian calendar',
     calendarHelp:
         '<p>All dates are stored in julian date format and can be compared with each other. When you change the calendar, the entered dates do not change</p><p> Currently, the Julian and Gregorian calendars are supported.</p><p>For example, you can enter the exact dates “04/12/1698”</p>',
-    placeName: 'Place name'
+    placeName: 'Place name',
+    invalidCoordinates: 'Invalid coordinates',
+    coordinatesHelp:
+        'Выберите точку на карте или введите координаты в градусах (в виде десятичной дроби через запятую), например, для координат 55°24\'32.1"N 32°15\'32.3"E нужно ввести <b>55.408902,32.258976</b>'
 }
 
 export default English
