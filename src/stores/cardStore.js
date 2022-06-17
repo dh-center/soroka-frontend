@@ -89,7 +89,7 @@ export default class CardStore {
 
     changeValue(index, newValue) {
         this.observingArray[index].data = newValue
-            this.setChanged(true)
+        this.setChanged(true)
     }
 
     async getPropertiesFromCardById(id) {
