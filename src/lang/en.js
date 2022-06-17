@@ -54,8 +54,8 @@ const English = {
     asAdministrator: 'as administrator',
     asEditor: 'as editor',
     inviteBrief:
-        '<p>Здравствуйте, <b>{name}</b> ({organizationName})! Вас пригласили участвовать в коллективном сборе данных в рамках Ассамблеи петровских музеев в <b>{userRole}</b>.</p><p>Собирать данные будем здесь, в новом приложении “Сорока”, которое создаёт ИТМО. А показывать ирассказывать — на сайте проекта Wunderkammer.</p><p>Нам не терпится увидеть уникальные объекты и истории, о которых знаете только вы, но, прежде всего, необходимы юридические формальности.</p><p>Пожалуйста, внимательно прочтите <agreement>    пользовательское соглашение</agreement>. В нём детально описано, как будут использоваться полученные материалы. Также у нас есть “<simpleAgreement>перевод</simpleAgreement>” соглашения — упрощённое объяснение каждого пункта.</p><p>Нажимая кнопку продолжить, вы соглашаетесь с <agreement>    пользовательским соглашением</agreement> и подтверждаете, что являетесь представителем музея, который имеет право на подобные обязательства</p>',
-    continue: 'Продолжить',
+        "<p>Hello <b>{name}</b> ({organizationName})! You have been invited to participate in the collective data collection within the framework of the Assembly of Petrovsky Museums in <b>{userRole}</b>.</p><p>We will collect data here, in the new Soroka application created by ITMO. Data will be displayed on the Wunderkammer project website.</p><p>We can't wait to see the unique objects and stories that only you know about, but first of all, legal formalities are required.</p><p>Please carefully read the <agreement>user agreement</agreement>. It describes in detail how the resulting materials will be used. We also have a “<simpleAgreement>translation</simpleAgreement>” agreement - a simplified explanation of each clause.</p><p>By clicking the continue button, you agree to the <agreement>user agreement</agreement> and confirm that you are a representative museum, which is entitled to such obligations</p>",
+    continue: 'Continue',
     passwordsDoNotMatch: 'Passwords do not match',
     registrationByInvitation: 'Registration by invitation',
 
@@ -76,7 +76,7 @@ const English = {
     placeName: 'Place name',
     invalidCoordinates: 'Invalid coordinates',
     coordinatesHelp:
-        'Выберите точку на карте или введите координаты в градусах (в виде десятичной дроби через запятую), например, для координат 55°24\'32.1"N 32°15\'32.3"E нужно ввести <b>55.408902,32.258976</b>'
+        'Select a point on the map or enter coordinates in degrees (as a decimal fraction separated by commas), for example, for coordinates 55°24\'32.1"N 32°15\'32.3"E you would enter <b>55.408902,32.258976</b>'
 }
 
 export default English
