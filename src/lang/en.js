@@ -25,9 +25,8 @@ const English = {
     incorrectLogin: 'Incorrect login or password. {br} Please, try again, or ask for help: {email}',
 
     // Список карточек
-    addNewCard: 'Add new card',
+    add: 'Add',
     notFilled: 'Not filled',
-    filled: 'Filled',
 
     // Страница создания карточки
     newCardWarningModalText: 'Add any desired properties, fill out the card and save',

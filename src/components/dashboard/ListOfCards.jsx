@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { Card, Col, Container, Row } from 'react-bootstrap'
-import { Image } from 'react-bootstrap-icons'
-import { FormattedMessage } from 'react-intl'
-import { Link } from 'react-router-dom'
+import { Col, Container, Row } from 'react-bootstrap'
 import { CardsAPI } from '../../api/cards'
-import { CARDS_CREATE_ROUTE } from '../../utils/routes'
+import AddNewCard from './AddNewCard'
 import ListCard from './ListCard'
-import './ListOfCards.css'
 
 function ListOfCards() {
     const [cards, setCards] = useState([])
@@ -19,49 +15,13 @@ function ListOfCards() {
 
     return (
         <Container>
-            {/* <Row xs={1} md={2} className="g-4">
-                {Array.from({ length: 4 }).map((_, idx) => (
-                    <Col>
-                        <Card>
-                            <Card.Img as={Container} variant="top" src="holder.js/100px160">
-                                <div style={{ width: '300px', height: '400px', backgroundColor: 'green' }}></div>
-                            </Card.Img>
-                            <Card.ImgOverlay>
-                                <Image />
-                            </Card.ImgOverlay>
-                            <Card.Body>
-                                <Card.Title>Card title</Card.Title>
-                                <Card.Text>
-                                    This is a longer card with supporting text below as a natural lead-in to additional
-                                    content. This content is a little bit longer.
-                                </Card.Text>
-                            </Card.Body>
-                        </Card>
+            <Row xs={1} sm={3} md={4} lg={5} xl={6} className="g-2">
+                <AddNewCard />
+                {cards.map(({ id, name, isFilled }) => (
+                    <Col key={id}>
+                        <ListCard id={id} name={name} isFilled={isFilled} />
                     </Col>
                 ))}
-            </Row> */}
-            <Row>
-                <Col md="3" className="list-of-cards__card me-3 mb-2">
-                    <Link className="route-link" to={CARDS_CREATE_ROUTE}>
-                        <div className="list-of-cards__create-new-card">
-                            <svg className="bi" width="32" height="32" fill="currentColor">
-                                <use xlinkHref="bootstrap-icons.svg#heart-fill" />
-                            </svg>
-
-                            <h3 className="list-of-cards__title">
-                                <FormattedMessage id="addNewCard" />
-                            </h3>
-                        </div>
-                    </Link>
-                </Col>
-
-                {cards.map((element, index) => {
-                    return (
-                        <Col md="3" className="list-of-cards__card me-3" key={element.id}>
-                            <ListCard key={element.id} titleOfCard={element.name} className="" element={element} />
-                        </Col>
-                    )
-                })}
             </Row>
         </Container>
     )
