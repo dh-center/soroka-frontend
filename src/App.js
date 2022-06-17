@@ -23,12 +23,13 @@ import BaseStore from './stores/baseStore'
 import { observer } from 'mobx-react'
 import AuthStore from './stores/authStore'
 import React, { useEffect } from 'react'
-import { organizationsAPI } from './api/organizations'
 import { mainContext } from './context/mainContext'
 import InviteLink from './views/auth/InviteLink'
+import PropertiesStore from './stores/propertiesStore'
 
 const baseStore = new BaseStore()
 export const authStore = new AuthStore()
+export const propertiesStore = new PropertiesStore()
 
 const App = observer(() => {
     const { Provider } = mainContext
@@ -42,6 +43,7 @@ const App = observer(() => {
 
             if (!authStore.currentUser && accessToken && refreshToken) {
                 await authStore.getUserProfile()
+                await propertiesStore.getProperties()
             }
         }
 

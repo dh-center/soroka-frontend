@@ -62,8 +62,8 @@ export default class CardStore {
         this.nameOfCard = value
     }
 
-    addNewProperties(name, propertyId, data = null, id = null) {
-        this.observingArray.push({ name, propertyId, data, id })
+    addNewProperties(name, propertyId, dataTypeId, data = null, id = null) {
+        this.observingArray.push({ name, propertyId, dataTypeId, data, id })
         this.setChanged(true)
     }
 

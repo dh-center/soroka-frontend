@@ -2,7 +2,17 @@ import React from 'react'
 import { Button, Modal } from 'react-bootstrap'
 import { FormattedMessage } from 'react-intl'
 
-const ModalDialog = ({ show, setShow, onClose, header, body, ok, cancel, mustDecide = false }) => {
+const ModalDialog = ({
+    show,
+    setShow,
+    onClose,
+    header,
+    body,
+    ok,
+    cancel,
+    mustDecide = false,
+    okVariant = 'primary'
+}) => {
     const handleClose = (accepted) => {
         onClose(accepted)
         setShow(false)
@@ -20,7 +30,7 @@ const ModalDialog = ({ show, setShow, onClose, header, body, ok, cancel, mustDec
                 <Button variant="secondary" onClick={() => handleClose(false)}>
                     {cancel ?? <FormattedMessage id="cancel" />}
                 </Button>
-                <Button variant="primary" onClick={() => handleClose(true)}>
+                <Button variant={okVariant} onClick={() => handleClose(true)}>
                     {ok ?? <FormattedMessage id="ok" />}
                 </Button>
             </Modal.Footer>

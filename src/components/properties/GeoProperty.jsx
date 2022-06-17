@@ -17,7 +17,9 @@ const isValidCoordinatesString = (value) => {
     return regExp.test(value)
 }
 
-const GeoProperty = ({ showHelp = true, initialCoordsString = '' }) => {
+const GeoProperty = ({ showHelp = false, value, onChange }) => {
+    const initialCoordsString = value ?? ''
+
     const intl = useIntl()
     const placeholderNameOfPlace = intl.formatMessage({ id: 'placeName' })
 

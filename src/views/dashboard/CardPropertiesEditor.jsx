@@ -1,11 +1,12 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
-import { Button, Col, Container, Form, Modal, Overlay, OverlayTrigger, Row, Tooltip } from 'react-bootstrap'
+import React, { useState } from 'react'
+import { Button, Col, Container, Form, Modal, OverlayTrigger, Row, Tooltip } from 'react-bootstrap'
 import { FormattedMessage, useIntl } from 'react-intl'
 import Property from '../../components/dashboard/Property'
 import { observer } from 'mobx-react'
 import { cardStore } from './CardPage'
-import { Plus, PlusCircle } from 'react-bootstrap-icons'
-import { CardsAPI } from '../../api/cards'
+import { Plus } from 'react-bootstrap-icons'
+import { propertiesStore } from '../../App'
+import { PROPERTIES } from '../../stores/propertiesStore'
 
 const AddPropertyButton = ({ everyPropertyAdded, onClick }) => {
     const PropertiesAddedTooltip = (props) => (
@@ -31,38 +32,28 @@ const AddPropertyButton = ({ everyPropertyAdded, onClick }) => {
 }
 
 const CardPropertiesEditor = observer(() => {
+    const { properties } = propertiesStore
     const intl = useIntl()
     const placeholder = intl.formatMessage({ id: 'placeholderNewCard' })
 
-    const [properties, setProperties] = useState([{}])
-    useEffect(() => {
-        CardsAPI.getCardsProperties().then((res) => {
-            setProperties(res.data)
-        })
-    }, [])
-    
     const [showAddingProp, setShowAddingProp] = useState(false)
 
     const everyPropertyAdded = cardStore.observingArray.filter((el) => !el.hidden).length === properties.length
 
-    const handleAddNewProperties = (id, name) => {
-        cardStore.addNewProperties(name, id)
+    const handleAddNewProperties = (property) => {
+        const { name, id, dataTypeId } = property
+        cardStore.addNewProperties(name, id, dataTypeId)
 
         setShowAddingProp(false)
     }
 
     const renderProperty = (element, index) => (
-        <Row id={`${element.id}-${index}`} className={element.hidden ? 'd-none' : ''}>
+        <Row key={`${element.id}-${index}`} className={element.hidden ? 'd-none' : ''}>
             <Col md="3" className="g-0">
-                <FormattedMessage id={element.name} />
+                <FormattedMessage id={PROPERTIES[element.name].labelId} />
             </Col>
             <Col md="9" className="g-0">
-                <Property
-                    element={element}
-                    index={index}
-                    store={cardStore}
-                    className={element.hidden ? 'd-none' : ''}
-                />
+                <Property element={element} index={index} store={cardStore} />
             </Col>
         </Row>
     )
@@ -105,37 +96,24 @@ const CardPropertiesEditor = observer(() => {
                     </Modal.Header>
 
                     <Modal.Body>
-                        <div className="create-new-card__add-new-property mb-3">
-                            {properties.map((el) => {
-                                const cardHasProp = cardStore.observingArray
-                                    .filter((prop) => !prop.hidden)
-                                    .some((prop) => prop.propertyId === el.id)
+                        {properties.map((el) => {
+                            const cardHasProp = cardStore.observingArray
+                                .filter((prop) => !prop.hidden)
+                                .some((prop) => prop.propertyId === el.id)
 
-                                let propClassName =
-                                    'mb-4 d-flex align-items-center flex-row create-new-card__new-property'
-                                let propLabelClassName = 'me-2 new-property__label'
-
-                                if (cardHasProp) {
-                                    propClassName += ' cursor-not-allowed'
-                                    propLabelClassName += ' cursor-not-allowed'
-                                }
-
-                                return (
-                                    <Form.Group
-                                        className={propClassName}
-                                        onClick={(e) => {
-                                            if (cardHasProp) return
-                                            handleAddNewProperties(el.id, el.name, el.isLink)
-                                        }}
-                                        role="button">
-                                        <Form.Label className={propLabelClassName}>
-                                            <FormattedMessage id={el.name} />
-                                        </Form.Label>
-                                        <Form.Control type="text" placeholder={placeholder} disabled={cardHasProp} />
-                                    </Form.Group>
-                                )
-                            })}
-                        </div>
+                            return (
+                                <Button
+                                    key={el.name}
+                                    variant="outline-primary"
+                                    className="mb-2 me-2"
+                                    disabled={cardHasProp}
+                                    onClick={() => {
+                                        handleAddNewProperties(el)
+                                    }}>
+                                    <FormattedMessage id={PROPERTIES[el.name].labelId} />
+                                </Button>
+                            )
+                        })}
                     </Modal.Body>
                 </Modal>
             </Container>
