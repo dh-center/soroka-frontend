@@ -4,7 +4,7 @@ import ListOfCards from '../../components/dashboard/ListOfCards'
 
 function Dashboard() {
     return (
-        <PageLayout>
+        <PageLayout titleMessageId="cards">
             <ListOfCards />
         </PageLayout>
     )
