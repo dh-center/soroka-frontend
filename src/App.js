@@ -43,11 +43,11 @@ const App = observer(() => {
 
             if (!authStore.currentUser && accessToken && refreshToken) {
                 await authStore.getUserProfile()
-                await propertiesStore.getProperties()
             }
         }
 
         baseStore.getOrganizations()
+        propertiesStore.getProperties()
         checkCurrentUserTokens()
     })
 

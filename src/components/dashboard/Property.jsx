@@ -5,28 +5,24 @@ import { FormattedMessage } from 'react-intl'
 import { TYPES } from '../../stores/propertiesStore'
 import ModalDialog from '../common/ModalDialog'
 
-const ControlPanel = ({ hasHelp, setHelpButtonPressed, helpButtonPressed }) => (
-    <>
+const ControlPanel = ({ hasHelp, setHelpButtonPressed, setShowDialogModal, helpButtonPressed }) => (
+    <Col className="d-flex justify-content-end">
         {hasHelp && (
-            <Col>
-                <Button
-                    variant="outline-secondary"
-                    className="text-nowrap"
-                    onClick={() => setHelpButtonPressed((prevValue) => !prevValue)}>
-                    <FormattedMessage id={helpButtonPressed ? 'hideHelp' : 'help'} />
-                </Button>
-            </Col>
-        )}
-        <Col>
             <Button
-                variant="outline-danger"
-                onClick={() => {
-                    setShowDialogModal(true)
-                }}>
-                <FormattedMessage id="delete" />
+                variant="outline-secondary"
+                className="text-nowrap me-2"
+                onClick={() => setHelpButtonPressed((prevValue) => !prevValue)}>
+                <FormattedMessage id={helpButtonPressed ? 'hideHelp' : 'help'} />
             </Button>
-        </Col>
-    </>
+        )}
+        <Button
+            variant="outline-danger"
+            onClick={() => {
+                setShowDialogModal(true)
+            }}>
+            <FormattedMessage id="delete" />
+        </Button>
+    </Col>
 )
 
 const Property = observer(({ type = 4, element, index, store }) => {
@@ -58,11 +54,12 @@ const Property = observer(({ type = 4, element, index, store }) => {
                     })}
                 </Form.Group>
             </Row>
-            <Row className={`d-flex ${showPanel ? 'visible' : 'invisible'}`}>
+            <Row className={showPanel ? 'visible' : 'invisible'}>
                 <ControlPanel
                     hasHelp={hasHelp}
                     setHelpButtonPressed={setHelpButtonPressed}
                     helpButtonPressed={helpButtonPressed}
+                    setShowDialogModal={setShowDialogModal}
                 />
             </Row>
 
