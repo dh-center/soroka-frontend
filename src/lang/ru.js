@@ -3,13 +3,12 @@ const Russian = {
     language: 'Язык',
 
     // Общее
-    buttonBackToCards: 'Назад к карточкам',
-    buttonToSave: 'Сохранить',
+    save: 'Сохранить',
     buttonAddProperty: 'Добавить свойство',
     addPropertyTitle: 'Нажмите на нужное свойство, чтобы добавить его',
     placeholderNewCard: 'Новая карточка',
     tooltipAllPropertiesAlreadyAdded: 'Все возможные свойства уже добавлены',
-    changed: 'Сохранено',
+    saved: 'Сохранено',
     property: 'Свойство',
     enity: 'Сущность',
     organization: 'Организация',
@@ -40,11 +39,15 @@ const Russian = {
     changeCardWarningModalText: 'Эта карточка заполнена не до конца: в ней есть пустые поля.',
 
     // Модкала с диалогом
+    unsavedChanges: 'Есть изменения',
     saveBeforeExit: 'Сохранить перед выходом?',
     sureCancel: 'Вы уверены, что хотите отменить изменения ?',
     deleteAlert: 'Удалить свойство и данные? ',
-    answerIsYes: 'Да',
-    answerIsNo: 'Нет',
+    yes: 'Да',
+    no: 'Нет',
+
+    ok: 'Ok',
+    cancel: 'Отмена',
 
     // Регистрация
     emailOrPhone: 'Почта или телефон',

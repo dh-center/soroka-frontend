@@ -24,9 +24,6 @@ const Property = observer(({ type = 'textInput', element, index, store }) => {
                     className="mb-4 d-flex flex-column align-items-end"
                     key={element.id}>
                     <Form.Group className="mb-2 d-flex align-items-center flex-row w-100">
-                        <Form.Label className="me-2 col-xl-2 col-sm-3">
-                            {<FormattedMessage id={element.name} />}
-                        </Form.Label>
                         <div className="w-100 p-4 border">
                             {type === 'textInput' && (
                                 <Form.Control

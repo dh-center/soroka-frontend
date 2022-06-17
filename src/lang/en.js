@@ -3,13 +3,12 @@ const English = {
     language: 'Language',
 
     // Общее
-    buttonBackToCards: 'Back to cards',
-    buttonToSave: 'Save',
+    save: 'Save',
     buttonAddProperty: 'Add property',
     addPropertyTitle: 'Click on the desired property to add it',
     placeholderNewCard: 'New card',
     tooltipAllPropertiesAlreadyAdded: 'All possible properties already added',
-    changed: 'Saved',
+    saved: 'Saved',
     property: 'Property',
     enity: 'Enity',
     organization: 'Organization',
@@ -39,11 +38,15 @@ const English = {
     changeCardWarningModalText: 'This card is not completely filled out: it has empty fields.',
 
     // Модкала с диалогом
+    unsavedChanges: 'Unsaved changes',
     saveBeforeExit: 'Save before leaving?',
     deleteAlert: 'Delete propertie and value?',
     sureCancel: 'Do you sure that you want cancel changing card?',
-    answerIsYes: 'Yes',
-    answerIsNo: 'No',
+    yes: 'Yes',
+    no: 'No',
+
+    ok: 'Ok',
+    cancel: 'Cancel',
 
     // Регистрация
     emailOrPhone: 'Email or phone',
