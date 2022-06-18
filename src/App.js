@@ -23,12 +23,13 @@ import BaseStore from './stores/baseStore'
 import { observer } from 'mobx-react'
 import AuthStore from './stores/authStore'
 import React, { useEffect } from 'react'
-import { organizationsAPI } from './api/organizations'
 import { mainContext } from './context/mainContext'
 import InviteLink from './views/auth/InviteLink'
+import PropertiesStore from './stores/propertiesStore'
 
 const baseStore = new BaseStore()
 export const authStore = new AuthStore()
+export const propertiesStore = new PropertiesStore()
 
 const App = observer(() => {
     const { Provider } = mainContext
@@ -46,6 +47,7 @@ const App = observer(() => {
         }
 
         baseStore.getOrganizations()
+        propertiesStore.getProperties()
         checkCurrentUserTokens()
     })
 
@@ -56,20 +58,18 @@ const App = observer(() => {
                     defaultLocale={LOCALES.RUSSIAN}
                     locale={baseStore.uiLang}
                     messages={message[baseStore.uiLang]}>
-                    <div className="App">
-                        <Header baseStore={baseStore} authStore={authStore} />
-                        <Routes>
-                            <Route path={REGISTRATION_BY_TOKEN_ROUTE} element={<Registration />} />
-                            <Route path={INVITE_BY_TOKEN_ROUTE} element={<InviteLink />} />
-                            <Route path={LOGIN_ROUTE} element={<Login authStore={authStore} />} />
-                            <Route path="/" element={<Navigate replace to={LOGIN_ROUTE} />} />
-                            <Route path={CARDS_ROUTE} element={<Dashboard />} />
-                            <Route path={CARD_BY_ID_ROUTE} element={<CardPage />} />
-                            <Route path={CARDS_CREATE_ROUTE} element={<CardPage />} />
-                            <Route path={CARDS_TEMPLATES_ROUTE} element={<CardTemplates />} />
-                            <Route path="*" element={<div>404</div>} />
-                        </Routes>
-                    </div>
+                    <Header baseStore={baseStore} authStore={authStore} />
+                    <Routes>
+                        <Route path={REGISTRATION_BY_TOKEN_ROUTE} element={<Registration />} />
+                        <Route path={INVITE_BY_TOKEN_ROUTE} element={<InviteLink />} />
+                        <Route path={LOGIN_ROUTE} element={<Login authStore={authStore} />} />
+                        <Route path="/" element={<Navigate replace to={CARDS_ROUTE} />} />
+                        <Route path={CARDS_ROUTE} element={<Dashboard />} />
+                        <Route path={CARD_BY_ID_ROUTE} element={<CardPage />} />
+                        <Route path={CARDS_CREATE_ROUTE} element={<CardPage />} />
+                        <Route path={CARDS_TEMPLATES_ROUTE} element={<CardTemplates />} />
+                        <Route path="*" element={<div>404</div>} />
+                    </Routes>
                 </IntlProvider>
             </Provider>
         </BrowserRouter>

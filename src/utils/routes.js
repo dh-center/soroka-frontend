@@ -28,3 +28,4 @@ export const EXTERNAL_AGREEMENT = 'http://peterhofmuseum.ru/assets/files/ustav_g
 export const EXTERNAL_AGREEMENT_SIMPLE =
     'http://peterhofmuseum.ru/assets/files/9._svidetelstvo_o_gosudarstvennoy_registracii.pdf'
 export const EXTERNAL_LOGIN_HELP = 'mailto:help@email.ru'
+export const WUNDERKAMMER = 'https://wunder-kammer.ru'

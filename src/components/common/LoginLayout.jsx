@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import Loader from './Loader'
 
 const LoginLayout = ({ headerMessageId, isLoading = false, children }) => (
-    <Container>
+    <Container className="p-5">
         <Row className="justify-content-center">
             <Col lg="4">
                 <h3>

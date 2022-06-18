@@ -1,12 +1,14 @@
 const English = {
+    soroka: 'Soroka',
+    language: 'Language',
+
     // Общее
-    buttonBackToCards: 'Back to cards',
-    buttonToSave: 'Save',
+    save: 'Save',
     buttonAddProperty: 'Add property',
     addPropertyTitle: 'Click on the desired property to add it',
     placeholderNewCard: 'New card',
     tooltipAllPropertiesAlreadyAdded: 'All possible properties already added',
-    changed: 'Saved',
+    saved: 'Saved',
     property: 'Property',
     enity: 'Enity',
     organization: 'Organization',
@@ -15,8 +17,6 @@ const English = {
 
     // Header
     exit: 'Exit',
-    changeLanguage: 'Change language',
-    changingLanguage: 'Choose language:',
 
     // Страница логина
     loginTitle: 'Login',
@@ -24,9 +24,9 @@ const English = {
     incorrectLogin: 'Incorrect login or password. {br} Please, try again, or ask for help: {email}',
 
     // Список карточек
-    addNewCard: 'Add new card',
+    add: 'Add',
     notFilled: 'Not filled',
-    filled: 'Filled',
+    cards: 'Cards',
 
     // Страница создания карточки
     newCardWarningModalText: 'Add any desired properties, fill out the card and save',
@@ -38,12 +38,15 @@ const English = {
     changeCardWarningModalText: 'This card is not completely filled out: it has empty fields.',
 
     // Модкала с диалогом
+    unsavedChanges: 'Unsaved changes',
     saveBeforeExit: 'Save before leaving?',
     deleteAlert: 'Delete propertie and value?',
-    sureExit: 'Do you sure that you want exit?',
     sureCancel: 'Do you sure that you want cancel changing card?',
-    answerIsYes: 'Yes',
-    answerIsNo: 'No',
+    yes: 'Yes',
+    no: 'No',
+
+    ok: 'Ok',
+    cancel: 'Cancel',
 
     // Регистрация
     emailOrPhone: 'Email or phone',

@@ -1,12 +1,14 @@
 const Russian = {
+    soroka: 'Сорока',
+    language: 'Язык',
+
     // Общее
-    buttonBackToCards: 'Назад к карточкам',
-    buttonToSave: 'Сохранить',
+    save: 'Сохранить',
     buttonAddProperty: 'Добавить свойство',
     addPropertyTitle: 'Нажмите на нужное свойство, чтобы добавить его',
     placeholderNewCard: 'Новая карточка',
     tooltipAllPropertiesAlreadyAdded: 'Все возможные свойства уже добавлены',
-    changed: 'Сохранено',
+    saved: 'Сохранено',
     property: 'Свойство',
     enity: 'Сущность',
     organization: 'Организация',
@@ -14,9 +16,7 @@ const Russian = {
     loading: 'Загрузка',
 
     // Header
-    exit: 'Выйти',
-    changeLanguage: 'Сменить язык',
-    changingLanguage: 'Смена языка: ',
+    exit: 'Выход',
 
     // Страница логина
     loginTitle: 'Вход',
@@ -25,9 +25,9 @@ const Russian = {
         'Неправильный логин или пароль. {br} Попробуйте ещё раз, а в крайнем случае напишите администратору: {email}',
 
     // Список карточек
-    addNewCard: 'Добавить новую карточку',
+    add: 'Добавить',
     notFilled: 'Не заполнена',
-    filled: 'Заполнена',
+    cards: 'Карточки',
 
     // Страница создания карточки
     newCardWarningModalText: 'Добавьте любые нужные свойства, заполните карточку и сохраните',
@@ -39,12 +39,15 @@ const Russian = {
     changeCardWarningModalText: 'Эта карточка заполнена не до конца: в ней есть пустые поля.',
 
     // Модкала с диалогом
+    unsavedChanges: 'Есть изменения',
     saveBeforeExit: 'Сохранить перед выходом?',
-    sureExit: 'Вы уверены, что хотите выйти ?',
     sureCancel: 'Вы уверены, что хотите отменить изменения ?',
     deleteAlert: 'Удалить свойство и данные? ',
-    answerIsYes: 'Да',
-    answerIsNo: 'Нет',
+    yes: 'Да',
+    no: 'Нет',
+
+    ok: 'Ok',
+    cancel: 'Отмена',
 
     // Регистрация
     emailOrPhone: 'Почта или телефон',

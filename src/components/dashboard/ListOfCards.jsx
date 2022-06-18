@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
-import { FormattedMessage } from 'react-intl'
-import { Link } from 'react-router-dom'
 import { CardsAPI } from '../../api/cards'
-import { CARDS_CREATE_ROUTE } from '../../utils/routes'
+import AddNewCard from './AddNewCard'
 import ListCard from './ListCard'
-import './ListOfCards.css'
 
 function ListOfCards() {
     const [cards, setCards] = useState([])
@@ -18,28 +15,13 @@ function ListOfCards() {
 
     return (
         <Container>
-            <Row>
-                <Col md="3" className="list-of-cards__card me-3 mb-2">
-                    <Link className="route-link" to={CARDS_CREATE_ROUTE}>
-                        <div className="list-of-cards__create-new-card">
-                            <svg className="bi" width="32" height="32" fill="currentColor">
-                                <use xlinkHref="bootstrap-icons.svg#heart-fill" />
-                            </svg>
-
-                            <h3 className="list-of-cards__title">
-                                <FormattedMessage id="addNewCard" />
-                            </h3>
-                        </div>
-                    </Link>
-                </Col>
-
-                {cards.map((element, index) => {
-                    return (
-                        <Col md="3" className="list-of-cards__card me-3" key={element.id}>
-                            <ListCard key={element.id} titleOfCard={element.name} className="" element={element} />
-                        </Col>
-                    )
-                })}
+            <Row xs={1} sm={3} md={4} lg={5} xl={6} className="g-2">
+                <AddNewCard />
+                {cards.map(({ id, name, isFilled }) => (
+                    <Col key={id}>
+                        <ListCard id={id} name={name} isFilled={isFilled} />
+                    </Col>
+                ))}
             </Row>
         </Container>
     )

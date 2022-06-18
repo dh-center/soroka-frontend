@@ -1,32 +1,28 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { Badge, Card, Container } from 'react-bootstrap'
+import { CardImage } from 'react-bootstrap-icons'
 import { FormattedMessage } from 'react-intl'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { getCardById } from '../../utils/routes'
-import './ListCard.css'
 
-function ListCard({
-    titleOfCard = 'Название карточки',
-    srcOfPlaceholder = require('../../assets/Image.png'),
-    element
-}) {
+const ListCard = ({ id, name, isFilled = true }) => {
+    const navigate = useNavigate()
+    
     return (
-        <Link className="route-link" to={`${getCardById(element.id)}`}>
-            <div className="card__wrap">
-                <div className="card__header">
-                    <img src={srcOfPlaceholder} alt="" />
-                    {!element.isFilled ? (
-                        <span className="card__is-complete">
+        <Card onClick={() => navigate(getCardById(id))} role="button">
+            <Card.Img as={Container} variant="top" className="position-relative">
+                <div style={{ height: '150px', backgroundColor: 'white' }}></div>
+                <CardImage size={48} color="black" className="position-absolute top-50 start-50 translate-middle" />
+                {!isFilled && (
+                    <Container className="position-absolute bottom-0 start-0 p-2 d-flex justify-content-end">
+                        <Badge bg="warning" text="dark">
                             <FormattedMessage id="notFilled" />
-                        </span>
-                    ) : (
-                        <span className="card__is-complete">
-                            <FormattedMessage id="filled" />
-                        </span>
-                    )}
-                </div>
-                <h4 className="card__title">{titleOfCard}</h4>
-            </div>
-        </Link>
+                        </Badge>
+                    </Container>
+                )}
+            </Card.Img>
+            <Card.Footer>{name}</Card.Footer>
+        </Card>
     )
 }
 

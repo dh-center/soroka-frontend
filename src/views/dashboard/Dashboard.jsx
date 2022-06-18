@@ -1,11 +1,12 @@
 import React from 'react'
+import PageLayout from '../../components/common/PageLayout'
 import ListOfCards from '../../components/dashboard/ListOfCards'
 
 function Dashboard() {
     return (
-        <div>
+        <PageLayout titleMessageId="cards">
             <ListOfCards />
-        </div>
+        </PageLayout>
     )
 }
 
