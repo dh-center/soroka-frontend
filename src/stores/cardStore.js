@@ -62,8 +62,8 @@ export default class CardStore {
         this.nameOfCard = value
     }
 
-    addNewProperties(name, propertyId, dataTypeId, data = null, id = null) {
-        this.observingArray.push({ name, propertyId, dataTypeId, data, id })
+    addNewProperties(property) {
+        this.observingArray.push(property)
         this.setChanged(true)
     }
 
@@ -133,8 +133,14 @@ export default class CardStore {
         }
 
         if (updatedProperties.length) {
+            console.log('updated properties are...', updatedProperties)
             await CardsAPI.updateProperties({
-                properties: updatedProperties
+                // FIXME: надо бы попозже отрефакторить
+                properties: updatedProperties.map((property) => {
+                    const { id, propertyId, data } = property
+
+                    return { id, propertyId, data }
+                })
             }).catch((e) => console.log(e))
         }
 

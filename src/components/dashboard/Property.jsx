@@ -25,13 +25,13 @@ const ControlPanel = ({ hasHelp, setHelpButtonPressed, setShowDialogModal, helpB
     </Col>
 )
 
-const Property = observer(({ type = 4, element, index, store }) => {
+const Property = observer(({ element, index, store }) => {
     const [showDialogModal, setShowDialogModal] = useState(false)
     const [showPanel, setShowPanel] = useState(false)
     const [helpButtonPressed, setHelpButtonPressed] = useState(false)
 
-    // todo: that wont work until filled props begin to return data types
-    const typeDefinition = TYPES[type]
+    const dataType = element.dataType || element.property.dataType
+    const typeDefinition = TYPES[dataType.name]
     const { renderForm, hasHelp } = typeDefinition
 
     return (
