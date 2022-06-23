@@ -1,13 +1,8 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Form } from 'react-bootstrap'
 import { FormattedMessage } from 'react-intl'
 import JulianDate from '../../utils/julianDate.helper'
 
-// переменные вынесены глобально,
-// чтобы не возникало проблем с их
-// перезаписью после изменений в state
-let calendar = null
-let isDateFormatCorrect = true
 
 // небольшой хелпер для проверки валидности даты
 // если calendar = null, то мы выпустим юзера из функции,
@@ -33,23 +28,33 @@ const isDateValid = (calendar, jd) => {
 }
 
 const DateProperty = ({ showHelp, value, onChange }) => {
+    const [ calendar, setCalendar ] = useState(null)
+    const [ isDateFormatCorrect, setIsDateFormatCorrect ] = useState(true)
 
-    const data = JSON.parse(value)[0]
+    useEffect(() => {
+        setCalendar(() => calendar)
+    }, [calendar])
 
-    const julianDate = new JulianDate()
-        .getDateFromJulian(data.jd)
-        .toLocaleDateString('ru-RU')
+    useEffect(() => {
+        setIsDateFormatCorrect(() => isDateFormatCorrect)
+    }, [isDateFormatCorrect])
 
-    isDateFormatCorrect = isDateValid(calendar, data.jd)
+    const data = value ? JSON.parse(value)[0] : { jd: null, calendar: "1" }
+
+    const julianDate = data.jd ?
+        new JulianDate()
+            .getDateFromJulian(data.jd)
+            .toLocaleDateString('ru-RU')
+        : null
 
     return (
         <>
             <Form.Group className="mb-2">
                 <Form.Select className="mb-2"
                     onChange={(event) => {
-                        calendar = event.target.value
+                        setCalendar(event.target.value)
 
-                        isDateFormatCorrect = isDateValid(calendar, data.jd)
+                        setIsDateFormatCorrect(isDateValid(calendar, data.jd))
                     }}
                     defaultValue={data.calendar}
                 >
@@ -72,7 +77,7 @@ const DateProperty = ({ showHelp, value, onChange }) => {
 
                         const jd = new JulianDate(userDate).getJulianDate()
 
-                        isDateFormatCorrect = isDateValid(calendar, data.jd)
+                        setIsDateFormatCorrect(isDateValid(calendar, data.jd))
 
                         onChange(JSON.stringify([{ jd, calendar }]))
                     }}
