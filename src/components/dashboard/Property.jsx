@@ -50,7 +50,10 @@ const Property = observer(({ element, index, store }) => {
                         onChange: (value) => {
                             store.changeValue(index, value)
                         },
-                        showHelp: helpButtonPressed
+                        showHelp: helpButtonPressed,
+                        disableSave: () => {
+                            store.setChanged(false)
+                        }
                     })}
                 </Form.Group>
             </Row>

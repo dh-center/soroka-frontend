@@ -1,7 +1,7 @@
 import React from 'react'
 import { Form } from 'react-bootstrap'
 
-const TextProperty = ({ value, onChange }) => {
+const TextProperty = ({ value, onChange, disableSave }) => {
     return (
         <Form.Control
             as="textarea"
