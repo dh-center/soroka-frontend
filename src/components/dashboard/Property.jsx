@@ -1,5 +1,6 @@
 import { observer } from 'mobx-react-lite'
 import React, { useState } from 'react'
+import { useCallback } from 'react'
 import { Button, Col, Container, Form, Row } from 'react-bootstrap'
 import { FormattedMessage } from 'react-intl'
 import { TYPES } from '../../stores/propertiesStore'
@@ -34,6 +35,13 @@ const Property = observer(({ element, index, store }) => {
   const typeDefinition = TYPES[dataType.name]
   const { renderForm, hasHelp } = typeDefinition
 
+  const onChange = useCallback(
+    (value, validation) => {
+      store.changeValue(index, value, validation)
+    },
+    [index, store]
+  )
+
   return (
     <Container
       key={element.name}
@@ -47,9 +55,7 @@ const Property = observer(({ element, index, store }) => {
         <Form.Group className="mb-2 d-flex align-items-start flex-column w-100">
           {renderForm({
             value: store.observingArray[index]?.data,
-            onChange: (value, validation) => {
-              store.changeValue(index, value, validation)
-            },
+            onChange,
             showHelp: helpButtonPressed
           })}
         </Form.Group>

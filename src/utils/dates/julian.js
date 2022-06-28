@@ -1,10 +1,11 @@
-import GregorianDate from 'ilib/lib/GregorianDate'
+import JulianDate from 'ilib/lib/JulianDate'
 import DateFmt from 'ilib/lib/DateFmt'
 
 class Calendar {
-  dateFormat = new DateFmt({ template: 'dd.MM.yyyy', timezone: 'GMT' })
+  dateFormat = new DateFmt({ template: 'dd.MM.yyyy', calendar: 'julian', timezone: 'GMT' })
 
   validate(dateString) {
+    console.log('julian date parser worked')
     // https://stackoverflow.com/a/6178341
 
     // empty string ok
@@ -25,24 +26,24 @@ class Calendar {
     var monthLength = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 
     // Adjust for leap years
-    if (year % 400 == 0 || (year % 100 != 0 && year % 4 == 0)) monthLength[1] = 29
+    if (year % 4 === 0) monthLength[1] = 29
 
     // Check the range of the day
     return day > 0 && day <= monthLength[month - 1]
   }
 
   fromJD(julianday) {
-    return this.dateFormat.format(new GregorianDate({ julianday, timezone: 'GMT' }))
+    return this.dateFormat.format(new JulianDate({ julianday, timezone: 'GMT' }))
   }
   toJD(dateString) {
     const [day, month, year] = dateString.split('.')
-    return new GregorianDate({ day, month, year, timezone: 'GMT' }).getJulianDay()
+    return new JulianDate({ day, month, year, timezone: 'GMT' }).getJulianDay()
   }
   getDateFormatPlaceholder() {
-    return this.dateFormat.format(new GregorianDate({ year: 1989, month: 4, day: 12, timezone: 'GMT' }))
+    return this.dateFormat.format(new JulianDate({ year: 1989, month: 4, day: 12, timezone: 'GMT' }))
   }
   get nameMessageId() {
-    return 'calendarGrigorian'
+    return 'calendarJulian'
   }
 }
 
