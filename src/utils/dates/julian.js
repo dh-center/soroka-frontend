@@ -5,7 +5,6 @@ class Calendar {
   dateFormat = new DateFmt({ template: 'dd.MM.yyyy', calendar: 'julian', timezone: 'GMT' })
 
   validate(dateString) {
-    console.log('julian date parser worked')
     // https://stackoverflow.com/a/6178341
 
     // empty string ok

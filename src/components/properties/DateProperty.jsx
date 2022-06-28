@@ -70,11 +70,12 @@ const DateProperty = ({ showHelp, value, onChange }) => {
           placeholder={parser.getDateFormatPlaceholder()}
           onChange={handleInput}
           defaultValue={dateString}
-          className={`w-50 ${valid ? '' : 'is-invalid'}`}
+          isInvalid={!valid}
+          className="w-50"
         />
-        <div className="invalid-feedback">
+        <Form.Control.Feedback type="invalid">
           <FormattedMessage id="noSuchDate" />
-        </div>
+        </Form.Control.Feedback>
       </Form.Group>
       {showHelp && (
         <div>
