@@ -7,22 +7,22 @@ import { observer } from 'mobx-react'
 import { cardStore } from './CardPage'
 
 const CardControlPanel = observer(({ handleSave }) => {
-  const validationFailed = cardStore.observingArray.some(({ validation }) => !validation)
+    const validationFailed = cardStore.observingArray.some(({ validation }) => !validation)
 
-  return (
-    <Form className="p-2 border rounded">
-      {/* todo: that is not working and never did */}
-      {cardStore.hasEmptyProperties && (
-        <Alert variant="info">
-          <FormattedMessage id="changeCardWarningModalText" />
-        </Alert>
-      )}
-      {cardStore.userRole == USER_ROLES.admin && <CardAdminControls cardStore={cardStore} />}
-      <Button variant="primary" disabled={!cardStore.changed || validationFailed} onClick={handleSave}>
-        <FormattedMessage id="save" />
-      </Button>
-    </Form>
-  )
+    return (
+        <Form className="p-2 border rounded">
+            {/* todo: that is not working and never did */}
+            {cardStore.hasEmptyProperties && (
+                <Alert variant="info">
+                    <FormattedMessage id="changeCardWarningModalText" />
+                </Alert>
+            )}
+            {cardStore.userRole == USER_ROLES.admin && <CardAdminControls cardStore={cardStore} />}
+            <Button variant="primary" disabled={!cardStore.changed || validationFailed} onClick={handleSave}>
+                <FormattedMessage id="save" />
+            </Button>
+        </Form>
+    )
 })
 
 export default CardControlPanel
