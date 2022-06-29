@@ -52,6 +52,8 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
+          build-args:
+            REACT_APP_API_URL: ${{ env.REACT_APP_API_URL }}
           target: prod
           push: true
           tags: ${{ steps.meta.outputs.tags }}
@@ -68,7 +70,6 @@ jobs:
             docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
             docker rm -f ${{ env.NAME }}
             docker run -dp 8086:${{ env.SERVER_PORT }} --name ${{ env.NAME }} \
-              -e REACT_APP_API_URL=${{ env.REACT_APP_API_URL }} \
               ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
             docker logout
 

@@ -34,7 +34,6 @@ jobs:
             docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:pr-${{ github.event.pull_request.number }}
             docker rm -f ${{ env.NAME }}
             docker run -dp 8085:${{ env.SERVER_PORT }} --name ${{ env.NAME }} \
-              -e REACT_APP_API_URL=${{ env.REACT_APP_API_URL }} \
               ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:pr-${{ github.event.pull_request.number }}
             docker logout
 
