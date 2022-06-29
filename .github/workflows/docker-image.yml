@@ -9,6 +9,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
+  REACT_APP_API_URL: https://soroka.f128.science/restapi/v1
 
 jobs:
 
@@ -38,6 +39,8 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
+          build-args:
+            REACT_APP_API_URL=${{ env.REACT_APP_API_URL }}
           target: prod
           push: true
           tags: ${{ steps.meta.outputs.tags }}
