@@ -1,0 +1,40 @@
+name: Deploy image on merge
+
+concurrency: staging
+
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - master
+env:
+  USERNAME: deploy
+  HOST: wunder-kammer.ru
+  PORT: 22
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+  NAME: soroka-frontend-stage
+  SERVER_PORT: 80
+  REACT_APP_API_URL: https://soroka.f128.science/restapi/v1
+jobs:
+  deploy:
+    name: Deploy staging
+    runs-on: ubuntu-latest
+    steps:
+      - name: executing remote ssh commands using ssh key
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ env.HOST }}
+          username: ${{ env.USERNAME }}
+          key: ${{ secrets.WNDRKMR_SSH_KEY }}
+          port: ${{ env.PORT }}
+          script: |
+            echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u dice4x4 --password-stdin
+            docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:pr-${{ github.event.pull_request.number }}
+            docker rm -f ${{ env.NAME }}
+            docker run -dp 8085:${{ env.SERVER_PORT }} --name ${{ env.NAME }} \
+              -e REACT_APP_API_URL=${{ env.REACT_APP_API_URL }} \
+              ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:pr-${{ github.event.pull_request.number }}
+            docker logout
+
