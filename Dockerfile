@@ -9,7 +9,7 @@ RUN npm run build
 
 FROM nginx:stable-alpine AS prod
 
-COPY --from=builder /opt/app /var/www/html
+COPY --from=builder /opt/app/build /usr/share/nginx/html
 
 FROM node:lts AS dev
 
