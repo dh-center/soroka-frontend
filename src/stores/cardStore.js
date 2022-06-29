@@ -135,7 +135,6 @@ export default class CardStore {
         }
 
         if (updatedProperties.length) {
-            console.log('updated properties are...', updatedProperties)
             await CardsAPI.updateProperties({
                 // FIXME: надо бы попозже отрефакторить
                 properties: updatedProperties.map((property) => {
