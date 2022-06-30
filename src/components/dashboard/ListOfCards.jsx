@@ -5,7 +5,7 @@ import PaginationButtons from '../common/PaginationButtons'
 import AddNewCard from './AddNewCard'
 import ListCard from './ListCard'
 
-const PAGE_SIZE = 6
+const PAGE_SIZE = 6 * 4 - 1
 
 const ListOfCards = () => {
     // todo: add page query
@@ -30,7 +30,7 @@ const ListOfCards = () => {
             </Row>
             <Row>
                 <Col className="d-flex justify-content-center mt-3">
-                    <PaginationButtons page={page} total={cards.total} setPage={setPage} />
+                    <PaginationButtons page={page} total={cards.total} pageSize={PAGE_SIZE} setPage={setPage} />
                 </Col>
             </Row>
         </Container>

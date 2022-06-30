@@ -2,7 +2,7 @@ import React from 'react'
 import { Pagination } from 'react-bootstrap'
 
 const PaginationButtons = ({ page, total, pageSize, setPage }) => {
-    const totalPages = Math.ceil(total / pageSize)
+    const totalPages = Math.ceil(total / pageSize) || 1
 
     // show first, last, current, pages before and after current
     const buttons = [...new Set([0, totalPages - 1, page - 1, page, page + 1])]
