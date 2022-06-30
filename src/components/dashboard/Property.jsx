@@ -7,7 +7,7 @@ import { TYPES } from '../../stores/propertiesStore'
 import ModalDialog from '../common/ModalDialog'
 
 const ControlPanel = ({ hasHelp, setHelpButtonPressed, setShowDialogModal, helpButtonPressed }) => (
-    <Col className="d-flex justify-content-end">
+    <div className="d-flex justify-content-end">
         {hasHelp && (
             <Button
                 variant="outline-secondary"
@@ -23,7 +23,7 @@ const ControlPanel = ({ hasHelp, setHelpButtonPressed, setShowDialogModal, helpB
             }}>
             <FormattedMessage id="delete" />
         </Button>
-    </Col>
+    </div>
 )
 
 const Property = observer(({ element, index, store }) => {
@@ -60,7 +60,7 @@ const Property = observer(({ element, index, store }) => {
                     })}
                 </Form.Group>
             </Row>
-            <Row className={showPanel ? 'visible' : 'invisible'}>
+            <Row className={`mb-3 ${showPanel ? 'visible' : 'invisible'}`}>
                 <ControlPanel
                     hasHelp={hasHelp}
                     setHelpButtonPressed={setHelpButtonPressed}

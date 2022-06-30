@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Map, Placemark, YMaps } from '@pbe/react-yandex-maps'
-import { Col, Container, Form, Row } from 'react-bootstrap'
+import { Col, Form, Row } from 'react-bootstrap'
 import { FormattedMessage, useIntl } from 'react-intl'
 
 export const FIELD_GEO = 'location'
@@ -56,9 +56,9 @@ const GeoProperty = ({ showHelp = false, value, onChange }) => {
     }
 
     return (
-        <Container>
-            <Row className="mb-3">
-                <Col>
+        <>
+            <Row className="mb-3 w-100 p-0 m-0">
+                <Col className="g-0 me-2">
                     <Form.Group>
                         <Form.Control
                             name={FIELD_GEO}
@@ -74,22 +74,24 @@ const GeoProperty = ({ showHelp = false, value, onChange }) => {
                         </Form.Control.Feedback>
                     </Form.Group>
                 </Col>
-                <Col>
+                <Col className="g-0">
                     <Form.Control placeholder={placeholderNameOfPlace} defaultValue="" />
                 </Col>
             </Row>
-            <Row>
-                <YMaps>
-                    <Map
-                        width="100%"
-                        state={mapOptions}
-                        onClick={(e) => {
-                            const newCoordinates = getStringFromCoords(e.get('coords'))
-                            updateCoordinates(newCoordinates, false)
-                        }}>
-                        {coordinates && <Placemark geometry={coordinates} />}
-                    </Map>
-                </YMaps>
+            <Row className="w-100 p-0 m-0">
+                <Col className="g-0">
+                    <YMaps>
+                        <Map
+                            width="100%"
+                            state={mapOptions}
+                            onClick={(e) => {
+                                const newCoordinates = getStringFromCoords(e.get('coords'))
+                                updateCoordinates(newCoordinates, false)
+                            }}>
+                            {coordinates && <Placemark geometry={coordinates} />}
+                        </Map>
+                    </YMaps>
+                </Col>
             </Row>
             {showHelp && (
                 <Row>
@@ -98,7 +100,7 @@ const GeoProperty = ({ showHelp = false, value, onChange }) => {
                     </Col>
                 </Row>
             )}
-        </Container>
+        </>
     )
 }
 
