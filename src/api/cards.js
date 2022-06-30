@@ -52,12 +52,14 @@ export const CardsAPI = {
         return API.delete(`/cards/filled-properties/${cardId}`, { data })
     },
 
-    async getCardsList() {
-        /**
-         * Получение списка карточек
-         */
-
-        return API.get('/cards')
+    /**
+     * Получение списка карточек
+     *
+     * @param {number} params.offset Офсет списка карточек
+     * @param {number} params.limit Максимальное число карточек в результате
+     */
+    async getCardsList(params) {
+        return API.get('/cards', { params })
     },
 
     async createCard(data) {
