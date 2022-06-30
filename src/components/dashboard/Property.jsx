@@ -36,7 +36,7 @@ const Property = observer(({ element, index, store }) => {
     const { renderForm, hasHelp } = typeDefinition
 
     const onChange = useCallback(
-        (value, validation) => {
+        (value, validation = true) => {
             store.changeValue(index, value, validation)
         },
         [index, store]

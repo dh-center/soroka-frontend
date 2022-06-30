@@ -1,9 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Map, Placemark, YMaps } from '@pbe/react-yandex-maps'
 import { Col, Form, Row } from 'react-bootstrap'
 import { FormattedMessage, useIntl } from 'react-intl'
 
 export const FIELD_GEO = 'location'
+export const FIELD_GEO_NAME = 'location_name'
+
 const getCoordsFromString = (coordsString) => (coordsString !== '' ? coordsString.split(',') : null)
 const getStringFromCoords = (coordsArray) => coordsArray.join(',')
 const isValidCoordinatesString = (value) => {
@@ -17,8 +19,24 @@ const isValidCoordinatesString = (value) => {
     return regExp.test(value)
 }
 
+const formatToApi = (coordinates, name) =>
+    JSON.stringify([
+        {
+            location: {
+                type: 'Point',
+                coordinates: coordinates ?? []
+            },
+            name
+        }
+    ])
+
+const defaultValue = { location: { type: 'Point', coordinates: [] }, name: '' }
+
 const GeoProperty = ({ showHelp = false, value, onChange }) => {
-    const initialCoordsString = value ?? ''
+    const data = value ? JSON.parse(value)[0] : defaultValue
+
+    const initialCoordsString = data.location.coordinates ? data.location.coordinates.join(',') : ''
+    const [name, setName] = useState(data.name)
 
     const intl = useIntl()
     const placeholderNameOfPlace = intl.formatMessage({ id: 'placeName' })
@@ -51,9 +69,13 @@ const GeoProperty = ({ showHelp = false, value, onChange }) => {
                 setMapOptions((prevCoord) => ({ ...prevCoord, center: newCoordinates }))
             }
         } else {
-            setCoordinates(null)
+            setCoordinates([])
         }
     }
+
+    useEffect(() => {
+        onChange(formatToApi(coordinates, name), isInputValid)
+    }, [name, coordinates])
 
     return (
         <>
@@ -75,7 +97,12 @@ const GeoProperty = ({ showHelp = false, value, onChange }) => {
                     </Form.Group>
                 </Col>
                 <Col className="g-0">
-                    <Form.Control placeholder={placeholderNameOfPlace} defaultValue="" />
+                    <Form.Control
+                        name={FIELD_GEO_NAME}
+                        onChange={(event) => setName(event.target.value)}
+                        placeholder={placeholderNameOfPlace}
+                        defaultValue={data.name}
+                    />
                 </Col>
             </Row>
             <Row className="w-100 p-0 m-0">
@@ -88,7 +115,7 @@ const GeoProperty = ({ showHelp = false, value, onChange }) => {
                                 const newCoordinates = getStringFromCoords(e.get('coords'))
                                 updateCoordinates(newCoordinates, false)
                             }}>
-                            {coordinates && <Placemark geometry={coordinates} />}
+                            {coordinates && coordinates.length !== 0 && <Placemark geometry={coordinates} />}
                         </Map>
                     </YMaps>
                 </Col>
