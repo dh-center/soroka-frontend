@@ -20,7 +20,7 @@ const Header = observer(({ baseStore, authStore }) => {
     return (
         <Navbar collapseOnSelect expand="lg" variant="dark" bg="dark">
             <Container>
-                <Navbar.Brand href="#home">
+                <Navbar.Brand href="/">
                     <ConeStriped />
                     <FormattedMessage id="soroka" />
                 </Navbar.Brand>

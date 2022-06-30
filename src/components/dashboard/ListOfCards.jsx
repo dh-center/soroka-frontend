@@ -5,8 +5,7 @@ import AddNewCard from './AddNewCard'
 import ListCard from './ListCard'
 
 function ListOfCards() {
-    const [cards, setCards] = useState([])
-
+    const [cards, setCards] = useState({ results: [] })
     useEffect(() => {
         CardsAPI.getCardsList()
             .then((res) => setCards(res.data))
@@ -17,7 +16,7 @@ function ListOfCards() {
         <Container>
             <Row xs={1} sm={3} md={4} lg={5} xl={6} className="g-2">
                 <AddNewCard />
-                {cards.map(({ id, name, isFilled }) => (
+                {cards.results.map(({ id, name, isFilled }) => (
                     <Col key={id}>
                         <ListCard id={id} name={name} isFilled={isFilled} />
                     </Col>

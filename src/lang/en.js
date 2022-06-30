@@ -79,7 +79,14 @@ const English = {
     placeName: 'Place name',
     invalidCoordinates: 'Invalid coordinates',
     coordinatesHelp:
-        'Select a point on the map or enter coordinates in degrees (as a decimal fraction separated by commas), for example, for coordinates 55°24\'32.1"N 32°15\'32.3"E you would enter <b>55.408902,32.258976</b>'
+        'Select a point on the map or enter coordinates in degrees (as a decimal fraction separated by commas), for example, for coordinates 55°24\'32.1"N 32°15\'32.3"E you would enter <b>55.408902,32.258976</b>',
+
+    tags: 'Tags',
+    sources: 'Sources',
+    quote: 'Quote',
+    julianDate: 'Date',
+    geoPoint: 'Geo point',
+    annotation: 'Annotation'
 }
 
 export default English

@@ -41,8 +41,7 @@ const CardPropertiesEditor = observer(() => {
     const everyPropertyAdded = cardStore.observingArray.filter((el) => !el.hidden).length === properties.length
 
     const handleAddNewProperties = (property) => {
-        const { name, id, dataTypeId } = property
-        cardStore.addNewProperties(name, id, dataTypeId)
+        cardStore.addNewProperties(property)
 
         setShowAddingProp(false)
     }
@@ -50,7 +49,7 @@ const CardPropertiesEditor = observer(() => {
     const renderProperty = (element, index) => (
         <Row key={`${element.id}-${index}`} className={element.hidden ? 'd-none' : ''}>
             <Col md="3" className="g-0">
-                <FormattedMessage id={PROPERTIES[element.name].labelId} />
+                <FormattedMessage id={PROPERTIES[element.name || element.property.name].labelId} />
             </Col>
             <Col md="9" className="g-0">
                 <Property element={element} index={index} store={cardStore} />
@@ -99,7 +98,7 @@ const CardPropertiesEditor = observer(() => {
                         {properties.map((el) => {
                             const cardHasProp = cardStore.observingArray
                                 .filter((prop) => !prop.hidden)
-                                .some((prop) => prop.propertyId === el.id)
+                                .some((prop) => prop.propertyId === el.propertyId)
 
                             return (
                                 <Button

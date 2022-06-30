@@ -63,7 +63,11 @@ const App = observer(() => {
                         <Route path={REGISTRATION_BY_TOKEN_ROUTE} element={<Registration />} />
                         <Route path={INVITE_BY_TOKEN_ROUTE} element={<InviteLink />} />
                         <Route path={LOGIN_ROUTE} element={<Login authStore={authStore} />} />
-                        <Route path="/" element={<Navigate replace to={CARDS_ROUTE} />} />
+                        {/* todo: authorization protection for all routes */}
+                        <Route
+                            path="/"
+                            element={<Navigate replace to={authStore.currentUser ? CARDS_ROUTE : LOGIN_ROUTE} />}
+                        />
                         <Route path={CARDS_ROUTE} element={<Dashboard />} />
                         <Route path={CARD_BY_ID_ROUTE} element={<CardPage />} />
                         <Route path={CARDS_CREATE_ROUTE} element={<CardPage />} />

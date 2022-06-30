@@ -62,8 +62,8 @@ export default class CardStore {
         this.nameOfCard = value
     }
 
-    addNewProperties(name, propertyId, dataTypeId, data = null, id = null) {
-        this.observingArray.push({ name, propertyId, dataTypeId, data, id })
+    addNewProperties(property) {
+        this.observingArray.push({ ...property, validation: true })
         this.setChanged(true)
     }
 
@@ -87,8 +87,10 @@ export default class CardStore {
         this.setChanged(true)
     }
 
-    changeValue(index, newValue) {
+    changeValue(index, newValue, validation) {
+        // todo: fix objects mutation mobx (see console)
         this.observingArray[index].data = newValue
+        this.observingArray[index].validation = validation
         this.setChanged(true)
     }
 
@@ -96,7 +98,7 @@ export default class CardStore {
         const listOfProperties = await CardsAPI.getCardsFilledPropertiesById(id).then((res) => res.data)
 
         this.observingArray = listOfProperties.map((el) => {
-            return { ...el, data: JSON.parse(el.data) }
+            return { ...el, data: JSON.parse(el.data), validation: true }
         })
 
         this.startValuesOfObservingArray = listOfProperties
@@ -134,7 +136,12 @@ export default class CardStore {
 
         if (updatedProperties.length) {
             await CardsAPI.updateProperties({
-                properties: updatedProperties
+                // FIXME: надо бы попозже отрефакторить
+                properties: updatedProperties.map((property) => {
+                    const { id, propertyId, data } = property
+
+                    return { id, propertyId, data }
+                })
             }).catch((e) => console.log(e))
         }
 
