@@ -1,11 +1,11 @@
-import { makeAutoObservable } from 'mobx'
+import { makeAutoObservable, runInAction } from 'mobx'
 import { AuthAPI } from '../api/auth'
 import { CardsAPI } from '../api/cards'
+import { propertiesStore } from '../App'
 import { USER_ROLES } from '../utils/constants'
 
 export default class CardStore {
     observingArray = []
-    startValuesOfObservingArray = []
 
     changed = false
 
@@ -24,7 +24,6 @@ export default class CardStore {
 
     reset() {
         this.observingArray = []
-        this.startValuesOfObservingArray = []
 
         this.changed = false
 
@@ -42,15 +41,18 @@ export default class CardStore {
 
     async setOrganiztionAndOwner() {
         const res = await AuthAPI.getUserProfile()
-        this.userRole = res.data.userRole
 
-        if (this.userRole === USER_ROLES.admin && !this.cardInfo.id) {
-            this.organizationOption = res.data.organization
-            this.ownerOption = res.data.id
-        } else {
-            this.organizationOption = this.cardInfo.organizationId
-            this.ownerOption = this.cardInfo.userId
-        }
+        runInAction(() => {
+            this.userRole = res.data.userRole
+
+            if (this.userRole === USER_ROLES.admin && !this.cardInfo.id) {
+                this.organizationOption = res.data.organization
+                this.ownerOption = res.data.id
+            } else {
+                this.organizationOption = this.cardInfo.organizationId
+                this.ownerOption = this.cardInfo.userId
+            }
+        })
     }
 
     setCardInfo(data) {
@@ -62,8 +64,12 @@ export default class CardStore {
         this.nameOfCard = value
     }
 
-    addNewProperties(property) {
-        this.observingArray.push({ ...property, validation: true })
+    addNewProperties(propertyName) {
+        const property = propertiesStore.getPropertyByName(propertyName)
+        const propertyType = propertiesStore.getPropertyType(propertyName)
+        const data = propertyType.defaultData
+
+        this.observingArray.push({ ...property, data, validation: true })
         this.setChanged(true)
     }
 
@@ -88,20 +94,25 @@ export default class CardStore {
     }
 
     changeValue(index, newValue, validation) {
-        // todo: fix objects mutation mobx (see console)
         this.observingArray[index].data = newValue
         this.observingArray[index].validation = validation
+        this.observingArray[index].changed = true
         this.setChanged(true)
     }
 
     async getPropertiesFromCardById(id) {
-        const listOfProperties = await CardsAPI.getCardsFilledPropertiesById(id).then((res) => res.data)
+        const backendData = await CardsAPI.getCardsFilledPropertiesById(id)
+        this.setObservingArrayFromBackend(backendData)
+    }
 
-        this.observingArray = listOfProperties.map((el) => {
+    setObservingArrayFromBackend(backendData) {
+        this.observingArray = backendData.data.map((el) => {
             return { ...el, data: JSON.parse(el.data), validation: true }
         })
+    }
 
-        this.startValuesOfObservingArray = listOfProperties
+    getApiValuesForProperty({ id, propertyId, data }) {
+        return { id, propertyId, data }
     }
 
     async saveProperties() {
@@ -122,32 +133,32 @@ export default class CardStore {
             this.setCardInfo(response.data)
         }
 
-        const updatedProperties = this.observingArray.filter((prop) => prop.id && !prop.hidden)
+        const updatedProperties = this.observingArray.filter((prop) => prop.id && !prop.hidden && prop.changed)
         const createdProperties = this.observingArray.filter((prop) => !prop.id && !prop.hidden)
         const deletedProperties = this.observingArray.filter((prop) => prop.id && prop.hidden).map((prop) => prop.id)
 
         if (deletedProperties.length) {
-            await CardsAPI.deleteProperties(this.cardInfo.id, { properties: deletedProperties })
+            await CardsAPI.deleteProperties(this.cardInfo.id, {
+                properties: deletedProperties.map(this.getApiValuesForProperty)
+            })
         }
 
         for (const prop of createdProperties) {
-            await CardsAPI.createFilledPropertiesByCardId(this.cardInfo.id, prop)
+            await CardsAPI.createFilledPropertiesByCardId(this.cardInfo.id, this.getApiValuesForProperty(prop))
         }
 
         if (updatedProperties.length) {
             await CardsAPI.updateProperties({
-                // FIXME: надо бы попозже отрефакторить
-                properties: updatedProperties.map((property) => {
-                    const { id, propertyId, data } = property
-
-                    return { id, propertyId, data }
-                })
+                properties: updatedProperties.map(this.getApiValuesForProperty)
             }).catch((e) => console.log(e))
         }
 
-        this.nameOfCard = this.cardInfo.name
+        runInAction(() => {
+            this.nameOfCard = this.cardInfo.name
 
-        this.setChanged(false)
+            this.observingArray = this.observingArray.map((property) => ({ ...property, changed: false }))
+            this.setChanged(false)
+        })
     }
 
     deletePropertyLocal(element) {

@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl'
 import gregorianCalendar from '../../utils/dates/gregorian'
 import julianCalendar from '../../utils/dates/julian'
 
-const CALENDAR_GREGORIAN_ID = 1
+export const CALENDAR_GREGORIAN_ID = 1
 const CALENDAR_JULIAN_ID = 2
 
 const CALENDARS = {
@@ -13,12 +13,9 @@ const CALENDARS = {
     [CALENDAR_JULIAN_ID]: julianCalendar
 }
 
-const formatToApi = (value, calendar) => JSON.stringify([{ jd: value, calendar }])
-const defaultValue = { jd: null, calendar: CALENDAR_GREGORIAN_ID }
-
 const DateProperty = ({ showHelp, value, onChange }) => {
     // todo: try/catch etc
-    const data = value ? JSON.parse(value)[0] : defaultValue
+    const data = value[0]
     const [calendar, setCalendar] = useState(data.calendar)
 
     const parser = CALENDARS[calendar]
@@ -32,9 +29,9 @@ const DateProperty = ({ showHelp, value, onChange }) => {
             const currentParser = CALENDARS[newCalendarId]
             const dateIsValid = currentParser.validate(newValue)
             if (newValue.trim() && dateIsValid) {
-                onChange(formatToApi(currentParser.toJD(newValue), newCalendarId), dateIsValid)
+                onChange({ value: currentParser.toJD(newValue), calendar: newCalendarId }, dateIsValid)
             } else {
-                onChange(formatToApi(null, newCalendarId), dateIsValid)
+                onChange({ value: null, calendar: newCalendarId }, dateIsValid)
             }
 
             setValid(dateIsValid)

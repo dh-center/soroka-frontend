@@ -19,24 +19,12 @@ const isValidCoordinatesString = (value) => {
     return regExp.test(value)
 }
 
-const formatToApi = (coordinates, name) =>
-    JSON.stringify([
-        {
-            location: {
-                type: 'Point',
-                coordinates: coordinates ?? []
-            },
-            name
-        }
-    ])
-
-const defaultValue = { location: { type: 'Point', coordinates: [] }, name: '' }
+const getCoordsFromValue = (value) => (value[0].location.coordinates ? value[0].location.coordinates.join(',') : '')
+const getNameFromValue = (value) => value[0].name
 
 const GeoProperty = ({ showHelp = false, value, onChange }) => {
-    const data = value ? JSON.parse(value)[0] : defaultValue
-
-    const initialCoordsString = data.location.coordinates ? data.location.coordinates.join(',') : ''
-    const [name, setName] = useState(data.name)
+    const initialCoordsString = getCoordsFromValue(value)
+    const [name, setName] = useState(getNameFromValue(value))
 
     const intl = useIntl()
     const placeholderNameOfPlace = intl.formatMessage({ id: 'placeName' })
@@ -74,7 +62,12 @@ const GeoProperty = ({ showHelp = false, value, onChange }) => {
     }
 
     useEffect(() => {
-        onChange(formatToApi(coordinates, name), isInputValid)
+        const coordsChanged = getCoordsFromValue(value) !== getStringFromCoords(coordinates)
+        const nameChanged = getNameFromValue(value) !== name
+
+        if (nameChanged || coordsChanged) {
+            onChange({ coordinates, name }, isInputValid)
+        }
     }, [name, coordinates])
 
     return (
@@ -101,7 +94,7 @@ const GeoProperty = ({ showHelp = false, value, onChange }) => {
                         name={FIELD_GEO_NAME}
                         onChange={(event) => setName(event.target.value)}
                         placeholder={placeholderNameOfPlace}
-                        defaultValue={data.name}
+                        defaultValue={getNameFromValue(value)}
                     />
                 </Col>
             </Row>

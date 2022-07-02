@@ -1,9 +1,9 @@
 import { observer } from 'mobx-react-lite'
 import React, { useState } from 'react'
 import { useCallback } from 'react'
-import { Button, Col, Container, Form, Row } from 'react-bootstrap'
+import { Button, Container, Form, Row } from 'react-bootstrap'
 import { FormattedMessage } from 'react-intl'
-import { TYPES } from '../../stores/propertiesStore'
+import { propertiesStore } from '../../App'
 import ModalDialog from '../common/ModalDialog'
 
 const ControlPanel = ({ hasHelp, setHelpButtonPressed, setShowDialogModal, helpButtonPressed }) => (
@@ -26,20 +26,19 @@ const ControlPanel = ({ hasHelp, setHelpButtonPressed, setShowDialogModal, helpB
     </div>
 )
 
-const Property = observer(({ element, index, store }) => {
+const Property = observer(({ element, index, cardStore }) => {
     const [showDialogModal, setShowDialogModal] = useState(false)
     const [showPanel, setShowPanel] = useState(false)
     const [helpButtonPressed, setHelpButtonPressed] = useState(false)
 
-    const dataType = element.dataType || element.property.dataType
-    const typeDefinition = TYPES[dataType.name]
+    const typeDefinition = propertiesStore.getPropertyType(element.name || element.property.name)
     const { renderForm, hasHelp } = typeDefinition
 
     const onChange = useCallback(
         (value, validation = true) => {
-            store.changeValue(index, value, validation)
+            cardStore.changeValue(index, typeDefinition.formatToApi(value), validation)
         },
-        [index, store]
+        [index, cardStore]
     )
 
     return (
@@ -54,7 +53,7 @@ const Property = observer(({ element, index, store }) => {
             <Row>
                 <Form.Group className="mb-2 d-flex align-items-start flex-column w-100">
                     {renderForm({
-                        value: store.observingArray[index]?.data,
+                        value: cardStore.observingArray[index]?.data,
                         onChange,
                         showHelp: helpButtonPressed
                     })}
@@ -75,7 +74,7 @@ const Property = observer(({ element, index, store }) => {
                 setShow={setShowDialogModal}
                 onClose={(accepted) => {
                     if (accepted) {
-                        store.deletePropertyLocal(element)
+                        cardStore.deletePropertyLocal(element)
                         setShowDialogModal(false)
                     }
                 }}

@@ -6,7 +6,6 @@ import { observer } from 'mobx-react'
 import { cardStore } from './CardPage'
 import { Plus } from 'react-bootstrap-icons'
 import { propertiesStore } from '../../App'
-import { PROPERTIES } from '../../stores/propertiesStore'
 
 const AddPropertyButton = ({ everyPropertyAdded, onClick }) => {
     const PropertiesAddedTooltip = (props) => (
@@ -41,7 +40,7 @@ const CardPropertiesEditor = observer(() => {
     const everyPropertyAdded = cardStore.observingArray.filter((el) => !el.hidden).length === properties.length
 
     const handleAddNewProperties = (property) => {
-        cardStore.addNewProperties(property)
+        cardStore.addNewProperties(property.name)
 
         setShowAddingProp(false)
     }
@@ -49,10 +48,12 @@ const CardPropertiesEditor = observer(() => {
     const renderProperty = (element, index) => (
         <Row key={`${element.id}-${index}`} className={element.hidden ? 'd-none' : ''}>
             <Col md="3" className="g-0">
-                <FormattedMessage id={PROPERTIES[element.name || element.property.name].labelId} />
+                <FormattedMessage
+                    id={propertiesStore.getPropertyByName(element.name || element.property.name).labelId}
+                />
             </Col>
             <Col md="9" className="g-0">
-                <Property element={element} index={index} store={cardStore} />
+                <Property element={element} index={index} cardStore={cardStore} />
             </Col>
         </Row>
     )
@@ -109,7 +110,9 @@ const CardPropertiesEditor = observer(() => {
                                     onClick={() => {
                                         handleAddNewProperties(el)
                                     }}>
-                                    <FormattedMessage id={PROPERTIES[el.name].labelId} />
+                                    <FormattedMessage
+                                        id={propertiesStore.getPropertyByName(el.name || element.property.name).labelId}
+                                    />
                                 </Button>
                             )
                         })}
