@@ -6,8 +6,8 @@ import { FormattedMessage, useIntl } from 'react-intl'
 export const FIELD_GEO = 'location'
 export const FIELD_GEO_NAME = 'location_name'
 
-const getCoordsFromString = (coordsString) => (coordsString !== '' ? coordsString.split(',') : null)
-const getStringFromCoords = (coordsArray) => coordsArray.join(',')
+const getCoordsFromString = (coordsString) => (coordsString && coordsString !== '' ? coordsString.split(',') : null)
+const getStringFromCoords = (coordsArray) => (coordsArray ? coordsArray.join(',') : '')
 const isValidCoordinatesString = (value) => {
     if (value === '') {
         return true

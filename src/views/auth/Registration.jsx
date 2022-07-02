@@ -6,7 +6,7 @@ import { FormattedMessage, useIntl } from 'react-intl'
 import { authStore } from '../../App'
 import PasswordField from '../../components/common/PasswordField'
 import LoginLayout from '../../components/common/LoginLayout'
-import { getInvitationByToken, LOGIN_ROUTE, DYNAMIC_TOKEN } from '../../utils/routes'
+import { getInvitationByToken, LOGIN_ROUTE, DYNAMIC_TOKEN } from '../../utils/urls'
 
 const FIELD_PASSWORD = 'password'
 const FIELD_PASSWORD_REPEAT = 'rePassword'
@@ -16,7 +16,7 @@ const Registration = observer(() => {
     const passwordMessage = intl.formatMessage({ id: 'password' })
     const repeatPasswordMessage = intl.formatMessage({ id: 'repeatPassword' })
 
-    const nav = useNavigate()
+    const navigate = useNavigate()
 
     const { [DYNAMIC_TOKEN]: token } = useParams()
 
@@ -41,20 +41,27 @@ const Registration = observer(() => {
         })
         setIsLoading(false)
         if (passwordSuccessfullyCreated) {
-            nav(LOGIN_ROUTE)
+            navigate(LOGIN_ROUTE)
         }
     }
 
     useEffect(() => {
-        authStore
-            .getInvatationData(token)
-            .then((user) => {
-                setIsLoadingPage(false)
-                if (!user.hasAcceptTermsOfUse) {
-                    nav(getInvitationByToken(token))
-                }
-            })
-            .catch(() => nav(LOGIN_ROUTE))
+        if (!authStore.invitationData) {
+            authStore
+                .getInvatationData(token)
+                .then((user) => {
+                    setIsLoadingPage(false)
+                    if (!user.hasAcceptTermsOfUse) {
+                        navigate(getInvitationByToken(token))
+                    }
+                })
+                .catch(() => navigate(LOGIN_ROUTE))
+        } else {
+            setIsLoadingPage(false)
+            if (!authStore.invitationData.hasAcceptTermsOfUse) {
+                navigate(getInvitationByToken(token))
+            }
+        }
     }, [])
 
     return (

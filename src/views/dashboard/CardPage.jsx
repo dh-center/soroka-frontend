@@ -1,24 +1,24 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import './CardPage.css'
 import { Col, Container, Modal, Row } from 'react-bootstrap'
 import { useParams, useNavigate } from 'react-router-dom'
 import { observer } from 'mobx-react'
 import CardStore from '../../stores/cardStore'
-import { CARDS_ROUTE, getCardById, DYNAMIC_ID, CARDS_CREATE_ROUTE } from '../../utils/routes'
+import { CARDS_ROUTE, getCardById, DYNAMIC_ID, CARDS_CREATE_ROUTE } from '../../utils/urls'
 import { FormattedMessage } from 'react-intl'
 import { CardsAPI } from '../../api/cards'
 import PageLayout from '../../components/common/PageLayout'
 import ModalDialog from '../../components/common/ModalDialog'
 import CardControlPanel from './CardControlPanel'
 import CardPropertiesEditor from './CardPropertiesEditor'
+import { mainContext } from '../../context/mainContext'
 
 export const cardStore = new CardStore()
 
 const CardPage = observer(() => {
-    const nav = useNavigate()
-    const isCreateMode = location.href.includes(CARDS_CREATE_ROUTE)
+    const navigate = useNavigate()
+    const { authStore } = useContext(mainContext)
     const { [DYNAMIC_ID]: id } = useParams()
-
     const [showSaveModal, setShowSaveModal] = useState(false)
     const [showSaved, setShowSaved] = useState(false)
 
@@ -31,15 +31,19 @@ const CardPage = observer(() => {
                 cardStore.setCardInfo(res.data)
             })
         }
-        cardStore.setOrganiztionAndOwner()
-    }, [id])
+        if (authStore.currentUser) {
+            cardStore.setOrganiztionAndOwner()
+        }
+    }, [id, authStore.currentUser])
+
+    const isCreateMode = location.href.includes(CARDS_CREATE_ROUTE)
 
     const pageTitle = isCreateMode ? <FormattedMessage id="newCard" /> : cardStore.nameOfCard
 
     const goBackHandler = () => {
         if (!cardStore.changed) {
             cardStore.reset()
-            nav(CARDS_ROUTE)
+            navigate(CARDS_ROUTE)
         } else {
             setShowSaveModal(true)
         }
@@ -47,16 +51,16 @@ const CardPage = observer(() => {
 
     const saveCardBeforeExit = (saveAccepted) => {
         if (saveAccepted) {
-            cardStore.saveProperties().then(() => nav(CARDS_ROUTE))
+            cardStore.saveProperties().then(() => navigate(CARDS_ROUTE))
         } else {
-            nav(CARDS_ROUTE)
+            navigate(CARDS_ROUTE)
         }
     }
 
     const handleSave = async () => {
         await cardStore.saveProperties()
         if (isCreateMode) {
-            nav(`${getCardById(cardStore.cardInfo.id)}`)
+            navigate(getCardById(cardStore.cardInfo.id))
         }
         setShowSaved(true)
     }

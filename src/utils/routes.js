@@ -1,31 +1,65 @@
-// common stuff
-const CREATE = 'create'
-export const DYNAMIC_ID = 'id'
-export const DYNAMIC_TOKEN = 'token'
+import React from 'react'
+import Login from '../views/auth/Login'
+import Dashboard from '../views/dashboard/Dashboard'
+import Registration from '../views/auth/Registration'
+import CardPage from '../views/dashboard/CardPage'
+import {
+    CARDS_ROUTE,
+    CARD_BY_ID_ROUTE,
+    LOGIN_ROUTE,
+    INVITE_BY_TOKEN_ROUTE,
+    REGISTRATION_BY_TOKEN_ROUTE,
+    CARDS_CREATE_ROUTE,
+    CARDS_TEMPLATES_ROUTE
+} from './urls'
+import CardTemplates from '../views/dashboard/CardTemplates'
+import InviteLink from '../views/auth/InviteLink'
 
-// LOGIN
-export const LOGIN_ROUTE = '/login'
+const routes = [
+    {
+        path: REGISTRATION_BY_TOKEN_ROUTE,
+        renderElement: () => <Registration />,
+        onlyWithoutToken: true
+    },
+    {
+        path: INVITE_BY_TOKEN_ROUTE,
+        renderElement: () => <InviteLink />,
+        onlyWithoutToken: true
+    },
+    {
+        path: LOGIN_ROUTE,
+        renderElement: () => <Login />,
+        onlyWithoutToken: true
+    },
+    {
+        path: '/',
+        renderElement: () => <Dashboard />,
+        onlyWithToken: true
+    },
+    {
+        path: CARDS_ROUTE,
+        renderElement: () => <Dashboard />,
+        onlyWithToken: true
+    },
+    {
+        path: CARDS_CREATE_ROUTE,
+        renderElement: () => <CardPage />,
+        onlyWithToken: true
+    },
+    {
+        path: CARD_BY_ID_ROUTE,
+        renderElement: () => <CardPage />,
+        onlyWithToken: true
+    },
+    {
+        path: CARDS_TEMPLATES_ROUTE,
+        renderElement: () => <CardTemplates />,
+        onlyWithToken: true
+    },
+    {
+        path: '*',
+        renderElement: () => <>404</>
+    }
+]
 
-// CARDS
-export const CARDS_ROUTE = '/cards'
-export const CARDS_CREATE_ROUTE = `${CARDS_ROUTE}/${CREATE}`
-export const CARDS_TEMPLATES_ROUTE = `${CARDS_CREATE_ROUTE}/templates`
-export const getCardById = (id) => `${CARDS_ROUTE}/${id}`
-export const CARD_BY_ID_ROUTE = getCardById(`:${DYNAMIC_ID}`)
-
-// INVITATION
-const INVITE_ROUTE = '/invite'
-export const getInvitationByToken = (token) => `${INVITE_ROUTE}/${token}`
-export const INVITE_BY_TOKEN_ROUTE = getInvitationByToken(`:${DYNAMIC_TOKEN}`)
-
-// REGISTRATION
-const REGISTRATION_ROUTE = '/registration'
-export const getRegistrationByToken = (token) => `${REGISTRATION_ROUTE}/${token}`
-export const REGISTRATION_BY_TOKEN_ROUTE = getRegistrationByToken(`:${DYNAMIC_TOKEN}`)
-
-// EXTERNAL LINKS
-export const EXTERNAL_AGREEMENT = 'http://peterhofmuseum.ru/assets/files/ustav_gmz_petergof.pdf'
-export const EXTERNAL_AGREEMENT_SIMPLE =
-    'http://peterhofmuseum.ru/assets/files/9._svidetelstvo_o_gosudarstvennoy_registracii.pdf'
-export const EXTERNAL_LOGIN_HELP = 'mailto:help@email.ru'
-export const WUNDERKAMMER = 'https://wunder-kammer.ru'
+export default routes

@@ -2,8 +2,8 @@ import React from 'react'
 import { Card, Container } from 'react-bootstrap'
 import { PlusCircleDotted } from 'react-bootstrap-icons'
 import { FormattedMessage } from 'react-intl'
-import { Link, useNavigate } from 'react-router-dom'
-import { CARDS_CREATE_ROUTE } from '../../utils/routes'
+import { useNavigate } from 'react-router-dom'
+import { CARDS_CREATE_ROUTE } from '../../utils/urls'
 
 const AddNewCard = () => {
     const navigate = useNavigate()

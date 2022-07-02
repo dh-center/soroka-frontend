@@ -13,7 +13,6 @@ export default class BaseStore {
     }
 
     async getOrganizations() {
-        if (this.organizations.length) return
         const res = await organizationsAPI.getOrganizations()
         this.setOrganizations(res.data)
     }

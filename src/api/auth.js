@@ -50,11 +50,10 @@ export const AuthAPI = {
         return API.get(`/authorization-link/${uuid}`)
     },
 
+    /**
+     * Получение информации о пользователе
+     */
     async getUserProfile() {
-        /**
-         * Получение информации о пользователе
-         */
-
         return API.get('/users/profile')
     },
 

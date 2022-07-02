@@ -7,9 +7,9 @@ import { cardStore } from './CardPage'
 import { organizationsAPI } from '../../api/organizations'
 
 const CardAdminControls = observer(() => {
-    const baseStore = useContext(mainContext)
+    const { baseStore } = useContext(mainContext)
 
-    const [owners, setOwners] = useState([{}])
+    const [owners, setOwners] = useState([])
 
     useEffect(() => {
         organizationsAPI.getOwnersById(cardStore.organizationOption).then((res) => setOwners(res.data))
@@ -17,7 +17,7 @@ const CardAdminControls = observer(() => {
 
     const handleOrganizationChange = (event) => {
         cardStore.setOrganizationOption(event.target.value)
-        organizationsAPI.getOwnersById(cardStore.organizationOption).then((res) => setOwners(res.data))
+        setOwners([])
     }
 
     return (
@@ -56,6 +56,7 @@ const CardAdminControls = observer(() => {
                 <Form.Select
                     id={'chooseOwner'}
                     className="mb-2"
+                    disabled={!owners.length}
                     value={cardStore.ownerOption}
                     onChange={(e) => {
                         cardStore.setOwnerOption(e.target.value)

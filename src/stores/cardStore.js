@@ -1,7 +1,6 @@
 import { makeAutoObservable, runInAction } from 'mobx'
-import { AuthAPI } from '../api/auth'
 import { CardsAPI } from '../api/cards'
-import { propertiesStore } from '../App'
+import { authStore, propertiesStore } from '../App'
 import { USER_ROLES } from '../utils/constants'
 
 export default class CardStore {
@@ -40,14 +39,14 @@ export default class CardStore {
     }
 
     async setOrganiztionAndOwner() {
-        const res = await AuthAPI.getUserProfile()
+        const { userRole, organization, id } = authStore.currentUser
 
         runInAction(() => {
-            this.userRole = res.data.userRole
+            this.userRole = userRole
 
             if (this.userRole === USER_ROLES.admin && !this.cardInfo.id) {
-                this.organizationOption = res.data.organization
-                this.ownerOption = res.data.id
+                this.organizationOption = organization
+                this.ownerOption = id
             } else {
                 this.organizationOption = this.cardInfo.organizationId
                 this.ownerOption = this.cardInfo.userId

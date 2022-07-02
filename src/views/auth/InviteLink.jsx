@@ -13,7 +13,7 @@ import {
     getRegistrationByToken,
     LOGIN_ROUTE,
     DYNAMIC_TOKEN
-} from '../../utils/routes'
+} from '../../utils/urls'
 import { useState } from 'react'
 
 const InviteForm = ({ name, userRole, organizationName, onSubmit, isLoading }) => (
@@ -45,8 +45,8 @@ const InviteForm = ({ name, userRole, organizationName, onSubmit, isLoading }) =
 )
 
 const InviteLink = observer(() => {
-    const nav = useNavigate()
-    const baseStore = useContext(mainContext)
+    const navigate = useNavigate()
+    const { baseStore } = useContext(mainContext)
     const { [DYNAMIC_TOKEN]: token } = useParams()
 
     const [isLoadingPage, setIsLoadingPage] = useState(true)
@@ -60,14 +60,16 @@ const InviteLink = observer(() => {
                     .getInvatationData(token)
                     .then(() => baseStore.getOrganizations()) // todo: getOrganizations api must be locked by authorization, we should get org name in invatation data
                     .then(() => setIsLoadingPage(false))
-                    .catch(() => nav(LOGIN_ROUTE))
+                    .catch(() => navigate(LOGIN_ROUTE))
+            } else {
+                setIsLoadingPage(false)
             }
         }
         fetchInvite()
     }, [])
 
     // stuff to do after user agreed
-    const proceedRegistration = () => nav(getRegistrationByToken(token))
+    const proceedRegistration = () => navigate(getRegistrationByToken(token))
 
     // accepting and redirecting to registration
     const acceptTermsOfRules = async () => {
