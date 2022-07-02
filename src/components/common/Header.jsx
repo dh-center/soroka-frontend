@@ -5,13 +5,12 @@ import { FormattedMessage } from 'react-intl'
 import { observer } from 'mobx-react'
 import { useNavigate } from 'react-router-dom'
 import { ConeStriped } from 'react-bootstrap-icons'
-import { WUNDERKAMMER } from '../../utils/routes'
+import { WUNDERKAMMER } from '../../utils/urls'
 
 const Header = observer(({ baseStore, authStore }) => {
-    const nav = useNavigate()
+    const navigate = useNavigate()
 
     const logout = () => {
-        nav('/')
         authStore.logout()
     }
 
@@ -20,7 +19,7 @@ const Header = observer(({ baseStore, authStore }) => {
     return (
         <Navbar collapseOnSelect expand="lg" variant="dark" bg="dark">
             <Container>
-                <Navbar.Brand href="/">
+                <Navbar.Brand role="button" onClick={() => navigate('/')}>
                     <ConeStriped />
                     <FormattedMessage id="soroka" />
                 </Navbar.Brand>

@@ -1,18 +1,17 @@
 import API from './config'
 export const organizationsAPI = {
+    /**
+     * Список всех организаций
+     */
     async getOrganizations() {
-        /**
-         * Список всех организаций
-         */
-
         return API.get('/organizations')
     },
-    async getOwnersById(id) {
-        /**
-         * Список всех владельцев организации по id организации
-         * @param {number} id
-         */
 
+    /**
+     * Список всех владельцев организации по id организации
+     * @param {number} id
+     */
+    async getOwnersById(id) {
         return API.get(`/organizations/owners/${id}`)
     }
 }

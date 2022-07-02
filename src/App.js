@@ -1,31 +1,18 @@
-import './App.css'
-import Login from './views/auth/Login'
+import React, { useEffect, useMemo } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
-import Dashboard from './views/dashboard/Dashboard'
-import Registration from './views/auth/Registration'
-import CardPage from './views/dashboard/CardPage'
 import Header from './components/common/Header'
-import {
-    CARDS_ROUTE,
-    CARD_BY_ID_ROUTE,
-    LOGIN_ROUTE,
-    INVITE_BY_TOKEN_ROUTE,
-    REGISTRATION_BY_TOKEN_ROUTE,
-    CARDS_CREATE_ROUTE,
-    CARDS_TEMPLATES_ROUTE
-} from './utils/routes'
-import CardTemplates from './views/dashboard/CardTemplates'
+import { LOGIN_ROUTE } from './utils/urls'
 import { IntlProvider } from 'react-intl'
 import { LOCALES } from './lang/locales'
 import { message } from './lang/message'
 import BaseStore from './stores/baseStore'
 import { observer } from 'mobx-react'
 import AuthStore from './stores/authStore'
-import React, { useEffect } from 'react'
+
 import { mainContext } from './context/mainContext'
-import InviteLink from './views/auth/InviteLink'
 import PropertiesStore from './stores/propertiesStore'
+import routes from './utils/routes'
 
 const baseStore = new BaseStore()
 export const authStore = new AuthStore()
@@ -35,45 +22,46 @@ const App = observer(() => {
     const { Provider } = mainContext
     useEffect(() => {
         async function checkCurrentUserTokens() {
-            const accessToken = localStorage.getItem('accessToken')
-            const refreshToken = localStorage.getItem('refreshToken')
-
-            authStore.setAccessToken(accessToken)
-            authStore.setRefreshToken(refreshToken)
-
-            if (!authStore.currentUser && accessToken && refreshToken) {
+            if (!authStore.currentUser && authStore.accessToken && authStore.refreshToken) {
                 await authStore.getUserProfile()
+                await propertiesStore.getProperties()
             }
         }
 
         baseStore.getOrganizations()
-        propertiesStore.getProperties()
         checkCurrentUserTokens()
-    })
+    }, [authStore.accessToken, authStore.refreshToken, authStore.currentUser])
+
+    const preparedRoutes = useMemo(
+        () =>
+            routes.map(({ path, onlyWithToken = false, onlyWithoutToken = false, renderElement }) => {
+                const accessToken = authStore.accessToken
+                const refreshToken = authStore.refreshToken
+                const tokenIsThere = accessToken && refreshToken
+
+                let element
+                if (!tokenIsThere && onlyWithToken) {
+                    element = <Navigate to={LOGIN_ROUTE} /> // <>Page is protected by auth</>
+                } else if (tokenIsThere && onlyWithoutToken) {
+                    element = <Navigate to={'/'} /> // <>Not supposed to be here, page is only for logout users</>
+                } else {
+                    element = renderElement()
+                }
+
+                return <Route key={path} path={path} element={element} />
+            }),
+        [authStore.refreshToken, authStore.accessToken, routes]
+    )
 
     return (
         <BrowserRouter>
-            <Provider value={baseStore}>
+            <Provider value={{ baseStore, authStore }}>
                 <IntlProvider
                     defaultLocale={LOCALES.RUSSIAN}
                     locale={baseStore.uiLang}
                     messages={message[baseStore.uiLang]}>
                     <Header baseStore={baseStore} authStore={authStore} />
-                    <Routes>
-                        <Route path={REGISTRATION_BY_TOKEN_ROUTE} element={<Registration />} />
-                        <Route path={INVITE_BY_TOKEN_ROUTE} element={<InviteLink />} />
-                        <Route path={LOGIN_ROUTE} element={<Login authStore={authStore} />} />
-                        {/* todo: authorization protection for all routes */}
-                        <Route
-                            path="/"
-                            element={<Navigate replace to={authStore.currentUser ? CARDS_ROUTE : LOGIN_ROUTE} />}
-                        />
-                        <Route path={CARDS_ROUTE} element={<Dashboard />} />
-                        <Route path={CARD_BY_ID_ROUTE} element={<CardPage />} />
-                        <Route path={CARDS_CREATE_ROUTE} element={<CardPage />} />
-                        <Route path={CARDS_TEMPLATES_ROUTE} element={<CardTemplates />} />
-                        <Route path="*" element={<div>404</div>} />
-                    </Routes>
+                    <Routes>{preparedRoutes}</Routes>
                 </IntlProvider>
             </Provider>
         </BrowserRouter>

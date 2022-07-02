@@ -1,24 +1,22 @@
-import React from 'react'
+import React, { useState, useContext } from 'react'
 import { Alert, Button, Form } from 'react-bootstrap'
-import { useNavigate } from 'react-router-dom'
 import { FormattedMessage, useIntl } from 'react-intl'
 import { observer } from 'mobx-react-lite'
 import PasswordField from '../../components/common/PasswordField'
 import LoginLayout from '../../components/common/LoginLayout'
-import { CARDS_ROUTE, EXTERNAL_LOGIN_HELP } from '../../utils/routes'
-import { useState } from 'react'
+import { EXTERNAL_LOGIN_HELP } from '../../utils/urls'
+import { mainContext } from '../../context/mainContext'
 
 const FIELD_EMAIL = 'email'
 const FIELD_PASSWORD = 'password'
 
-const Login = observer(({ authStore }) => {
+const Login = observer(() => {
+    const { authStore } = useContext(mainContext)
     const intl = useIntl()
 
     const [isLoading, setIsLoading] = useState(false)
     const passwordMessage = intl.formatMessage({ id: 'password' })
     const emailMessage = intl.formatMessage({ id: 'emailOrPhone' })
-
-    const nav = useNavigate()
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -32,13 +30,8 @@ const Login = observer(({ authStore }) => {
         if (response) {
             authStore.setAccessToken(response.accessToken)
             authStore.setRefreshToken(response.refreshToken)
-            // TODO не хранить токены в localStorage
-            localStorage.setItem('accessToken', response.accessToken)
-            localStorage.setItem('refreshToken', response.refreshToken)
 
             await authStore.getUserProfile()
-
-            nav(CARDS_ROUTE)
         }
 
         setIsLoading(false)

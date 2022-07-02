@@ -2,8 +2,9 @@ import { makeAutoObservable } from 'mobx'
 import { AuthAPI } from '../api/auth'
 
 export default class AuthStore {
-    accessToken = ''
-    refreshToken = ''
+    // TODO не хранить токены в localStorage
+    accessToken = localStorage.getItem('accessToken')
+    refreshToken = localStorage.getItem('refreshToken')
 
     currentUser = null
     invitationData = null
@@ -21,6 +22,7 @@ export default class AuthStore {
 
     setRefreshToken(payload) {
         this.refreshToken = payload
+        localStorage.setItem('refreshToken', payload)
     }
 
     setCurrentUser(payload) {
@@ -64,7 +66,7 @@ export default class AuthStore {
             hasAcceptTermsOfUse: isAccepted,
             userId: this.invitationData.id
         })
-
+        this.setInivitationData(response.data)
         return response.data
     }
 

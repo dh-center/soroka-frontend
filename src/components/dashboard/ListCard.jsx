@@ -3,11 +3,11 @@ import { Badge, Card, Container } from 'react-bootstrap'
 import { CardImage } from 'react-bootstrap-icons'
 import { FormattedMessage } from 'react-intl'
 import { useNavigate } from 'react-router-dom'
-import { getCardById } from '../../utils/routes'
+import { getCardById } from '../../utils/urls'
 
 const ListCard = ({ id, name, isFilled = true }) => {
     const navigate = useNavigate()
-    
+
     return (
         <Card onClick={() => navigate(getCardById(id))} role="button">
             <Card.Img as={Container} variant="top" className="position-relative">

@@ -26,7 +26,7 @@ export const CardsAPI = {
          * @param {number} cardId
          */
 
-        return API.get(`/cards/filled-properties/${cardId}`)
+        return API.get(`/cards/filled-properties/${cardId}`, { cache: false })
     },
 
     async createFilledPropertiesByCardId(cardId, data) {
@@ -59,7 +59,7 @@ export const CardsAPI = {
      * @param {number} params.limit Максимальное число карточек в результате
      */
     async getCardsList(params) {
-        return API.get('/cards', { params })
+        return API.get('/cards', { params, cache: false })
     },
 
     async createCard(data) {
@@ -82,7 +82,7 @@ export const CardsAPI = {
          * @param {number} cardId
          */
 
-        return API.get(`/cards/by-id/${cardId}`)
+        return API.get(`/cards/by-id/${cardId}`, { cache: false })
     },
 
     async updateCardById(cardId, data) {

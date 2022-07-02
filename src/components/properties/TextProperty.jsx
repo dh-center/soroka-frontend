@@ -10,7 +10,7 @@ const TextProperty = ({ value, onChange }) => {
             placeholder=""
             defaultValue={value}
             onChange={(event) => {
-                onChange(event.target.value)
+                onChange({ value: event.target.value })
             }}
         />
     )
