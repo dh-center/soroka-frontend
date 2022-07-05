@@ -2,6 +2,7 @@
 const CREATE = 'create'
 export const DYNAMIC_ID = 'id'
 export const DYNAMIC_TOKEN = 'token'
+export const SEARCH_TEMPLATE = 'template'
 
 // LOGIN
 export const LOGIN_ROUTE = '/login'
@@ -9,6 +10,8 @@ export const LOGIN_ROUTE = '/login'
 // CARDS
 export const CARDS_ROUTE = '/cards'
 export const CARDS_CREATE_ROUTE = `${CARDS_ROUTE}/${CREATE}`
+export const getCreateWithTemplateRoute = (templateId) =>
+    templateId ? `${CARDS_CREATE_ROUTE}?${SEARCH_TEMPLATE}=${templateId}` : CARDS_CREATE_ROUTE
 export const CARDS_TEMPLATES_ROUTE = `${CARDS_CREATE_ROUTE}/templates`
 export const getCardById = (id) => `${CARDS_ROUTE}/${id}`
 export const CARD_BY_ID_ROUTE = getCardById(`:${DYNAMIC_ID}`)

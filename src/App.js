@@ -14,6 +14,7 @@ import { mainContext } from './context/mainContext'
 import PropertiesStore from './stores/propertiesStore'
 import routes from './utils/routes'
 
+// todo: select migration to useContext or exporting variables
 const baseStore = new BaseStore()
 export const authStore = new AuthStore()
 export const propertiesStore = new PropertiesStore()
@@ -23,8 +24,10 @@ const App = observer(() => {
     useEffect(() => {
         async function checkCurrentUserTokens() {
             if (!authStore.currentUser && authStore.accessToken && authStore.refreshToken) {
+                // todo: we need basic preloader for common app needs — templates, properties etc
                 await authStore.getUserProfile()
                 await propertiesStore.getProperties()
+                await propertiesStore.fetchTemplates()
             }
         }
 
@@ -55,7 +58,7 @@ const App = observer(() => {
 
     return (
         <BrowserRouter>
-            <Provider value={{ baseStore, authStore }}>
+            <Provider value={{ baseStore, authStore, propertiesStore }}>
                 <IntlProvider
                     defaultLocale={LOCALES.RUSSIAN}
                     locale={baseStore.uiLang}

@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { Button, Col, Container, Form, Modal, OverlayTrigger, Row, Tooltip } from 'react-bootstrap'
 import { FormattedMessage, useIntl } from 'react-intl'
 import Property from '../../components/dashboard/Property'
 import { observer } from 'mobx-react'
 import { cardStore } from './CardPage'
 import { Plus } from 'react-bootstrap-icons'
-import { propertiesStore } from '../../App'
+import { mainContext } from '../../context/mainContext'
 
 const AddPropertyButton = ({ everyPropertyAdded, onClick }) => {
     const PropertiesAddedTooltip = (props) => (
@@ -31,6 +31,8 @@ const AddPropertyButton = ({ everyPropertyAdded, onClick }) => {
 }
 
 const CardPropertiesEditor = observer(() => {
+    const { propertiesStore } = useContext(mainContext)
+
     const { properties } = propertiesStore
     const intl = useIntl()
     const placeholder = intl.formatMessage({ id: 'placeholderNewCard' })

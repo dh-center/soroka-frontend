@@ -87,7 +87,11 @@ const Russian = {
     quote: 'Цитата',
     julianDate: 'Дата',
     geoPoint: 'Гео-точка',
-    annotation: 'Аннотация'
+    annotation: 'Аннотация',
+
+    templates: 'Шаблоны',
+    withoutTemplate: 'Без шаблона',
+    choosePropertiesByYourself: 'Все свойства вы выберете сами'
 }
 
 export default Russian

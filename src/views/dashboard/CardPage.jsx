@@ -4,7 +4,7 @@ import { Col, Container, Modal, Row } from 'react-bootstrap'
 import { useParams, useNavigate } from 'react-router-dom'
 import { observer } from 'mobx-react'
 import CardStore from '../../stores/cardStore'
-import { CARDS_ROUTE, getCardById, DYNAMIC_ID, CARDS_CREATE_ROUTE } from '../../utils/urls'
+import { CARDS_ROUTE, getCardById, DYNAMIC_ID, CARDS_CREATE_ROUTE, SEARCH_TEMPLATE } from '../../utils/urls'
 import { FormattedMessage } from 'react-intl'
 import { CardsAPI } from '../../api/cards'
 import PageLayout from '../../components/common/PageLayout'
@@ -12,6 +12,7 @@ import ModalDialog from '../../components/common/ModalDialog'
 import CardControlPanel from './CardControlPanel'
 import CardPropertiesEditor from './CardPropertiesEditor'
 import { mainContext } from '../../context/mainContext'
+import { useQuery } from '../../utils/hooks'
 
 export const cardStore = new CardStore()
 
@@ -19,10 +20,15 @@ const CardPage = observer(() => {
     const navigate = useNavigate()
     const { authStore } = useContext(mainContext)
     const { [DYNAMIC_ID]: id } = useParams()
+    const searchParams = useQuery()
+    const templateId = searchParams.get(SEARCH_TEMPLATE)
+
     const [showSaveModal, setShowSaveModal] = useState(false)
     const [showSaved, setShowSaved] = useState(false)
 
     useEffect(() => {
+        // FIXME: there's an issue on first load — will be automatically fixed, after "App preloader" will be created, which will manage loading properties/user data etc before ui
+        !id && cardStore.fillWithTemplate(templateId)
         if (id) {
             cardStore.getPropertiesFromCardById(id)
 
@@ -40,9 +46,14 @@ const CardPage = observer(() => {
 
     const pageTitle = isCreateMode ? <FormattedMessage id="newCard" /> : cardStore.nameOfCard
 
+    useEffect(() => {
+        return () => {
+            cardStore.reset()
+        }
+    }, [])
+
     const goBackHandler = () => {
         if (!cardStore.changed) {
-            cardStore.reset()
             navigate(CARDS_ROUTE)
         } else {
             setShowSaveModal(true)
