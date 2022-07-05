@@ -4,7 +4,14 @@ import { Col, Container, Modal, Row } from 'react-bootstrap'
 import { useParams, useNavigate } from 'react-router-dom'
 import { observer } from 'mobx-react'
 import CardStore from '../../stores/cardStore'
-import { CARDS_ROUTE, getCardById, DYNAMIC_ID, CARDS_CREATE_ROUTE, SEARCH_TEMPLATE } from '../../utils/urls'
+import {
+    CARDS_ROUTE,
+    getCardById,
+    DYNAMIC_ID,
+    CARDS_CREATE_ROUTE,
+    SEARCH_TEMPLATE,
+    CARDS_TEMPLATES_ROUTE
+} from '../../utils/urls'
 import { FormattedMessage } from 'react-intl'
 import { CardsAPI } from '../../api/cards'
 import PageLayout from '../../components/common/PageLayout'
@@ -52,9 +59,11 @@ const CardPage = observer(() => {
         }
     }, [])
 
+    const getBackPath = () => (isCreateMode ? CARDS_TEMPLATES_ROUTE : CARDS_ROUTE)
+
     const goBackHandler = () => {
         if (!cardStore.changed) {
-            navigate(CARDS_ROUTE)
+            navigate(getBackPath())
         } else {
             setShowSaveModal(true)
         }
@@ -64,7 +73,7 @@ const CardPage = observer(() => {
         if (saveAccepted) {
             cardStore.saveProperties().then(() => navigate(CARDS_ROUTE))
         } else {
-            navigate(CARDS_ROUTE)
+            navigate(getBackPath())
         }
     }
 
