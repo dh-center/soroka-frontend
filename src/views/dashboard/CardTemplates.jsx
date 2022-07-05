@@ -40,13 +40,15 @@ const CardTemplates = observer(() => {
     return (
         <PageLayout titleMessageId="templates" goBackHandler={goBackHandler}>
             <Container>
-                <Row xs={1} sm={3} md={4} lg={5} xl={6} className="g-2">
+                <Row xs={1} sm={2} md={3} lg={4} xl={5} className="g-2">
                     {templates.map(({ name, labelId, id, propertiesList }) => (
                         <Col key={id}>
                             <Template id={id} labelId={labelId} name={name} propertiesList={propertiesList} />
                         </Col>
                     ))}
-                    <Template labelId="withoutTemplate" />
+                    <Col>
+                        <Template labelId="withoutTemplate" />
+                    </Col>
                 </Row>
             </Container>
         </PageLayout>
