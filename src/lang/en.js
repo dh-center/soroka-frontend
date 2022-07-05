@@ -54,8 +54,11 @@ const English = {
     repeatPassword: 'Repeat password',
     signUp: 'Sign up',
     asAuthor: 'as author',
+    author: 'Author',
     asAdministrator: 'as administrator',
+    administrator: 'Administrator',
     asEditor: 'as editor',
+    editor: 'Editor',
     inviteBrief:
         "<p>Hello <b>{name}</b> ({organizationName})! You have been invited to participate in the collective data collection within the framework of the Assembly of Petrovsky Museums in <b>{userRole}</b>.</p><p>We will collect data here, in the new Soroka application created by ITMO. Data will be displayed on the Wunderkammer project website.</p><p>We can't wait to see the unique objects and stories that only you know about, but first of all, legal formalities are required.</p><p>Please carefully read the <agreement>user agreement</agreement>. It describes in detail how the resulting materials will be used. We also have a “<simpleAgreement>translation</simpleAgreement>” agreement - a simplified explanation of each clause.</p><p>By clicking the continue button, you agree to the <agreement>user agreement</agreement> and confirm that you are a representative museum, which is entitled to such obligations</p>",
     continue: 'Continue',

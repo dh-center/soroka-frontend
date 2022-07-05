@@ -20,6 +20,11 @@ export default class BaseStore {
     setOrganizations(data) {
         this.organizations = data
     }
+
+    getOrganizationById(organizationId) {
+        return this.organizations.find(({ id }) => id === organizationId)
+    }
+
     setUiLang(payload) {
         this.uiLang = payload
     }
