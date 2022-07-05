@@ -21,14 +21,14 @@ const CardPage = observer(() => {
     const { authStore } = useContext(mainContext)
     const { [DYNAMIC_ID]: id } = useParams()
     const searchParams = useQuery()
-    const templateId = searchParams.get(SEARCH_TEMPLATE)
+    const templateName = searchParams.get(SEARCH_TEMPLATE)
 
     const [showSaveModal, setShowSaveModal] = useState(false)
     const [showSaved, setShowSaved] = useState(false)
 
     useEffect(() => {
         // FIXME: there's an issue on first load — will be automatically fixed, after "App preloader" will be created, which will manage loading properties/user data etc before ui
-        !id && cardStore.fillWithTemplate(templateId)
+        !id && cardStore.fillWithTemplate(templateName)
         if (id) {
             cardStore.getPropertiesFromCardById(id)
 

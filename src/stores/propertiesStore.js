@@ -112,6 +112,23 @@ const PROPERTIES = {
     }
 }
 
+const TEMPLATE_PETER_TRAVEL_ID = 'peter_travel'
+const TEMPLATE_MUSEUM_ID = 'museum'
+const TEMPLATE_BOOK_ID = 'book'
+
+const TEMPLATES = {
+    [TEMPLATE_PETER_TRAVEL_ID]: {
+        labelId: 'peterTravelPoint'
+        // later could be added — coverImage, description text etc
+    },
+    [TEMPLATE_MUSEUM_ID]: {
+        labelId: 'museum'
+    },
+    [TEMPLATE_BOOK_ID]: {
+        labelId: 'book'
+    }
+}
+
 export default class PropertiesStore {
     properties = []
     templates = []
@@ -129,16 +146,18 @@ export default class PropertiesStore {
     }
 
     setTemplatesFromBacked(backendData) {
-        this.templates = backendData.map(({ id, name, propertiesList }) => {
-            const properties = propertiesList
-                .map(({ name: propertyName }) => this.getPropertyByName(propertyName))
-                .filter(Boolean)
-            return { id, name, propertiesList: properties }
-        })
+        this.templates = backendData
+            .filter(({ name }) => TEMPLATES[name]) // leave only "UI-known" properties
+            .map(({ id, name, propertiesList }) => {
+                const properties = propertiesList
+                    .map(({ name: propertyName }) => this.getPropertyByName(propertyName))
+                    .filter(Boolean)
+                return { id, name, propertiesList: properties, ...TEMPLATES[name] }
+            })
     }
 
-    getTemplateById(templateId) {
-        return this.templates.find(({ id }) => id == templateId)
+    getTemplateByName(templateName) {
+        return this.templates.find(({ name }) => name == templateName)
     }
 
     setPropertiesFromBackend(backendData) {

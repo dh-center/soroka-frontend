@@ -99,8 +99,8 @@ export default class CardStore {
         this.setChanged(true)
     }
 
-    fillWithTemplate(templateId) {
-        const template = propertiesStore.getTemplateById(templateId)
+    fillWithTemplate(templateName) {
+        const template = propertiesStore.getTemplateByName(templateName)
         if (template) {
             template.propertiesList.forEach(({ name }) => this.addNewProperties(name))
         }

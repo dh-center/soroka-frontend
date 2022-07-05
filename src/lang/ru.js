@@ -91,7 +91,11 @@ const Russian = {
 
     templates: 'Шаблоны',
     withoutTemplate: 'Без шаблона',
-    choosePropertiesByYourself: 'Все свойства вы выберете сами'
+    choosePropertiesByYourself: 'Все свойства вы выберете сами',
+
+    peterTravelPoint: 'Точка в Посольствах Петра',
+    museum: 'Музей',
+    book: 'Книга'
 }
 
 export default Russian

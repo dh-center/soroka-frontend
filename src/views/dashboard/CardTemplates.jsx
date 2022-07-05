@@ -7,17 +7,21 @@ import PageLayout from '../../components/common/PageLayout'
 import { mainContext } from '../../context/mainContext'
 import { CARDS_ROUTE, getCreateWithTemplateRoute } from '../../utils/urls'
 
-const Template = ({ id, name, propertiesList, noPropertiesMessageId = 'choosePropertiesByYourself' }) => {
+const Template = ({ id, name, labelId, propertiesList, noPropertiesMessageId = 'choosePropertiesByYourself' }) => {
     const navigate = useNavigate()
     const intl = useIntl()
     const propertiesString = propertiesList?.length
-        ? propertiesList.map(({ labelId }) => intl.formatMessage({ id: labelId }).toLocaleLowerCase()).join(', ')
+        ? propertiesList
+              .map(({ labelId: propLabelId }) => intl.formatMessage({ id: propLabelId }).toLocaleLowerCase())
+              .join(', ')
         : intl.formatMessage({ id: noPropertiesMessageId })
 
     return (
-        <Card key={id} onClick={() => navigate(getCreateWithTemplateRoute(id))} role="button" className="h-100">
+        <Card key={id} onClick={() => navigate(getCreateWithTemplateRoute(name))} role="button" className="h-100">
             <Card.Body>
-                <Card.Title>{name}</Card.Title>
+                <Card.Title>
+                    <FormattedMessage id={labelId} />
+                </Card.Title>
                 {propertiesString}
             </Card.Body>
         </Card>
@@ -36,14 +40,13 @@ const CardTemplates = observer(() => {
     return (
         <PageLayout titleMessageId="templates" goBackHandler={goBackHandler}>
             <Container>
-                {templates.length === 0 && <h2>Загрузка шаблонов</h2>}
                 <Row xs={1} sm={3} md={4} lg={5} xl={6} className="g-2">
-                    {templates.map(({ name, id, propertiesList }) => (
+                    {templates.map(({ name, labelId, id, propertiesList }) => (
                         <Col key={id}>
-                            <Template id={id} name={name} propertiesList={propertiesList} />
+                            <Template id={id} labelId={labelId} name={name} propertiesList={propertiesList} />
                         </Col>
                     ))}
-                    <Template name={<FormattedMessage id="withoutTemplate" />} />
+                    <Template labelId="withoutTemplate" />
                 </Row>
             </Container>
         </PageLayout>
