@@ -86,7 +86,15 @@ const English = {
     quote: 'Quote',
     julianDate: 'Date',
     geoPoint: 'Geo point',
-    annotation: 'Annotation'
+    annotation: 'Annotation',
+
+    templates: 'Templates',
+    withoutTemplate: 'Without template',
+    choosePropertiesByYourself: 'You can choose all needed properties by yourself',
+
+    peterTravelPoint: "Great Peter's embassy point",
+    museum: 'Museum',
+    book: 'Book'
 }
 
 export default English

@@ -3,6 +3,7 @@ import { CardsAPI } from '../api/cards'
 import GeoProperty from '../components/properties/GeoProperty'
 import TextProperty from '../components/properties/TextProperty'
 import DateProperty, { CALENDAR_GREGORIAN_ID } from '../components/properties/DateProperty'
+import { TemplatesAPI } from '../api/templates'
 
 const TYPES = {
     TEXT: {
@@ -111,8 +112,26 @@ const PROPERTIES = {
     }
 }
 
+const TEMPLATE_PETER_TRAVEL_ID = 'peter_travel'
+const TEMPLATE_MUSEUM_ID = 'museum'
+const TEMPLATE_BOOK_ID = 'book'
+
+const TEMPLATES = {
+    [TEMPLATE_PETER_TRAVEL_ID]: {
+        labelId: 'peterTravelPoint'
+        // later could be added — coverImage, description text etc
+    },
+    [TEMPLATE_MUSEUM_ID]: {
+        labelId: 'museum'
+    },
+    [TEMPLATE_BOOK_ID]: {
+        labelId: 'book'
+    }
+}
+
 export default class PropertiesStore {
     properties = []
+    templates = []
 
     constructor() {
         makeAutoObservable(this)
@@ -120,6 +139,25 @@ export default class PropertiesStore {
 
     async getProperties() {
         CardsAPI.getCardsProperties().then((backendData) => this.setPropertiesFromBackend(backendData))
+    }
+
+    async fetchTemplates() {
+        TemplatesAPI.getTemplates().then(({ data: backendData }) => this.setTemplatesFromBacked(backendData))
+    }
+
+    setTemplatesFromBacked(backendData) {
+        this.templates = backendData
+            .filter(({ name }) => TEMPLATES[name]) // leave only "UI-known" properties
+            .map(({ id, name, propertiesList }) => {
+                const properties = propertiesList
+                    .map(({ name: propertyName }) => this.getPropertyByName(propertyName))
+                    .filter(Boolean)
+                return { id, name, propertiesList: properties, ...TEMPLATES[name] }
+            })
+    }
+
+    getTemplateByName(templateName) {
+        return this.templates.find(({ name }) => name == templateName)
     }
 
     setPropertiesFromBackend(backendData) {

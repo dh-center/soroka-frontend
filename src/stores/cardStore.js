@@ -99,6 +99,13 @@ export default class CardStore {
         this.setChanged(true)
     }
 
+    fillWithTemplate(templateName) {
+        const template = propertiesStore.getTemplateByName(templateName)
+        if (template) {
+            template.propertiesList.forEach(({ name }) => this.addNewProperties(name))
+        }
+    }
+
     async getPropertiesFromCardById(id) {
         const backendData = await CardsAPI.getCardsFilledPropertiesById(id)
         this.setObservingArrayFromBackend(backendData)
