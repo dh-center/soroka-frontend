@@ -1,6 +1,6 @@
 import React from 'react'
 import { Container, Navbar, Nav, NavDropdown } from 'react-bootstrap'
-import { LANGUAGES } from '../../utils/constants'
+import { LANGUAGES, USER_ROLES_DEFINITION } from '../../utils/constants'
 import { FormattedMessage } from 'react-intl'
 import { observer } from 'mobx-react'
 import { useNavigate } from 'react-router-dom'
@@ -13,8 +13,8 @@ const Header = observer(({ baseStore, authStore }) => {
     const logout = () => {
         authStore.logout()
     }
-
-    // todo: user role and organization string
+    const getUserOrganizationName = () => baseStore.getOrganizationById(authStore.currentUser.organization)?.name
+    const getUserRoleString = () => USER_ROLES_DEFINITION[authStore.currentUser.userRole].roleMessageId
 
     return (
         <Navbar collapseOnSelect expand="lg" variant="dark" bg="dark">
@@ -27,7 +27,10 @@ const Header = observer(({ baseStore, authStore }) => {
                 <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
                     <Nav className="me-auto">
                         {authStore.currentUser && (
-                            <Navbar.Text>Администратор {authStore.currentUser.name} (ГМЗ Петергоф)</Navbar.Text>
+                            <Navbar.Text>
+                                <FormattedMessage id={getUserRoleString()} /> {authStore.currentUser.name} (
+                                {getUserOrganizationName()})
+                            </Navbar.Text>
                         )}
                     </Nav>
                     <Nav>

@@ -11,12 +11,15 @@ export const USER_ROLES = {
 }
 export const USER_ROLES_DEFINITION = {
     [USER_ROLES.admin]: {
+        roleMessageId: 'administrator',
         asRoleMessageId: 'asAdministrator'
     },
     [USER_ROLES.editor]: {
+        roleMessageId: 'editor',
         asRoleMessageId: 'asEditor'
     },
     [USER_ROLES.author]: {
+        roleMessageId: 'author',
         asRoleMessageId: 'asAuthor'
     }
 }
