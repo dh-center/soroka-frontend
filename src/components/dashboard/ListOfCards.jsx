@@ -21,7 +21,9 @@ const ListOfCards = () => {
     return (
         <Container>
             <Row xs={1} sm={3} md={4} lg={5} xl={6} className="g-2">
-                <AddNewCard />
+                <Col>
+                    <AddNewCard />
+                </Col>
                 {cards.results.map(({ id, name, isFilled }) => (
                     <Col key={id}>
                         <ListCard id={id} name={name} isFilled={isFilled} />

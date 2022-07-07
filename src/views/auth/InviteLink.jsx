@@ -17,7 +17,7 @@ import {
 import { useState } from 'react'
 
 const InviteForm = ({ name, userRole, organizationName, onSubmit, isLoading }) => (
-    <Col lg={6}>
+    <Col lg={6} className="mt-3">
         <FormattedMessage
             id="inviteBrief"
             values={{

@@ -33,6 +33,8 @@ const App = observer(() => {
                 await propertiesStore.getProperties()
                 await propertiesStore.fetchTemplates()
                 setIsInitialLoading(false)
+            } else {
+                setIsInitialLoading(false)
             }
         }
 
