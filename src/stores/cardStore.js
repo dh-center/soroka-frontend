@@ -144,8 +144,9 @@ export default class CardStore {
         const deletedProperties = this.observingArray.filter((prop) => prop.id && prop.hidden).map((prop) => prop.id)
 
         if (deletedProperties.length) {
+            // watch out, delete has another format, just array of properties ids
             await CardsAPI.deleteProperties(this.cardInfo.id, {
-                properties: deletedProperties.map(this.getApiValuesForProperty)
+                properties: deletedProperties
             })
         }
 
