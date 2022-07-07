@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
 import Header from './components/common/Header'
@@ -13,6 +13,8 @@ import AuthStore from './stores/authStore'
 import { mainContext } from './context/mainContext'
 import PropertiesStore from './stores/propertiesStore'
 import routes from './utils/routes'
+import Loader from './components/common/Loader'
+import LoginLayout from './components/common/LoginLayout'
 
 // todo: select migration to useContext or exporting variables
 const baseStore = new BaseStore()
@@ -20,6 +22,8 @@ export const authStore = new AuthStore()
 export const propertiesStore = new PropertiesStore()
 
 const App = observer(() => {
+    const [isInitialLoading, setIsInitialLoading] = useState(true)
+
     const { Provider } = mainContext
     useEffect(() => {
         async function checkCurrentUserTokens() {
@@ -28,6 +32,7 @@ const App = observer(() => {
                 await authStore.getUserProfile()
                 await propertiesStore.getProperties()
                 await propertiesStore.fetchTemplates()
+                setIsInitialLoading(false)
             }
         }
 
@@ -64,7 +69,7 @@ const App = observer(() => {
                     locale={baseStore.uiLang}
                     messages={message[baseStore.uiLang]}>
                     <Header baseStore={baseStore} authStore={authStore} />
-                    <Routes>{preparedRoutes}</Routes>
+                    {isInitialLoading ? <LoginLayout isLoading /> : <Routes>{preparedRoutes}</Routes>}
                 </IntlProvider>
             </Provider>
         </BrowserRouter>

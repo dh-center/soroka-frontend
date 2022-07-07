@@ -7,9 +7,11 @@ const LoginLayout = ({ headerMessageId, isLoading = false, children }) => (
     <Container className="p-5">
         <Row className="justify-content-center">
             <Col lg="4">
-                <h3>
-                    <FormattedMessage id={headerMessageId} />
-                </h3>
+                {headerMessageId && (
+                    <h3>
+                        <FormattedMessage id={headerMessageId} />
+                    </h3>
+                )}
                 {isLoading ? (
                     <Row className="justify-content-center">
                         <Loader />
