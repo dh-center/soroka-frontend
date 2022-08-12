@@ -27,7 +27,7 @@ const App = observer(() => {
     const { Provider } = mainContext
     useEffect(() => {
         async function checkCurrentUserTokens() {
-            if (!authStore.currentUser && authStore.accessToken && authStore.refreshToken) {
+            if (Boolean(authStore.currentUser ?? authStore.accessToken ?? authStore.refreshToken)) {
                 // todo: we need basic preloader for common app needs — templates, properties etc
                 await authStore.getUserProfile()
                 await propertiesStore.getProperties()
@@ -40,7 +40,7 @@ const App = observer(() => {
 
         baseStore.getOrganizations()
         checkCurrentUserTokens()
-    }, [authStore.accessToken, authStore.refreshToken, authStore.currentUser])
+    }, [authStore.accessToken, authStore.refreshToken])
 
     const preparedRoutes = useMemo(
         () =>
