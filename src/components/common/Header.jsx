@@ -13,7 +13,7 @@ const Header = observer(({ baseStore, authStore }) => {
     const logout = () => {
         authStore.logout()
     }
-    const getUserOrganizationName = () => baseStore.getOrganizationById(authStore.currentUser.organization)?.name
+    const getUserOrganizationName = () => baseStore.getOrganizationById(authStore.currentUser?.organization)?.name
     const getUserRoleString = () => USER_ROLES_DEFINITION[authStore.currentUser.userRole].roleMessageId
 
     return (
