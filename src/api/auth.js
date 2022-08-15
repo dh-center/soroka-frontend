@@ -54,7 +54,7 @@ export const AuthAPI = {
      * Получение информации о пользователе
      */
     async getUserProfile() {
-        return API.get('/users/profile')
+        return API.get('/users/profile', { cache: false })
     },
 
     async setUserPassword(uuid, data) {

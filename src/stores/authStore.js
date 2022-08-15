@@ -50,7 +50,6 @@ export default class AuthStore {
 
     async getUserProfile() {
         const response = await AuthAPI.getUserProfile()
-
         this.setCurrentUser(response.data)
     }
 
