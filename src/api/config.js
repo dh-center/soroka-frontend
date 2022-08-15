@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { authStore } from '../App'
+import { authStore } from '../stores/rootStore'
 import { setupCache, buildMemoryStorage, defaultKeyGenerator, defaultHeaderInterpreter } from 'axios-cache-interceptor'
 
 const { REACT_APP_API_URL } = process.env

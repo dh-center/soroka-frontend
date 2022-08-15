@@ -1,17 +1,18 @@
-import React, { useState, useContext } from 'react'
+import React, { useState } from 'react'
 import { Alert, Button, Form } from 'react-bootstrap'
 import { FormattedMessage, useIntl } from 'react-intl'
 import { observer } from 'mobx-react-lite'
 import PasswordField from '../../components/common/PasswordField'
 import LoginLayout from '../../components/common/LoginLayout'
 import { EXTERNAL_LOGIN_HELP } from '../../utils/urls'
-import { mainContext } from '../../context/mainContext'
+
+import { useStore } from '../../stores/rootStore'
 
 const FIELD_EMAIL = 'email'
 const FIELD_PASSWORD = 'password'
 
 const Login = observer(() => {
-    const { authStore } = useContext(mainContext)
+    const { authStore } = useStore()
     const intl = useIntl()
 
     const [isLoading, setIsLoading] = useState(false)

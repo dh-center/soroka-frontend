@@ -6,25 +6,19 @@ import { LOGIN_ROUTE } from './utils/urls'
 import { IntlProvider } from 'react-intl'
 import { LOCALES } from './lang/locales'
 import { message } from './lang/message'
-import BaseStore from './stores/baseStore'
 import { observer } from 'mobx-react'
-import AuthStore from './stores/authStore'
 
-import { mainContext } from './context/mainContext'
-import PropertiesStore from './stores/propertiesStore'
 import routes from './utils/routes'
 import Loader from './components/common/Loader'
 import LoginLayout from './components/common/LoginLayout'
 
-// todo: select migration to useContext or exporting variables
-const baseStore = new BaseStore()
-export const authStore = new AuthStore()
-export const propertiesStore = new PropertiesStore()
+import { Provider } from 'mobx-react'
+import store, { useStore } from './stores/rootStore'
 
 const App = observer(() => {
+    const { authStore, baseStore, propertiesStore } = useStore()
     const [isInitialLoading, setIsInitialLoading] = useState(true)
 
-    const { Provider } = mainContext
     useEffect(() => {
         async function checkCurrentUserTokens() {
             if (!authStore.currentUser && authStore.accessToken && authStore.refreshToken) {
@@ -65,12 +59,12 @@ const App = observer(() => {
 
     return (
         <BrowserRouter>
-            <Provider value={{ baseStore, authStore, propertiesStore }}>
+            <Provider value={store}>
                 <IntlProvider
                     defaultLocale={LOCALES.RUSSIAN}
                     locale={baseStore.uiLang}
                     messages={message[baseStore.uiLang]}>
-                    <Header baseStore={baseStore} authStore={authStore} />
+                    <Header />
                     {isInitialLoading ? <LoginLayout isLoading /> : <Routes>{preparedRoutes}</Routes>}
                 </IntlProvider>
             </Provider>

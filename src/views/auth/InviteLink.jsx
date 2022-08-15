@@ -1,8 +1,7 @@
-import React, { useEffect, useContext } from 'react'
+import React, { useEffect } from 'react'
 import { Button, Col, Container, Row } from 'react-bootstrap'
 import { useNavigate, useParams } from 'react-router-dom'
-import { authStore } from '../../App'
-import { mainContext } from '../../context/mainContext'
+import { useStore } from '../../stores/rootStore'
 import { observer } from 'mobx-react-lite'
 import Loader from '../../components/common/Loader'
 import { FormattedMessage } from 'react-intl'
@@ -45,8 +44,8 @@ const InviteForm = ({ name, userRole, organizationName, onSubmit, isLoading }) =
 )
 
 const InviteLink = observer(() => {
+    const { authStore, baseStore } = useStore();
     const navigate = useNavigate()
-    const { baseStore } = useContext(mainContext)
     const { [DYNAMIC_TOKEN]: token } = useParams()
 
     const [isLoadingPage, setIsLoadingPage] = useState(true)

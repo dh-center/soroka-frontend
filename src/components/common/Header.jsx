@@ -7,8 +7,11 @@ import { useNavigate } from 'react-router-dom'
 import { ConeStriped } from 'react-bootstrap-icons'
 import { WUNDERKAMMER } from '../../utils/urls'
 
-const Header = observer(({ baseStore, authStore }) => {
+import { useStore } from '../../stores/rootStore'
+
+const Header = observer(() => {
     const navigate = useNavigate()
+    const { baseStore, authStore } = useStore();
 
     const logout = () => {
         authStore.logout()

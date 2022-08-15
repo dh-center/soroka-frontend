@@ -3,15 +3,17 @@ import { observer } from 'mobx-react-lite'
 import { Button, Form } from 'react-bootstrap'
 import { useParams, useNavigate } from 'react-router-dom'
 import { FormattedMessage, useIntl } from 'react-intl'
-import { authStore } from '../../App'
 import PasswordField from '../../components/common/PasswordField'
 import LoginLayout from '../../components/common/LoginLayout'
 import { getInvitationByToken, LOGIN_ROUTE, DYNAMIC_TOKEN } from '../../utils/urls'
+
+import { useStore } from '../../stores/rootStore'
 
 const FIELD_PASSWORD = 'password'
 const FIELD_PASSWORD_REPEAT = 'rePassword'
 
 const Registration = observer(() => {
+    const { authStore } = useStore();
     const intl = useIntl()
     const passwordMessage = intl.formatMessage({ id: 'password' })
     const repeatPasswordMessage = intl.formatMessage({ id: 'repeatPassword' })

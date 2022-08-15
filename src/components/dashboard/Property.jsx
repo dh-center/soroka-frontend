@@ -1,10 +1,10 @@
-import React, { useState, useContext } from 'react'
+import React, { useState } from 'react'
 import { observer } from 'mobx-react-lite'
 import { useCallback } from 'react'
 import { Button, Container, Form, Row } from 'react-bootstrap'
 import { FormattedMessage } from 'react-intl'
 import ModalDialog from '../common/ModalDialog'
-import { mainContext } from '../../context/mainContext'
+import { useStore } from '../../stores/rootStore'
 
 const ControlPanel = ({ hasHelp, setHelpButtonPressed, setShowDialogModal, helpButtonPressed }) => (
     <div className="d-flex justify-content-end">
@@ -26,12 +26,12 @@ const ControlPanel = ({ hasHelp, setHelpButtonPressed, setShowDialogModal, helpB
     </div>
 )
 
-const Property = observer(({ element, index, cardStore }) => {
+const Property = observer(({ element, index }) => {
     const [showDialogModal, setShowDialogModal] = useState(false)
     const [showPanel, setShowPanel] = useState(false)
     const [helpButtonPressed, setHelpButtonPressed] = useState(false)
 
-    const { propertiesStore } = useContext(mainContext)
+    const { propertiesStore, cardStore } = useStore()
     const typeDefinition = propertiesStore.getPropertyType(element.name || element.property.name)
     const { renderForm, hasHelp } = typeDefinition
 

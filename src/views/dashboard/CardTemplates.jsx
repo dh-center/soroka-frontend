@@ -1,11 +1,11 @@
 import { observer } from 'mobx-react-lite'
-import React, { useContext } from 'react'
+import React from 'react'
 import { Card, Col, Container, Row } from 'react-bootstrap'
 import { FormattedMessage, useIntl } from 'react-intl'
 import { useNavigate } from 'react-router-dom'
 import PageLayout from '../../components/common/PageLayout'
-import { mainContext } from '../../context/mainContext'
 import { CARDS_ROUTE, getCreateWithTemplateRoute } from '../../utils/urls'
+import { useStore } from '../../stores/rootStore'
 
 const Template = ({ id, name, labelId, propertiesList, noPropertiesMessageId = 'choosePropertiesByYourself' }) => {
     const navigate = useNavigate()
@@ -30,7 +30,7 @@ const Template = ({ id, name, labelId, propertiesList, noPropertiesMessageId = '
 
 const CardTemplates = observer(() => {
     const navigate = useNavigate()
-    const { propertiesStore } = useContext(mainContext)
+    const { propertiesStore } = useStore()
     const { templates } = propertiesStore
 
     const goBackHandler = () => {

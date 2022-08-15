@@ -1,13 +1,13 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Form } from 'react-bootstrap'
 import { FormattedMessage } from 'react-intl'
-import { mainContext } from '../../context/mainContext'
 import { observer } from 'mobx-react'
-import { cardStore } from './CardPage'
 import { organizationsAPI } from '../../api/organizations'
 
+import { useStore } from '../../stores/rootStore'
+
 const CardAdminControls = observer(() => {
-    const { baseStore } = useContext(mainContext)
+    const { baseStore, cardStore } = useStore()
 
     const [owners, setOwners] = useState([])
 
@@ -44,9 +44,9 @@ const CardAdminControls = observer(() => {
                     <option value="null" disabled>
                         <FormattedMessage id="organization" />
                     </option>
-                    {baseStore.organizations.map((el, index) => {
+                    {baseStore.organizations.map((el) => {
                         return (
-                            <option key={index} value={el.id}>
+                            <option key={el.id} value={el.id}>
                                 {el.name}
                             </option>
                         )
@@ -64,9 +64,9 @@ const CardAdminControls = observer(() => {
                     <option value="null" disabled>
                         <FormattedMessage id="owner" />
                     </option>
-                    {owners.map((el, index) => {
+                    {owners.map((el) => {
                         return (
-                            <option key={index} value={el.id}>
+                            <option key={el.id} value={el.id}>
                                 {el.name}
                             </option>
                         )
