@@ -1,9 +1,8 @@
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useEffect, useState } from 'react'
 import './CardPage.css'
 import { Col, Container, Modal, Row } from 'react-bootstrap'
 import { useParams, useNavigate } from 'react-router-dom'
 import { observer } from 'mobx-react'
-import CardStore from '../../stores/cardStore'
 import {
     CARDS_ROUTE,
     getCardById,
@@ -18,14 +17,13 @@ import PageLayout from '../../components/common/PageLayout'
 import ModalDialog from '../../components/common/ModalDialog'
 import CardControlPanel from './CardControlPanel'
 import CardPropertiesEditor from './CardPropertiesEditor'
-import { mainContext } from '../../context/mainContext'
 import { useQuery } from '../../utils/hooks'
 
-export const cardStore = new CardStore()
+import { useStore } from '../../stores/rootStore'
 
 const CardPage = observer(() => {
     const navigate = useNavigate()
-    const { authStore } = useContext(mainContext)
+    const { authStore, cardStore } = useStore()
     const { [DYNAMIC_ID]: id } = useParams()
     const searchParams = useQuery()
     const templateName = searchParams.get(SEARCH_TEMPLATE)

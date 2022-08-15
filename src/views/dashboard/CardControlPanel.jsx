@@ -4,9 +4,10 @@ import { FormattedMessage } from 'react-intl'
 import { USER_ROLES } from '../../utils/constants'
 import CardAdminControls from './CardAdminControls'
 import { observer } from 'mobx-react'
-import { cardStore } from './CardPage'
+import { useStore } from '../../stores/rootStore'
 
 const CardControlPanel = observer(({ handleSave }) => {
+    const { cardStore } = useStore()
     const validationFailed = cardStore.observingArray.some(({ validation }) => !validation)
 
     return (

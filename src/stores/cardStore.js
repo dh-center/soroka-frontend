@@ -1,7 +1,8 @@
 import { makeAutoObservable, runInAction } from 'mobx'
 import { CardsAPI } from '../api/cards'
-import { authStore, propertiesStore } from '../App'
 import { USER_ROLES } from '../utils/constants'
+
+import { authStore, propertiesStore } from './rootStore'
 
 export default class CardStore {
     observingArray = []
