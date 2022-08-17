@@ -92,6 +92,8 @@ const Russian = {
     geoPoint: 'Гео-точка',
     annotation: 'Аннотация',
 
+    media: 'Медиа',
+
     templates: 'Шаблоны',
     withoutTemplate: 'Без шаблона',
     choosePropertiesByYourself: 'Все свойства вы выберете сами',

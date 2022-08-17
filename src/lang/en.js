@@ -90,6 +90,7 @@ const English = {
     julianDate: 'Date',
     geoPoint: 'Geo point',
     annotation: 'Annotation',
+    media: 'Media',
 
     templates: 'Templates',
     withoutTemplate: 'Without template',
