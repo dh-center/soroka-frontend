@@ -73,6 +73,8 @@ const English = {
     help: 'Help',
     hideHelp: 'Hide help',
     delete: 'Delete',
+    rename: 'Rename',
+    copyLink: 'Copy link',
 
     noSuchDate: 'No such date in that calender',
     calendarGrigorian: 'Gregorian calendar',
@@ -91,6 +93,13 @@ const English = {
     geoPoint: 'Geo point',
     annotation: 'Annotation',
     media: 'Media',
+    coverCardFile: 'Cover',
+    mainCardFile: 'Main',
+    uploadFiles: 'Upload files',
+    dragFiles: 'Drag files here',
+    orDragFiles: 'or drag files here',
+    mediaHelp:
+        '<p>Acceptable file formats: jpg, png, mp3</p><div>After uploading the files, you will be able to choose:<ul><li>{eye}<span>Cover for the card (among the images)</span></li><li>{star}<span>Main file (for example, this can be an edited interview among excerpts, or the highest quality image)</span></li></ul></div>',
 
     templates: 'Templates',
     withoutTemplate: 'Without template',

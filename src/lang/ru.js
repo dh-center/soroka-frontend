@@ -74,6 +74,8 @@ const Russian = {
     help: 'Помощь',
     hideHelp: 'Скрыть помощь',
     delete: 'Удалить',
+    rename: 'Переименовать',
+    copyLink: 'Скопировать ссылку',
 
     noSuchDate: 'Такой даты нет в календаре',
     calendarGrigorian: 'Григорианский календарь',
@@ -93,6 +95,13 @@ const Russian = {
     annotation: 'Аннотация',
 
     media: 'Медиа',
+    coverCardFile: 'Обложка',
+    mainCardFile: 'Главный',
+    uploadFiles: 'Загрузить файлы',
+    dragFiles: 'Перетащите файлы сюда',
+    orDragFiles: 'или перетащите сюда',
+    mediaHelp:
+        '<p>Допустимые форматы файлов: jpg, png, mp3</p><div>После загрузки файлов вы сможете выбрать:<ul><li>{eye}<span>Обложку для карточки (среди изображений)</span></li><li>{star}<span>Главный файл (например, это может быть смонтированное интервью среди отрывков, или самое качественное изображение)</span></li></ul></div>',
 
     templates: 'Шаблоны',
     withoutTemplate: 'Без шаблона',
