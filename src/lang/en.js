@@ -7,6 +7,7 @@ const English = {
     buttonAddProperty: 'Add property',
     addPropertyTitle: 'Click on the desired property to add it',
     placeholderNewCard: 'New card',
+    placeholderEditLink: 'Enter link...',
     tooltipAllPropertiesAlreadyAdded: 'All possible properties already added',
     saved: 'Saved',
     property: 'Property',
@@ -14,6 +15,7 @@ const English = {
     organization: 'Organization',
     owner: 'Owner',
     loading: 'Loading',
+    topToolbar: 'Top Toolbar',
 
     // Header
     exit: 'Exit',
