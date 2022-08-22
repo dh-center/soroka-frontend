@@ -1,34 +1,10 @@
 import React, { useState } from 'react'
-import { Button, Col, Container, Form, Modal, OverlayTrigger, Row, Tooltip } from 'react-bootstrap'
+import IconButton from '../../components/common/IconButton'
 import { FormattedMessage, useIntl } from 'react-intl'
 import Property from '../../components/dashboard/Property'
 import { observer } from 'mobx-react'
-import { Plus } from 'react-bootstrap-icons'
-
+import { Form, Container, Row, Col, Modal, Button } from 'react-bootstrap'
 import { useStore } from '../../stores/rootStore'
-
-const AddPropertyButton = ({ everyPropertyAdded, onClick }) => {
-    const PropertiesAddedTooltip = (props) => (
-        <Tooltip id="button-tooltip" {...props}>
-            <FormattedMessage id="tooltipAllPropertiesAlreadyAdded" />
-        </Tooltip>
-    )
-
-    return (
-        <OverlayTrigger placement="top" overlay={everyPropertyAdded ? PropertiesAddedTooltip : <></>}>
-            <span className="d-inline-block">
-                <Button
-                    variant="outline-primary"
-                    disabled={everyPropertyAdded}
-                    onClick={() => onClick()}
-                    className="d-flex align-items-center">
-                    <Plus className="me-1" />
-                    <FormattedMessage id="buttonAddProperty" />
-                </Button>
-            </span>
-        </OverlayTrigger>
-    )
-}
 
 const CardPropertiesEditor = observer(() => {
     const { propertiesStore, cardStore } = useStore()
@@ -81,9 +57,11 @@ const CardPropertiesEditor = observer(() => {
                 {cardStore.observingArray.map((element, index) => renderProperty(element, index))}
                 <Row>
                     <Col>
-                        <AddPropertyButton
+                        <IconButton
                             onClick={() => setShowAddingProp(true)}
                             everyPropertyAdded={everyPropertyAdded}
+                            textId="buttonAddProperty"
+                            variantValue="outline-primary"
                         />
                     </Col>
                 </Row>

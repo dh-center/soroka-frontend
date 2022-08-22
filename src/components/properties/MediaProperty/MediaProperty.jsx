@@ -1,7 +1,7 @@
-import React, { useState, useRef, useCallback, useEffect } from 'react'
-import Button from 'react-bootstrap/Button'
-import { Eye, Star, Plus } from 'react-bootstrap-icons'
-import './MediaProperty.scss'
+import React, { useState, useRef } from 'react'
+import IconButton from '../../common/IconButton'
+import { Eye, Star } from 'react-bootstrap-icons'
+import './MediaProperty.css'
 import MediaFileList from './MediaFileLIst/MediaFileList'
 import { FormattedMessage, useIntl } from 'react-intl'
 
@@ -37,32 +37,34 @@ const MediaProperty = ({ showHelp, value, onChange }) => {
     return (
         <>
             <div
-                className="mediaProperty"
+                className="d-flex flex-column position-relative w-100 border rounded"
                 onDragStart={(e) => dragStartHandler(e)}
                 onDragOver={(e) => dragStartHandler(e)}>
-                <div className="mediaProperty__mainContent">
+                <div className="d-flex flex-column align-items-baseline w-100">
                     {selectedFiles.length !== 0 && (
                         <MediaFileList setSelectedFile={setSelectedFile} selectedFiles={selectedFiles} />
                     )}
-                    <div className="mediaProperty__inputWrap">
-                        <div className="mediaProperty__inputButton">
-                            <input
-                                ref={inputFileRef}
-                                type="file"
-                                onChange={handleChange}
-                                accept=".png,.jpg,.mp3,"
-                                multiple
-                                className="hidden"
-                            />
-                            <Button onClick={() => inputFileRef.current.click()} variant="secondary">
-                                <Plus size={24} /> {intl.formatMessage({ id: 'uploadFiles' })}
-                            </Button>
-                        </div>
-                        <p className="mediaProperty__inputAreaText">{intl.formatMessage({ id: 'orDragFiles' })}</p>
+                    <div className="d-flex flex-row align-items-baseline w-100 p-3">
+                        <input
+                            ref={inputFileRef}
+                            type="file"
+                            onChange={handleChange}
+                            accept=".png,.jpg,.mp3,"
+                            multiple
+                            className="hidden"
+                        />
+                        <IconButton
+                            onClick={() => inputFileRef.current.click()}
+                            className="flex-grow-2"
+                            textId="uploadFiles"
+                            variantValue="secondary">
+                            {intl.formatMessage({ id: 'uploadFiles' })}
+                        </IconButton>
+                        <p className="mb-0 text-center flex-grow-1">{intl.formatMessage({ id: 'orDragFiles' })}</p>
                     </div>
                 </div>
                 {showHelp && (
-                    <div className="mediaProperty__help">
+                    <div className="p-3">
                         <FormattedMessage
                             id="mediaHelp"
                             values={{
@@ -79,7 +81,7 @@ const MediaProperty = ({ showHelp, value, onChange }) => {
                 )}
                 {drag && (
                     <div
-                        className="mediaProperty__dragArea"
+                        className="mediaProperty__dragArea position-absolute p-3 w-100 h-100 text-center m-0 d-flex justify-content-center align-items-center"
                         onDragLeave={(e) => dragLeaveHandler(e)}
                         onDragOver={(e) => dragStartHandler(e)}
                         onDrop={(e) => onDropHandler(e)}>

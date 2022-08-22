@@ -5,7 +5,7 @@ const MediaFileList = ({ selectedFiles, setSelectedFile }) => {
     let coverIsSet = null
 
     return (
-        <ul className="mediaProperty__filesList">
+        <ul className="list-group w-100 px-3">
             {selectedFiles.map((file, index) => {
                 if (coverIsSet === null && file.type.split('/')[0] === 'image') {
                     coverIsSet = index

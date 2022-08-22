@@ -1,0 +1,31 @@
+.mediaHelp__helpList {
+    list-style: none;
+    list-style-position: outside;
+}
+
+.mediaHelp__helpList li {
+    margin-top: 0.5rem;
+}
+
+.mediaHelp__helpListIcon {
+    vertical-align: sub;
+    margin-right: 0.5rem;
+}
+
+.hidden {
+    opacity: 0;
+    height: 0;
+    width:0;
+    line-height: 0;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+}
+
+.mediaProperty__dragArea {
+    top: 0;
+    left: 0;
+    border: 2px dashed black;
+    background: rgba(206, 212, 218, 0.9);
+    font-weight: bold;
+}
