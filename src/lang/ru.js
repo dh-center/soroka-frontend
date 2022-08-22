@@ -7,6 +7,7 @@ const Russian = {
     buttonAddProperty: 'Добавить свойство',
     addPropertyTitle: 'Нажмите на нужное свойство, чтобы добавить его',
     placeholderNewCard: 'Новая карточка',
+    placeholderEditLink: 'Укажите ссылку...',
     tooltipAllPropertiesAlreadyAdded: 'Все возможные свойства уже добавлены',
     saved: 'Сохранено',
     property: 'Свойство',
@@ -14,6 +15,7 @@ const Russian = {
     organization: 'Организация',
     owner: 'Владелец',
     loading: 'Загрузка',
+    topToolbar: 'Верхняя панель инструментов',
 
     // Header
     exit: 'Выход',

@@ -6,13 +6,21 @@ import DateProperty, { CALENDAR_GREGORIAN_ID } from '../components/properties/Da
 import MediaProperty from '../components/properties/MediaProperty/MediaProperty'
 import { TemplatesAPI } from '../api/templates'
 
+import { RichTextProperty } from '../components/properties/RichTextProperty'
+
 const TYPES = {
     TEXT: {
-        renderForm: (props) => <TextProperty {...props} />,
-        formatToApi: ({ value }) => value,
+        renderForm: (props) => <RichTextProperty {...props} />, // TODO: Заменить на TextProperty
+        formatToApi: (value) => value,
         defaultData: '',
         hasHelp: false
     },
+    // RICH_TEXT: {
+    //     renderForm: (props) => <RichTextProperty {...props} />,
+    //     formatToApi: ({ value }) => value,
+    //     defaultData: '',
+    //     hasHelp: false
+    // },
     JULIAN_DATE: {
         renderForm: (props) => <DateProperty {...props} />,
         formatToApi: ({ value, calendar }) => [{ jd: value, calendar }],
