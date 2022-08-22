@@ -8,9 +8,9 @@ class Calendar {
         // https://stackoverflow.com/a/6178341
 
         // empty string ok
-        if (dateString.trim() === '') return true
+        if (dateString?.trim() === '') return true
 
-        // pattern check
+        // pattern checks
         if (!/^\d{1,2}\.\d{1,2}\.\d{4}$/.test(dateString)) return false
 
         // Parse the date parts to integers
