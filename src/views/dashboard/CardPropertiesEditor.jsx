@@ -1,10 +1,31 @@
 import React, { useState } from 'react'
+import { Button, Col, Container, Form, Modal, OverlayTrigger, Row, Tooltip } from 'react-bootstrap'
 import IconButton from '../../components/common/IconButton'
 import { FormattedMessage, useIntl } from 'react-intl'
 import Property from '../../components/dashboard/Property'
 import { observer } from 'mobx-react'
-import { Form, Container, Row, Col, Modal, Button } from 'react-bootstrap'
 import { useStore } from '../../stores/rootStore'
+
+const AddPropertyButton = ({ everyPropertyAdded, onClick }) => {
+    const PropertiesAddedTooltip = (props) => (
+        <Tooltip id="button-tooltip" {...props}>
+            <FormattedMessage id="tooltipAllPropertiesAlreadyAdded" />
+        </Tooltip>
+    )
+
+    return (
+        <OverlayTrigger placement="top" overlay={everyPropertyAdded ? PropertiesAddedTooltip : <></>}>
+            <span className="d-inline-block">
+                <IconButton
+                    messageId="buttonAddProperty"
+                    variant="outline-primary"
+                    onClick={onClick}
+                    disabled={everyPropertyAdded}
+                />
+            </span>
+        </OverlayTrigger>
+    )
+}
 
 const CardPropertiesEditor = observer(() => {
     const { propertiesStore, cardStore } = useStore()
@@ -57,11 +78,9 @@ const CardPropertiesEditor = observer(() => {
                 {cardStore.observingArray.map((element, index) => renderProperty(element, index))}
                 <Row>
                     <Col>
-                        <IconButton
+                        <AddPropertyButton
                             onClick={() => setShowAddingProp(true)}
                             everyPropertyAdded={everyPropertyAdded}
-                            textId="buttonAddProperty"
-                            variantValue="outline-primary"
                         />
                     </Col>
                 </Row>

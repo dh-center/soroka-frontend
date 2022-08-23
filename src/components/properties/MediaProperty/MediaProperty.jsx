@@ -1,15 +1,14 @@
 import React, { useState, useRef } from 'react'
 import IconButton from '../../common/IconButton'
 import { Eye, Star } from 'react-bootstrap-icons'
-import './MediaProperty.css'
 import MediaFileList from './MediaFileLIst/MediaFileList'
-import { FormattedMessage, useIntl } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
+import { ListGroup } from 'react-bootstrap'
 
 const MediaProperty = ({ showHelp, value, onChange }) => {
     const [selectedFiles, setSelectedFile] = useState([])
     const [drag, setDrag] = useState(false)
     const inputFileRef = useRef()
-    const intl = useIntl()
 
     const handleChange = (event) => {
         const { length, ...uploadedFiles } = event.target.files
@@ -44,23 +43,23 @@ const MediaProperty = ({ showHelp, value, onChange }) => {
                     {selectedFiles.length !== 0 && (
                         <MediaFileList setSelectedFile={setSelectedFile} selectedFiles={selectedFiles} />
                     )}
-                    <div className="d-flex flex-row align-items-baseline w-100 p-3">
+                    <div className="d-flex flex-row align-items-center w-100 p-3">
                         <input
                             ref={inputFileRef}
                             type="file"
                             onChange={handleChange}
                             accept=".png,.jpg,.mp3,"
                             multiple
-                            className="hidden"
+                            className="d-none"
                         />
                         <IconButton
                             onClick={() => inputFileRef.current.click()}
-                            className="flex-grow-2"
-                            textId="uploadFiles"
-                            variantValue="secondary">
-                            {intl.formatMessage({ id: 'uploadFiles' })}
-                        </IconButton>
-                        <p className="mb-0 text-center flex-grow-1">{intl.formatMessage({ id: 'orDragFiles' })}</p>
+                            messageId="uploadFiles"
+                            variant="secondary"
+                        />
+                        <p className="mb-0 text-center flex-grow-1">
+                            <FormattedMessage id="orDragFiles" />
+                        </p>
                     </div>
                 </div>
                 {showHelp && (
@@ -70,22 +69,22 @@ const MediaProperty = ({ showHelp, value, onChange }) => {
                             values={{
                                 p: (chunks) => <p>{chunks}</p>,
                                 div: (chunks) => <div>{chunks}</div>,
-                                ul: (chunks) => <ul className="mediaHelp__helpList">{chunks}</ul>,
-                                li: (chunks) => <li>{chunks}</li>,
+                                ul: (chunks) => <ListGroup variant="flush">{chunks}</ListGroup>,
+                                li: (chunks) => <ListGroup.Item>{chunks}</ListGroup.Item>,
                                 span: (chunks) => <span>{chunks}</span>,
-                                eye: <Eye size={20} className="mediaHelp__helpListIcon" />,
-                                star: <Star size={20} className="mediaHelp__helpListIcon" />
+                                eye: <Eye size={15} className="align-baseline mx-1" />,
+                                star: <Star size={15} className="align-baseline mx-1" />
                             }}
                         />
                     </div>
                 )}
                 {drag && (
                     <div
-                        className="mediaProperty__dragArea position-absolute p-3 w-100 h-100 text-center m-0 d-flex justify-content-center align-items-center"
+                        className="bg-secondary text-light position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center"
                         onDragLeave={(e) => dragLeaveHandler(e)}
                         onDragOver={(e) => dragStartHandler(e)}
                         onDrop={(e) => onDropHandler(e)}>
-                        {intl.formatMessage({ id: 'dragFiles' })}
+                        <FormattedMessage id="dragFiles" />
                     </div>
                 )}
             </div>

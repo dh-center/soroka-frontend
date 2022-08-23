@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import React, { useMemo } from 'react'
 import MediaFileItem from './MediaFileItem/MediaFileItem'
 
 const MediaFileList = ({ selectedFiles, setSelectedFile }) => {
-    let coverIsSet = null
+    let coverIsSet = useMemo(() => ~~(Math.random() * selectedFiles.length), [])
 
     return (
         <ul className="list-group w-100 px-3">

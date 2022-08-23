@@ -1,27 +1,13 @@
-import { Button, OverlayTrigger, Tooltip } from 'react-bootstrap'
+import { Button } from 'react-bootstrap'
 import { Plus } from 'react-bootstrap-icons'
 import { FormattedMessage } from 'react-intl'
 
-const IconButton = ({ everyPropertyAdded, onClick, textId, variantValue }) => {
-    const PropertiesAddedTooltip = (props) => (
-        <Tooltip id="button-tooltip" {...props}>
-            <FormattedMessage id="tooltipAllPropertiesAlreadyAdded" />
-        </Tooltip>
-    )
-
+const IconButton = ({ onClick, messageId, variant, disabled, IconComponent = Plus }) => {
     return (
-        <OverlayTrigger placement="top" overlay={everyPropertyAdded ? PropertiesAddedTooltip : <></>}>
-            <span className="d-inline-block">
-                <Button
-                    variant={variantValue}
-                    disabled={everyPropertyAdded}
-                    onClick={() => onClick()}
-                    className="d-flex align-items-center">
-                    <Plus size={24} className="me-1" />
-                    <FormattedMessage id={textId} />
-                </Button>
-            </span>
-        </OverlayTrigger>
+        <Button variant={variant} disabled={disabled} onClick={() => onClick()} className="d-flex align-items-center">
+            <IconComponent size={24} className="me-1" />
+            <FormattedMessage id={messageId} />
+        </Button>
     )
 }
 

@@ -31,7 +31,6 @@
         "react-router-dom": "^6.3.0",
         "react-scripts": "5.0.1",
         "remirror": "^1.0.89",
-        "sass": "^1.54.4",
         "web-vitals": "^2.1.4"
     },
     "scripts": {

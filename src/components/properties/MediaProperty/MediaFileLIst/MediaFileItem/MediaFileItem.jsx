@@ -1,55 +1,65 @@
 import React from 'react'
 import { getShortStringName } from '../../../../../utils/strings'
-import { Eye, EyeFill, Star, StarFill, FileEarmarkImage, FileEarmarkMusic, Download } from 'react-bootstrap-icons'
-import { useIntl } from 'react-intl'
+import {
+    Eye,
+    EyeFill,
+    Star,
+    StarFill,
+    FileEarmarkImage,
+    FileEarmarkMusic,
+    Download,
+    FileEarmark
+} from 'react-bootstrap-icons'
+import { FormattedMessage, useIntl } from 'react-intl'
 import Dropdown from 'react-bootstrap/Dropdown'
-import { CustomToggle, CustomMenu } from '../../../../common/CustomDropdown'
+import CustomToggle from '../../../../common/CustomToggle'
 import Badge from 'react-bootstrap/Badge'
+import { Stack } from 'react-bootstrap'
+
+const FileBadge = ({ messageId }) => (
+    <Badge bg="light" text="dark">
+        <FormattedMessage id={messageId} />
+    </Badge>
+)
+
+const getTypeIcon = (type) =>
+    ({
+        image: FileEarmarkImage,
+        audio: FileEarmarkMusic
+    }[type] || FileEarmark)
 
 const MediaFileItem = ({ file, index, isCover, isMain, setSelectedFile, selectedFiles }) => {
     const intl = useIntl()
     const fileType = file.type.split('/')[0]
+    const TypeIcon = getTypeIcon(fileType)
 
     return (
         <li className="list-group-item border-0 px-0 py-3">
-            {fileType === 'image' ? <FileEarmarkImage size={36} /> : <FileEarmarkMusic size={36} />}
-            <span className="mx-2">{getShortStringName(file.name)}</span>
-            {isCover && (
-                <Badge bg="light" text="dark" className="mx-2">
-                    {intl.formatMessage({ id: 'coverCardFile' })}
-                </Badge>
-            )}
-            {isMain && (
-                <Badge bg="light" text="dark" className="mx-2">
-                    {intl.formatMessage({ id: 'mainCardFile' })}
-                </Badge>
-            )}
-            <div className="d-inline float-end">
-                {fileType === 'image' && isCover ? (
-                    <EyeFill role="button" className="mx-2" />
-                ) : (
-                    <Eye role="button" className="mx-2" />
-                )}
-                {isMain ? <StarFill role="button" /> : <Star role="button" />}
-                <Download role="button" className="mx-2" />
-                <Dropdown role="button" className="d-inline mx-2">
-                    <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
-                        Custom toggle
-                    </Dropdown.Toggle>
-
-                    <Dropdown.Menu as={CustomMenu}>
-                        <Dropdown.Item eventKey="1">{intl.formatMessage({ id: 'copyLink' })}</Dropdown.Item>
-                        <Dropdown.Item eventKey="2">{intl.formatMessage({ id: 'rename' })}</Dropdown.Item>
-                        <Dropdown.Item
-                            eventKey="3"
-                            onClick={() =>
-                                setSelectedFile(selectedFiles.filter((item, indexFile) => indexFile !== index))
-                            }>
-                            {intl.formatMessage({ id: 'delete' })}
-                        </Dropdown.Item>
-                    </Dropdown.Menu>
-                </Dropdown>
-            </div>
+            <Stack direction="horizontal" gap={2}>
+                <TypeIcon size={36} />
+                <span>{getShortStringName(file.name)}</span>
+                {isCover && <FileBadge messageId="coverCardFile" />}
+                {isMain && <FileBadge messageId="mainCardFile" />}
+                <Stack direction="horizontal" gap={2} className="ms-auto">
+                    {isCover ? <EyeFill role="button" /> : <Eye role="button" />}
+                    {isMain ? <StarFill role="button" /> : <Star role="button" />}
+                    <Download role="button" />
+                    <Dropdown role="button">
+                        <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components" />
+                        <Dropdown.Menu>
+                            <Dropdown.Item eventKey="1">{intl.formatMessage({ id: 'copyLink' })}</Dropdown.Item>
+                            <Dropdown.Item eventKey="2">{intl.formatMessage({ id: 'rename' })}</Dropdown.Item>
+                            <Dropdown.Item
+                                eventKey="3"
+                                onClick={() =>
+                                    setSelectedFile(selectedFiles.filter((item, indexFile) => indexFile !== index))
+                                }>
+                                {intl.formatMessage({ id: 'delete' })}
+                            </Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
+                </Stack>
+            </Stack>
         </li>
     )
 }
