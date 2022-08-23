@@ -21,16 +21,19 @@ const DateProperty = ({ showHelp, value, onChange }) => {
     const parser = CALENDARS[calendar]
     const dateString = data.jd ? parser.fromJD(data.jd) : ''
     const [dateData, setDateData] = useState({ startDate: null, endDate: null }) // Начальная и конечная даты
-    const [startDateValid, setStartDateValid] = useState(() => parser.validate(dateString?.split('-')[0])) // Валидность начальной даты
-    const [endDateValid, setEndDateValid] = useState(() => parser.validate(dateString?.split('-')[1] || '')) // Валидность конечной даты
+    const [startDateValid, setStartDateValid] = useState(() => parser.validate(dateData.startDate || '')) // Валидность начальной даты
+    const [endDateValid, setEndDateValid] = useState(() => parser.validate(dateData.endDate || '')) // Валидность конечной даты
+
     const [dateRangeActive, setDateRangeActive] = useState(false) // одна дата или диапазон
 
     useEffect(() => {
-        if (dateRangeActive) {
-            const dateStart = new Date(dateData.startDate?.replace(/(\d+).(\d+).(\d+)/, '$3/$2/$1'))
-            const dateEnd = new Date(dateData.endDate?.replace(/(\d+).(\d+).(\d+)/, '$3/$2/$1'))
-            setStartDateValid(dateStart < dateEnd && dateData.startDate.length === 10)
-            setEndDateValid(dateStart < dateEnd && dateData.endDate.length === 10)
+        if (dateRangeActive && dateData.startDate && dateData.endDate && startDateValid && endDateValid) {
+            const parseStartDate = parser.toJD(dateData.startDate)
+            const parseEndDate = parser.toJD(dateData.endDate)
+            if (!(parseStartDate < parseEndDate)) {
+                setStartDateValid(false)
+                setEndDateValid(false)
+            }
         }
     }, [dateData.startDate, dateData.endDate])
 
@@ -56,16 +59,18 @@ const DateProperty = ({ showHelp, value, onChange }) => {
     )
 
     // Обработчик изменения первой даты
-    const handleStartDateInput = (event) => {
+    const handleStartDateInput = async (event) => {
         const newValue = event.target.value
-        setStartDateValid(update(newValue))
+        setStartDateValid(update(newValue)) // Првоеряем валидность текущего значения в input
+        dateData.endDate && setEndDateValid(update(dateData.endDate)) // Проверяем валидность другого значения, если оно есть
         setDateData({ ...dateData, startDate: newValue })
     }
 
     // Обработчик изменения второй даты
-    const handleEndDateInput = (event) => {
+    const handleEndDateInput = async (event) => {
         const newValue = event.target.value
-        setEndDateValid(update(newValue))
+        dateData.startDate && setStartDateValid(update(dateData.startDate)) // Проверяем валидность другого значения, если оно есть
+        setEndDateValid(update(newValue)) // Првоеряем валидность текущего значения в input
         setDateData({ ...dateData, endDate: newValue })
     }
 
@@ -93,7 +98,6 @@ const DateProperty = ({ showHelp, value, onChange }) => {
                             type="text"
                             placeholder={parser.getDateFormatPlaceholder()}
                             onChange={handleStartDateInput}
-                            defaultValue={dateString}
                             isInvalid={!startDateValid}
                             className="w-50"
                         />
@@ -114,7 +118,6 @@ const DateProperty = ({ showHelp, value, onChange }) => {
                                     type="text"
                                     placeholder={parser.getDateFormatPlaceholder()}
                                     onChange={handleEndDateInput}
-                                    defaultValue={dateString}
                                     isInvalid={!endDateValid}
                                     className="w-50"
                                 />
