@@ -1,5 +1,5 @@
 import React from 'react'
-import { getShortStringName } from '../../../../../utils/functions'
+import { getShortStringName } from '../../../../../utils/strings'
 import { Eye, EyeFill, Star, StarFill, FileEarmarkImage, FileEarmarkMusic, Download } from 'react-bootstrap-icons'
 import { useIntl } from 'react-intl'
 import Dropdown from 'react-bootstrap/Dropdown'
