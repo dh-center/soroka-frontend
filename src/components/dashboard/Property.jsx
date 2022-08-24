@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import { observer } from 'mobx-react-lite'
 import { useCallback } from 'react'
 import { Button, Container, Form, Row } from 'react-bootstrap'
@@ -42,6 +42,16 @@ const Property = observer(({ element, index }) => {
         [index, cardStore]
     )
 
+    const form = useMemo(
+        () =>
+            renderForm({
+                value: cardStore.observingArray[index]?.data,
+                onChange,
+                showHelp: helpButtonPressed
+            }),
+        [helpButtonPressed, cardStore.observingArray[index]?.data, onChange]
+    )
+
     return (
         <Container
             key={element.name}
@@ -52,13 +62,7 @@ const Property = observer(({ element, index }) => {
                 setShowPanel(false)
             }}>
             <Row>
-                <Form.Group className="mb-2 d-flex align-items-start flex-column w-100">
-                    {renderForm({
-                        value: cardStore.observingArray[index]?.data,
-                        onChange,
-                        showHelp: helpButtonPressed
-                    })}
-                </Form.Group>
+                <Form.Group className="mb-2 d-flex align-items-start flex-column w-100">{form}</Form.Group>
             </Row>
             <Row className={`mb-3 ${showPanel ? 'visible' : 'invisible'}`}>
                 <ControlPanel

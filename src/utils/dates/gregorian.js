@@ -32,7 +32,7 @@ class Calendar {
     }
 
     fromJD(julianday) {
-        return this.dateFormat.format(new GregorianDate({ julianday, timezone: 'GMT' }))
+        return julianday ? this.dateFormat.format(new GregorianDate({ julianday, timezone: 'GMT' })) : ''
     }
     toJD(dateString) {
         const [day, month, year] = dateString.split('.')
