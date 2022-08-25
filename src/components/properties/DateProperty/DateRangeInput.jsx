@@ -42,6 +42,7 @@ const DateRangeInput = ({
     const [isMounted, setIsMounted] = useState(false)
 
     useEffect(() => {
+        // todo: that is not a solution to react double/single call of useEffect on mount. Probably will be resolved automatically after state to mobx todo
         if (!isMounted) {
             setIsMounted(true)
             return
