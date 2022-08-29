@@ -78,6 +78,7 @@ const Russian = {
     delete: 'Удалить',
 
     noSuchDate: 'Такой даты нет в календаре',
+    datesMustBeConsecutive: 'Даты должны быть последовательны',
     calendarGrigorian: 'Григорианский календарь',
     calendarJulian: 'Юлианский (старый стиль) календарь',
     calendarHelp:

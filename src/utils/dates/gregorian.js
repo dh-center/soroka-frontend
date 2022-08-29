@@ -10,7 +10,7 @@ class Calendar {
         // empty string ok
         if (dateString.trim() === '') return true
 
-        // pattern check
+        // pattern checks
         if (!/^\d{1,2}\.\d{1,2}\.\d{4}$/.test(dateString)) return false
 
         // Parse the date parts to integers
@@ -32,7 +32,7 @@ class Calendar {
     }
 
     fromJD(julianday) {
-        return this.dateFormat.format(new GregorianDate({ julianday, timezone: 'GMT' }))
+        return julianday ? this.dateFormat.format(new GregorianDate({ julianday, timezone: 'GMT' })) : ''
     }
     toJD(dateString) {
         const [day, month, year] = dateString.split('.')

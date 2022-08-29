@@ -77,6 +77,7 @@ const English = {
     delete: 'Delete',
 
     noSuchDate: 'No such date in that calender',
+    datesMustBeConsecutive: 'Dates must be consecutive',
     calendarGrigorian: 'Gregorian calendar',
     calendarJulian: 'Julian calendar',
     calendarHelp:
