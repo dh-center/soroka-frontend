@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
 import { Button, Col, Container, Form, Modal, OverlayTrigger, Row, Tooltip } from 'react-bootstrap'
+import IconButton from '../../components/common/IconButton'
 import { FormattedMessage, useIntl } from 'react-intl'
 import Property from '../../components/dashboard/Property'
 import { observer } from 'mobx-react'
-import { Plus } from 'react-bootstrap-icons'
-
 import { useStore } from '../../stores/rootStore'
 
 const AddPropertyButton = ({ everyPropertyAdded, onClick }) => {
@@ -17,14 +16,12 @@ const AddPropertyButton = ({ everyPropertyAdded, onClick }) => {
     return (
         <OverlayTrigger placement="top" overlay={everyPropertyAdded ? PropertiesAddedTooltip : <></>}>
             <span className="d-inline-block">
-                <Button
+                <IconButton
+                    messageId="buttonAddProperty"
                     variant="outline-primary"
+                    onClick={onClick}
                     disabled={everyPropertyAdded}
-                    onClick={() => onClick()}
-                    className="d-flex align-items-center">
-                    <Plus className="me-1" />
-                    <FormattedMessage id="buttonAddProperty" />
-                </Button>
+                />
             </span>
         </OverlayTrigger>
     )

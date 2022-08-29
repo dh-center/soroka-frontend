@@ -3,6 +3,7 @@ import { CardsAPI } from '../api/cards'
 import GeoProperty from '../components/properties/GeoProperty'
 import TextProperty from '../components/properties/TextProperty'
 import DateProperty, { CALENDAR_GREGORIAN_ID } from '../components/properties/DateProperty'
+import MediaProperty from '../components/properties/MediaProperty/MediaProperty'
 import { TemplatesAPI } from '../api/templates'
 
 import { RichTextProperty } from '../components/properties/RichTextProperty'
@@ -41,6 +42,12 @@ const TYPES = {
         ],
         defaultData: [{ location: { type: 'Point', coordinates: [] }, name: '' }],
         hasHelp: true
+    },
+    MEDIA: {
+        renderForm: (props) => <MediaProperty {...props} />,
+        formatToApi: (value) => value,
+        defaultData: '',
+        hasHelp: true
     }
 }
 
@@ -54,6 +61,7 @@ const QUOTE_ID = 'quote'
 const JULIAN_DATE_ID = 'julianDate'
 const GEO_POINT_ID = 'geoPoint'
 const ANNOTATION_ID = 'annotation'
+const MEDIA_ID = 'media'
 
 const PROPERTIES = {
     [ADDRESS_ID]: {
@@ -114,6 +122,12 @@ const PROPERTIES = {
 
     [ANNOTATION_ID]: {
         labelId: 'annotation',
+        renderAdd: function () {
+            return <FormattedMessage id={this.labelId} />
+        }
+    },
+    [MEDIA_ID]: {
+        labelId: 'media',
         renderAdd: function () {
             return <FormattedMessage id={this.labelId} />
         }
