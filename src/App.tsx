@@ -9,7 +9,6 @@ import { message } from './lang/message'
 import { observer } from 'mobx-react'
 
 import routes from './utils/routes'
-import Loader from './components/common/Loader'
 import LoginLayout from './components/common/LoginLayout'
 
 import { Provider } from 'mobx-react'
@@ -43,7 +42,7 @@ const App = observer(() => {
                 const refreshToken = authStore.refreshToken
                 const tokenIsThere = accessToken && refreshToken
 
-                let element
+                let element: React.ReactElement
                 if (!tokenIsThere && onlyWithToken) {
                     element = <Navigate to={LOGIN_ROUTE} /> // <>Page is protected by auth</>
                 } else if (tokenIsThere && onlyWithoutToken) {

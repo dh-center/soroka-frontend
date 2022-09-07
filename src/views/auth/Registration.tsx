@@ -13,7 +13,7 @@ const FIELD_PASSWORD = 'password'
 const FIELD_PASSWORD_REPEAT = 'rePassword'
 
 const Registration = observer(() => {
-    const { authStore } = useStore();
+    const { authStore } = useStore()
     const intl = useIntl()
     const passwordMessage = intl.formatMessage({ id: 'password' })
     const repeatPasswordMessage = intl.formatMessage({ id: 'repeatPassword' })
@@ -26,10 +26,10 @@ const Registration = observer(() => {
     const [isLoading, setIsLoading] = useState(false)
     const [isLoadingPage, setIsLoadingPage] = useState(true)
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
 
-        const formData = Object.fromEntries(new FormData(e.target).entries())
+        const formData = Object.fromEntries(new FormData(e.currentTarget).entries())
         const { [FIELD_PASSWORD]: password, [FIELD_PASSWORD_REPEAT]: passwordRepeat } = formData
 
         if (password !== passwordRepeat) {

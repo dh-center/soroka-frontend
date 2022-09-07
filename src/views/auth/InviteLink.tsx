@@ -14,8 +14,18 @@ import {
     DYNAMIC_TOKEN
 } from '../../utils/urls'
 import { useState } from 'react'
+import { Organization } from '../../stores/baseStore'
+import { User } from '../../stores/authStore'
 
-const InviteForm = ({ name, userRole, organizationName, onSubmit, isLoading }) => (
+type InviteFormProps = {
+    name: string
+    userRole: number
+    organizationName: string
+    onSubmit: () => void
+    isLoading: boolean
+}
+
+const InviteForm = ({ name, userRole, organizationName, onSubmit, isLoading }: InviteFormProps) => (
     <Col lg={6} className="mt-3">
         <FormattedMessage
             id="inviteBrief"
@@ -44,7 +54,7 @@ const InviteForm = ({ name, userRole, organizationName, onSubmit, isLoading }) =
 )
 
 const InviteLink = observer(() => {
-    const { authStore, baseStore } = useStore();
+    const { authStore, baseStore } = useStore()
     const navigate = useNavigate()
     const { [DYNAMIC_TOKEN]: token } = useParams()
 
@@ -89,8 +99,9 @@ const InviteLink = observer(() => {
 
     // view stuff
     const { invitationData } = authStore
-    const { name, organization, userRole } = invitationData || {}
-    const { name: organizationName } = baseStore.organizations.find(({ id }) => id === organization) || {}
+    const { name, organization, userRole } = invitationData || ({} as User)
+    const { name: organizationName } =
+        baseStore.organizations.find(({ id }) => id === organization) || ({} as Organization)
 
     return (
         <Container>

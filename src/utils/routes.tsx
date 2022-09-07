@@ -15,7 +15,14 @@ import {
 import CardTemplates from '../views/dashboard/CardTemplates'
 import InviteLink from '../views/auth/InviteLink'
 
-const routes = [
+type Route = {
+    path: string
+    renderElement: () => JSX.Element
+    onlyWithoutToken?: boolean
+    onlyWithToken?: boolean
+}
+
+const routes: Route[] = [
     {
         path: REGISTRATION_BY_TOKEN_ROUTE,
         renderElement: () => <Registration />,

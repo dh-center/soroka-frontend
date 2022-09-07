@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useCallback, useEffect, useLayoutEffect } from 'react'
 import { useLocation } from 'react-router-dom'
-import { LinkExtension, createMarkPositioner } from 'remirror/extensions'
+import { LinkExtension, createMarkPositioner, ShortcutHandlerProps } from 'remirror/extensions'
 import { useExtensionEvent, useAttrs, useChainedCommands, useUpdateReason, useCurrentSelection } from '@remirror/react'
 
 export function useQuery() {
@@ -11,7 +11,7 @@ export function useQuery() {
 
 // library example: https://github.com/remirror/remirror/blob/main/packages/storybook-react/stories/extension-link/edit-dialog.tsx
 export function useLinkShortcut() {
-    const [linkShortcut, setLinkShortcut] = useState()
+    const [linkShortcut, setLinkShortcut] = useState<ShortcutHandlerProps | undefined>()
     const [isEditing, setIsEditing] = useState(false)
 
     useExtensionEvent(
@@ -38,8 +38,8 @@ export function useFloatingLinkState() {
     const { isEditing, linkShortcut, setIsEditing } = useLinkShortcut()
     const { to, empty } = useCurrentSelection()
 
-    const url = useAttrs().link()?.href ?? ''
-    const [href, setHref] = useState(url)
+    const url = (useAttrs().link()?.href as string) ?? ''
+    const [href, setHref] = useState<string>(url)
 
     // A positioner which only shows for links.
     const linkPositioner = useMemo(() => createMarkPositioner({ type: 'link' }), [])

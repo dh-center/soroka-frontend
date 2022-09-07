@@ -19,7 +19,7 @@ export const CardsAPI = {
         return API.get('/cards/properties')
     },
 
-    async getCardsFilledPropertiesById(cardId) {
+    async getCardsFilledPropertiesById(cardId: number) {
         /**
          * Получение свойств по карточке
          *
@@ -29,7 +29,7 @@ export const CardsAPI = {
         return API.get(`/cards/filled-properties/${cardId}`, { cache: false })
     },
 
-    async createFilledPropertiesByCardId(cardId, data) {
+    async createFilledPropertiesByCardId(cardId: number, data: any) {
         /**
          * Дополнение свойства к карточке
          *
@@ -42,7 +42,7 @@ export const CardsAPI = {
         return API.post(`/cards/filled-properties/${cardId}`, data)
     },
 
-    async deleteFilledPropertiesByCardId(cardId, data) {
+    async deleteFilledPropertiesByCardId(cardId: number, data: any) {
         /**
          * Удаления свойства у карточки
          *
@@ -58,11 +58,11 @@ export const CardsAPI = {
      * @param {number} params.offset Офсет списка карточек
      * @param {number} params.limit Максимальное число карточек в результате
      */
-    async getCardsList(params) {
+    async getCardsList(params: any) {
         return API.get('/cards', { params, cache: false })
     },
 
-    async createCard(data) {
+    async createCard(data: any) {
         /**
          * Создание карточки
          *
@@ -75,7 +75,7 @@ export const CardsAPI = {
         return API.post('/cards', data)
     },
 
-    async getCardByid(cardId) {
+    async getCardByid(cardId: number) {
         /**
          * Получение карточки по ее id
          *
@@ -85,7 +85,7 @@ export const CardsAPI = {
         return API.get(`/cards/by-id/${cardId}`, { cache: false })
     },
 
-    async updateCardById(cardId, data) {
+    async updateCardById(cardId: number, data: any) {
         /**
          * Обновление карточки по ее id
          *
@@ -99,7 +99,7 @@ export const CardsAPI = {
         return API.patch(`/cards/by-id/${cardId}`, data)
     },
 
-    async updatePropertyById(id, data) {
+    async updatePropertyById(id: number, data: any) {
         /**
          * Обновление свойства по его id
          *
@@ -110,7 +110,7 @@ export const CardsAPI = {
          */
         return API.patch(`/cards/filled-properties/by-id/${id}`, data)
     },
-    async updateProperties(data) {
+    async updateProperties(data: any) {
         /**
          * Обновление свойства массивом
          *
@@ -119,7 +119,7 @@ export const CardsAPI = {
          */
         return API.patch(`/cards/filled-properties/bulk/update`, data)
     },
-    async deleteProperties(cardId, data) {
+    async deleteProperties(cardId: number, data: any) {
         /**
          * Удаление свойства массивом
          *

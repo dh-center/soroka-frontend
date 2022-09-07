@@ -4,7 +4,7 @@ export const TemplatesAPI = {
         return API.get('/cards/templates')
     },
 
-    async getTemplateById(id) {
+    async getTemplateById(id: number) {
         return API.get(`/cards/templates/${id}`)
     }
 }

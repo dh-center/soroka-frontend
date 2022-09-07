@@ -2,7 +2,13 @@ import React, { useState } from 'react'
 import { Form, FormControl, InputGroup } from 'react-bootstrap'
 import { Eye, EyeSlash } from 'react-bootstrap-icons'
 
-const PasswordField = ({ name, invalidMessage, placeholder }) => {
+type PasswordFieldProps = {
+    name: string
+    invalidMessage?: string
+    placeholder: string
+}
+
+const PasswordField = ({ name, invalidMessage, placeholder }: PasswordFieldProps) => {
     const [showPassword, setShowPassword] = useState(false)
 
     const iconProps = { onClick: () => setShowPassword(!showPassword), role: 'button' }

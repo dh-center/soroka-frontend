@@ -1,44 +1,52 @@
 import { makeAutoObservable } from 'mobx'
-import { AuthAPI } from '../api/auth'
+import { AuthAPI, LoginData, UserPasswordData } from '../api/auth'
+
+export type User = {
+    id: number
+    name: string
+    email: string
+    hasAcceptTermsOfUse: boolean
+    organization: number
+    userRole: number
+}
 
 export default class AuthStore {
     // TODO не хранить токены в localStorage
-    accessToken = localStorage.getItem('accessToken')
-    refreshToken = localStorage.getItem('refreshToken')
-
-    currentUser = null
-    invitationData = null
-
-    incorrectPassword = false
+    accessToken: string = localStorage.getItem('accessToken') || ''
+    refreshToken: string = localStorage.getItem('refreshToken') || ''
+    currentUser: User | null = null
+    invitationData: User | null = null
+    incorrectPassword: boolean = false
 
     constructor() {
         makeAutoObservable(this)
     }
 
-    setAccessToken(payload) {
+    setAccessToken(payload: string) {
         this.accessToken = payload
         localStorage.setItem('accessToken', payload)
     }
 
-    setRefreshToken(payload) {
+    setRefreshToken(payload: string) {
         this.refreshToken = payload
         localStorage.setItem('refreshToken', payload)
     }
 
-    setCurrentUser(payload) {
+    setCurrentUser(payload: User) {
         this.currentUser = payload
     }
 
-    setInivitationData(payload) {
+    setInivitationData(payload: User) {
+        console.log(payload, 'invalidation')
         this.invitationData = payload
     }
 
-    setIncorrectPassword(payload) {
+    setIncorrectPassword(payload: boolean) {
         this.incorrectPassword = payload
     }
 
     async refresh() {
-        const refreshToken = this.refreshToken || localStorage.getItem('refreshToken')
+        const refreshToken = this.refreshToken || localStorage.getItem('refreshToken') || ''
         const response = await AuthAPI.refreshToken({ refreshToken })
 
         this.setAccessToken(response.data.accessToken)
@@ -53,23 +61,25 @@ export default class AuthStore {
         this.setCurrentUser(response.data)
     }
 
-    async getInvatationData(token) {
+    async getInvatationData(token: string | undefined) {
         const response = await AuthAPI.getAuthLink(token)
 
         this.setInivitationData(response.data)
         return response.data
     }
 
-    async acceptsTermsOfUse(isAccepted) {
-        const response = await AuthAPI.acceptsTermsOfUse({
-            hasAcceptTermsOfUse: isAccepted,
-            userId: this.invitationData.id
-        })
-        this.setInivitationData(response.data)
-        return response.data
+    async acceptsTermsOfUse(isAccepted: boolean) {
+        if (this.invitationData?.id) {
+            const response = await AuthAPI.acceptsTermsOfUse({
+                hasAcceptTermsOfUse: isAccepted,
+                userId: this.invitationData.id
+            })
+            this.setInivitationData(response.data)
+            return response.data
+        }
     }
 
-    async setUserPassword(uuid, data) {
+    async setUserPassword(uuid: string | undefined, data: UserPasswordData) {
         const response = await AuthAPI.setUserPassword(uuid, data)
 
         if (response.status === 204) {
@@ -77,7 +87,7 @@ export default class AuthStore {
         }
     }
 
-    async login(data) {
+    async login(data: LoginData) {
         try {
             this.setIncorrectPassword(false)
 
@@ -91,7 +101,7 @@ export default class AuthStore {
     logout() {
         this.setAccessToken('')
         this.setRefreshToken('')
-        this.setCurrentUser(null)
+        this.setCurrentUser({} as User)
         localStorage.clear()
     }
 }

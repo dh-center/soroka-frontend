@@ -4,7 +4,7 @@ import DateFmt from 'ilib/lib/DateFmt'
 class Calendar {
     dateFormat = new DateFmt({ template: 'dd.MM.yyyy', timezone: 'GMT' })
 
-    validate(dateString) {
+    validate(dateString: string) {
         // https://stackoverflow.com/a/6178341
 
         // empty string ok
@@ -31,14 +31,15 @@ class Calendar {
         return day > 0 && day <= monthLength[month - 1]
     }
 
-    fromJD(julianday) {
+    fromJD(julianday: number) {
         return julianday ? this.dateFormat.format(new GregorianDate({ julianday, timezone: 'GMT' })) : ''
     }
-    toJD(dateString) {
+    toJD(dateString: string) {
         const [day, month, year] = dateString.split('.')
         return new GregorianDate({ day, month, year, timezone: 'GMT' }).getJulianDay()
     }
     getDateFormatPlaceholder() {
+        console.log(this.dateFormat, 'dateFormat')
         return this.dateFormat.format(new GregorianDate({ year: 1989, month: 4, day: 12, timezone: 'GMT' }))
     }
     get nameMessageId() {

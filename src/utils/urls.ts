@@ -10,20 +10,20 @@ export const LOGIN_ROUTE = '/login'
 // CARDS
 export const CARDS_ROUTE = '/cards'
 export const CARDS_CREATE_ROUTE = `${CARDS_ROUTE}/${CREATE}`
-export const getCreateWithTemplateRoute = (templateName) =>
+export const getCreateWithTemplateRoute = (templateName: string) =>
     templateName ? `${CARDS_CREATE_ROUTE}?${SEARCH_TEMPLATE}=${templateName}` : CARDS_CREATE_ROUTE
 export const CARDS_TEMPLATES_ROUTE = `${CARDS_CREATE_ROUTE}/templates`
-export const getCardById = (id) => `${CARDS_ROUTE}/${id}`
+export const getCardById = (id: string) => `${CARDS_ROUTE}/${id}`
 export const CARD_BY_ID_ROUTE = getCardById(`:${DYNAMIC_ID}`)
 
 // INVITATION
 const INVITE_ROUTE = '/invite'
-export const getInvitationByToken = (token) => `${INVITE_ROUTE}/${token}`
+export const getInvitationByToken = (token: string | undefined) => `${INVITE_ROUTE}/${token}`
 export const INVITE_BY_TOKEN_ROUTE = getInvitationByToken(`:${DYNAMIC_TOKEN}`)
 
 // REGISTRATION
 const REGISTRATION_ROUTE = '/registration'
-export const getRegistrationByToken = (token) => `${REGISTRATION_ROUTE}/${token}`
+export const getRegistrationByToken = (token: string | undefined) => `${REGISTRATION_ROUTE}/${token}`
 export const REGISTRATION_BY_TOKEN_ROUTE = getRegistrationByToken(`:${DYNAMIC_TOKEN}`)
 
 // EXTERNAL LINKS

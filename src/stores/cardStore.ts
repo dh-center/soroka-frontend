@@ -4,18 +4,28 @@ import { USER_ROLES } from '../utils/constants'
 
 import { authStore, propertiesStore } from './rootStore'
 
+type CardInfo = {
+    id: number
+    name: string
+    preventDelete: boolean
+    organizationId: number
+    userId: number
+    createdAt: string
+    updateAt: string
+}
+
 export default class CardStore {
-    observingArray = []
+    observingArray: any[] = []
 
     changed = false
 
     preventDelete = false
 
-    organizationOption = null
-    ownerOption = null
+    organizationOption?: number
+    ownerOption?: number
 
-    userRole = '2'
-    cardInfo = {}
+    userRole = 2
+    cardInfo: CardInfo = {} as CardInfo
     nameOfCard = ''
 
     constructor() {
@@ -27,53 +37,57 @@ export default class CardStore {
 
         this.changed = false
 
-        this.organizationOption = null
-        this.ownerOption = null
+        this.organizationOption = undefined
+        this.ownerOption = undefined
 
-        this.userRole = '2'
-        this.cardInfo = {}
+        this.userRole = 2
+        this.cardInfo = {} as CardInfo
         this.nameOfCard = ''
     }
 
-    setChanged(boolean) {
+    setChanged(boolean: boolean) {
         this.changed = boolean
     }
 
     async setOrganiztionAndOwner() {
-        const { userRole, organization, id } = authStore.currentUser
+        if (authStore.currentUser) {
+            const { userRole, organization, id } = authStore.currentUser
 
-        runInAction(() => {
-            this.userRole = userRole
+            runInAction(() => {
+                this.userRole = userRole
 
-            if (this.userRole === USER_ROLES.admin && !this.cardInfo.id) {
-                this.organizationOption = organization
-                this.ownerOption = id
-            } else {
-                this.organizationOption = this.cardInfo.organizationId
-                this.ownerOption = this.cardInfo.userId
-            }
-        })
+                if (this.userRole === USER_ROLES.admin && !this.cardInfo.id) {
+                    this.organizationOption = organization
+                    this.ownerOption = id
+                } else {
+                    this.organizationOption = this.cardInfo.organizationId
+                    this.ownerOption = this.cardInfo.userId
+                }
+            })
+        }
     }
 
-    setCardInfo(data) {
+    setCardInfo(data: CardInfo) {
         this.cardInfo = data
         this.nameOfCard = data.name
     }
 
-    setOriginNameOfCard(value) {
+    setOriginNameOfCard(value: string) {
         this.nameOfCard = value
     }
 
-    addNewProperties(propertyName) {
+    addNewProperties(propertyName: string) {
         const property = propertiesStore.getPropertyByName(propertyName)
         const propertyType = propertiesStore.getPropertyType(propertyName)
         const data = propertyType.defaultData
+
+        console.log({ ...property, data, validation: true }, 'oA')
 
         this.observingArray.push({ ...property, data, validation: true })
         this.setChanged(true)
     }
 
-    changeNameOfCard(value) {
+    changeNameOfCard(value: string) {
         this.nameOfCard = value
         this.setChanged(true)
     }
@@ -83,42 +97,42 @@ export default class CardStore {
         this.setChanged(true)
     }
 
-    setOrganizationOption(value) {
+    setOrganizationOption(value: number) {
         this.organizationOption = value
         this.setChanged(true)
     }
 
-    setOwnerOption(value) {
+    setOwnerOption(value: number) {
         this.ownerOption = value
         this.setChanged(true)
     }
 
-    changeValue(index, newValue, validation) {
+    changeValue(index: number, newValue: any, validation: any) {
         this.observingArray[index].data = newValue
         this.observingArray[index].validation = validation
         this.observingArray[index].changed = true
         this.setChanged(true)
     }
 
-    fillWithTemplate(templateName) {
+    fillWithTemplate(templateName: string) {
         const template = propertiesStore.getTemplateByName(templateName)
         if (template) {
-            template.propertiesList.forEach(({ name }) => this.addNewProperties(name))
+            template.propertiesList.forEach(({ name }: any) => this.addNewProperties(name))
         }
     }
 
-    async getPropertiesFromCardById(id) {
+    async getPropertiesFromCardById(id: number) {
         const backendData = await CardsAPI.getCardsFilledPropertiesById(id)
         this.setObservingArrayFromBackend(backendData)
     }
 
-    setObservingArrayFromBackend(backendData) {
-        this.observingArray = backendData.data.map((el) => {
+    setObservingArrayFromBackend(backendData: any) {
+        this.observingArray = backendData.data.map((el: any) => {
             return { ...el, data: JSON.parse(el.data), validation: true }
         })
     }
 
-    getApiValuesForProperty({ id, propertyId, data }) {
+    getApiValuesForProperty({ id, propertyId, data }: any) {
         return { id, propertyId, data }
     }
 
@@ -169,7 +183,7 @@ export default class CardStore {
         })
     }
 
-    deletePropertyLocal(element) {
+    deletePropertyLocal(element: any) {
         this.observingArray = this.observingArray.map((el) => {
             if (el.propertyId === element.propertyId) {
                 el.hidden = true

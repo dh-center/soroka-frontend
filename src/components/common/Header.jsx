@@ -11,7 +11,7 @@ import { useStore } from '../../stores/rootStore'
 
 const Header = observer(() => {
     const navigate = useNavigate()
-    const { baseStore, authStore } = useStore();
+    const { baseStore, authStore } = useStore()
 
     const logout = () => {
         authStore.logout()

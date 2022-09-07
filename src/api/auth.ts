@@ -2,8 +2,37 @@
 
 import API from './config'
 
+type RegisterData = {
+    name: string
+    email: string
+    password: string
+    timezone?: string
+    hasAcceptTermsOfUse: boolean
+    userRole: number
+    organization: number
+}
+
+export type LoginData = {
+    email: FormDataEntryValue
+    password: FormDataEntryValue
+}
+
+type RefreshTokenData = {
+    refreshToken: string
+}
+
+export type UserPasswordData = {
+    password: FormDataEntryValue
+    rePassword: FormDataEntryValue
+}
+
+type AcceptsTermsOfUseData = {
+    hasAcceptTermsOfUse: boolean
+    userId: number
+}
+
 export const AuthAPI = {
-    async register(data) {
+    async register(data: RegisterData) {
         /**
          * Регистрация пользователя
          *
@@ -12,14 +41,14 @@ export const AuthAPI = {
          * @param {string} data.password
          * @param {string} data.timezone
          * @param {boolean} data.hasAcceptTermsOfUse
-         * @param {boolean} data.userRole
-         * @param {boolean} data.organization
+         * @param {number} data.userRole
+         * @param {number} data.organization
          */
 
         return API.post('/users/', data)
     },
 
-    async login(data) {
+    async login(data: LoginData) {
         /**
          * Авторизация пользователя
          *
@@ -30,7 +59,7 @@ export const AuthAPI = {
         return API.post('/users/login', data)
     },
 
-    async refreshToken(data) {
+    async refreshToken(data: RefreshTokenData) {
         /**
          * Обновление токена
          *
@@ -40,7 +69,7 @@ export const AuthAPI = {
         return API.post('/users/refresh', data)
     },
 
-    async getAuthLink(uuid) {
+    async getAuthLink(uuid: string | undefined) {
         /**
          * Использование authorization-link из письма
          *
@@ -57,7 +86,7 @@ export const AuthAPI = {
         return API.get('/users/profile', { cache: false })
     },
 
-    async setUserPassword(uuid, data) {
+    async setUserPassword(uuid: string | undefined, data: UserPasswordData) {
         /**
          * Устанавливает юзеру пароль при регистрации
          * @param {string} password
@@ -67,12 +96,12 @@ export const AuthAPI = {
         return API.post(`/authorization-link/${uuid}`, data)
     },
 
-    async acceptsTermsOfUse(data) {
+    async acceptsTermsOfUse(data: AcceptsTermsOfUseData) {
         /**
          * Проставляет пользователю termsOfUse
          *
          * @param {boolean} hasAcceptTermsOfUse
-         * @param {boolean} hasAcceptTermsOfUse
+         * @param {number} userId
          */
 
         return API.post('/users/accept-terms', data)

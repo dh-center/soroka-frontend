@@ -19,10 +19,10 @@ const Login = observer(() => {
     const passwordMessage = intl.formatMessage({ id: 'password' })
     const emailMessage = intl.formatMessage({ id: 'emailOrPhone' })
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
 
-        const formData = Object.fromEntries(new FormData(e.target).entries())
+        const formData = Object.fromEntries(new FormData(e.currentTarget).entries())
         const { [FIELD_EMAIL]: email, [FIELD_PASSWORD]: password } = formData
 
         setIsLoading(true)
@@ -54,6 +54,8 @@ const Login = observer(() => {
             />
         </Alert>
     )
+
+    console.log(authStore.invitationData, 'id')
 
     return (
         <LoginLayout headerMessageId="loginTitle">
