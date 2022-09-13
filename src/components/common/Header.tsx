@@ -9,6 +9,8 @@ import { WUNDERKAMMER } from '../../utils/urls'
 
 import { useStore } from '../../stores/rootStore'
 
+import API from '../../api/config'
+
 const Header = observer(() => {
     const navigate = useNavigate()
     const { baseStore, authStore } = useStore()
@@ -16,8 +18,10 @@ const Header = observer(() => {
     const logout = () => {
         authStore.logout()
     }
-    const getUserOrganizationName = () => baseStore.getOrganizationById(authStore.currentUser?.organization)?.name
-    const getUserRoleString = () => USER_ROLES_DEFINITION[authStore.currentUser.userRole].roleMessageId
+    const getUserOrganizationName = () =>
+        authStore.currentUser && baseStore.getOrganizationById(authStore.currentUser.organization)?.name
+    const getUserRoleString = () =>
+        authStore.currentUser && USER_ROLES_DEFINITION[authStore.currentUser.userRole]?.roleMessageId
 
     return (
         <Navbar collapseOnSelect expand="lg" variant="dark" bg="dark">
@@ -31,8 +35,8 @@ const Header = observer(() => {
                     <Nav className="me-auto">
                         {authStore.currentUser && (
                             <Navbar.Text>
-                                <FormattedMessage id={getUserRoleString()} /> {authStore.currentUser.name} (
-                                {getUserOrganizationName()})
+                                <FormattedMessage id={getUserRoleString() || undefined} /> {authStore.currentUser?.name}{' '}
+                                ({getUserOrganizationName()})
                             </Navbar.Text>
                         )}
                     </Nav>

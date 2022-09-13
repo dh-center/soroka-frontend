@@ -6,16 +6,21 @@ import { organizationsAPI } from '../../api/organizations'
 
 import { useStore } from '../../stores/rootStore'
 
+type Owner = {
+    name: string
+    id: number
+}
+
 const CardAdminControls = observer(() => {
     const { baseStore, cardStore } = useStore()
 
-    const [owners, setOwners] = useState([])
+    const [owners, setOwners] = useState<Owner[]>([])
 
     useEffect(() => {
         organizationsAPI.getOwnersById(cardStore.organizationOption).then((res) => setOwners(res.data))
     }, [cardStore.organizationOption])
 
-    const handleOrganizationChange = (event) => {
+    const handleOrganizationChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         cardStore.setOrganizationOption(event.target.value)
         setOwners([])
     }

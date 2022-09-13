@@ -16,19 +16,28 @@ import CustomToggle from '../../../../common/CustomToggle'
 import Badge from 'react-bootstrap/Badge'
 import { Stack } from 'react-bootstrap'
 
-const FileBadge = ({ messageId }) => (
+const FileBadge = ({ messageId }: { messageId: string }) => (
     <Badge bg="light" text="dark">
         <FormattedMessage id={messageId} />
     </Badge>
 )
 
-const getTypeIcon = (type) =>
+const getTypeIcon = (type: string) =>
     ({
         image: FileEarmarkImage,
         audio: FileEarmarkMusic
     }[type] || FileEarmark)
 
-const MediaFileItem = ({ file, index, isCover, isMain, setSelectedFile, selectedFiles }) => {
+type MediaFileItemProps = {
+    file: File
+    index: number
+    isCover: boolean
+    isMain: boolean
+    setSelectedFile: React.Dispatch<React.SetStateAction<File[]>>
+    selectedFiles: File[]
+}
+
+const MediaFileItem = ({ file, index, isCover, isMain, setSelectedFile, selectedFiles }: MediaFileItemProps) => {
     const intl = useIntl()
     const fileType = file.type.split('/')[0]
     const TypeIcon = getTypeIcon(fileType)

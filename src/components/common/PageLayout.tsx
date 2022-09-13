@@ -3,8 +3,14 @@ import { Button, Container } from 'react-bootstrap'
 import { ArrowLeft } from 'react-bootstrap-icons'
 import { FormattedMessage } from 'react-intl'
 
-const PageLayout = ({ children, goBackHandler, titleMessageId, titleMessage }) => {
+type PageLayoutProps = {
+    children?: React.ReactNode
+    goBackHandler?: () => void
+    titleMessageId?: string
+    titleMessage?: React.ReactElement | string
+}
 
+const PageLayout = ({ children, goBackHandler, titleMessageId, titleMessage }: PageLayoutProps) => {
     const title = titleMessageId ? <FormattedMessage id={titleMessageId} /> : titleMessage
     const shouldShowHeader = goBackHandler || title
 

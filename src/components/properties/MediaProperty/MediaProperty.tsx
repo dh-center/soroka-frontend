@@ -5,28 +5,30 @@ import MediaFileList from './MediaFileLIst/MediaFileList'
 import { FormattedMessage } from 'react-intl'
 import { ListGroup } from 'react-bootstrap'
 
-const MediaProperty = ({ showHelp, value, onChange }) => {
-    const [selectedFiles, setSelectedFile] = useState([])
+const MediaProperty = (props: { showHelp: boolean }) => {
+    const { showHelp } = props
+    const [selectedFiles, setSelectedFile] = useState<File[]>([])
     const [drag, setDrag] = useState(false)
-    const inputFileRef = useRef()
+    const inputFileRef = useRef() as React.MutableRefObject<HTMLInputElement> // todo: think about how to do better
 
-    const handleChange = (event) => {
-        const { length, ...uploadedFiles } = event.target.files
-        setSelectedFile([...selectedFiles, ...Object.values(uploadedFiles)])
-        inputFileRef.current.value = null
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSelectedFile([...selectedFiles, ...Object.values(event.target.files || [])])
+        if (inputFileRef.current) {
+            inputFileRef.current.value = ''
+        }
     }
 
-    function dragStartHandler(e) {
+    function dragStartHandler(e: React.DragEvent<HTMLDivElement>) {
         e.preventDefault()
         setDrag(true)
     }
 
-    function dragLeaveHandler(e) {
+    function dragLeaveHandler(e: React.DragEvent<HTMLDivElement>) {
         e.preventDefault()
         setDrag(false)
     }
 
-    function onDropHandler(e) {
+    function onDropHandler(e: React.DragEvent<HTMLDivElement>) {
         e.preventDefault()
         const files = [...e.dataTransfer.files]
         setSelectedFile([...selectedFiles, ...files])
@@ -53,9 +55,10 @@ const MediaProperty = ({ showHelp, value, onChange }) => {
                             className="d-none"
                         />
                         <IconButton
-                            onClick={() => inputFileRef.current.click()}
+                            onClick={() => inputFileRef.current?.click()}
                             messageId="uploadFiles"
                             variant="secondary"
+                            disabled={false}
                         />
                         <p className="mb-0 text-center flex-grow-1">
                             <FormattedMessage id="orDragFiles" />

@@ -5,10 +5,16 @@ import { FormattedMessage, useIntl } from 'react-intl'
 import Property from '../../components/dashboard/Property'
 import { observer } from 'mobx-react'
 import { useStore } from '../../stores/rootStore'
+import { Property as PropertyType } from '../../stores/propertiesStore'
 
-const AddPropertyButton = ({ everyPropertyAdded, onClick }) => {
-    const PropertiesAddedTooltip = (props) => (
-        <Tooltip id="button-tooltip" {...props}>
+type AddPropertyButtonProps = {
+    onClick: () => void
+    everyPropertyAdded: boolean
+}
+
+const AddPropertyButton = ({ everyPropertyAdded, onClick }: AddPropertyButtonProps) => {
+    const PropertiesAddedTooltip = () => (
+        <Tooltip id="button-tooltip">
             <FormattedMessage id="tooltipAllPropertiesAlreadyAdded" />
         </Tooltip>
     )
@@ -38,21 +44,21 @@ const CardPropertiesEditor = observer(() => {
 
     const everyPropertyAdded = cardStore.observingArray.filter((el) => !el.hidden).length === properties.length
 
-    const handleAddNewProperties = (property) => {
+    const handleAddNewProperties = (property: PropertyType) => {
         cardStore.addNewProperties(property.name)
-
         setShowAddingProp(false)
     }
 
-    const renderProperty = (element, index) => (
+    // todo: remove any
+    const renderProperty = (element: any, index: number) => (
         <Row key={`${element.id}-${index}`} className={element.hidden ? 'd-none' : ''}>
             <Col md="3" className="g-0">
                 <FormattedMessage
-                    id={propertiesStore.getPropertyByName(element.name || element.property.name).labelId}
+                    id={propertiesStore.getPropertyByName(element.name || element.property.name)?.labelId}
                 />
             </Col>
             <Col md="9" className="g-0">
-                <Property element={element} index={index} cardStore={cardStore} />
+                <Property element={element} index={index} />
             </Col>
         </Row>
     )
@@ -75,7 +81,9 @@ const CardPropertiesEditor = observer(() => {
                         />
                     </Col>
                 </Row>
-                {cardStore.observingArray.map((element, index) => renderProperty(element, index))}
+                {cardStore.observingArray.map((element, index) => {
+                    return renderProperty(element, index)
+                })}
                 <Row>
                     <Col>
                         <AddPropertyButton
@@ -99,7 +107,6 @@ const CardPropertiesEditor = observer(() => {
                             const cardHasProp = cardStore.observingArray
                                 .filter((prop) => !prop.hidden)
                                 .some((prop) => prop.propertyId === el.propertyId)
-
                             return (
                                 <Button
                                     key={el.name}
@@ -109,9 +116,7 @@ const CardPropertiesEditor = observer(() => {
                                     onClick={() => {
                                         handleAddNewProperties(el)
                                     }}>
-                                    <FormattedMessage
-                                        id={propertiesStore.getPropertyByName(el.name || element.property.name).labelId}
-                                    />
+                                    <FormattedMessage id={propertiesStore.getPropertyByName(el.name)?.labelId} />
                                 </Button>
                             )
                         })}

@@ -2,13 +2,16 @@ import React, { useState, useEffect } from 'react'
 import { Map, Placemark, YMaps } from '@pbe/react-yandex-maps'
 import { Col, Form, Row } from 'react-bootstrap'
 import { FormattedMessage, useIntl } from 'react-intl'
+import { GeoPropertyProps } from '../../stores/propertiesStore'
 
 export const FIELD_GEO = 'location'
 export const FIELD_GEO_NAME = 'location_name'
 
-const getCoordsFromString = (coordsString) => (coordsString && coordsString !== '' ? coordsString.split(',') : null)
-const getStringFromCoords = (coordsArray) => (coordsArray ? coordsArray.join(',') : '')
-const isValidCoordinatesString = (value) => {
+const getCoordsFromString = (coordsString: string) =>
+    coordsString && coordsString !== '' ? coordsString.split(',').map((coord) => +coord) : null
+
+const getStringFromCoords = (coordsArray: number[] | null) => (coordsArray ? coordsArray.join(',') : '')
+const isValidCoordinatesString = (value: string) => {
     if (value === '') {
         return true
     }
@@ -19,10 +22,13 @@ const isValidCoordinatesString = (value) => {
     return regExp.test(value)
 }
 
-const getCoordsFromValue = (value) => (value[0].location.coordinates ? value[0].location.coordinates.join(',') : '')
-const getNameFromValue = (value) => value[0].name
+const getCoordsFromValue = (value: GeoPropertyProps['value']) => {
+    return value[0].location.coordinates ? value[0].location.coordinates.join(',') : ''
+}
 
-const GeoProperty = ({ showHelp = false, value, onChange }) => {
+const getNameFromValue = (value: GeoPropertyProps['value']) => value[0].name
+
+const GeoProperty = ({ showHelp = false, value, onChange }: GeoPropertyProps) => {
     const initialCoordsString = getCoordsFromValue(value)
     const [name, setName] = useState(getNameFromValue(value))
 
@@ -43,14 +49,14 @@ const GeoProperty = ({ showHelp = false, value, onChange }) => {
     // validation for input
     const [isInputValid, setIsInputValid] = useState(() => isValidCoordinatesString(initialCoordsString))
 
-    const updateCoordinates = (coordsString, updateMapCenter) => {
+    const updateCoordinates = (coordsString: string, updateMapCenter: boolean) => {
         setDirtyValue(coordsString)
 
         const isValid = isValidCoordinatesString(coordsString)
         setIsInputValid(isValid)
 
         if (isValid && coordsString !== '') {
-            const newCoordinates = getCoordsFromString(coordsString)
+            const newCoordinates = getCoordsFromString(coordsString) ?? [55.76, 37.64]
             setCoordinates(newCoordinates)
 
             if (updateMapCenter) {
@@ -104,7 +110,7 @@ const GeoProperty = ({ showHelp = false, value, onChange }) => {
                         <Map
                             width="100%"
                             state={mapOptions}
-                            onClick={(e) => {
+                            onClick={(e: ymaps.DomEvent) => {
                                 const newCoordinates = getStringFromCoords(e.get('coords'))
                                 updateCoordinates(newCoordinates, false)
                             }}>

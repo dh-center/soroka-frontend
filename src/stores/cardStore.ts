@@ -81,8 +81,6 @@ export default class CardStore {
         const propertyType = propertiesStore.getPropertyType(propertyName)
         const data = propertyType.defaultData
 
-        console.log({ ...property, data, validation: true }, 'oA')
-
         this.observingArray.push({ ...property, data, validation: true })
         this.setChanged(true)
     }
@@ -97,13 +95,13 @@ export default class CardStore {
         this.setChanged(true)
     }
 
-    setOrganizationOption(value: number) {
-        this.organizationOption = value
+    setOrganizationOption(value: string) {
+        this.organizationOption = !!Number(value) ? +value : undefined
         this.setChanged(true)
     }
 
-    setOwnerOption(value: number) {
-        this.ownerOption = value
+    setOwnerOption(value: string) {
+        this.ownerOption = !!Number(value) ? +value : undefined
         this.setChanged(true)
     }
 
@@ -114,14 +112,14 @@ export default class CardStore {
         this.setChanged(true)
     }
 
-    fillWithTemplate(templateName: string) {
+    fillWithTemplate(templateName: string | null) {
         const template = propertiesStore.getTemplateByName(templateName)
         if (template) {
             template.propertiesList.forEach(({ name }: any) => this.addNewProperties(name))
         }
     }
 
-    async getPropertiesFromCardById(id: number) {
+    async getPropertiesFromCardById(id: string) {
         const backendData = await CardsAPI.getCardsFilledPropertiesById(id)
         this.setObservingArrayFromBackend(backendData)
     }

@@ -7,12 +7,26 @@ import PageLayout from '../../components/common/PageLayout'
 import { CARDS_ROUTE, getCreateWithTemplateRoute } from '../../utils/urls'
 import { useStore } from '../../stores/rootStore'
 
-const Template = ({ id, name, labelId, propertiesList, noPropertiesMessageId = 'choosePropertiesByYourself' }) => {
+type TemplateProps = {
+    id?: number
+    name?: string
+    labelId: string
+    propertiesList?: any
+    noPropertiesMessageId?: string
+}
+
+const Template = ({
+    id,
+    name,
+    labelId,
+    propertiesList,
+    noPropertiesMessageId = 'choosePropertiesByYourself'
+}: TemplateProps) => {
     const navigate = useNavigate()
     const intl = useIntl()
     const propertiesString = propertiesList?.length
         ? propertiesList
-              .map(({ labelId: propLabelId }) => intl.formatMessage({ id: propLabelId }).toLocaleLowerCase())
+              .map(({ labelId }: { labelId: string }) => intl.formatMessage({ id: labelId }).toLocaleLowerCase())
               .join(', ')
         : intl.formatMessage({ id: noPropertiesMessageId })
 

@@ -1,4 +1,6 @@
+// @ts-ignore
 import JulianDate from 'ilib/lib/JulianDate'
+// @ts-ignore
 import DateFmt from 'ilib/lib/DateFmt'
 
 class Calendar {

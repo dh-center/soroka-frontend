@@ -1,14 +1,20 @@
-import React, { useMemo } from 'react'
+import React, { Dispatch, SetStateAction, useMemo } from 'react'
 import MediaFileItem from './MediaFileItem/MediaFileItem'
 
-const MediaFileList = ({ selectedFiles, setSelectedFile }) => {
-    let coverIsSet = useMemo(() => ~~(Math.random() * selectedFiles.length), [])
+type MediaFileListProps = {
+    selectedFiles: File[]
+    setSelectedFile: Dispatch<SetStateAction<File[]>>
+}
+
+const MediaFileList = ({ selectedFiles, setSelectedFile }: MediaFileListProps) => {
+    let coverIsSet = /*useMemo(() => ~~(Math.random() * selectedFiles.length), [])*/ 0
 
     return (
         <ul className="list-group w-100 px-3">
             {selectedFiles.map((file, index) => {
                 if (coverIsSet === null && file.type.split('/')[0] === 'image') {
                     coverIsSet = index
+                    console.log(coverIsSet, 'cis2')
                 }
                 return (
                     <MediaFileItem

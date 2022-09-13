@@ -10,10 +10,10 @@ export const LOGIN_ROUTE = '/login'
 // CARDS
 export const CARDS_ROUTE = '/cards'
 export const CARDS_CREATE_ROUTE = `${CARDS_ROUTE}/${CREATE}`
-export const getCreateWithTemplateRoute = (templateName: string) =>
+export const getCreateWithTemplateRoute = (templateName: string | undefined) =>
     templateName ? `${CARDS_CREATE_ROUTE}?${SEARCH_TEMPLATE}=${templateName}` : CARDS_CREATE_ROUTE
 export const CARDS_TEMPLATES_ROUTE = `${CARDS_CREATE_ROUTE}/templates`
-export const getCardById = (id: string) => `${CARDS_ROUTE}/${id}`
+export const getCardById = (id: number | string) => `${CARDS_ROUTE}/${id}`
 export const CARD_BY_ID_ROUTE = getCardById(`:${DYNAMIC_ID}`)
 
 // INVITATION

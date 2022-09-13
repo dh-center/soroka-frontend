@@ -32,7 +32,7 @@ export default class AuthStore {
         localStorage.setItem('refreshToken', payload)
     }
 
-    setCurrentUser(payload: User) {
+    setCurrentUser(payload: User | null) {
         this.currentUser = payload
     }
 
@@ -63,7 +63,6 @@ export default class AuthStore {
 
     async getInvatationData(token: string | undefined) {
         const response = await AuthAPI.getAuthLink(token)
-
         this.setInivitationData(response.data)
         return response.data
     }
@@ -101,7 +100,7 @@ export default class AuthStore {
     logout() {
         this.setAccessToken('')
         this.setRefreshToken('')
-        this.setCurrentUser({} as User)
+        this.setCurrentUser(null)
         localStorage.clear()
     }
 }

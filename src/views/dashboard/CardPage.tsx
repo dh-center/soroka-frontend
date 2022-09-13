@@ -67,7 +67,7 @@ const CardPage = observer(() => {
         }
     }
 
-    const saveCardBeforeExit = (saveAccepted) => {
+    const saveCardBeforeExit = (saveAccepted: boolean) => {
         if (saveAccepted) {
             cardStore.saveProperties().then(() => navigate(CARDS_ROUTE))
         } else {
@@ -76,6 +76,7 @@ const CardPage = observer(() => {
     }
 
     const handleSave = async () => {
+        console.log(Object.entries(cardStore.cardInfo), 'info')
         await cardStore.saveProperties()
         if (isCreateMode) {
             navigate(getCardById(cardStore.cardInfo.id))

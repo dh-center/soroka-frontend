@@ -5,7 +5,13 @@ import { FormattedMessage } from 'react-intl'
 import { useNavigate } from 'react-router-dom'
 import { getCardById } from '../../utils/urls'
 
-const ListCard = ({ id, name, isFilled = true }) => {
+type ListCardProps = {
+    id: number
+    name: string
+    isFilled: boolean
+}
+
+const ListCard = ({ id, name, isFilled = true }: ListCardProps) => {
     const navigate = useNavigate()
 
     return (

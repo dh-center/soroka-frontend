@@ -1,7 +1,14 @@
-import { useMemo } from 'react'
+import { KeyboardEvent, ChangeEvent, useMemo } from 'react'
 import { useFloatingLinkState } from '../../utils/hooks'
 import { DelayAutoFocusInput } from './DelayAutoFocusInput'
-import { FloatingToolbar, FloatingWrapper, ComponentItem, useActive, useCurrentSelection } from '@remirror/react'
+import {
+    FloatingToolbar,
+    FloatingWrapper,
+    ComponentItem,
+    useActive,
+    useCurrentSelection,
+    ToolbarItemUnion
+} from '@remirror/react'
 import { useIntl } from 'react-intl'
 
 // library example: https://github.com/remirror/remirror/blob/main/packages/storybook-react/stories/extension-link/edit-dialog.tsx
@@ -11,7 +18,7 @@ export const FloatingLinkToolbar = () => {
     const active = useActive()
     const activeLink = active.link()
     const { empty } = useCurrentSelection()
-    const linkEditItems = useMemo(
+    const linkEditItems: ToolbarItemUnion[] = useMemo(
         () => [
             {
                 type: ComponentItem.ToolbarGroup,
@@ -47,9 +54,9 @@ export const FloatingLinkToolbar = () => {
                     style={{ zIndex: 20 }}
                     autoFocus
                     placeholder={placeholderLink}
-                    onChange={(event) => setHref(event.target.value)}
+                    onChange={(event: ChangeEvent<HTMLInputElement>) => setHref(event.target.value)}
                     value={href}
-                    onKeyPress={(event) => {
+                    onKeyPress={(event: KeyboardEvent<HTMLInputElement>) => {
                         const { code } = event
 
                         if (code === 'Enter') {

@@ -1,8 +1,8 @@
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, HTMLProps } from 'react'
 
 // library example: https://github.com/remirror/remirror/blob/main/packages/storybook-react/stories/extension-link/edit-dialog.tsx
-export const DelayAutoFocusInput = ({ autoFocus, ...rest }) => {
-    const inputRef = useRef(null)
+export const DelayAutoFocusInput = ({ autoFocus, ...rest }: HTMLProps<HTMLInputElement>) => {
+    const inputRef = useRef<HTMLInputElement>(null)
 
     useEffect(() => {
         if (!autoFocus) {

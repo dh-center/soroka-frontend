@@ -55,8 +55,6 @@ const Login = observer(() => {
         </Alert>
     )
 
-    console.log(authStore.invitationData, 'id')
-
     return (
         <LoginLayout headerMessageId="loginTitle">
             <Form onSubmit={handleSubmit}>

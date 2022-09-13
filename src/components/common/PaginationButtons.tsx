@@ -1,7 +1,14 @@
 import React from 'react'
 import { Pagination } from 'react-bootstrap'
 
-const PaginationButtons = ({ page, total, pageSize, setPage }) => {
+type PagiantionButtonsProps = {
+    page: number
+    total: number
+    pageSize: number
+    setPage: React.Dispatch<React.SetStateAction<number>>
+}
+
+const PaginationButtons = ({ page, total, pageSize, setPage }: PagiantionButtonsProps) => {
     const totalPages = Math.ceil(total / pageSize) || 1
 
     // show first, last, current, pages before and after current
@@ -9,7 +16,7 @@ const PaginationButtons = ({ page, total, pageSize, setPage }) => {
         .filter((p) => p >= 0 && p < totalPages)
         .sort((a, b) => a - b)
 
-    const nodes = buttons.reduce((acc, current, index) => {
+    const nodes = buttons.reduce((acc: React.ReactElement[], current, index) => {
         const paginationButton = (
             <Pagination.Item
                 key={`pagination_button_${current}`}

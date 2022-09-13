@@ -1,4 +1,5 @@
-import API from './config.js'
+import API from './config'
+
 export const TemplatesAPI = {
     async getTemplates() {
         return API.get('/cards/templates')

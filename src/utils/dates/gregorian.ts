@@ -1,4 +1,6 @@
+// @ts-ignore
 import GregorianDate from 'ilib/lib/GregorianDate'
+// @ts-ignore
 import DateFmt from 'ilib/lib/DateFmt'
 
 class Calendar {
@@ -39,7 +41,6 @@ class Calendar {
         return new GregorianDate({ day, month, year, timezone: 'GMT' }).getJulianDay()
     }
     getDateFormatPlaceholder() {
-        console.log(this.dateFormat, 'dateFormat')
         return this.dateFormat.format(new GregorianDate({ year: 1989, month: 4, day: 12, timezone: 'GMT' }))
     }
     get nameMessageId() {

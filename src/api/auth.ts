@@ -1,5 +1,6 @@
 /* Модуль API по запросам связанным с авторизацией */
 
+import { User } from '../stores/authStore'
 import API from './config'
 
 type RegisterData = {
@@ -83,7 +84,7 @@ export const AuthAPI = {
      * Получение информации о пользователе
      */
     async getUserProfile() {
-        return API.get('/users/profile', { cache: false })
+        return API.get<User>('/users/profile', { cache: false })
     },
 
     async setUserPassword(uuid: string | undefined, data: UserPasswordData) {

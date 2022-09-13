@@ -1,8 +1,18 @@
 import React from 'react'
 import { Form, Button, InputGroup } from 'react-bootstrap'
+import { Icon } from 'react-bootstrap-icons'
 import { FormattedMessage } from 'react-intl'
 
-const InvalidDateFeedback = ({ errorMessage }) => (
+type SingleDateInput = {
+    defaultValue: null | string
+    onChange: (value: string) => void
+    errorMessage: string
+    placeholder: string
+    EndAdornmentButtonIcon: null | Icon
+    endAdornmentButtonHandler: () => void
+}
+
+const InvalidDateFeedback = ({ errorMessage }: { errorMessage: string }) => (
     <Form.Control.Feedback type="invalid">
         <FormattedMessage id={errorMessage} />
     </Form.Control.Feedback>
@@ -15,10 +25,10 @@ const SingleDateInput = ({
     placeholder,
     EndAdornmentButtonIcon,
     endAdornmentButtonHandler
-}) => (
+}: SingleDateInput) => (
     <InputGroup hasValidation className="w-50">
         <Form.Control
-            defaultValue={defaultValue}
+            defaultValue={defaultValue || ''}
             type="text"
             placeholder={placeholder}
             onChange={(event) => onChange(event.target.value)}

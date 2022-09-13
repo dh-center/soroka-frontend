@@ -1,7 +1,8 @@
 import React from 'react'
 import { Form } from 'react-bootstrap'
+import { TextPropertyProps } from '../../stores/propertiesStore'
 
-const TextProperty = ({ value, onChange }) => {
+const TextProperty = ({ value, onChange }: TextPropertyProps) => {
     return (
         <Form.Control
             as="textarea"
@@ -10,7 +11,7 @@ const TextProperty = ({ value, onChange }) => {
             placeholder=""
             defaultValue={value}
             onChange={(event) => {
-                onChange({ value: event.target.value })
+                onChange(event.target.value)
             }}
         />
     )

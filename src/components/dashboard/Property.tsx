@@ -6,7 +6,19 @@ import { FormattedMessage } from 'react-intl'
 import ModalDialog from '../common/ModalDialog'
 import { useStore } from '../../stores/rootStore'
 
-const ControlPanel = ({ hasHelp, setHelpButtonPressed, setShowDialogModal, helpButtonPressed }) => (
+type PropertyProps = {
+    element: { [key: string]: any }
+    index: number
+}
+
+type ControlPanelProps = {
+    hasHelp: boolean
+    setHelpButtonPressed: React.Dispatch<React.SetStateAction<boolean>>
+    setShowDialogModal: React.Dispatch<React.SetStateAction<boolean>>
+    helpButtonPressed: boolean
+}
+
+const ControlPanel = ({ hasHelp, setHelpButtonPressed, setShowDialogModal, helpButtonPressed }: ControlPanelProps) => (
     <div className="d-flex justify-content-end">
         {hasHelp && (
             <Button
@@ -26,7 +38,7 @@ const ControlPanel = ({ hasHelp, setHelpButtonPressed, setShowDialogModal, helpB
     </div>
 )
 
-const Property = observer(({ element, index }) => {
+const Property = observer(({ element, index }: PropertyProps) => {
     const [showDialogModal, setShowDialogModal] = useState(false)
     const [showPanel, setShowPanel] = useState(false)
     const [helpButtonPressed, setHelpButtonPressed] = useState(false)
@@ -36,7 +48,8 @@ const Property = observer(({ element, index }) => {
     const { renderForm, hasHelp } = typeDefinition
 
     const onChange = useCallback(
-        (value, validation = true) => {
+        // todo: remove any
+        (value: any, validation = true) => {
             cardStore.changeValue(index, typeDefinition.formatToApi(value), validation)
         },
         [index, cardStore]
@@ -77,7 +90,7 @@ const Property = observer(({ element, index }) => {
                 body={<FormattedMessage id="deleteAlert" />}
                 show={showDialogModal}
                 setShow={setShowDialogModal}
-                onClose={(accepted) => {
+                onClose={(accepted: boolean) => {
                     if (accepted) {
                         cardStore.deletePropertyLocal(element)
                         setShowDialogModal(false)

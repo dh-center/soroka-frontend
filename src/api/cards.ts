@@ -19,7 +19,7 @@ export const CardsAPI = {
         return API.get('/cards/properties')
     },
 
-    async getCardsFilledPropertiesById(cardId: number) {
+    async getCardsFilledPropertiesById(cardId: string) {
         /**
          * Получение свойств по карточке
          *
@@ -75,7 +75,7 @@ export const CardsAPI = {
         return API.post('/cards', data)
     },
 
-    async getCardByid(cardId: number) {
+    async getCardByid(cardId: string) {
         /**
          * Получение карточки по ее id
          *

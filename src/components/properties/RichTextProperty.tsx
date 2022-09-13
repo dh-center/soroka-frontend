@@ -9,15 +9,17 @@ import {
     MarkdownExtension,
     LinkExtension
 } from 'remirror/extensions'
-import { useRemirror, ComponentItem, Remirror, ThemeProvider, Toolbar } from '@remirror/react'
+import { useRemirror, ComponentItem, Remirror, ThemeProvider, Toolbar, ToolbarGroupItem } from '@remirror/react'
 import { AllStyledComponent } from '@remirror/styles/emotion'
 import { prosemirrorNodeToHtml } from 'remirror'
+import { RemirrorEventListenerProps } from '@remirror/core'
 import { FloatingLinkToolbar } from '../common/FloatingLinkToolbar'
 import { useIntl } from 'react-intl'
 import { IntlError } from '@formatjs/intl'
+import { TextPropertyProps } from '../../stores/propertiesStore'
 
 // TODO: Add button in toolbar
-const toolbarItems = [
+const toolbarItems: ToolbarGroupItem[] = [
     {
         type: ComponentItem.ToolbarGroup,
         label: 'History',
@@ -73,7 +75,7 @@ const toolbarItems = [
     }
 ]
 
-export const RichTextProperty = (props) => {
+export const RichTextProperty = ({ value, showHelp = false, onChange }: TextPropertyProps) => {
     const intl = useIntl()
     const linkExtension = useMemo(() => {
         const extension = new LinkExtension()
@@ -95,8 +97,6 @@ export const RichTextProperty = (props) => {
         linkExtension
     ]
 
-    const { value, onChange } = props
-
     const { manager, state } = useRemirror({
         extensions,
         content: value,
@@ -104,7 +104,7 @@ export const RichTextProperty = (props) => {
         stringHandler: 'html'
     })
 
-    const handleChange = (parameter) => {
+    const handleChange = (parameter: RemirrorEventListenerProps<Remirror.Extensions>) => {
         const htmlData = prosemirrorNodeToHtml(parameter.state.doc)
         onChange(htmlData)
     }
@@ -117,8 +117,7 @@ export const RichTextProperty = (props) => {
                     initialContent={state}
                     onChange={(parameter) => handleChange(parameter)}
                     autoFocus
-                    autoRender="end"
-                    stringHandler="markdown">
+                    autoRender="end">
                     <Toolbar items={toolbarItems} refocusEditor label={intl.formatMessage({ id: 'topToolbar' })} />
                     <FloatingLinkToolbar />
                 </Remirror>

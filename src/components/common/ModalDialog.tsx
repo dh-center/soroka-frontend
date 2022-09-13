@@ -2,6 +2,18 @@ import React from 'react'
 import { Button, Modal } from 'react-bootstrap'
 import { FormattedMessage } from 'react-intl'
 
+type ModalDialogProps = {
+    show: boolean
+    setShow: React.Dispatch<React.SetStateAction<boolean>>
+    onClose: (acepted: boolean) => void
+    header?: React.ReactElement
+    body: React.ReactElement
+    ok: React.ReactElement
+    cancel: React.ReactElement
+    mustDecide?: boolean
+    okVariant?: string
+}
+
 const ModalDialog = ({
     show,
     setShow,
@@ -12,8 +24,8 @@ const ModalDialog = ({
     cancel,
     mustDecide = false,
     okVariant = 'primary'
-}) => {
-    const handleClose = (accepted) => {
+}: ModalDialogProps) => {
+    const handleClose = (accepted: boolean) => {
         onClose(accepted)
         setShow(false)
     }
