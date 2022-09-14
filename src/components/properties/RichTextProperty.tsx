@@ -106,7 +106,7 @@ export const RichTextProperty = ({ value, showHelp = false, onChange }: TextProp
 
     const handleChange = (parameter: RemirrorEventListenerProps<Remirror.Extensions>) => {
         const htmlData = prosemirrorNodeToHtml(parameter.state.doc)
-        onChange(htmlData)
+        onChange({ value: htmlData })
     }
 
     return (

@@ -12,7 +12,7 @@ export type Organization = {
 
 export default class BaseStore {
     uiLang = LOCALES.RUSSIAN
-    organizations = [] as Organization[]
+    organizations: Organization[] = []
 
     constructor() {
         makeAutoObservable(this)

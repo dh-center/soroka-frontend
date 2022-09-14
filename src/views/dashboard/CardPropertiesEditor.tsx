@@ -54,7 +54,10 @@ const CardPropertiesEditor = observer(() => {
         <Row key={`${element.id}-${index}`} className={element.hidden ? 'd-none' : ''}>
             <Col md="3" className="g-0">
                 <FormattedMessage
-                    id={propertiesStore.getPropertyByName(element.name || element.property.name)?.labelId}
+                    id={
+                        propertiesStore.getPropertyByName(element.name || element.property.name)?.labelId ||
+                        'unknownProperty'
+                    }
                 />
             </Col>
             <Col md="9" className="g-0">
@@ -116,7 +119,12 @@ const CardPropertiesEditor = observer(() => {
                                     onClick={() => {
                                         handleAddNewProperties(el)
                                     }}>
-                                    <FormattedMessage id={propertiesStore.getPropertyByName(el.name)?.labelId} />
+                                    <FormattedMessage
+                                        id={
+                                            propertiesStore.getPropertyByName(el.name || el.property.name)?.labelId ||
+                                            'unknownProperty'
+                                        }
+                                    />
                                 </Button>
                             )
                         })}

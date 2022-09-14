@@ -14,7 +14,6 @@ const MediaFileList = ({ selectedFiles, setSelectedFile }: MediaFileListProps) =
             {selectedFiles.map((file, index) => {
                 if (coverIsSet === null && file.type.split('/')[0] === 'image') {
                     coverIsSet = index
-                    console.log(coverIsSet, 'cis2')
                 }
                 return (
                     <MediaFileItem

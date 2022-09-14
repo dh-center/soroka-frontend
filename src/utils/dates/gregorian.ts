@@ -2,13 +2,12 @@
 import GregorianDate from 'ilib/lib/GregorianDate'
 // @ts-ignore
 import DateFmt from 'ilib/lib/DateFmt'
-
-class Calendar {
+import { CalendarGeneral } from './types'
+class Calendar implements CalendarGeneral {
     dateFormat = new DateFmt({ template: 'dd.MM.yyyy', timezone: 'GMT' })
 
     validate(dateString: string) {
         // https://stackoverflow.com/a/6178341
-
         // empty string ok
         if (dateString.trim() === '') return true
 

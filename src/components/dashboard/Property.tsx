@@ -13,8 +13,8 @@ type PropertyProps = {
 
 type ControlPanelProps = {
     hasHelp: boolean
-    setHelpButtonPressed: React.Dispatch<React.SetStateAction<boolean>>
-    setShowDialogModal: React.Dispatch<React.SetStateAction<boolean>>
+    setHelpButtonPressed: (value: boolean) => void
+    setShowDialogModal: (value: boolean) => void
     helpButtonPressed: boolean
 }
 
@@ -24,7 +24,7 @@ const ControlPanel = ({ hasHelp, setHelpButtonPressed, setShowDialogModal, helpB
             <Button
                 variant="outline-secondary"
                 className="text-nowrap me-2"
-                onClick={() => setHelpButtonPressed((prevValue) => !prevValue)}>
+                onClick={() => setHelpButtonPressed(!helpButtonPressed)}>
                 <FormattedMessage id={helpButtonPressed ? 'hideHelp' : 'help'} />
             </Button>
         )}

@@ -2,8 +2,9 @@
 import JulianDate from 'ilib/lib/JulianDate'
 // @ts-ignore
 import DateFmt from 'ilib/lib/DateFmt'
+import { CalendarGeneral } from './types'
 
-class Calendar {
+class Calendar implements CalendarGeneral {
     dateFormat = new DateFmt({ template: 'dd.MM.yyyy', calendar: 'julian', timezone: 'GMT' })
 
     validate(dateString: string) {

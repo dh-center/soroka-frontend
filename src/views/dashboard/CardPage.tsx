@@ -76,7 +76,6 @@ const CardPage = observer(() => {
     }
 
     const handleSave = async () => {
-        console.log(Object.entries(cardStore.cardInfo), 'info')
         await cardStore.saveProperties()
         if (isCreateMode) {
             navigate(getCardById(cardStore.cardInfo.id))

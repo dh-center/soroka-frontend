@@ -68,6 +68,7 @@ const English = {
     registrationByInvitation: 'Registration by invitation',
 
     // Свойства
+    unknownProperty: 'Unknown property',
     address: 'Address',
     legalName: 'Legal name',
     artisticText: 'Artistic text',

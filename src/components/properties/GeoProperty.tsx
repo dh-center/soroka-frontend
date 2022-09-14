@@ -6,6 +6,8 @@ import { GeoPropertyProps } from '../../stores/propertiesStore'
 
 export const FIELD_GEO = 'location'
 export const FIELD_GEO_NAME = 'location_name'
+const INITIAL_GEO_POINT = [55.76, 37.64] // Moscow geopoint
+const INITIAL_MAP_ZOOM = 10
 
 const getCoordsFromString = (coordsString: string) =>
     coordsString && coordsString !== '' ? coordsString.split(',').map((coord) => +coord) : null
@@ -36,8 +38,8 @@ const GeoProperty = ({ showHelp = false, value, onChange }: GeoPropertyProps) =>
     const placeholderNameOfPlace = intl.formatMessage({ id: 'placeName' })
 
     const [mapOptions, setMapOptions] = useState(() => ({
-        center: getCoordsFromString(initialCoordsString) ?? [55.76, 37.64],
-        zoom: 10
+        center: getCoordsFromString(initialCoordsString) ?? INITIAL_GEO_POINT,
+        zoom: INITIAL_MAP_ZOOM
     }))
 
     // input value
@@ -56,7 +58,7 @@ const GeoProperty = ({ showHelp = false, value, onChange }: GeoPropertyProps) =>
         setIsInputValid(isValid)
 
         if (isValid && coordsString !== '') {
-            const newCoordinates = getCoordsFromString(coordsString) ?? [55.76, 37.64]
+            const newCoordinates = getCoordsFromString(coordsString) ?? INITIAL_GEO_POINT
             setCoordinates(newCoordinates)
 
             if (updateMapCenter) {

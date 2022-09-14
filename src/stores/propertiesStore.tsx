@@ -18,6 +18,7 @@ export type Property = {
     isLink: boolean
     labelId?: string
     renderAdd?: () => void
+    property?: any
 }
 
 type PropertyListItem = {
@@ -38,6 +39,7 @@ type PropertyTemplate = {
     labelId: string
 }
 
+// todo: distribute into components and make necessary abstractions (all have showHelp/onChange/value)
 export type DatePropertyProps = {
     showHelp: boolean
     value: [
@@ -72,7 +74,7 @@ export type GeoPropertyProps = {
 export type TextPropertyProps = {
     value: string
     showHelp: boolean
-    onChange: (value: string) => void
+    onChange: ({ value }: { value: string }) => void
 }
 
 export type MediaPropertyProps = {
@@ -227,8 +229,8 @@ const TEMPLATES: { [key: string]: any } = {
 }
 
 export default class PropertiesStore {
-    properties = [] as Property[]
-    templates = [] as PropertyTemplate[]
+    properties: Property[] = []
+    templates: PropertyTemplate[] = []
 
     constructor() {
         makeAutoObservable(this)
