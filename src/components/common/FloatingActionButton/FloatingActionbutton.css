@@ -1,0 +1,11 @@
+.floating-action-button {
+    position: sticky;
+}
+
+.floating-add-card-button {
+    width: 4.5rem;
+    height: 4.5rem;
+    bottom: 2rem;
+    right: 5.3rem;
+    float: right;
+}

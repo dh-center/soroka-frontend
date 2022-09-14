@@ -29,6 +29,7 @@ const English = {
     add: 'Add',
     notFilled: 'Not filled',
     cards: 'Cards',
+    emptyCardList: '<p>No cards</p>',
 
     // Страница создания карточки
     newCardWarningModalText: 'Add any desired properties, fill out the card and save',
