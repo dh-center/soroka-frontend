@@ -1,0 +1,20 @@
+{
+    "compilerOptions": {
+        "target": "es6", // signifies which target of JavaScript should be emitted from the given TypeScript
+        "module": "esnext", // defines the type of code import in the resulting file
+        "lib": ["dom", "dom.iterable", "esnext"], // a set of library files of polyphenols that will be included in the final output file
+        "allowJs": false, // allow compiling files with JavaScript code?
+        "jsx": "react-jsx", // support for ".tsx" files
+        "noEmit": true, // do not create a final file.
+        "strict": true, // strinct mode
+        "skipLibCheck": true, // don't check the types specified in all type description files (*.d.ts)?
+        "esModuleInterop": true, // import CommonJS modules according to es6 module specifications
+        "allowSyntheticDefaultImports": true, // allows to use default import from modules without default export
+        "forceConsistentCasingInFileNames": true, // issue an error if a program tries to include a file by a casing different from the casing on disk
+        "noFallthroughCasesInSwitch": true, // required break in switch
+        "moduleResolution": "node", // module resolution strategy
+        "resolveJsonModule": true, // allows importing modules with a ‘.json’ extension
+        "isolatedModules": true // compile each file separately
+    },
+    "include": ["src", "src/@types"]
+}
