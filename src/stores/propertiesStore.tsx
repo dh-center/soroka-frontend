@@ -85,17 +85,17 @@ export type MediaPropertyProps = {
 
 const TYPES: { [key: string]: any } = {
     TEXT: {
-        renderForm: (props: TextPropertyProps) => <RichTextProperty {...props} />, // TODO: Заменить на TextProperty
+        renderForm: (props: TextPropertyProps) => <TextProperty {...props} />, // TODO: Заменить на TextProperty
         formatToApi: (value: string) => value,
         defaultData: '',
         hasHelp: false
     },
-    // RICH_TEXT: {
-    //     renderForm: (props: TextPropertyProps) => <RichTextProperty {...props} />,
-    //     formatToApi: (value: string) => value,
-    //     defaultData: '',
-    //     hasHelp: false
-    // },
+    RICH_TEXT: {
+        renderForm: (props: TextPropertyProps) => <RichTextProperty {...props} />,
+        formatToApi: (value: string) => value,
+        defaultData: '',
+        hasHelp: false
+    },
     JULIAN_DATE: {
         renderForm: (props: DatePropertyProps) => <DateProperty {...props} />,
         formatToApi: ({ value, calendar }: { value: number; calendar: number }) => [{ jd: value, calendar }],
@@ -130,15 +130,28 @@ const TYPES: { [key: string]: any } = {
 
 // backend ids
 const ADDRESS_ID = 'address'
-const ARTISTIC_TEXT_ID = 'artisticText'
-const LEGAL_NAME_ID = 'legalName'
-const TAGS_ID = 'tags'
-const SOURCES_ID = 'sources'
-const QUOTE_ID = 'quote'
-const JULIAN_DATE_ID = 'julianDate'
-const GEO_POINT_ID = 'geoPoint'
 const ANNOTATION_ID = 'annotation'
+const ARTISTIC_TEXT_ID = 'artisticText'
+const BIBLIOGRAPHY_ID = 'bibliography'
+const COPYRIGHT_HOLDER_ID = 'copyrightHolder'
+const CREATION_PLACE_ID = 'creationPlace'
+const CREATOR_ID = 'creator'
+const FAMILY_ID = 'family'
+const FORMAT_ID = 'format'
+const GEO_POINT_ID = 'geoPoint'
+const JULIAN_DATE_ID = 'julianDate'
+const LEGAL_NAME_ID = 'legalName'
 const MEDIA_ID = 'media'
+const ORIGINALTEXT_ID = 'originalText'
+const PARTICIPANTS_ID = 'participants'
+const PROFESSION_ID = 'profession'
+const QUOTE_ID = 'quote'
+const REFUTATION_ID = 'refutation'
+const SOCIALNETWORKS_ID = 'socialNetworks'
+const SOURCES_ID = 'sources'
+const STORAGE_ID = 'storage'
+const TAGS_ID = 'tags'
+const URL_ID = 'url'
 
 const PROPERTIES: { [key: string]: any } = {
     [ADDRESS_ID]: {
@@ -147,64 +160,134 @@ const PROPERTIES: { [key: string]: any } = {
             return <FormattedMessage id={this.labelId} />
         }
     },
-
-    [ARTISTIC_TEXT_ID]: {
-        labelId: 'artisticText',
-        renderAdd: function () {
-            return <FormattedMessage id={this.labelId} />
-        }
-    },
-
-    [LEGAL_NAME_ID]: {
-        labelId: 'legalName',
-        renderAdd: function () {
-            return <FormattedMessage id={this.labelId} />
-        }
-    },
-
-    [TAGS_ID]: {
-        labelId: 'tags',
-        renderAdd: function () {
-            return <FormattedMessage id={this.labelId} />
-        }
-    },
-
-    [SOURCES_ID]: {
-        labelId: 'sources',
-        renderAdd: function () {
-            return <FormattedMessage id={this.labelId} />
-        }
-    },
-
-    [QUOTE_ID]: {
-        labelId: 'quote',
-        renderAdd: function () {
-            return <FormattedMessage id={this.labelId} />
-        }
-    },
-
-    [JULIAN_DATE_ID]: {
-        labelId: 'julianDate',
-        renderAdd: function () {
-            return <FormattedMessage id={this.labelId} />
-        }
-    },
-
-    [GEO_POINT_ID]: {
-        labelId: 'geoPoint',
-        renderAdd: function () {
-            return <FormattedMessage id={this.labelId} />
-        }
-    },
-
     [ANNOTATION_ID]: {
         labelId: 'annotation',
         renderAdd: function () {
             return <FormattedMessage id={this.labelId} />
         }
     },
+    [ARTISTIC_TEXT_ID]: {
+        labelId: 'artisticText',
+        renderAdd: function () {
+            return <FormattedMessage id={this.labelId} />
+        }
+    },
+    [BIBLIOGRAPHY_ID]: {
+        labelId: 'bibliography',
+        renderAdd: function () {
+            return <FormattedMessage id={this.labelId} />
+        }
+    },
+    [COPYRIGHT_HOLDER_ID]: {
+        labelId: 'copyrightHolder',
+        renderAdd: function () {
+            return <FormattedMessage id={this.labelId} />
+        }
+    },
+    [CREATION_PLACE_ID]: {
+        labelId: 'creationPlace',
+        renderAdd: function () {
+            return <FormattedMessage id={this.labelId} />
+        }
+    },
+    [CREATOR_ID]: {
+        labelId: 'creator',
+        renderAdd: function () {
+            return <FormattedMessage id={this.labelId} />
+        }
+    },
+    [FAMILY_ID]: {
+        labelId: 'family',
+        renderAdd: function () {
+            return <FormattedMessage id={this.labelId} />
+        }
+    },
+    [FORMAT_ID]: {
+        labelId: 'format',
+        renderAdd: function () {
+            return <FormattedMessage id={this.labelId} />
+        }
+    },
+    [GEO_POINT_ID]: {
+        labelId: 'geoPoint',
+        renderAdd: function () {
+            return <FormattedMessage id={this.labelId} />
+        }
+    },
+    [JULIAN_DATE_ID]: {
+        labelId: 'julianDate',
+        renderAdd: function () {
+            return <FormattedMessage id={this.labelId} />
+        }
+    },
+    [LEGAL_NAME_ID]: {
+        labelId: 'legalName',
+        renderAdd: function () {
+            return <FormattedMessage id={this.labelId} />
+        }
+    },
     [MEDIA_ID]: {
         labelId: 'media',
+        renderAdd: function () {
+            return <FormattedMessage id={this.labelId} />
+        }
+    },
+    [ORIGINALTEXT_ID]: {
+        labelId: 'originalText',
+        renderAdd: function () {
+            return <FormattedMessage id={this.labelId} />
+        }
+    },
+    [PARTICIPANTS_ID]: {
+        labelId: 'participants',
+        renderAdd: function () {
+            return <FormattedMessage id={this.labelId} />
+        }
+    },
+    [PROFESSION_ID]: {
+        labelId: 'profession',
+        renderAdd: function () {
+            return <FormattedMessage id={this.labelId} />
+        }
+    },
+    [QUOTE_ID]: {
+        labelId: 'quote',
+        renderAdd: function () {
+            return <FormattedMessage id={this.labelId} />
+        }
+    },
+    [REFUTATION_ID]: {
+        labelId: 'refutation',
+        renderAdd: function () {
+            return <FormattedMessage id={this.labelId} />
+        }
+    },
+    [SOCIALNETWORKS_ID]: {
+        labelId: 'socialNetworks',
+        renderAdd: function () {
+            return <FormattedMessage id={this.labelId} />
+        }
+    },
+    [SOURCES_ID]: {
+        labelId: 'sources',
+        renderAdd: function () {
+            return <FormattedMessage id={this.labelId} />
+        }
+    },
+    [STORAGE_ID]: {
+        labelId: 'storage',
+        renderAdd: function () {
+            return <FormattedMessage id={this.labelId} />
+        }
+    },
+    [TAGS_ID]: {
+        labelId: 'tags',
+        renderAdd: function () {
+            return <FormattedMessage id={this.labelId} />
+        }
+    },
+    [URL_ID]: {
+        labelId: 'url',
         renderAdd: function () {
             return <FormattedMessage id={this.labelId} />
         }
