@@ -85,7 +85,7 @@ export type MediaPropertyProps = {
 
 const TYPES: { [key: string]: any } = {
     TEXT: {
-        renderForm: (props: TextPropertyProps) => <TextProperty {...props} />, // TODO: Заменить на TextProperty
+        renderForm: (props: TextPropertyProps) => <TextProperty {...props} />,
         formatToApi: (value: string) => value,
         defaultData: '',
         hasHelp: false
