@@ -82,7 +82,13 @@ const English = {
     noSuchDate: 'No such date in that calender',
     datesMustBeConsecutive: 'Dates must be consecutive',
     calendarGrigorian: 'Gregorian calendar',
+    calendarGrigorianDate: 'Greagorian date',
     calendarJulian: 'Julian calendar',
+    calendarJulianDate: 'Julian date',
+    calendarString: 'Any string',
+    calendarStringDate: 'Greagorian date',
+    grigorianDateForStringInfo:
+        'In order for the system to sort and filter the cards, it is necessary to enter at least an approximate Gregorian date',
     calendarHelp:
         '<p>All dates are stored in julian date format and can be compared with each other. When you change the calendar, the entered dates do not change</p><p> Currently, the Julian and Gregorian calendars are supported.</p><p>For example, you can enter the exact dates “04/12/1698”</p>',
     placeName: 'Place name',

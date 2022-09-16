@@ -1,17 +1,21 @@
 import React, { useState, useEffect } from 'react'
-import { Form, Stack } from 'react-bootstrap'
-import { FormattedMessage } from 'react-intl'
+import { Form, InputGroup, OverlayTrigger, Stack, Tooltip } from 'react-bootstrap'
+import { FormattedMessage, useIntl } from 'react-intl'
 import gregorianCalendar from '../../../utils/dates/gregorian'
 import julianCalendar from '../../../utils/dates/julian'
-import { PlusCircle, DashCircle } from 'react-bootstrap-icons'
+import stringCalendar from '../../../utils/dates/string'
+import { PlusCircle, DashCircle, InfoCircle } from 'react-bootstrap-icons'
 import SingleDateInput from './SingleDateInput'
+import SingleStringInput from './SingleStringInput'
 
 export const CALENDAR_GREGORIAN_ID = 1
 const CALENDAR_JULIAN_ID = 2
+export const CALENDAR_STRING_ID = 3
 
 const CALENDARS: { [key: number]: typeof gregorianCalendar | typeof julianCalendar } = {
     [CALENDAR_GREGORIAN_ID]: gregorianCalendar,
-    [CALENDAR_JULIAN_ID]: julianCalendar
+    [CALENDAR_JULIAN_ID]: julianCalendar,
+    [CALENDAR_STRING_ID]: stringCalendar
 }
 
 const getJd = (parser: typeof gregorianCalendar | typeof julianCalendar, dateString: string) => {
@@ -50,6 +54,8 @@ const DateRangeInput = ({
     const placeholder = parser.getDateFormatPlaceholder()
 
     // "dirty" input values
+    const [startStringValue, setStartStringValue] = useState('')
+    const [endStringValue, setEndStringValue] = useState('')
     const [startDateString, setStartDateString] = useState(() => parser.fromJD(startDateJd))
     const [endDateString, setEndDateString] = useState(() => endDateJd && parser.fromJD(endDateJd))
     const [isRange, setIsRange] = useState(initialIsRange)
@@ -60,6 +66,8 @@ const DateRangeInput = ({
 
     // using state to skip initial mount useEffect calls
     const [isMounted, setIsMounted] = useState(false)
+
+    const intl = useIntl()
 
     useEffect(() => {
         // todo: that is not a solution to react double/single call of useEffect on mount. Probably will be resolved automatically after state to mobx todo
@@ -110,26 +118,50 @@ const DateRangeInput = ({
                     </option>
                 ))}
             </Form.Select>
-            <Stack direction="horizontal" className="align-items-start w-75">
-                <SingleDateInput
-                    defaultValue={startDateString}
-                    onChange={(value: string) => setStartDateString(value)}
-                    errorMessage={startError}
-                    placeholder={placeholder}
-                    EndAdornmentButtonIcon={isRange ? null : PlusCircle}
-                    endAdornmentButtonHandler={() => setIsRange(true)}
-                />
+            <Stack direction="horizontal" className="align-items-start">
+                <div className="d-flex flex-column gap-3">
+                    {calendarId === CALENDAR_STRING_ID && (
+                        <SingleStringInput
+                            onChange={(value: string) => setStartStringValue(value)}
+                            placeholder={placeholder}
+                            endAdornmentButtonHandler={() => setIsRange(true)}
+                            EndAdornmentButtonIcon={isRange ? null : PlusCircle}
+                        />
+                    )}
+                    <SingleDateInput
+                        defaultValue={startDateString}
+                        onChange={(value: string) => setStartDateString(value)}
+                        errorMessage={startError}
+                        placeholder={placeholder}
+                        EndAdornmentButtonIcon={isRange || calendarId === CALENDAR_STRING_ID ? null : PlusCircle}
+                        endAdornmentButtonHandler={() => setIsRange(true)}
+                        calendarName={intl.formatMessage({ id: `${parser.nameMessageId}Date` })}
+                        calendarId={calendarId}
+                    />
+                </div>
                 {isRange && (
                     <>
                         <span className="mx-2 w-auto mt-2"> — </span>
-                        <SingleDateInput
-                            defaultValue={endDateString}
-                            onChange={(value: string) => setEndDateString(value)}
-                            errorMessage={endError}
-                            placeholder={placeholder}
-                            EndAdornmentButtonIcon={DashCircle}
-                            endAdornmentButtonHandler={() => setIsRange(false)}
-                        />
+                        <div className="d-flex flex-column gap-3">
+                            {calendarId === CALENDAR_STRING_ID && (
+                                <SingleStringInput
+                                    onChange={(value: string) => setEndStringValue(value)}
+                                    placeholder={placeholder}
+                                    endAdornmentButtonHandler={() => setIsRange(false)}
+                                    EndAdornmentButtonIcon={isRange ? DashCircle : null}
+                                />
+                            )}
+                            <SingleDateInput
+                                defaultValue={endDateString}
+                                onChange={(value: string) => setEndDateString(value)}
+                                errorMessage={endError}
+                                placeholder={placeholder}
+                                EndAdornmentButtonIcon={calendarId === CALENDAR_STRING_ID ? null : DashCircle}
+                                endAdornmentButtonHandler={() => setIsRange(false)}
+                                calendarName={intl.formatMessage({ id: `${parser.nameMessageId}Date` })}
+                                calendarId={calendarId}
+                            />
+                        </div>
                     </>
                 )}
             </Stack>
