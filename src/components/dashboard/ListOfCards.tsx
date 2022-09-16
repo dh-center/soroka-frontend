@@ -9,7 +9,7 @@ import { CARDS_CREATE_ROUTE, CARDS_TEMPLATES_ROUTE } from '../../utils/urls'
 import { useNavigate } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
 
-const PAGE_SIZE = 6 * 4 - 1
+const PAGE_SIZE = 6 * 4
 
 const ListOfCards = () => {
     const navigate = useNavigate()
