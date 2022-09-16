@@ -11,7 +11,9 @@ type FloatingActionButtonProps = {
 
 const FloatingActionButton = ({ children, className, onClick }: FloatingActionButtonProps) => {
     return (
-        <Button className={`floating-action-button ${className}`} onClick={onClick}>
+        <Button
+            className={`floating-action-button rounded-circle outline-primary d-flex align-items-center justify-content-center ${className}`}
+            onClick={onClick}>
             {children}
         </Button>
     )

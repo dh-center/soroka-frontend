@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 import { CardsAPI } from '../../api/cards'
 import PaginationButtons from '../common/PaginationButtons'
-import AddNewCard from './AddNewCard'
 import ListCard from './ListCard'
 import FloatingActionButton from '../common/FloatingActionButton/FloatingActionButton'
 import { Plus } from 'react-bootstrap-icons'
@@ -24,35 +23,24 @@ const ListOfCards = () => {
             .catch((er) => console.log(er))
     }, [page])
 
+    const hasCards = cards.results.length !== 0
+
     return (
         <Container>
             <Row xs={1} sm={3} md={4} lg={5} xl={6} className="g-2">
-                {cards.results.length === 0 ? (
-                    <FormattedMessage
-                        id="emptyCardList"
-                        values={{
-                            p: (chunks) => (
-                                <p
-                                    style={{
-                                        textAlign: 'center',
-                                        padding: '4rem 0 8rem 0',
-                                        width: '100%',
-                                        minHeight: '70vh'
-                                    }}>
-                                    {chunks}
-                                </p>
-                            )
-                        }}
-                    />
-                ) : (
+                {hasCards ? (
                     cards.results.map(({ id, name, isFilled }) => (
                         <Col key={id}>
                             <ListCard id={id} name={name} isFilled={isFilled} />
                         </Col>
                     ))
+                ) : (
+                    <p className="text-center w-100">
+                        <FormattedMessage id="emptyCardList" />
+                    </p>
                 )}
             </Row>
-            {cards.results.length !== 0 && (
+            {hasCards && (
                 <Row>
                     <Col className="d-flex justify-content-center mt-3">
                         <PaginationButtons page={page} total={cards.total} pageSize={PAGE_SIZE} setPage={setPage} />
@@ -61,9 +49,8 @@ const ListOfCards = () => {
             )}
 
             <FloatingActionButton
-                className="floating-add-card-button rounded-circle outline-primary"
                 onClick={({ altKey }) => navigate(altKey ? CARDS_CREATE_ROUTE : CARDS_TEMPLATES_ROUTE)}>
-                <Plus size={48} className="position-absolute top-50 start-50 translate-middle" />
+                <Plus size={48} />
             </FloatingActionButton>
         </Container>
     )
