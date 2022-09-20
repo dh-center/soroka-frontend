@@ -29,6 +29,7 @@ const English = {
     add: 'Add',
     notFilled: 'Not filled',
     cards: 'Cards',
+    allOrganizations: 'All organizations',
 
     // Страница создания карточки
     newCardWarningModalText: 'Add any desired properties, fill out the card and save',

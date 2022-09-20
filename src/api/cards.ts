@@ -58,8 +58,11 @@ export const CardsAPI = {
      * @param {number} params.offset Офсет списка карточек
      * @param {number} params.limit Максимальное число карточек в результате
      */
-    async getCardsList(params: any) {
+    async getCardsList(params: { offset: number; limit: number }) {
         return API.get('/cards', { params, cache: false })
+    },
+    async getCardsByOrganizationId(params: { offset: number; limit: number }, orgId: number) {
+        return API.get(`cards/noAuth/by-org/${orgId}`, { params, cache: false })
     },
 
     async createCard(data: any) {
