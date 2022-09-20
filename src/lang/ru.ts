@@ -82,13 +82,13 @@ const Russian = {
 
     noSuchDate: 'Такой даты нет в календаре',
     datesMustBeConsecutive: 'Даты должны быть последовательны',
-    calendarGrigorian: 'Григорианский календарь',
-    calendarGrigorianDate: 'Грегорианская дата',
+    calendarGregorian: 'Григорианский календарь',
+    calendarGregorianDate: 'Григорианская дата',
     calendarJulian: 'Юлианский (старый стиль) календарь',
     calendarJulianDate: 'Юлианская дата',
     calendarString: 'Любая строка',
-    calendarStringDate: 'Грегорианская дата',
-    grigorianDateForStringInfo:
+    calendarStringDate: 'Григорианская дата',
+    gregorianDateForStringInfo:
         'Чтобы система могла сортировать и фильтровать карточки, необходимо ввести хотя бы примерную григорианскую дату',
     calendarHelp:
         '<p>Все даты хранятся в формате julian date и могут сравниваться между собой. При смене календаря введённые даты не меняются</p><p> На данный момент поддерживаются юлианский и григорианский календарь.</p><p>Например, можно ввести точные даты “12.04.1698”</p>',

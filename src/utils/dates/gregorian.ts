@@ -3,7 +3,7 @@ import GregorianDate from 'ilib/lib/GregorianDate'
 // @ts-ignore
 import DateFmt from 'ilib/lib/DateFmt'
 import { CalendarGeneral } from './types'
-class Calendar implements CalendarGeneral {
+export class Calendar implements CalendarGeneral {
     dateFormat = new DateFmt({ template: 'dd.MM.yyyy', timezone: 'GMT' })
 
     validate(dateString: string) {
@@ -43,7 +43,7 @@ class Calendar implements CalendarGeneral {
         return this.dateFormat.format(new GregorianDate({ year: 1989, month: 4, day: 12, timezone: 'GMT' }))
     }
     get nameMessageId() {
-        return 'calendarGrigorian'
+        return 'calendarGregorian'
     }
 }
 

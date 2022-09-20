@@ -15,8 +15,10 @@ type SingleDateInput = {
     calendarId: number
 }
 
+const OVERLAY_TRIGGER_DELAY = { hide: 450, show: 200 }
+
 const InvalidDateFeedback = ({ errorMessage }: { errorMessage: string }) => (
-    <Form.Control.Feedback type="invalid">
+    <Form.Control.Feedback type="invalid" className="d-block w-auto">
         <FormattedMessage id={errorMessage} />
     </Form.Control.Feedback>
 )
@@ -31,37 +33,39 @@ const SingleDateInput = ({
     calendarName,
     calendarId
 }: SingleDateInput) => (
-    <InputGroup hasValidation className="w-auto">
-        <FloatingLabel controlId="floatingInputDate" label={calendarName}>
-            <Form.Control
-                defaultValue={defaultValue || ''}
-                type="text"
-                placeholder={placeholder}
-                onChange={(event) => onChange(event.target.value)}
-                isInvalid={!!errorMessage}
-            />
-        </FloatingLabel>
-        {calendarId === CALENDAR_STRING_ID && (
-            <InputGroup.Text>
-                <OverlayTrigger
-                    delay={{ hide: 450, show: 200 }}
-                    overlay={(props) => (
-                        <Tooltip {...props}>
-                            <FormattedMessage id="grigorianDateForStringInfo" />
-                        </Tooltip>
-                    )}>
-                    <InfoCircle size={18} />
-                </OverlayTrigger>
-            </InputGroup.Text>
-        )}
-        {EndAdornmentButtonIcon && (
-            <Button
-                className="d-flex align-items-center"
-                variant="outline-secondary"
-                onClick={endAdornmentButtonHandler}>
-                <EndAdornmentButtonIcon size={18} />
-            </Button>
-        )}
+    <InputGroup hasValidation className="w-auto flex-column">
+        <div className="d-flex">
+            <FloatingLabel controlId="floatingInputDate" label={calendarName}>
+                <Form.Control
+                    defaultValue={defaultValue || ''}
+                    type="text"
+                    placeholder={placeholder}
+                    onChange={(event) => onChange(event.target.value)}
+                    isInvalid={!!errorMessage}
+                />
+            </FloatingLabel>
+            {calendarId === CALENDAR_STRING_ID && (
+                <InputGroup.Text>
+                    <OverlayTrigger
+                        delay={OVERLAY_TRIGGER_DELAY}
+                        overlay={(props) => (
+                            <Tooltip {...props}>
+                                <FormattedMessage id="gregorianDateForStringInfo" />
+                            </Tooltip>
+                        )}>
+                        <InfoCircle size={18} />
+                    </OverlayTrigger>
+                </InputGroup.Text>
+            )}
+            {EndAdornmentButtonIcon && (
+                <Button
+                    className="d-flex align-items-center"
+                    variant="outline-secondary"
+                    onClick={endAdornmentButtonHandler}>
+                    <EndAdornmentButtonIcon size={18} />
+                </Button>
+            )}
+        </div>
         {errorMessage && <InvalidDateFeedback errorMessage={errorMessage} />}
     </InputGroup>
 )
