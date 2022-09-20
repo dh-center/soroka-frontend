@@ -27,9 +27,7 @@ const ListOfCards = () => {
     useEffect(() => {
         if (currentOrganization === 'any') {
             CardsAPI.getCardsList({ offset: page * PAGE_SIZE, limit: PAGE_SIZE })
-                .then((res) => {
-                    setCards(res.data), console.log(res, 'res')
-                })
+                .then((res) => setCards(res.data))
                 .catch((error) => console.log(error))
         } else if (!Number.isNaN(currentOrganization)) {
             CardsAPI.getCardsByOrganizationId({ offset: page * PAGE_SIZE, limit: PAGE_SIZE }, +currentOrganization)

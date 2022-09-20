@@ -42,7 +42,7 @@ const CardAdminControls = observer(() => {
                 <Form.Select
                     id={'chooseOrganization'}
                     className="mb-2"
-                    value={cardStore.organizationOption}
+                    value={cardStore.cardInfo.organizationId}
                     onChange={(e) => {
                         handleOrganizationChange(e)
                     }}>
