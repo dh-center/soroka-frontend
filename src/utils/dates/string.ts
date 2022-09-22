@@ -1,4 +1,4 @@
-import { Calendar as GregorianCalendar } from './gregorian'
+import { GregorianCalendar } from './gregorian'
 class Calendar extends GregorianCalendar {
     get nameMessageId() {
         return 'anyString'
