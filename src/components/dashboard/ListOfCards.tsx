@@ -10,9 +10,9 @@ import { Plus } from 'react-bootstrap-icons'
 import { CARDS_CREATE_ROUTE, CARDS_TEMPLATES_ROUTE } from '../../utils/urls'
 import { useNavigate } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
+import { DEFAULT_ORGANIZATION_FILTER_VALUE } from '../../utils/constants'
 
 const PAGE_SIZE = 6 * 4
-const DEFAULT_ORGANIZATION_FILTER_VALUE = 'any'
 
 const ListOfCards = () => {
     const navigate = useNavigate()
@@ -26,20 +26,10 @@ const ListOfCards = () => {
         setPage(0)
     }, [currentOrganization])
 
-    const getCardsByParameters = (organizationId: number | string, offset: number, limit: number) => {
-        if (organizationId === DEFAULT_ORGANIZATION_FILTER_VALUE) {
-            CardsAPI.getCardsList({ offset, limit })
-                .then((res) => setCards(res.data))
-                .catch((error) => console.log(error))
-        } else if (!Number.isNaN(organizationId)) {
-            CardsAPI.getCardsByOrganizationId({ offset, limit }, +organizationId)
-                .then((res) => setCards(res.data))
-                .catch((error) => console.error(error))
-        }
-    }
-
     useEffect(() => {
-        getCardsByParameters(currentOrganization, page * PAGE_SIZE, PAGE_SIZE)
+        CardsAPI.getCardsByParameters(currentOrganization, page * PAGE_SIZE, PAGE_SIZE)
+            .then((res) => setCards(res.data))
+            .catch((error) => console.log(error))
     }, [currentOrganization, page])
 
     const intl = useIntl()
