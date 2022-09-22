@@ -1,39 +1,40 @@
 import React, { useEffect, useState } from 'react'
-import { Col, Container, FloatingLabel, Form, Row } from 'react-bootstrap'
+import { Col, Container, Form, Row } from 'react-bootstrap'
 import { useIntl } from 'react-intl'
 import { CardsAPI } from '../../api/cards'
-import { organizationsAPI } from '../../api/organizations'
 import PaginationButtons from '../common/PaginationButtons'
 import AddNewCard from './AddNewCard'
 import ListCard from './ListCard'
-import { Organization } from '../../stores/baseStore'
+import { useStore } from '../../stores/rootStore'
 
 const PAGE_SIZE = 6 * 4 - 1
+const DEFAULT_ORGANIZATION_FILTER_VALUE = 'any'
 
 const ListOfCards = () => {
     // todo: add page query
     const [cards, setCards] = useState({ results: [], total: 0 })
     const [page, setPage] = useState(0)
-    const [organizations, setOrganizations] = useState<Organization[]>([])
-    const [currentOrganization, setCurrentOrganization] = useState<string | number>('any')
+    const { baseStore } = useStore()
+    const [currentOrganization, setCurrentOrganization] = useState<string | number>(DEFAULT_ORGANIZATION_FILTER_VALUE)
 
     useEffect(() => {
-        organizationsAPI
-            .getOrganizations()
-            .then((res) => setOrganizations(res.data))
-            .catch((error) => console.error(error))
-    }, [])
+        setPage(0)
+    }, [currentOrganization])
 
-    useEffect(() => {
-        if (currentOrganization === 'any') {
-            CardsAPI.getCardsList({ offset: page * PAGE_SIZE, limit: PAGE_SIZE })
+    const getCardsByParameters = (organizationId: number | string, offset: number, limit: number) => {
+        if (organizationId === DEFAULT_ORGANIZATION_FILTER_VALUE) {
+            CardsAPI.getCardsList({ offset, limit })
                 .then((res) => setCards(res.data))
                 .catch((error) => console.log(error))
-        } else if (!Number.isNaN(currentOrganization)) {
-            CardsAPI.getCardsByOrganizationId({ offset: page * PAGE_SIZE, limit: PAGE_SIZE }, +currentOrganization)
+        } else if (!Number.isNaN(organizationId)) {
+            CardsAPI.getCardsByOrganizationId({ offset, limit }, +organizationId)
                 .then((res) => setCards(res.data))
                 .catch((error) => console.error(error))
         }
+    }
+
+    useEffect(() => {
+        getCardsByParameters(currentOrganization, page * PAGE_SIZE, PAGE_SIZE)
     }, [currentOrganization, page])
 
     const intl = useIntl()
@@ -42,8 +43,10 @@ const ListOfCards = () => {
         <Container>
             <Row xs={1} sm={3} md={4} lg={8} xl={10} className="mb-3">
                 <Form.Select onChange={(e) => setCurrentOrganization(e.target.value)}>
-                    <option value="any">{intl.formatMessage({ id: 'allOrganizations' })}</option>
-                    {organizations.map((item) => (
+                    <option value={DEFAULT_ORGANIZATION_FILTER_VALUE}>
+                        {intl.formatMessage({ id: 'allOrganizations' })}
+                    </option>
+                    {baseStore.organizations.map((item) => (
                         <option key={item.id} value={item.id}>
                             {item.name}
                         </option>

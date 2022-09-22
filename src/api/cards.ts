@@ -62,7 +62,7 @@ export const CardsAPI = {
         return API.get('/cards', { params, cache: false })
     },
     async getCardsByOrganizationId(params: { offset: number; limit: number }, orgId: number) {
-        return API.get(`cards/noAuth/by-org/${orgId}`, { params, cache: false })
+        return API.get(`cards/by-org/${orgId}`, { params, cache: false })
     },
 
     async createCard(data: any) {
