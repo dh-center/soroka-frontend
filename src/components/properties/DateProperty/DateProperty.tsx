@@ -1,38 +1,24 @@
-import React from 'react'
-import { Form } from 'react-bootstrap'
 import { FormattedMessage } from 'react-intl'
-import { useCallback } from 'react'
-import DateRangeInput from './DateRangeInput'
-import { DatePropertyProps } from '../../../stores/propertiesStore'
+import { DateItemData } from '../../../stores/propertiesStore'
+import DateItem from './DateItem'
+
+export type DatePropertyProps = {
+    showHelp: boolean
+    value: DateItemData[]
+    onChange: (date: DateItemData, isValid: boolean) => void
+}
 
 const DateProperty = ({ showHelp, value, onChange }: DatePropertyProps) => {
-    const handleRangeChange = useCallback(
-        (
-            value: { calendar: number; startDate: number; endDate: number; isRange: boolean; isValid: boolean },
-            index: number
-        ) => {
-            const { startDate, endDate, isRange, isValid, calendar } = value
-            onChange({ value: startDate, calendar }, isValid)
-            // todo: after backend api is ready — apply endDate and isRange
-        },
-        [onChange]
-    )
+    const handleItemChange = (newDate: DateItemData, isValid: boolean, key: string) => {
+        // todo: when dates list will be applied — key must become useful, unique and stable for each date item
+        onChange(newDate, isValid)
+    }
 
     return (
         <>
-            <Form.Group className="mb-2 w-100">
-                {value.map(({ jd, calendar }: { jd: number; calendar: number }, index: number) => (
-                    <DateRangeInput
-                        key={index}
-                        index={index}
-                        calendarId={calendar}
-                        startDateJd={jd}
-                        endDateJd={null} // todo: after backend api is ready — apply endDate
-                        isRange={false}
-                        onChange={handleRangeChange}
-                    />
-                ))}
-            </Form.Group>
+            {value.map((date, index) => (
+                <DateItem value={date} onChange={handleItemChange} key={`date-item-${index}`} />
+            ))}
             {showHelp && (
                 <div>
                     <FormattedMessage

@@ -86,7 +86,7 @@ const Russian = {
     calendarGregorianDate: 'Григорианская дата',
     calendarJulian: 'Юлианский (старый стиль) календарь',
     calendarJulianDate: 'Юлианская дата',
-    calendarString: 'Любая строка',
+    anyString: 'Любая строка',
     calendarStringDate: 'Григорианская дата',
     gregorianDateForStringInfo:
         'Чтобы система могла сортировать и фильтровать карточки, необходимо ввести хотя бы примерную григорианскую дату',

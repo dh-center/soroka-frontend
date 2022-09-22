@@ -34,7 +34,7 @@ class Calendar implements CalendarGeneral {
         return day > 0 && day <= monthLength[month - 1]
     }
 
-    fromJD(julianday: number) {
+    fromJD(julianday: number | null) {
         return julianday ? this.dateFormat.format(new JulianDate({ julianday, timezone: 'GMT' })) : ''
     }
     toJD(dateString: string) {

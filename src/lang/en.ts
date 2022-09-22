@@ -85,7 +85,7 @@ const English = {
     calendarGregorianDate: 'Gregorian date',
     calendarJulian: 'Julian calendar',
     calendarJulianDate: 'Julian date',
-    calendarString: 'Any string',
+    anyString: 'Any string',
     calendarStringDate: 'Greagorian date',
     gregorianDateForStringInfo:
         'In order for the system to sort and filter the cards, it is necessary to enter at least an approximate Gregorian date',

@@ -5,9 +5,9 @@ import TextProperty from '../components/properties/TextProperty'
 import DateProperty, { CALENDAR_GREGORIAN_ID } from '../components/properties/DateProperty'
 import MediaProperty from '../components/properties/MediaProperty/MediaProperty'
 import { TemplatesAPI } from '../api/templates'
-
 import { RichTextProperty } from '../components/properties/RichTextProperty'
 import { FormattedMessage } from 'react-intl'
+import { DatePropertyProps } from '../components/properties/DateProperty/DateProperty'
 
 export type Property = {
     propertyId: number
@@ -40,21 +40,12 @@ type PropertyTemplate = {
 }
 
 // todo: distribute into components and make necessary abstractions (all have showHelp/onChange/value)
-export type DatePropertyProps = {
-    showHelp: boolean
-    value: [
-        {
-            jd: number
-            calendar: number
-        }
-    ]
-    onChange: (
-        date: {
-            value: number
-            calendar: number
-        },
-        isValid: boolean
-    ) => void
+export type DateItemData = {
+    jd: number | null // startJD:
+    startContext?: string
+    calendar: number
+    endJD: number | null
+    endContext?: string
 }
 
 export type GeoPropertyProps = {

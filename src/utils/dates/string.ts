@@ -1,7 +1,7 @@
 import { Calendar as GregorianCalendar } from './gregorian'
 class Calendar extends GregorianCalendar {
     get nameMessageId() {
-        return 'calendarString'
+        return 'anyString'
     }
 }
 
