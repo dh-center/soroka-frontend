@@ -36,12 +36,6 @@ const ListOfCards = () => {
 
     const hasCards = cards.results.length !== 0
 
-    console.log(
-        cardStore.userRole,
-        cardStore.userRole !== USER_ROLES.admin && cardStore.userRole !== USER_ROLES.editor,
-        'role'
-    )
-
     return (
         <Container>
             {(cardStore.userRole == USER_ROLES.admin || cardStore.userRole == USER_ROLES.editor) && (
