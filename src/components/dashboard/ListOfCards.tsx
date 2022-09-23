@@ -10,7 +10,7 @@ import { Plus } from 'react-bootstrap-icons'
 import { CARDS_CREATE_ROUTE, CARDS_TEMPLATES_ROUTE } from '../../utils/urls'
 import { useNavigate } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
-import { DEFAULT_ORGANIZATION_FILTER_VALUE } from '../../utils/constants'
+import { DEFAULT_ORGANIZATION_FILTER_VALUE, USER_ROLES } from '../../utils/constants'
 
 const PAGE_SIZE = 6 * 4
 
@@ -19,7 +19,7 @@ const ListOfCards = () => {
     // todo: add page query
     const [cards, setCards] = useState({ results: [], total: 0 })
     const [page, setPage] = useState(0)
-    const { baseStore } = useStore()
+    const { baseStore, cardStore } = useStore()
     const [currentOrganization, setCurrentOrganization] = useState<string | number>(DEFAULT_ORGANIZATION_FILTER_VALUE)
 
     useEffect(() => {
@@ -36,20 +36,29 @@ const ListOfCards = () => {
 
     const hasCards = cards.results.length !== 0
 
+    console.log(
+        cardStore.userRole,
+        cardStore.userRole !== USER_ROLES.admin && cardStore.userRole !== USER_ROLES.editor,
+        'role'
+    )
+
     return (
         <Container>
-            <Row xs={1} sm={3} md={4} lg={8} xl={10} className="mb-3">
-                <Form.Select onChange={(e) => setCurrentOrganization(e.target.value)}>
-                    <option value={DEFAULT_ORGANIZATION_FILTER_VALUE}>
-                        {intl.formatMessage({ id: 'allOrganizations' })}
-                    </option>
-                    {baseStore.organizations.map((item) => (
-                        <option key={item.id} value={item.id}>
-                            {item.name}
+            {(cardStore.userRole == USER_ROLES.admin || cardStore.userRole == USER_ROLES.editor) && (
+                <Row xs={1} sm={3} md={4} lg={8} xl={10} className="mb-3">
+                    <Form.Select onChange={(e) => setCurrentOrganization(e.target.value)} className="w-auto">
+                        <option value={DEFAULT_ORGANIZATION_FILTER_VALUE}>
+                            {intl.formatMessage({ id: 'allOrganizations' })}
                         </option>
-                    ))}
-                </Form.Select>
-            </Row>
+                        {baseStore.organizations.map((item) => (
+                            <option key={item.id} value={item.id}>
+                                {item.name}
+                            </option>
+                        ))}
+                    </Form.Select>
+                </Row>
+            )}
+
             <Row xs={1} sm={3} md={4} lg={5} xl={6} className="g-2">
                 {hasCards ? (
                     cards.results.map(({ id, name, isFilled }) => (
