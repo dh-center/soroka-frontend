@@ -29,6 +29,7 @@ const Russian = {
     // Список карточек
     notFilled: 'Не заполнена',
     cards: 'Карточки',
+    allOrganizations: 'Все организации',
     emptyCardList: 'Нет карточек',
 
     // Страница создания карточки

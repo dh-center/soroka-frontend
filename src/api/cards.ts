@@ -1,5 +1,6 @@
 /* Модуль API по запросам к карточкам */
 
+import { DEFAULT_ORGANIZATION_FILTER_VALUE } from '../utils/constants'
 import API from './config'
 
 export const CardsAPI = {
@@ -58,8 +59,17 @@ export const CardsAPI = {
      * @param {number} params.offset Офсет списка карточек
      * @param {number} params.limit Максимальное число карточек в результате
      */
-    async getCardsList(params: any) {
+    async getCardsList(params: { offset: number; limit: number }) {
         return API.get('/cards', { params, cache: false })
+    },
+    async getCardsByOrganizationId(params: { offset: number; limit: number }, orgId: number) {
+        return API.get(`cards/by-org/${orgId}`, { params, cache: false })
+    },
+    async getCardsByParameters(organizationId: number | string, offset: number, limit: number) {
+        if (organizationId === DEFAULT_ORGANIZATION_FILTER_VALUE) {
+            return CardsAPI.getCardsList({ offset, limit })
+        }
+        return CardsAPI.getCardsByOrganizationId({ offset, limit }, +organizationId)
     },
 
     async createCard(data: any) {

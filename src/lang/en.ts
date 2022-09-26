@@ -28,6 +28,7 @@ const English = {
     // Список карточек
     notFilled: 'Not filled',
     cards: 'Cards',
+    allOrganizations: 'All organizations',
     emptyCardList: 'No cards',
 
     // Страница создания карточки

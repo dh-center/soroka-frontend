@@ -23,3 +23,5 @@ export const USER_ROLES_DEFINITION = {
         asRoleMessageId: 'asAuthor'
     }
 }
+
+export const DEFAULT_ORGANIZATION_FILTER_VALUE = 'any'
