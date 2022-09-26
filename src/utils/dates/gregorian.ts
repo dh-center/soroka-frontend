@@ -3,7 +3,7 @@ import GregorianDate from 'ilib/lib/GregorianDate'
 // @ts-ignore
 import DateFmt from 'ilib/lib/DateFmt'
 import { CalendarGeneral } from './types'
-class Calendar implements CalendarGeneral {
+ class Calendar implements CalendarGeneral {
     dateFormat = new DateFmt({ template: 'dd.MM.yyyy', timezone: 'GMT' })
 
     validate(dateString: string) {
@@ -32,7 +32,7 @@ class Calendar implements CalendarGeneral {
         return day > 0 && day <= monthLength[month - 1]
     }
 
-    fromJD(julianday: number) {
+    fromJD(julianday: number | null) {
         return julianday ? this.dateFormat.format(new GregorianDate({ julianday, timezone: 'GMT' })) : ''
     }
     toJD(dateString: string) {
@@ -43,10 +43,11 @@ class Calendar implements CalendarGeneral {
         return this.dateFormat.format(new GregorianDate({ year: 1989, month: 4, day: 12, timezone: 'GMT' }))
     }
     get nameMessageId() {
-        return 'calendarGrigorian'
+        return 'calendarGregorian'
     }
 }
 
 const calendar = new Calendar()
 
+export {Calendar as GregorianCalendar}
 export default calendar
