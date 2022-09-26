@@ -19,7 +19,7 @@ const ListOfCards = () => {
     // todo: add page query
     const [cards, setCards] = useState({ results: [], total: 0 })
     const [page, setPage] = useState(0)
-    const { baseStore, cardStore } = useStore()
+    const { authStore, baseStore, cardStore } = useStore()
     const [currentOrganization, setCurrentOrganization] = useState<string | number>(DEFAULT_ORGANIZATION_FILTER_VALUE)
 
     useEffect(() => {
@@ -38,7 +38,8 @@ const ListOfCards = () => {
 
     return (
         <Container>
-            {(cardStore.userRole == USER_ROLES.admin || cardStore.userRole == USER_ROLES.editor) && (
+            {(authStore.currentUser?.userRole == USER_ROLES.admin ||
+                authStore.currentUser?.userRole == USER_ROLES.editor) && (
                 <Row xs={1} sm={3} md={4} lg={8} xl={10} className="mb-3">
                     <Form.Select onChange={(e) => setCurrentOrganization(e.target.value)} className="w-auto">
                         <option value={DEFAULT_ORGANIZATION_FILTER_VALUE}>
