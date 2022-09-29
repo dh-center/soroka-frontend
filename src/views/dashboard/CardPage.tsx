@@ -20,7 +20,6 @@ import CardPropertiesEditor from './CardPropertiesEditor'
 import { useQuery } from '../../utils/hooks'
 
 import { useStore } from '../../stores/rootStore'
-import { toJS } from 'mobx'
 
 const CardPage = observer(() => {
     const navigate = useNavigate()

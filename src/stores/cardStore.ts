@@ -1,4 +1,4 @@
-import { makeAutoObservable, runInAction, toJS } from 'mobx'
+import { makeAutoObservable, runInAction } from 'mobx'
 import { CardsAPI } from '../api/cards'
 import { USER_ROLES } from '../utils/constants'
 
