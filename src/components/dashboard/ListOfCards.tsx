@@ -19,7 +19,7 @@ const ListOfCards = () => {
     // todo: add page query
     const [cards, setCards] = useState({ results: [], total: 0 })
     const [page, setPage] = useState(0)
-    const { authStore, baseStore, cardStore } = useStore()
+    const { authStore, baseStore } = useStore()
     const [currentOrganization, setCurrentOrganization] = useState<string | number>(DEFAULT_ORGANIZATION_FILTER_VALUE)
 
     useEffect(() => {

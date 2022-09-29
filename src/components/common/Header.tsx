@@ -9,8 +9,6 @@ import { WUNDERKAMMER } from '../../utils/urls'
 
 import { useStore } from '../../stores/rootStore'
 
-import API from '../../api/config'
-
 const Header = observer(() => {
     const navigate = useNavigate()
     const { baseStore, authStore } = useStore()

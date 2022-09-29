@@ -3,7 +3,7 @@ import GregorianDate from 'ilib/lib/GregorianDate'
 // @ts-ignore
 import DateFmt from 'ilib/lib/DateFmt'
 import { CalendarGeneral } from './types'
- class Calendar implements CalendarGeneral {
+class Calendar implements CalendarGeneral {
     dateFormat = new DateFmt({ template: 'dd.MM.yyyy', timezone: 'GMT' })
 
     validate(dateString: string) {
@@ -49,5 +49,5 @@ import { CalendarGeneral } from './types'
 
 const calendar = new Calendar()
 
-export {Calendar as GregorianCalendar}
+export { Calendar as GregorianCalendar }
 export default calendar

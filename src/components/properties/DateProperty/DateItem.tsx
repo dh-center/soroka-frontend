@@ -47,24 +47,24 @@ const DateItem = ({
 }) => {
     const intl = useIntl()
 
-    const { calendar, jd: startDateJd, startContext, endJD, endContext = null } = value
+    const { calendar, startJD: startDateJd, startContext, endJD, endContext } = value
 
     const parser = CALENDARS[calendar]
+
+    const [dirty, setDirty] = useState({
+        start: parser.fromJD(startDateJd),
+        startContext,
+        end: parser.fromJD(endJD),
+        endContext,
+        calendar
+    })
+
     const placeholder = parser.getDateFormatPlaceholder()
 
     const [startError, setStartError] = useState('')
     const [endError, setEndError] = useState('')
-    const [dirty, setDirty] = useState({
-        start: parser.fromJD(startDateJd),
-        startContext,
 
-        end: parser.fromJD(endJD),
-        endContext,
-
-        calendar
-    })
-
-    const [isRange, setIsRange] = useState(false)
+    const [isRange, setIsRange] = useState(!!dirty.end)
 
     // using state to skip initial mount useEffect calls
     const [isMounted, setIsMounted] = useState(false)
@@ -76,7 +76,8 @@ const DateItem = ({
             return
         }
 
-        const { start, end, calendar } = dirty
+        const { start, end, calendar, startContext: startDateString, endContext: endDateString } = dirty
+
         const currentParser = CALENDARS[calendar]
 
         // validation
@@ -99,14 +100,28 @@ const DateItem = ({
 
         onChange(
             {
-                jd: newStartDate,
-                endJD: newEndDate,
+                startJD: newStartDate,
+                startContext: calendar === CALENDAR_STRING_ID ? startDateString : '',
+                endJD: isRange ? newEndDate : '',
+                endContext: calendar === CALENDAR_STRING_ID && isRange ? endDateString : '',
                 calendar
             },
             isValid,
             ''
         )
-    }, [dirty])
+    }, [dirty, isRange])
+
+    useEffect(() => {
+        if (calendar !== CALENDAR_STRING_ID) {
+            setDirty((prev) => {
+                return {
+                    ...prev,
+                    startContext: '',
+                    endContext: ''
+                }
+            })
+        }
+    }, [calendar])
 
     const onCalendarChange = (newCalendar: number) => {
         setDirty((prev) => ({ ...prev, calendar: newCalendar }))
@@ -117,11 +132,13 @@ const DateItem = ({
             <DateInputUpd
                 defaultValue={parser.fromJD(startDateJd)}
                 onChange={(newValue, newStringValue) => {
-                    setDirty((prev) => ({
-                        ...prev,
-                        start: newValue || '',
-                        startContext: newStringValue || ''
-                    }))
+                    setDirty((prev) => {
+                        return {
+                            ...prev,
+                            start: newValue || prev.start,
+                            startContext: newStringValue || prev.startContext
+                        }
+                    })
                 }}
                 errorMessage={startError}
                 placeholder={placeholder}
@@ -131,7 +148,7 @@ const DateItem = ({
                         : undefined
                 }
                 stringForm={calendar === CALENDAR_STRING_ID}
-                stringFormDefaultValue=""
+                stringFormDefaultValue={startContext}
             />
         ),
         [calendar, placeholder, parser, startDateJd, startError, setDirty]
@@ -140,18 +157,18 @@ const DateItem = ({
     const toInput = useMemo(
         () => (
             <DateInputUpd
-                defaultValue={parser.fromJD(startDateJd)}
+                defaultValue={parser.fromJD(endJD)}
                 onChange={(newValue, newStringValue) => {
                     setDirty((prev) => ({
                         ...prev,
-                        end: newValue || '',
-                        endContext: newStringValue || ''
+                        end: newValue || prev.end,
+                        endContext: newStringValue || prev.endContext
                     }))
                 }}
                 errorMessage={endError}
                 placeholder={placeholder}
                 stringForm={calendar === CALENDAR_STRING_ID}
-                stringFormDefaultValue=""
+                stringFormDefaultValue={endContext}
             />
         ),
         [calendar, placeholder, parser, startDateJd, endError, setDirty]
