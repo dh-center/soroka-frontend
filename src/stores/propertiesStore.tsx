@@ -41,11 +41,11 @@ type PropertyTemplate = {
 
 // todo: distribute into components and make necessary abstractions (all have showHelp/onChange/value)
 export type DateItemData = {
-    jd: number | null // startJD:
-    startContext?: string
+    startJD: number | null
+    startContext: string
     calendar: number
     endJD: number | null
-    endContext?: string
+    endContext: string
 }
 
 export type GeoPropertyProps = {
@@ -89,8 +89,26 @@ const TYPES: { [key: string]: any } = {
     },
     JULIAN_DATE: {
         renderForm: (props: DatePropertyProps) => <DateProperty {...props} />,
-        formatToApi: ({ value, calendar }: { value: number; calendar: number }) => [{ jd: value, calendar }],
-        defaultData: [{ jd: null, calendar: CALENDAR_GREGORIAN_ID }],
+        formatToApi: (value: DateItemData) => {
+            return [
+                {
+                    startJD: value.startJD,
+                    endJD: value.endJD,
+                    startContext: value.startContext,
+                    endContext: value.endContext,
+                    calendar: value.calendar
+                }
+            ]
+        },
+        defaultData: [
+            {
+                startJD: null,
+                endJD: null,
+                startContext: undefined,
+                endContext: undefined,
+                calendar: CALENDAR_GREGORIAN_ID
+            }
+        ],
         hasHelp: true
     },
     GEO_POINT: {
@@ -311,11 +329,11 @@ export default class PropertiesStore {
     }
 
     async getProperties() {
-        CardsAPI.getCardsProperties().then((backendData) => this.setPropertiesFromBackend(backendData.data))
+        await CardsAPI.getCardsProperties().then((backendData) => this.setPropertiesFromBackend(backendData.data))
     }
 
     async fetchTemplates() {
-        TemplatesAPI.getTemplates().then(({ data: backendData }) => this.setTemplatesFromBacked(backendData))
+        await TemplatesAPI.getTemplates().then(({ data: backendData }) => this.setTemplatesFromBacked(backendData))
     }
 
     setTemplatesFromBacked(backendData: PropertyTemplate[]) {

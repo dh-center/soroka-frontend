@@ -55,7 +55,6 @@ export default class CardStore {
 
             runInAction(() => {
                 this.userRole = userRole
-
                 if (this.userRole === USER_ROLES.admin && !this.cardInfo.id) {
                     this.organizationOption = organization
                     this.ownerOption = id

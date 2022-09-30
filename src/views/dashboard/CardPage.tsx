@@ -40,6 +40,7 @@ const CardPage = observer(() => {
             CardsAPI.getCardByid(id).then((res) => {
                 cardStore.setOriginNameOfCard(res.data.name)
                 cardStore.setCardInfo(res.data)
+                cardStore.setOrganiztionAndOwner()
             })
         }
         if (authStore.currentUser) {
