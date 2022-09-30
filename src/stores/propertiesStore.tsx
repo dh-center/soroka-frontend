@@ -329,11 +329,11 @@ export default class PropertiesStore {
     }
 
     async getProperties() {
-        CardsAPI.getCardsProperties().then((backendData) => this.setPropertiesFromBackend(backendData.data))
+        await CardsAPI.getCardsProperties().then((backendData) => this.setPropertiesFromBackend(backendData.data))
     }
 
     async fetchTemplates() {
-        TemplatesAPI.getTemplates().then(({ data: backendData }) => this.setTemplatesFromBacked(backendData))
+        await TemplatesAPI.getTemplates().then(({ data: backendData }) => this.setTemplatesFromBacked(backendData))
     }
 
     setTemplatesFromBacked(backendData: PropertyTemplate[]) {
