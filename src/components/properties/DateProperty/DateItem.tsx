@@ -111,20 +111,13 @@ const DateItem = ({
         )
     }, [dirty, isRange])
 
-    useEffect(() => {
-        if (calendar !== CALENDAR_STRING_ID) {
-            setDirty((prev) => {
-                return {
-                    ...prev,
-                    startContext: '',
-                    endContext: ''
-                }
-            })
-        }
-    }, [calendar])
-
     const onCalendarChange = (newCalendar: number) => {
-        setDirty((prev) => ({ ...prev, calendar: newCalendar }))
+        setDirty((prev) => {
+            if (newCalendar !== CALENDAR_STRING_ID) {
+                return { ...prev, startContext: '', endContext: '', calendar: newCalendar }
+            }
+            return { ...prev, calendar: newCalendar }
+        })
     }
 
     const fromInput = useMemo(

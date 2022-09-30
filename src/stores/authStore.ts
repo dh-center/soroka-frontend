@@ -37,7 +37,6 @@ export default class AuthStore {
     }
 
     setInivitationData(payload: User) {
-        console.log(payload, 'invalidation')
         this.invitationData = payload
     }
 
