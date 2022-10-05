@@ -8,6 +8,7 @@ import { TemplatesAPI } from '../api/templates'
 import { RichTextProperty } from '../components/properties/RichTextProperty'
 import { FormattedMessage } from 'react-intl'
 import { DatePropertyProps } from '../components/properties/DateProperty/DateProperty'
+import { RemirrorContentType } from 'remirror'
 
 export type Property = {
     propertyId: number
@@ -63,6 +64,12 @@ export type GeoPropertyProps = {
 }
 
 export type TextPropertyProps = {
+    value: { value: string }
+    showHelp: boolean
+    onChange: ({ value }: { value: string }) => void
+}
+
+export type RichTextPropertyProps = {
     value: string
     showHelp: boolean
     onChange: ({ value }: { value: string }) => void
@@ -77,13 +84,13 @@ export type MediaPropertyProps = {
 const TYPES: { [key: string]: any } = {
     TEXT: {
         renderForm: (props: TextPropertyProps) => <TextProperty {...props} />,
-        formatToApi: (value: string) => value,
+        formatToApi: ({ value }: { value: string }) => value,
         defaultData: '',
         hasHelp: false
     },
     RICH_TEXT: {
-        renderForm: (props: TextPropertyProps) => <RichTextProperty {...props} />,
-        formatToApi: (value: string) => value,
+        renderForm: (props: RichTextPropertyProps) => <RichTextProperty {...props} />,
+        formatToApi: ({ value }: { value: RichTextPropertyProps['value'] }) => value,
         defaultData: '',
         hasHelp: false
     },
