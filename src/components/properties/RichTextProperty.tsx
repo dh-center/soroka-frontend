@@ -15,8 +15,7 @@ import { prosemirrorNodeToHtml } from 'remirror'
 import { RemirrorEventListenerProps } from '@remirror/core'
 import { FloatingLinkToolbar } from '../common/FloatingLinkToolbar'
 import { useIntl } from 'react-intl'
-import { IntlError } from '@formatjs/intl'
-import { TextPropertyProps } from '../../stores/propertiesStore'
+import { RichTextPropertyProps } from '../../stores/propertiesStore'
 
 // TODO: Add button in toolbar
 const toolbarItems: ToolbarGroupItem[] = [
@@ -75,7 +74,7 @@ const toolbarItems: ToolbarGroupItem[] = [
     }
 ]
 
-export const RichTextProperty = ({ value, showHelp = false, onChange }: TextPropertyProps) => {
+export const RichTextProperty = ({ value, showHelp = false, onChange }: RichTextPropertyProps) => {
     const intl = useIntl()
     const linkExtension = useMemo(() => {
         const extension = new LinkExtension()

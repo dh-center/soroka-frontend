@@ -9,7 +9,7 @@ const TextProperty = ({ value, onChange }: TextPropertyProps) => {
             style={{ height: '84px' }}
             type="text"
             placeholder=""
-            defaultValue={value}
+            defaultValue={value.value}
             onChange={(event) => {
                 onChange({ value: event.target.value })
             }}
