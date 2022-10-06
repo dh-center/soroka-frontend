@@ -64,7 +64,7 @@ export type GeoPropertyProps = {
 }
 
 export type TextPropertyProps = {
-    value: { value: string }
+    value: string
     showHelp: boolean
     onChange: ({ value }: { value: string }) => void
 }
