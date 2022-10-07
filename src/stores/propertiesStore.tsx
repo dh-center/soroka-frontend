@@ -5,12 +5,12 @@ import CardsAPI from 'api/cards'
 import GeoProperty, { GeoPropertyProps } from 'components/properties/GeoProperty'
 import TextProperty, { TextPropertyProps } from 'components/properties/TextProperty'
 import DateProperty, { CALENDAR_GREGORIAN_ID } from 'components/properties/DateProperty'
-import MediaProperty from 'components/properties/MediaProperty/MediaProperty'
 // TODO: Dependency cycle
 import TemplatesAPI from 'api/templates'
 import RichTextProperty, { RichTextPropertyProps } from 'components/properties/RichTextProperty'
 import { DatePropertyProps } from 'components/properties/DateProperty/DateProperty'
 import { DateItemData } from 'components/properties/DateProperty/DateInput'
+import MeasurementsProperty from 'components/properties/MeasurementsProperty'
 
 export type Property = {
     propertyId: number
@@ -44,6 +44,22 @@ export type PropertyTemplate = {
 
 export type MediaPropertyProps = {
     value: any
+    showHelp: boolean
+    onChange: () => void
+}
+
+export type MeasurementsValue = {
+    form: 'cylinder' | 'cube' | 'sphere' | 'plane' | 'line'
+    unit: 'm' | 'sm' | 'mm'
+    w?: number
+    h?: number
+    l?: number
+    d?: number
+    note?: string
+}
+
+export type MeasurementsPropertyProps = {
+    value: MeasurementsValue
     showHelp: boolean
     onChange: () => void
 }
@@ -97,9 +113,23 @@ const TYPES: { [key: string]: any } = {
         defaultData: [{ location: { type: 'Point', coordinates: [] }, name: '' }],
         hasHelp: true
     },
+    // MEDIA: {
+    //     renderForm: (props: { showHelp: boolean }) => <MediaProperty{...props} />,
+    //     formatToApi: (value: string) => {
+    //         return value
+    //     },
+    //     defaultData: '',
+    //     hasHelp: true
+    // },
     MEDIA: {
-        renderForm: (props: { showHelp: boolean }) => <MediaProperty {...props} />,
-        formatToApi: (value: string) => value,
+        renderForm: (props: MeasurementsPropertyProps) => <MeasurementsProperty {...props} />,
+        formatToApi: (value: MeasurementsValue) => value,
+        defaultData: '',
+        hasHelp: true
+    },
+    MEASUREMENTS: {
+        renderForm: (props: MeasurementsPropertyProps) => <MeasurementsProperty {...props} />,
+        formatToApi: (value: MeasurementsValue) => value,
         defaultData: '',
         hasHelp: true
     }
@@ -129,6 +159,7 @@ const SOURCES_ID = 'sources'
 const STORAGE_ID = 'storage'
 const TAGS_ID = 'tags'
 const URL_ID = 'url'
+const MEASUREMENTS_ID = 'measurements'
 
 const PROPERTIES: { [key: string]: any } = {
     [ADDRESS_ID]: {
@@ -265,6 +296,12 @@ const PROPERTIES: { [key: string]: any } = {
     },
     [URL_ID]: {
         labelId: 'url',
+        renderAdd() {
+            return <FormattedMessage id={this.labelId} />
+        }
+    },
+    [MEASUREMENTS_ID]: {
+        labelId: 'measurements',
         renderAdd() {
             return <FormattedMessage id={this.labelId} />
         }
