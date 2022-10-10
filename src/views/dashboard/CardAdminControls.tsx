@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { Form } from 'react-bootstrap'
 import { FormattedMessage } from 'react-intl'
 import { observer } from 'mobx-react'
-import { organizationsAPI } from '../../api/organizations'
+import { organizationsAPI } from 'api/organizations'
 
-import { useStore } from '../../stores/rootStore'
+import { useStore } from 'stores/rootStore'
 
 type Owner = {
     name: string

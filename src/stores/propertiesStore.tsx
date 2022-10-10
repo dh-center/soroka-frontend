@@ -1,14 +1,13 @@
 import { makeAutoObservable } from 'mobx'
-import { CardsAPI } from '../api/cards'
-import GeoProperty from '../components/properties/GeoProperty'
-import TextProperty from '../components/properties/TextProperty'
-import DateProperty, { CALENDAR_GREGORIAN_ID } from '../components/properties/DateProperty'
-import MediaProperty from '../components/properties/MediaProperty/MediaProperty'
-import { TemplatesAPI } from '../api/templates'
-import { RichTextProperty } from '../components/properties/RichTextProperty'
+import { CardsAPI } from 'api/cards'
+import GeoProperty from 'components/properties/GeoProperty'
+import TextProperty from 'components/properties/TextProperty'
+import DateProperty, { CALENDAR_GREGORIAN_ID } from 'components/properties/DateProperty'
+import MediaProperty from 'components/properties/MediaProperty/MediaProperty'
+import { TemplatesAPI } from 'api/templates'
+import { RichTextProperty } from 'components/properties/RichTextProperty'
 import { FormattedMessage } from 'react-intl'
-import { DatePropertyProps } from '../components/properties/DateProperty/DateProperty'
-import { RemirrorContentType } from 'remirror'
+import { DatePropertyProps } from 'components/properties/DateProperty/DateProperty'
 
 export type Property = {
     propertyId: number

@@ -1,21 +1,21 @@
 import React, { useEffect } from 'react'
 import { Button, Col, Container, Row } from 'react-bootstrap'
 import { useNavigate, useParams } from 'react-router-dom'
-import { useStore } from '../../stores/rootStore'
+import { useStore } from 'stores/rootStore'
 import { observer } from 'mobx-react-lite'
-import Loader from '../../components/common/Loader'
+import Loader from 'components/common/Loader'
 import { FormattedMessage } from 'react-intl'
-import { USER_ROLES_DEFINITION } from '../../utils/constants'
+import { USER_ROLES_DEFINITION } from 'utils/constants'
 import {
     EXTERNAL_AGREEMENT,
     EXTERNAL_AGREEMENT_SIMPLE,
     getRegistrationByToken,
     LOGIN_ROUTE,
     DYNAMIC_TOKEN
-} from '../../utils/urls'
+} from 'utils/urls'
 import { useState } from 'react'
-import { Organization } from '../../stores/baseStore'
-import { User } from '../../stores/authStore'
+import { Organization } from 'stores/baseStore'
+import { User } from 'stores/authStore'
 
 type InviteFormProps = {
     name: string

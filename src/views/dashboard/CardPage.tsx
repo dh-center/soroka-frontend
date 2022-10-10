@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import './CardPage.css'
 import { Col, Container, Modal, Row } from 'react-bootstrap'
 import { useParams, useNavigate } from 'react-router-dom'
@@ -10,16 +10,16 @@ import {
     CARDS_CREATE_ROUTE,
     SEARCH_TEMPLATE,
     CARDS_TEMPLATES_ROUTE
-} from '../../utils/urls'
+} from 'utils/urls'
 import { FormattedMessage } from 'react-intl'
-import { CardsAPI } from '../../api/cards'
-import PageLayout from '../../components/common/PageLayout'
-import ModalDialog from '../../components/common/ModalDialog'
+import { CardsAPI } from 'api/cards'
+import PageLayout from 'components/common/PageLayout'
+import ModalDialog from 'components/common/ModalDialog'
 import CardControlPanel from './CardControlPanel'
 import CardPropertiesEditor from './CardPropertiesEditor'
-import { useQuery } from '../../utils/hooks'
+import { useQuery } from 'utils/hooks'
 
-import { useStore } from '../../stores/rootStore'
+import { useStore } from 'stores/rootStore'
 
 const CardPage = observer(() => {
     const navigate = useNavigate()

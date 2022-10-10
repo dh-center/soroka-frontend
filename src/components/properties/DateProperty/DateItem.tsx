@@ -1,13 +1,13 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Form } from 'react-bootstrap'
 import { FormattedMessage, useIntl } from 'react-intl'
-import { DateItemData } from '../../../stores/propertiesStore'
+import { DateItemData } from 'stores/propertiesStore'
 import RangeWrapper from './RangeWrapper'
 import DateInputUpd from './DateInput'
-import { CalendarGeneral } from '../../../utils/dates/types'
-import gregorianCalendar from '../../../utils/dates/gregorian'
-import julianCalendar from '../../../utils/dates/julian'
-import stringCalendar from '../../../utils/dates/string'
+import { CalendarGeneral } from 'utils/dates/types'
+import gregorianCalendar from 'utils/dates/gregorian'
+import julianCalendar from 'utils/dates/julian'
+import stringCalendar from 'utils/dates/string'
 
 export const CALENDAR_GREGORIAN_ID = 1
 const CALENDAR_JULIAN_ID = 2

@@ -13,9 +13,9 @@ import { useRemirror, ComponentItem, Remirror, ThemeProvider, Toolbar, ToolbarGr
 import { AllStyledComponent } from '@remirror/styles/emotion'
 import { prosemirrorNodeToHtml } from 'remirror'
 import { RemirrorEventListenerProps } from '@remirror/core'
-import { FloatingLinkToolbar } from '../common/FloatingLinkToolbar'
+import { FloatingLinkToolbar } from 'components/common/FloatingLinkToolbar'
 import { useIntl } from 'react-intl'
-import { RichTextPropertyProps } from '../../stores/propertiesStore'
+import { RichTextPropertyProps } from 'stores/propertiesStore'
 
 // TODO: Add button in toolbar
 const toolbarItems: ToolbarGroupItem[] = [

@@ -1,6 +1,6 @@
 /* Модуль API по запросам связанным с авторизацией */
 
-import { User } from '../stores/authStore'
+import { User } from 'stores/authStore'
 import API from './config'
 
 type RegisterData = {

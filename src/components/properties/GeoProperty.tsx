@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Map, Placemark, YMaps } from '@pbe/react-yandex-maps'
 import { Col, Form, Row } from 'react-bootstrap'
 import { FormattedMessage, useIntl } from 'react-intl'
-import { GeoPropertyProps } from '../../stores/propertiesStore'
+import { GeoPropertyProps } from 'stores/propertiesStore'
 
 export const FIELD_GEO = 'location'
 export const FIELD_GEO_NAME = 'location_name'

@@ -1,6 +1,6 @@
 import { makeAutoObservable } from 'mobx'
-import { organizationsAPI } from '../api/organizations'
-import { LOCALES } from '../lang/locales'
+import { organizationsAPI } from 'api/organizations'
+import { LOCALES } from 'lang/locales'
 
 export type Organization = {
     id: number

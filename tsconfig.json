@@ -1,5 +1,6 @@
 {
     "compilerOptions": {
+        "baseUrl": "src",
         "target": "es6", // signifies which target of JavaScript should be emitted from the given TypeScript
         "module": "esnext", // defines the type of code import in the resulting file
         "lib": ["dom", "dom.iterable", "esnext"], // a set of library files of polyphenols that will be included in the final output file

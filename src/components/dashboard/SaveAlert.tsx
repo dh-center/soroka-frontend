@@ -1,5 +1,4 @@
-import React from 'react'
-import '../../views/dashboard/dashboardGlobal.css'
+import 'views/dashboard/dashboardGlobal.css'
 import './SaveAlert.css'
 
 type SaveAlertPrtops = {

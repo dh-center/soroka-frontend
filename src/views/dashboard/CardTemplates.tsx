@@ -3,9 +3,9 @@ import React from 'react'
 import { Card, Col, Container, Row } from 'react-bootstrap'
 import { FormattedMessage, useIntl } from 'react-intl'
 import { useNavigate } from 'react-router-dom'
-import PageLayout from '../../components/common/PageLayout'
-import { CARDS_ROUTE, getCreateWithTemplateRoute } from '../../utils/urls'
-import { useStore } from '../../stores/rootStore'
+import PageLayout from 'components/common/PageLayout'
+import { CARDS_ROUTE, getCreateWithTemplateRoute } from 'utils/urls'
+import { useStore } from 'stores/rootStore'
 
 type TemplateProps = {
     id?: number

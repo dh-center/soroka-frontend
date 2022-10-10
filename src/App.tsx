@@ -1,18 +1,18 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
-import Header from './components/common/Header'
-import { LOGIN_ROUTE } from './utils/urls'
+import Header from 'components/common/Header'
+import { LOGIN_ROUTE } from 'utils/urls'
 import { IntlProvider } from 'react-intl'
-import { LOCALES } from './lang/locales'
-import { message } from './lang/message'
+import { LOCALES } from 'lang/locales'
+import { message } from 'lang/message'
 import { observer } from 'mobx-react'
 
-import routes from './utils/routes'
-import LoginLayout from './components/common/LoginLayout'
+import routes from 'utils/routes'
+import LoginLayout from 'components/common/LoginLayout'
 
 import { Provider } from 'mobx-react'
-import store, { useStore } from './stores/rootStore'
+import store, { useStore } from 'stores/rootStore'
 
 const App = observer(() => {
     const { authStore, baseStore, propertiesStore } = useStore()

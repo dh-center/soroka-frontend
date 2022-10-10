@@ -1,5 +1,5 @@
 import { FormattedMessage } from 'react-intl'
-import { DateItemData } from '../../../stores/propertiesStore'
+import { DateItemData } from 'stores/propertiesStore'
 import DateItem from './DateItem'
 
 export type DatePropertyProps = {

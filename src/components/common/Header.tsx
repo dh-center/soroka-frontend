@@ -1,13 +1,13 @@
 import React from 'react'
 import { Container, Navbar, Nav, NavDropdown } from 'react-bootstrap'
-import { LANGUAGES, USER_ROLES_DEFINITION } from '../../utils/constants'
+import { LANGUAGES, USER_ROLES_DEFINITION } from 'utils/constants'
 import { FormattedMessage } from 'react-intl'
 import { observer } from 'mobx-react'
 import { useNavigate } from 'react-router-dom'
 import { ConeStriped } from 'react-bootstrap-icons'
-import { WUNDERKAMMER } from '../../utils/urls'
+import { WUNDERKAMMER } from 'utils/urls'
 
-import { useStore } from '../../stores/rootStore'
+import { useStore } from 'stores/rootStore'
 
 const Header = observer(() => {
     const navigate = useNavigate()

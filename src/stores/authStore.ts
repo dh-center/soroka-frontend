@@ -1,5 +1,5 @@
 import { makeAutoObservable } from 'mobx'
-import { AuthAPI, LoginData, UserPasswordData } from '../api/auth'
+import { AuthAPI, LoginData, UserPasswordData } from 'api/auth'
 
 export type User = {
     id: number

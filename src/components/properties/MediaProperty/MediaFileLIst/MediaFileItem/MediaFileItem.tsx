@@ -1,5 +1,5 @@
 import React from 'react'
-import { getShortStringName } from '../../../../../utils/strings'
+import { getShortStringName } from 'utils/strings'
 import {
     Eye,
     EyeFill,
@@ -12,7 +12,7 @@ import {
 } from 'react-bootstrap-icons'
 import { FormattedMessage, useIntl } from 'react-intl'
 import Dropdown from 'react-bootstrap/Dropdown'
-import CustomToggle from '../../../../common/CustomToggle'
+import CustomToggle from 'components/common/CustomToggle'
 import Badge from 'react-bootstrap/Badge'
 import { Stack } from 'react-bootstrap'
 

@@ -1,5 +1,5 @@
 import { KeyboardEvent, ChangeEvent, useMemo } from 'react'
-import { useFloatingLinkState } from '../../utils/hooks'
+import { useFloatingLinkState } from 'utils/hooks'
 import { DelayAutoFocusInput } from './DelayAutoFocusInput'
 import {
     FloatingToolbar,

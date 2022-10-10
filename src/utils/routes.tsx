@@ -1,8 +1,7 @@
-import React from 'react'
-import Login from '../views/auth/Login'
-import Dashboard from '../views/dashboard/Dashboard'
-import Registration from '../views/auth/Registration'
-import CardPage from '../views/dashboard/CardPage'
+import Login from 'views/auth/Login'
+import Dashboard from 'views/dashboard/Dashboard'
+import Registration from 'views/auth/Registration'
+import CardPage from 'views/dashboard/CardPage'
 import {
     CARDS_ROUTE,
     CARD_BY_ID_ROUTE,
@@ -12,8 +11,8 @@ import {
     CARDS_CREATE_ROUTE,
     CARDS_TEMPLATES_ROUTE
 } from './urls'
-import CardTemplates from '../views/dashboard/CardTemplates'
-import InviteLink from '../views/auth/InviteLink'
+import CardTemplates from 'views/dashboard/CardTemplates'
+import InviteLink from 'views/auth/InviteLink'
 
 type Route = {
     path: string

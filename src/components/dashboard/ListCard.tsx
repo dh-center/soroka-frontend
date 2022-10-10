@@ -3,7 +3,7 @@ import { Badge, Card, Container } from 'react-bootstrap'
 import { CardImage } from 'react-bootstrap-icons'
 import { FormattedMessage } from 'react-intl'
 import { useNavigate } from 'react-router-dom'
-import { getCardById } from '../../utils/urls'
+import { getCardById } from 'utils/urls'
 
 type ListCardProps = {
     id: number

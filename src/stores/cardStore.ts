@@ -1,6 +1,6 @@
 import { makeAutoObservable, runInAction } from 'mobx'
-import { CardsAPI } from '../api/cards'
-import { USER_ROLES } from '../utils/constants'
+import { CardsAPI } from 'api/cards'
+import { USER_ROLES } from 'utils/constants'
 
 import { authStore, propertiesStore } from './rootStore'
 
