@@ -1,5 +1,4 @@
 import React from 'react'
-import { getShortStringName } from 'utils/strings'
 import {
     Eye,
     EyeFill,
@@ -10,11 +9,12 @@ import {
     Download,
     FileEarmark
 } from 'react-bootstrap-icons'
-import { FormattedMessage, useIntl } from 'react-intl'
-import Dropdown from 'react-bootstrap/Dropdown'
-import CustomToggle from 'components/common/CustomToggle'
 import Badge from 'react-bootstrap/Badge'
 import { Stack } from 'react-bootstrap'
+import { FormattedMessage, useIntl } from 'react-intl'
+import Dropdown from 'react-bootstrap/Dropdown'
+import { getShortStringName } from 'utils/strings'
+import CustomToggle from 'components/common/CustomToggle'
 
 const FileBadge = ({ messageId }: { messageId: string }) => (
     <Badge bg="light" text="dark">

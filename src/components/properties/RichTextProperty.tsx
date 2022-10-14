@@ -11,11 +11,15 @@ import {
 } from 'remirror/extensions'
 import { useRemirror, ComponentItem, Remirror, ThemeProvider, Toolbar, ToolbarGroupItem } from '@remirror/react'
 import { AllStyledComponent } from '@remirror/styles/emotion'
-import { prosemirrorNodeToHtml } from 'remirror'
-import { RemirrorEventListenerProps } from '@remirror/core'
-import { FloatingLinkToolbar } from 'components/common/FloatingLinkToolbar'
+import { prosemirrorNodeToHtml, RemirrorEventListenerProps } from 'remirror'
 import { useIntl } from 'react-intl'
-import { RichTextPropertyProps } from 'stores/propertiesStore'
+import FloatingLinkToolbar from 'components/common/FloatingLinkToolbar'
+
+export type RichTextPropertyProps = {
+    value: string
+    showHelp: boolean
+    onChange: ({ value }: { value: string }) => void
+}
 
 // TODO: Add button in toolbar
 const toolbarItems: ToolbarGroupItem[] = [
@@ -74,7 +78,7 @@ const toolbarItems: ToolbarGroupItem[] = [
     }
 ]
 
-export const RichTextProperty = ({ value, showHelp = false, onChange }: RichTextPropertyProps) => {
+const RichTextProperty = ({ value, showHelp = false, onChange }: RichTextPropertyProps) => {
     const intl = useIntl()
     const linkExtension = useMemo(() => {
         const extension = new LinkExtension()
@@ -124,3 +128,5 @@ export const RichTextProperty = ({ value, showHelp = false, onChange }: RichText
         </AllStyledComponent>
     )
 }
+
+export default RichTextProperty

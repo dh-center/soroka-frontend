@@ -3,6 +3,7 @@ import './CardPage.css'
 import { Col, Container, Modal, Row } from 'react-bootstrap'
 import { useParams, useNavigate } from 'react-router-dom'
 import { observer } from 'mobx-react'
+import { FormattedMessage } from 'react-intl'
 import {
     CARDS_ROUTE,
     getCardById,
@@ -11,15 +12,14 @@ import {
     SEARCH_TEMPLATE,
     CARDS_TEMPLATES_ROUTE
 } from 'utils/urls'
-import { FormattedMessage } from 'react-intl'
-import { CardsAPI } from 'api/cards'
+
+import CardsAPI from 'api/cards'
 import PageLayout from 'components/common/PageLayout'
 import ModalDialog from 'components/common/ModalDialog'
+import { useQuery } from 'utils/hooks'
+import { useStore } from 'stores/rootStore'
 import CardControlPanel from './CardControlPanel'
 import CardPropertiesEditor from './CardPropertiesEditor'
-import { useQuery } from 'utils/hooks'
-
-import { useStore } from 'stores/rootStore'
 
 const CardPage = observer(() => {
     const navigate = useNavigate()
@@ -33,7 +33,10 @@ const CardPage = observer(() => {
 
     useEffect(() => {
         // FIXME: there's an issue on first load — will be automatically fixed, after "App preloader" will be created, which will manage loading properties/user data etc before ui
-        !id && cardStore.fillWithTemplate(templateName)
+        if (!id) {
+            cardStore.fillWithTemplate(templateName)
+        }
+        // !id && cardStore.fillWithTemplate(templateName)
         if (id) {
             cardStore.getPropertiesFromCardById(id)
 
@@ -46,17 +49,13 @@ const CardPage = observer(() => {
         if (authStore.currentUser) {
             cardStore.setOrganiztionAndOwner()
         }
-    }, [id, authStore.currentUser])
+    }, [id, authStore.currentUser, cardStore, templateName])
 
-    const isCreateMode = location.href.includes(CARDS_CREATE_ROUTE)
+    const isCreateMode = window.location.href.includes(CARDS_CREATE_ROUTE)
 
     const pageTitle = isCreateMode ? <FormattedMessage id="newCard" /> : cardStore.nameOfCard
 
-    useEffect(() => {
-        return () => {
-            cardStore.reset()
-        }
-    }, [])
+    useEffect(() => () => cardStore.reset(), [cardStore])
 
     const getBackPath = () => (isCreateMode ? CARDS_TEMPLATES_ROUTE : CARDS_ROUTE)
 

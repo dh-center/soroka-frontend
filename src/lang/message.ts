@@ -1,8 +1,10 @@
-import { LOCALES } from './locales'
+import LOCALES from './locales'
 import Russian from './ru'
 import English from './en'
 
-export const message = {
+const message = {
     [LOCALES.RUSSIAN]: Russian,
     [LOCALES.ENGLISH]: English
 }
+
+export default message

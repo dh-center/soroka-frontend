@@ -1,7 +1,15 @@
 /* Модуль API по запросам связанным с авторизацией */
-
-import { User } from 'stores/authStore'
+// TODO: Dependency cycle
 import API from './config'
+
+export type User = {
+    id: number
+    name: string
+    email: string
+    hasAcceptTermsOfUse: boolean
+    organization: number
+    userRole: number
+}
 
 type RegisterData = {
     name: string

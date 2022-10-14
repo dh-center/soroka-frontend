@@ -2,7 +2,16 @@ import { Form, InputGroup, OverlayTrigger, Stack, Tooltip } from 'react-bootstra
 import { InfoCircle } from 'react-bootstrap-icons'
 import { FormattedMessage, useIntl } from 'react-intl'
 
-type DateInput = {
+// todo: distribute into components and make necessary abstractions (all have showHelp/onChange/value)
+export type DateItemData = {
+    startJD: number | null
+    startContext: string
+    calendar: number
+    endJD: number | null
+    endContext: string
+}
+
+type DateInputProps = {
     defaultValue: null | string
     onChange: (value: string | null, stringValue: string | null) => void
     errorMessage: string
@@ -20,7 +29,7 @@ const DateInput = ({
     stringForm,
     tooltip,
     stringFormDefaultValue
-}: DateInput) => {
+}: DateInputProps) => {
     const intl = useIntl()
 
     return (

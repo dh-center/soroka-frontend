@@ -17,5 +17,5 @@
         "resolveJsonModule": true, // allows importing modules with a ‘.json’ extension
         "isolatedModules": true // compile each file separately
     },
-    "include": ["src", "src/@types"]
+    "include": ["src", "src/@types", "./eslintrc.js"]
 }

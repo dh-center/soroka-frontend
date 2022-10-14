@@ -1,11 +1,15 @@
 import { observer } from 'mobx-react-lite'
-import React from 'react'
 import { Card, Col, Container, Row } from 'react-bootstrap'
 import { FormattedMessage, useIntl } from 'react-intl'
 import { useNavigate } from 'react-router-dom'
+
 import PageLayout from 'components/common/PageLayout'
+
 import { CARDS_ROUTE, getCreateWithTemplateRoute } from 'utils/urls'
+
 import { useStore } from 'stores/rootStore'
+
+import { PropertyTemplate } from 'stores/propertiesStore'
 
 type TemplateProps = {
     id?: number
@@ -26,7 +30,7 @@ const Template = ({
     const intl = useIntl()
     const propertiesString = propertiesList?.length
         ? propertiesList
-              .map(({ labelId }: { labelId: string }) => intl.formatMessage({ id: labelId }).toLocaleLowerCase())
+              .map(({ propId }: { propId: string }) => intl.formatMessage({ id: propId }).toLocaleLowerCase())
               .join(', ')
         : intl.formatMessage({ id: noPropertiesMessageId })
 
@@ -45,7 +49,7 @@ const Template = ({
 const CardTemplates = observer(() => {
     const navigate = useNavigate()
     const { propertiesStore } = useStore()
-    const { templates } = propertiesStore
+    const { templates }: { templates: PropertyTemplate[] } = propertiesStore
 
     const goBackHandler = () => {
         navigate(CARDS_ROUTE)

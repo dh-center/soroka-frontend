@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Button, Col, Container, Form, Modal, OverlayTrigger, Row, Tooltip } from 'react-bootstrap'
-import IconButton from 'components/common/IconButton'
 import { FormattedMessage, useIntl } from 'react-intl'
-import Property from 'components/dashboard/Property'
 import { observer } from 'mobx-react'
+import IconButton from 'components/common/IconButton'
+import Property from 'components/dashboard/Property'
 import { useStore } from 'stores/rootStore'
 import { Property as PropertyType } from 'stores/propertiesStore'
 
@@ -36,13 +36,13 @@ const AddPropertyButton = ({ everyPropertyAdded, onClick }: AddPropertyButtonPro
 const CardPropertiesEditor = observer(() => {
     const { propertiesStore, cardStore } = useStore()
 
-    const { properties } = propertiesStore
+    const { properties }: { properties: PropertyType[] } = propertiesStore
     const intl = useIntl()
     const placeholder = intl.formatMessage({ id: 'placeholderNewCard' })
 
     const [showAddingProp, setShowAddingProp] = useState(false)
 
-    const everyPropertyAdded = cardStore.observingArray.filter((el) => !el.hidden).length === properties.length
+    const everyPropertyAdded = cardStore.observingArray.filter((el: any) => !el.hidden).length === properties.length
 
     const handleAddNewProperties = (property: PropertyType) => {
         cardStore.addNewProperties(property.name)
@@ -78,15 +78,11 @@ const CardPropertiesEditor = observer(() => {
                             type="text"
                             placeholder={placeholder}
                             defaultValue={cardStore.nameOfCard}
-                            onChange={(event) => {
-                                cardStore.changeNameOfCard(event.target.value)
-                            }}
+                            onChange={(event) => cardStore.changeNameOfCard(event.target.value)}
                         />
                     </Col>
                 </Row>
-                {cardStore.observingArray.map((element, index) => {
-                    return renderProperty(element, index)
-                })}
+                {cardStore.observingArray.map((element: any, index: number) => renderProperty(element, index))}
                 <Row>
                     <Col>
                         <AddPropertyButton
@@ -108,8 +104,8 @@ const CardPropertiesEditor = observer(() => {
                     <Modal.Body>
                         {properties.map((el) => {
                             const cardHasProp = cardStore.observingArray
-                                .filter((prop) => !prop.hidden)
-                                .some((prop) => prop.propertyId === el.propertyId)
+                                .filter((prop: any) => !prop.hidden)
+                                .some((prop: any) => prop.propertyId === el.propertyId)
                             return (
                                 <Button
                                     key={el.name}

@@ -1,12 +1,10 @@
-import React from 'react'
 import { Container, Navbar, Nav, NavDropdown } from 'react-bootstrap'
-import { LANGUAGES, USER_ROLES_DEFINITION } from 'utils/constants'
 import { FormattedMessage } from 'react-intl'
 import { observer } from 'mobx-react'
 import { useNavigate } from 'react-router-dom'
 import { ConeStriped } from 'react-bootstrap-icons'
+import { LANGUAGES, USER_ROLES_DEFINITION } from 'utils/constants'
 import { WUNDERKAMMER } from 'utils/urls'
-
 import { useStore } from 'stores/rootStore'
 
 const Header = observer(() => {
@@ -42,16 +40,14 @@ const Header = observer(() => {
                         <Nav.Link href={WUNDERKAMMER}>Wunderkammer</Nav.Link>
 
                         <NavDropdown title={<FormattedMessage id="language" />} id="basic-nav-dropdown">
-                            {LANGUAGES.map(({ name, code }) => {
-                                return (
-                                    <NavDropdown.Item
-                                        disabled={baseStore.uiLang === code}
-                                        key={code}
-                                        onClick={() => baseStore.setUiLang(code)}>
-                                        {name}
-                                    </NavDropdown.Item>
-                                )
-                            })}
+                            {LANGUAGES.map(({ name, code }) => (
+                                <NavDropdown.Item
+                                    disabled={baseStore.uiLang === code}
+                                    key={code}
+                                    onClick={() => baseStore.setUiLang(code)}>
+                                    {name}
+                                </NavDropdown.Item>
+                            ))}
                         </NavDropdown>
                         {authStore.currentUser && (
                             <Nav.Link onClick={logout}>

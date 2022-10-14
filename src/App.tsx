@@ -1,17 +1,14 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import { Provider, observer } from 'mobx-react'
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
+import { IntlProvider } from 'react-intl'
 import Header from 'components/common/Header'
 import { LOGIN_ROUTE } from 'utils/urls'
-import { IntlProvider } from 'react-intl'
-import { LOCALES } from 'lang/locales'
-import { message } from 'lang/message'
-import { observer } from 'mobx-react'
-
+import LOCALES from 'lang/locales'
+import message from 'lang/message'
 import routes from 'utils/routes'
 import LoginLayout from 'components/common/LoginLayout'
-
-import { Provider } from 'mobx-react'
 import store, { useStore } from 'stores/rootStore'
 
 const App = observer(() => {
@@ -20,7 +17,7 @@ const App = observer(() => {
 
     useEffect(() => {
         async function checkCurrentUserTokens() {
-            if (Boolean(authStore.currentUser ?? authStore.accessToken ?? authStore.refreshToken)) {
+            if (authStore.currentUser ?? authStore.accessToken ?? authStore.refreshToken) {
                 // todo: we need basic preloader for common app needs — templates, properties etc
                 await authStore.getUserProfile()
                 await propertiesStore.getProperties()
@@ -33,13 +30,13 @@ const App = observer(() => {
 
         baseStore.getOrganizations()
         checkCurrentUserTokens()
-    }, [authStore.accessToken, authStore.refreshToken])
+    }, [authStore.accessToken, authStore.refreshToken, authStore, baseStore, propertiesStore])
 
     const preparedRoutes = useMemo(
         () =>
             routes.map(({ path, onlyWithToken = false, onlyWithoutToken = false, renderElement }) => {
-                const accessToken = authStore.accessToken
-                const refreshToken = authStore.refreshToken
+                const { accessToken } = authStore
+                const { refreshToken } = authStore
                 const tokenIsThere = accessToken && refreshToken
 
                 let element: React.ReactElement
@@ -53,7 +50,7 @@ const App = observer(() => {
 
                 return <Route key={path} path={path} element={element} />
             }),
-        [authStore.refreshToken, authStore.accessToken, routes]
+        [authStore.refreshToken, authStore.accessToken, routes, authStore]
     )
 
     return (

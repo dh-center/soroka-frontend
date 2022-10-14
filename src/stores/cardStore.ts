@@ -1,7 +1,8 @@
 import { makeAutoObservable, runInAction } from 'mobx'
-import { CardsAPI } from 'api/cards'
+// TODO: Dependency cycle
+import CardsAPI from 'api/cards'
 import { USER_ROLES } from 'utils/constants'
-
+// TODO: Dependency cycle
 import { authStore, propertiesStore } from './rootStore'
 
 type CardInfo = {
@@ -22,11 +23,16 @@ export default class CardStore {
     preventDelete = false
 
     organizationOption?: number
+
     ownerOption?: number
 
     userRole = 2
+
     cardInfo: CardInfo = {} as CardInfo
+
     nameOfCard = ''
+
+    hasEmptyProperties = false
 
     constructor() {
         makeAutoObservable(this)
@@ -43,6 +49,7 @@ export default class CardStore {
         this.userRole = 2
         this.cardInfo = {} as CardInfo
         this.nameOfCard = ''
+        this.hasEmptyProperties = false
     }
 
     setChanged(boolean: boolean) {
@@ -95,12 +102,12 @@ export default class CardStore {
     }
 
     setOrganizationOption(value: string) {
-        this.organizationOption = !!Number(value) ? +value : undefined
+        this.organizationOption = Number(value) ? +value : undefined
         this.setChanged(true)
     }
 
     setOwnerOption(value: string) {
-        this.ownerOption = !!Number(value) ? +value : undefined
+        this.ownerOption = Number(value) ? +value : undefined
         this.setChanged(true)
     }
 
@@ -124,14 +131,14 @@ export default class CardStore {
     }
 
     setObservingArrayFromBackend(backendData: any) {
-        this.observingArray = backendData.data.map((el: any) => {
-            return { ...el, data: JSON.parse(el.data), validation: true }
-        })
+        this.observingArray = backendData.data.map((el: any) => ({
+            ...el,
+            data: JSON.parse(el.data),
+            validation: true
+        }))
     }
 
-    getApiValuesForProperty({ id, propertyId, data }: any) {
-        return { id, propertyId, data }
-    }
+    static getApiValuesForProperty = ({ id, propertyId, data }: any) => ({ id, propertyId, data })
 
     async saveProperties() {
         const cardData = {
@@ -162,14 +169,14 @@ export default class CardStore {
             })
         }
 
-        for (const prop of createdProperties) {
-            await CardsAPI.createFilledPropertiesByCardId(this.cardInfo.id, this.getApiValuesForProperty(prop))
-        }
+        createdProperties.forEach((prop) => {
+            CardsAPI.createFilledPropertiesByCardId(this.cardInfo.id, CardStore.getApiValuesForProperty(prop))
+        })
 
         if (updatedProperties.length) {
             await CardsAPI.updateProperties({
-                properties: updatedProperties.map(this.getApiValuesForProperty)
-            }).catch((e) => console.log(e))
+                properties: updatedProperties.map(CardStore.getApiValuesForProperty)
+            }).catch((e) => console.error(e))
         }
 
         runInAction(() => {
@@ -181,12 +188,14 @@ export default class CardStore {
     }
 
     deletePropertyLocal(element: any) {
+        let resEl
         this.observingArray = this.observingArray.map((el) => {
-            if (el.propertyId === element.propertyId) {
-                el.hidden = true
+            resEl = el
+            if (resEl.propertyId === element.propertyId) {
+                resEl.hidden = true
             }
 
-            return el
+            return resEl
         })
 
         this.setChanged(true)

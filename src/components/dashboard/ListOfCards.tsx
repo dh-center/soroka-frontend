@@ -1,16 +1,15 @@
 import { useEffect, useState } from 'react'
 import { Col, Container, Form, Row } from 'react-bootstrap'
-import { useIntl } from 'react-intl'
-import { CardsAPI } from 'api/cards'
-import PaginationButtons from 'components/common/PaginationButtons'
-import ListCard from './ListCard'
+import { useIntl, FormattedMessage } from 'react-intl'
+import { useNavigate } from 'react-router-dom'
+import { Plus } from 'react-bootstrap-icons'
+import CardsAPI from 'api/cards'
 import { useStore } from 'stores/rootStore'
 import FloatingActionButton from 'components/common/FloatingActionButton/FloatingActionButton'
-import { Plus } from 'react-bootstrap-icons'
-import { CARDS_CREATE_ROUTE, CARDS_TEMPLATES_ROUTE } from 'utils/urls'
-import { useNavigate } from 'react-router-dom'
-import { FormattedMessage } from 'react-intl'
-import { DEFAULT_ORGANIZATION_FILTER_VALUE, USER_ROLES } from 'utils/constants'
+import PaginationButtons from '../common/PaginationButtons'
+import ListCard from './ListCard'
+import { CARDS_CREATE_ROUTE, CARDS_TEMPLATES_ROUTE } from '../../utils/urls'
+import { DEFAULT_ORGANIZATION_FILTER_VALUE, USER_ROLES } from '../../utils/constants'
 
 const PAGE_SIZE = 6 * 4
 
@@ -38,8 +37,8 @@ const ListOfCards = () => {
 
     return (
         <Container>
-            {(authStore.currentUser?.userRole == USER_ROLES.admin ||
-                authStore.currentUser?.userRole == USER_ROLES.editor) && (
+            {(authStore.currentUser?.userRole === USER_ROLES.admin ||
+                authStore.currentUser?.userRole === USER_ROLES.editor) && (
                 <Row xs={1} sm={3} md={4} lg={8} xl={10} className="mb-3">
                     <Form.Select onChange={(e) => setCurrentOrganization(e.target.value)} className="w-auto">
                         <option value={DEFAULT_ORGANIZATION_FILTER_VALUE}>
