@@ -1,6 +1,6 @@
 import React from 'react'
 import { Form } from 'react-bootstrap'
-import { TextPropertyProps } from '../../stores/propertiesStore'
+import { TextPropertyProps } from 'stores/propertiesStore'
 
 const TextProperty = ({ value, onChange }: TextPropertyProps) => {
     return (

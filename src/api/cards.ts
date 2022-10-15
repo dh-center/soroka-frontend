@@ -1,6 +1,6 @@
 /* Модуль API по запросам к карточкам */
 
-import { DEFAULT_ORGANIZATION_FILTER_VALUE } from '../utils/constants'
+import { DEFAULT_ORGANIZATION_FILTER_VALUE } from 'utils/constants'
 import API from './config'
 
 export const CardsAPI = {

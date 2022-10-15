@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { Button, Col, Container, Form, Modal, OverlayTrigger, Row, Tooltip } from 'react-bootstrap'
-import IconButton from '../../components/common/IconButton'
+import IconButton from 'components/common/IconButton'
 import { FormattedMessage, useIntl } from 'react-intl'
-import Property from '../../components/dashboard/Property'
+import Property from 'components/dashboard/Property'
 import { observer } from 'mobx-react'
-import { useStore } from '../../stores/rootStore'
-import { Property as PropertyType } from '../../stores/propertiesStore'
+import { useStore } from 'stores/rootStore'
+import { Property as PropertyType } from 'stores/propertiesStore'
 
 type AddPropertyButtonProps = {
     onClick: () => void

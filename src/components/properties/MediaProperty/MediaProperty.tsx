@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react'
-import IconButton from '../../common/IconButton'
+import IconButton from 'components/common/IconButton'
 import { Eye, Star } from 'react-bootstrap-icons'
 import MediaFileList from './MediaFileLIst/MediaFileList'
 import { FormattedMessage } from 'react-intl'

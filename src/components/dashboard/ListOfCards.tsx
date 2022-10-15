@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react'
 import { Col, Container, Form, Row } from 'react-bootstrap'
 import { useIntl } from 'react-intl'
-import { CardsAPI } from '../../api/cards'
-import PaginationButtons from '../common/PaginationButtons'
+import { CardsAPI } from 'api/cards'
+import PaginationButtons from 'components/common/PaginationButtons'
 import ListCard from './ListCard'
-import { useStore } from '../../stores/rootStore'
-import FloatingActionButton from '../common/FloatingActionButton/FloatingActionButton'
+import { useStore } from 'stores/rootStore'
+import FloatingActionButton from 'components/common/FloatingActionButton/FloatingActionButton'
 import { Plus } from 'react-bootstrap-icons'
-import { CARDS_CREATE_ROUTE, CARDS_TEMPLATES_ROUTE } from '../../utils/urls'
+import { CARDS_CREATE_ROUTE, CARDS_TEMPLATES_ROUTE } from 'utils/urls'
 import { useNavigate } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
-import { DEFAULT_ORGANIZATION_FILTER_VALUE, USER_ROLES } from '../../utils/constants'
+import { DEFAULT_ORGANIZATION_FILTER_VALUE, USER_ROLES } from 'utils/constants'
 
 const PAGE_SIZE = 6 * 4
 

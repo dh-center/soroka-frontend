@@ -1,10 +1,9 @@
-import React from 'react'
 import { Alert, Button, Form } from 'react-bootstrap'
 import { FormattedMessage } from 'react-intl'
-import { USER_ROLES } from '../../utils/constants'
+import { USER_ROLES } from 'utils/constants'
 import CardAdminControls from './CardAdminControls'
 import { observer } from 'mobx-react'
-import { useStore } from '../../stores/rootStore'
+import { useStore } from 'stores/rootStore'
 
 type CardControlPanel = {
     handleSave: () => void
