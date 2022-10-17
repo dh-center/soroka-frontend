@@ -335,7 +335,8 @@ export default class PropertiesStore {
         const property = this.getPropertyByName(propertyName)
         const dataTypeName = property?.dataType.name
         if (!dataTypeName) {
-            return console.error('Type not found')
+            console.error('Type not found')
+            return undefined
         }
         return TYPES[dataTypeName]
     }
