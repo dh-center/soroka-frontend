@@ -30,7 +30,9 @@ const Template = ({
     const intl = useIntl()
     const propertiesString = propertiesList?.length
         ? propertiesList
-              .map(({ propId }: { propId: string }) => intl.formatMessage({ id: propId }).toLocaleLowerCase())
+              .map(({ labelId: propertyLabelId }: { labelId: string }) =>
+                  intl.formatMessage({ id: propertyLabelId }).toLocaleLowerCase()
+              )
               .join(', ')
         : intl.formatMessage({ id: noPropertiesMessageId })
 
