@@ -51,7 +51,7 @@ const Property = observer(({ element, index }: PropertyProps) => {
         (value: any, validation = true) => {
             cardStore.changeValue(index, typeDefinition.formatToApi(value), validation)
         },
-        [index, cardStore]
+        [index, cardStore, typeDefinition]
     )
 
     const form = useMemo(
@@ -61,7 +61,7 @@ const Property = observer(({ element, index }: PropertyProps) => {
                 onChange,
                 showHelp: helpButtonPressed
             }),
-        [helpButtonPressed, cardStore.observingArray[index]?.data, onChange]
+        [helpButtonPressed, cardStore.observingArray, onChange, index, renderForm]
     )
 
     return (

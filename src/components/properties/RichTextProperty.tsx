@@ -78,7 +78,7 @@ const toolbarItems: ToolbarGroupItem[] = [
     }
 ]
 
-const RichTextProperty = ({ value, showHelp = false, onChange }: RichTextPropertyProps) => {
+const RichTextProperty = ({ value, onChange }: RichTextPropertyProps) => {
     const intl = useIntl()
     const linkExtension = useMemo(() => {
         const extension = new LinkExtension()

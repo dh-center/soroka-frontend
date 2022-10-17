@@ -28,7 +28,7 @@ const ListOfCards = () => {
     useEffect(() => {
         CardsAPI.getCardsByParameters(currentOrganization, page * PAGE_SIZE, PAGE_SIZE)
             .then((res) => setCards(res.data))
-            .catch((error) => console.log(error))
+            .catch((error) => console.error(error))
     }, [currentOrganization, page])
 
     const intl = useIntl()

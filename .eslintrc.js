@@ -35,6 +35,8 @@ module.exports = {
         'react-hooks/exhaustive-deps': 'warn',
         'import/no-unresolved': 'error',
         'class-methods-use-this': 'off',
-        'import/no-cycle': 'off'
+        'import/no-cycle': 'off',
+        '@typescript-eslint/no-explicit-any': 'off', // TODO: switch rule on
+        'no-console': ['error', { allow: ['warn', 'error'] }]
     }
 }

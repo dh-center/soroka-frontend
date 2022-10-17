@@ -88,7 +88,7 @@ const GeoProperty = ({ showHelp = false, value, onChange }: GeoPropertyProps) =>
         if (nameChanged || coordsChanged) {
             onChange({ coordinates, name }, isInputValid)
         }
-    }, [name, coordinates])
+    }, [name, coordinates, isInputValid, onChange, value])
 
     return (
         <>

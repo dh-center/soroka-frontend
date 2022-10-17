@@ -102,7 +102,7 @@ const DateItem = ({
             isValid,
             ''
         )
-    }, [dirty, isRange])
+    }, [dirty, isRange, isMounted, onChange])
 
     const onCalendarChange = (newCalendar: number) => {
         setDirty((prev) => {
@@ -135,7 +135,7 @@ const DateItem = ({
                 stringFormDefaultValue={startContext}
             />
         ),
-        [calendar, placeholder, parser, startDateJd, startError, setDirty]
+        [calendar, placeholder, parser, startDateJd, startError, setDirty, intl, startContext]
     )
 
     const toInput = useMemo(
@@ -155,7 +155,7 @@ const DateItem = ({
                 stringFormDefaultValue={endContext}
             />
         ),
-        [calendar, placeholder, parser, startDateJd, endError, setDirty]
+        [calendar, placeholder, parser, endError, setDirty, endContext, endJD]
     )
     return (
         <>

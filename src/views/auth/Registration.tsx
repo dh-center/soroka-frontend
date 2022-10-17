@@ -64,7 +64,7 @@ const Registration = observer(() => {
                 navigate(getInvitationByToken(token))
             }
         }
-    }, [])
+    }, [authStore, navigate, token])
 
     return (
         <LoginLayout headerMessageId="registrationByInvitation" isLoading={isLoadingPage}>

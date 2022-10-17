@@ -6,7 +6,7 @@ import './FloatingActionbutton.css'
 type FloatingActionButtonProps = {
     children?: React.ReactNode
     className?: string
-    onClick?: ({ altKey }: { altKey?: any }) => void
+    onClick?: ({ altKey }: { altKey?: boolean }) => void
 }
 
 const FloatingActionButton = ({ children, className, onClick }: FloatingActionButtonProps) => (

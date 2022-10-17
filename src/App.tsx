@@ -30,14 +30,12 @@ const App = observer(() => {
 
         baseStore.getOrganizations()
         checkCurrentUserTokens()
-    }, [authStore.accessToken, authStore.refreshToken, authStore, baseStore, propertiesStore])
+    }, [authStore, authStore.accessToken, authStore.refreshToken, baseStore, propertiesStore])
 
     const preparedRoutes = useMemo(
         () =>
             routes.map(({ path, onlyWithToken = false, onlyWithoutToken = false, renderElement }) => {
-                const { accessToken } = authStore
-                const { refreshToken } = authStore
-                const tokenIsThere = accessToken && refreshToken
+                const tokenIsThere = authStore.accessToken && authStore.refreshToken
 
                 let element: React.ReactElement
                 if (!tokenIsThere && onlyWithToken) {
@@ -50,7 +48,7 @@ const App = observer(() => {
 
                 return <Route key={path} path={path} element={element} />
             }),
-        [authStore.refreshToken, authStore.accessToken, routes, authStore]
+        [authStore.refreshToken, authStore.accessToken]
     )
 
     return (
