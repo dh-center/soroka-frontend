@@ -38,5 +38,15 @@ module.exports = {
         'import/no-cycle': 'off',
         '@typescript-eslint/no-explicit-any': 'off', // TODO: switch rule on
         'no-console': ['error', { allow: ['warn', 'error'] }]
+    },
+    settings: {
+        'import/resolver': {
+            node: {
+                moduleDirectory: ['node_modules', 'src/']
+            }
+        },
+        react: {
+            version: 'detect'
+        }
     }
 }
