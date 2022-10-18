@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { Form, InputGroup } from 'react-bootstrap'
 import { useIntl } from 'react-intl'
 import { Measurement } from './MeasurementsProperty'

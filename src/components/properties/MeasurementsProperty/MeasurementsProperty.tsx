@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Form, ToggleButton, ToggleButtonGroup } from 'react-bootstrap'
 import { useIntl } from 'react-intl'
 import { MeasurementsPropertyProps } from '../../../stores/propertiesStore'
@@ -59,6 +59,9 @@ const checkMeasurementOfForm = (stateKey: string, form: MeasurementsValue['form'
     !!measurements.find(({ key }) => key === stateKey)?.forms.includes(form)
 
 const MeasurementsProperty = (props: MeasurementsPropertyProps) => {
+    // eslint-disable-next-line
+    console.log('should init from:', props)
+
     const [state, setState] = useState<MeasurementsValue>({
         form: 'plane',
         unit: 'cm'
@@ -69,21 +72,22 @@ const MeasurementsProperty = (props: MeasurementsPropertyProps) => {
     const handleValueChange = (key: keyof MeasurementsValue, value: string | number | undefined) => {
         setState((prev) => {
             const newState = { ...prev, [key]: value }
+            // eslint-disable-next-line
             console.log('current state is', newState)
 
             // this is value without all measurements, only current form ones
             const clearState = Object.entries(newState).reduce((acc, current) => {
-                const [stateKey, value] = current
+                const [stateKey, keyValue] = current
 
                 // if that is optional measurement key, for example d_iameter
                 if (MEASUREMENTS_KEYS.find((k) => k === stateKey)) {
                     const isMeasurementAppliedOnForm = checkMeasurementOfForm(stateKey, newState.form)
 
-                    return isMeasurementAppliedOnForm ? { ...acc, [stateKey]: value } : acc
-                } else {
-                    return { ...acc, [stateKey]: value }
+                    return isMeasurementAppliedOnForm ? { ...acc, [stateKey]: keyValue } : acc
                 }
+                return { ...acc, [stateKey]: keyValue }
             }, {} as MeasurementsValue)
+            // eslint-disable-next-line
             console.log('value for backend is', clearState)
 
             return newState
