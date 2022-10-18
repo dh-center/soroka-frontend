@@ -169,9 +169,11 @@ export default class CardStore {
             })
         }
 
-        createdProperties.forEach((prop) => {
+        const propertiesRequests = createdProperties.map((prop) =>
             CardsAPI.createFilledPropertiesByCardId(this.cardInfo.id, CardStore.getApiValuesForProperty(prop))
-        })
+        )
+
+        await Promise.allSettled(propertiesRequests)
 
         if (updatedProperties.length) {
             await CardsAPI.updateProperties({

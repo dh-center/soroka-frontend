@@ -40,7 +40,9 @@ const CardsAPI = {
          * @param {string} data.data
          */
 
-        return API.post(`/cards/filled-properties/${cardId}`, data)
+        const res = API.post(`/cards/filled-properties/${cardId}`, data)
+
+        return res
     },
 
     async deleteFilledPropertiesByCardId(cardId: number, data: any) {

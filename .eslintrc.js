@@ -36,6 +36,7 @@ module.exports = {
         'import/no-unresolved': 'error',
         'class-methods-use-this': 'off',
         'import/no-cycle': 'off',
+        'no-await-in-loop': 'error',
         '@typescript-eslint/no-explicit-any': 'off', // TODO: switch rule on
         'no-console': ['error', { allow: ['warn', 'error'] }]
     },

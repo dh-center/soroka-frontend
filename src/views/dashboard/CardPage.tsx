@@ -36,7 +36,6 @@ const CardPage = observer(() => {
         if (!id) {
             cardStore.fillWithTemplate(templateName)
         }
-        // !id && cardStore.fillWithTemplate(templateName)
         if (id) {
             cardStore.getPropertiesFromCardById(id)
 
