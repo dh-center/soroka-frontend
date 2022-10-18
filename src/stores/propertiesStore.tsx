@@ -10,7 +10,9 @@ import TemplatesAPI from 'api/templates'
 import RichTextProperty, { RichTextPropertyProps } from 'components/properties/RichTextProperty'
 import { DatePropertyProps } from 'components/properties/DateProperty/DateProperty'
 import { DateItemData } from 'components/properties/DateProperty/DateInput'
-import MeasurementsProperty from 'components/properties/MeasurementsProperty'
+import MeasurementsProperty, {
+    MeasurementsValue
+} from 'components/properties/MeasurementsProperty/MeasurementsProperty'
 
 export type Property = {
     propertyId: number
@@ -46,16 +48,6 @@ export type MediaPropertyProps = {
     value: any
     showHelp: boolean
     onChange: () => void
-}
-
-export type MeasurementsValue = {
-    form: 'cylinder' | 'cube' | 'sphere' | 'plane' | 'line'
-    unit: 'm' | 'sm' | 'mm'
-    w?: number
-    h?: number
-    l?: number
-    d?: number
-    note?: string
 }
 
 export type MeasurementsPropertyProps = {

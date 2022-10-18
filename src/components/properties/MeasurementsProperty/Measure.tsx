@@ -12,14 +12,14 @@ type MeasureProps = {
 const Measure = ({ measure, onChange, value }: MeasureProps) => {
     const intl = useIntl()
     return (
-        <InputGroup key={measure.placeholderMessageId} className="d-inline-flex w-30">
+        <InputGroup key={measure.placeholderMessageId} className="d-inline-flex" style={{ maxWidth: '33%' }}>
             <InputGroup.Text id="WidthControl">
                 {intl.formatMessage({ id: measure.smallCaptionMessageId })}
             </InputGroup.Text>
             <Form.Control
                 placeholder={intl.formatMessage({ id: measure.placeholderMessageId })}
                 type="number"
-                value={value}
+                defaultValue={value}
                 aria-label="Width"
                 aria-describedby="WidthControl"
                 onChange={(e) => {

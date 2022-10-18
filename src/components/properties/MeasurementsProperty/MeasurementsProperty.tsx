@@ -1,37 +1,44 @@
 import { useEffect, useState } from 'react'
 import { Form, ToggleButton, ToggleButtonGroup } from 'react-bootstrap'
 import { useIntl } from 'react-intl'
-import { MeasurementsPropertyProps, MeasurementsValue } from '../../../stores/propertiesStore'
-import Plane from '../../../assets/images/Plane.svg'
-import Line from '../../../assets/images/Line.svg'
-import Sphere from '../../../assets/images/Sphere.svg'
-import Cylinder from '../../../assets/images/Cylinder.svg'
-import Cube from '../../../assets/images/Cube.svg'
+import { MeasurementsPropertyProps } from '../../../stores/propertiesStore'
+import { ReactComponent as Plane } from '../../../assets/images/Plane.svg'
+import { ReactComponent as Line } from '../../../assets/images/Line.svg'
+import { ReactComponent as Sphere } from '../../../assets/images/Sphere.svg'
+import { ReactComponent as Cylinder } from '../../../assets/images/Cylinder.svg'
+import { ReactComponent as Cube } from '../../../assets/images/Cube.svg'
 import Measure from './Measure'
 
-const UNITS = ['mm', 'sm', 'm']
+const UNITS = ['mm', 'cm', 'm'] as const
 
 const FORMS = {
-    cylinder: { messageId: 'cylinder', image: Cylinder },
-    cube: { messageId: 'cube', image: Cube },
-    sphere: { messageId: 'sphere', image: Sphere },
-    plane: { messageId: 'plane', image: Plane },
-    line: { messageId: 'line', image: Line }
+    line: { messageId: 'lineTooltip', image: <Line /> },
+    plane: { messageId: 'planeTooltip', image: <Plane /> },
+    cube: { messageId: 'cubeTooltip', image: <Cube /> },
+    cylinder: { messageId: 'cylinderTooltip', image: <Cylinder /> },
+    sphere: { messageId: 'sphereTooltip', image: <Sphere /> }
 }
 
-type UnitsValue = {
-    [index: string]: number | undefined
-}
+const MEASUREMENTS_KEYS = ['w', 'h', 'l', 'd'] as const
 
 export type Measurement = {
     placeholderMessageId: string
     smallCaptionMessageId: string
-    key: string
+    key: typeof MEASUREMENTS_KEYS[number]
     forms: (keyof typeof FORMS)[]
 }
 
+export type MeasurementsValue = {
+    form: keyof typeof FORMS
+    unit: typeof UNITS[number]
+    w?: number
+    h?: number
+    l?: number
+    d?: number
+    note?: string
+}
+
 const measurements: Measurement[] = [
-    { placeholderMessageId: 'length', smallCaptionMessageId: 'l', key: 'l', forms: ['line', 'cube'] },
     { placeholderMessageId: 'width', smallCaptionMessageId: 'w', key: 'w', forms: ['plane', 'cube'] },
     {
         placeholderMessageId: 'height',
@@ -39,6 +46,7 @@ const measurements: Measurement[] = [
         key: 'h',
         forms: ['plane', 'cube', 'cylinder']
     },
+    { placeholderMessageId: 'length', smallCaptionMessageId: 'l', key: 'l', forms: ['line', 'cube'] },
     {
         placeholderMessageId: 'diameter',
         smallCaptionMessageId: 'd',
@@ -47,84 +55,94 @@ const measurements: Measurement[] = [
     }
 ]
 
-const checkMeasurementOfForm = (measure: string, form: string) =>
-    measurements.find((item) => item.key === measure)?.forms.includes(form as MeasurementsValue['form'])
+const checkMeasurementOfForm = (stateKey: string, form: MeasurementsValue['form']) =>
+    !!measurements.find(({ key }) => key === stateKey)?.forms.includes(form)
 
 const MeasurementsProperty = (props: MeasurementsPropertyProps) => {
-    const [measurementsValue, setMeasurementsValue] = useState<UnitsValue>({
-        w: undefined,
-        h: undefined,
-        l: undefined,
-        d: undefined
+    const [state, setState] = useState<MeasurementsValue>({
+        form: 'plane',
+        unit: 'cm'
     })
-    const [currentForm, setCurrentForm] = useState<MeasurementsValue['form']>('cylinder')
-    const [currentUnit, setCurrentUnit] = useState<MeasurementsValue['unit']>('mm')
-    const [currentNote, setCurrentNote] = useState('')
 
     const intl = useIntl()
 
-    useEffect(() => {
-        const measuresResult = Object.values(
-            Object.entries(measurementsValue)
-                .filter((item) => checkMeasurementOfForm(item[0], currentForm))
-                .map((item) => ({ [item[0]]: item[1] }))
-        ).reduce((acc, current) => {
-            return { ...acc, ...current }
-        }, {})
+    const handleValueChange = (key: keyof MeasurementsValue, value: string | number | undefined) => {
+        setState((prev) => {
+            const newState = { ...prev, [key]: value }
+            console.log('current state is', newState)
 
-        const resultValue: MeasurementsValue = {
-            form: currentForm,
-            unit: currentUnit,
-            ...measuresResult,
-            note: currentNote
-        }
-    }, [JSON.stringify(measurementsValue), currentForm, currentUnit, currentNote])
+            // this is value without all measurements, only current form ones
+            const clearState = Object.entries(newState).reduce((acc, current) => {
+                const [stateKey, value] = current
+
+                // if that is optional measurement key, for example d_iameter
+                if (MEASUREMENTS_KEYS.find((k) => k === stateKey)) {
+                    const isMeasurementAppliedOnForm = checkMeasurementOfForm(stateKey, newState.form)
+
+                    return isMeasurementAppliedOnForm ? { ...acc, [stateKey]: value } : acc
+                } else {
+                    return { ...acc, [stateKey]: value }
+                }
+            }, {} as MeasurementsValue)
+            console.log('value for backend is', clearState)
+
+            return newState
+        })
+    }
 
     const handleMeasureChange = (measure: Measurement, value: number | undefined) => {
-        setMeasurementsValue((prev) => ({ ...prev, [measure.key]: value }))
+        handleValueChange(measure.key, value)
     }
 
     return (
         <div className="d-flex flex-column mb-3 w-75">
-            <ToggleButtonGroup defaultValue={currentForm} name="forms" type="radio" className="mb-3">
+            <ToggleButtonGroup defaultValue={state.form} name="forms" type="radio" className="mb-3 d-inline-block">
                 {Object.entries(FORMS).map(([formId, { messageId, image }]) => (
                     <ToggleButton
                         key={formId}
                         id={`form-${formId}`}
                         variant="outline-secondary"
-                        value={messageId}
-                        checked={currentForm === formId}
-                        onChange={() => setCurrentForm(formId as MeasurementsValue['form'])}>
-                        <img src={image} alt="" width="30rem" height="30rem" />
+                        value={formId}
+                        checked={state.form === formId}
+                        onChange={() => handleValueChange('form', formId as MeasurementsValue['form'])}>
+                        <div
+                            title={intl.formatMessage({ id: messageId })}
+                            className="d-flex align-items-center"
+                            style={{
+                                width: '1.3rem'
+                            }}>
+                            {image}
+                        </div>
                     </ToggleButton>
                 ))}
             </ToggleButtonGroup>
 
             <div className="mb-3 d-flex flex-row gap-3">
                 {measurements
-                    .filter(({ forms }) => forms.some((f) => f === currentForm))
+                    .filter(({ forms }) => forms.some((f) => f === state.form))
                     .map((measure) => (
                         <Measure
+                            key={measure.key}
                             onChange={handleMeasureChange}
                             measure={measure}
-                            value={measurementsValue[measure.key]}
+                            value={state[measure.key]}
                         />
                     ))}
             </div>
 
             <ToggleButtonGroup
                 type="radio"
-                defaultValue={currentUnit}
+                defaultValue={state.unit}
                 name="measurements"
-                className="mb-3"
-                onChange={(value) => setCurrentUnit(value)}>
+                className="mb-3 d-inline"
+                onChange={(value) => handleValueChange('unit', value)}>
                 {UNITS.map((unit) => (
                     <ToggleButton
                         key={unit}
                         id={`unit-${unit}`}
                         variant="outline-secondary"
                         value={unit}
-                        checked={currentUnit === unit}>
+                        checked={state.unit === unit}>
                         {intl.formatMessage({ id: unit })}
                     </ToggleButton>
                 ))}
@@ -132,9 +150,9 @@ const MeasurementsProperty = (props: MeasurementsPropertyProps) => {
 
             <Form.Control
                 type="text"
-                value={currentNote}
+                defaultValue={state.note}
                 placeholder={intl.formatMessage({ id: 'note' })}
-                onChange={(e) => setCurrentNote(e.target.value)}
+                onChange={(e) => handleValueChange('note', e.target.value)}
             />
         </div>
     )
