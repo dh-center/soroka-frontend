@@ -1,9 +1,9 @@
 import React, { useState, useRef } from 'react'
-import IconButton from 'components/common/IconButton'
 import { Eye, Star } from 'react-bootstrap-icons'
-import MediaFileList from './MediaFileLIst/MediaFileList'
 import { FormattedMessage } from 'react-intl'
 import { ListGroup } from 'react-bootstrap'
+import IconButton from 'components/common/IconButton'
+import MediaFileList from './MediaFileLIst/MediaFileList'
 
 const MediaProperty = (props: { showHelp: boolean }) => {
     const { showHelp } = props

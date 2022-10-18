@@ -1,6 +1,7 @@
 import axios from 'axios'
-import { authStore } from 'stores/rootStore'
 import { setupCache, buildMemoryStorage, defaultKeyGenerator, defaultHeaderInterpreter } from 'axios-cache-interceptor'
+// TODO: Dependency cycle
+import { authStore } from 'stores/rootStore'
 
 const { REACT_APP_API_URL } = process.env
 
@@ -37,19 +38,17 @@ const instance = setupCache(
 
 instance.interceptors.request.use(
     (config) => {
+        const result = config
         const token = authStore.accessToken
 
-        if (token) {
-            config.headers!.Authorization = `Bearer ${token}`
+        if (token && result.headers) {
+            result.headers.Authorization = `Bearer ${token}`
         }
 
-        return config
+        return result
     },
 
-    (error) => {
-        console.log('HTTP Request error')
-        return Promise.reject(error)
-    }
+    (error) => Promise.reject(error)
 )
 
 instance.interceptors.response.use(

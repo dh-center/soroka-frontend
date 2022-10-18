@@ -1,5 +1,6 @@
 import API from './config'
-export const organizationsAPI = {
+
+const organizationsAPI = {
     /**
      * Список всех организаций
      */
@@ -15,3 +16,5 @@ export const organizationsAPI = {
         return API.get(`/organizations/owners/${id}`)
     }
 }
+
+export default organizationsAPI

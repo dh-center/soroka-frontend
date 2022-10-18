@@ -1,6 +1,4 @@
 import { KeyboardEvent, ChangeEvent, useMemo } from 'react'
-import { useFloatingLinkState } from 'utils/hooks'
-import { DelayAutoFocusInput } from './DelayAutoFocusInput'
 import {
     FloatingToolbar,
     FloatingWrapper,
@@ -10,9 +8,11 @@ import {
     ToolbarItemUnion
 } from '@remirror/react'
 import { useIntl } from 'react-intl'
+import { useFloatingLinkState } from 'utils/hooks'
+import DelayAutoFocusInput from './DelayAutoFocusInput'
 
 // library example: https://github.com/remirror/remirror/blob/main/packages/storybook-react/stories/extension-link/edit-dialog.tsx
-export const FloatingLinkToolbar = () => {
+const FloatingLinkToolbar = () => {
     const { isEditing, linkPositioner, clickEdit, onRemove, submitHref, href, setHref, cancelHref } =
         useFloatingLinkState()
     const active = useActive()
@@ -72,3 +72,5 @@ export const FloatingLinkToolbar = () => {
         </>
     )
 }
+
+export default FloatingLinkToolbar

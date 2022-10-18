@@ -1,4 +1,3 @@
-import 'views/dashboard/dashboardGlobal.css'
 import './SaveAlert.css'
 
 type SaveAlertPrtops = {

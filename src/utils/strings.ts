@@ -6,3 +6,5 @@ export function getShortStringName(string: string) {
     }
     return string
 }
+
+export default {}

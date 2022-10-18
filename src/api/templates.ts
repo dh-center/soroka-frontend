@@ -1,6 +1,6 @@
 import API from './config'
 
-export const TemplatesAPI = {
+const TemplatesAPI = {
     async getTemplates() {
         return API.get('/cards/templates')
     },
@@ -9,3 +9,5 @@ export const TemplatesAPI = {
         return API.get(`/cards/templates/${id}`)
     }
 }
+
+export default TemplatesAPI

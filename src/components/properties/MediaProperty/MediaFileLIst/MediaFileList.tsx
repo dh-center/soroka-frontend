@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useMemo } from 'react'
+import React, { Dispatch, SetStateAction } from 'react'
 import MediaFileItem from './MediaFileItem/MediaFileItem'
 
 type MediaFileListProps = {
@@ -7,7 +7,7 @@ type MediaFileListProps = {
 }
 
 const MediaFileList = ({ selectedFiles, setSelectedFile }: MediaFileListProps) => {
-    let coverIsSet = /*useMemo(() => ~~(Math.random() * selectedFiles.length), [])*/ 0
+    let coverIsSet = /* useMemo(() => ~~(Math.random() * selectedFiles.length), []) */ 0
 
     return (
         <ul className="list-group w-100 px-3">

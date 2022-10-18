@@ -12,9 +12,7 @@ const store = {
     propertiesStore: new PropertiesStore()
 }
 export const StoreContext = createContext(store)
-export const useStore = () => {
-    return useContext(StoreContext)
-}
+export const useStore = () => useContext(StoreContext)
 
 export const { authStore, baseStore, cardStore, propertiesStore } = store
 

@@ -3,7 +3,7 @@
 import { DEFAULT_ORGANIZATION_FILTER_VALUE } from 'utils/constants'
 import API from './config'
 
-export const CardsAPI = {
+const CardsAPI = {
     async getCardsDataTypes() {
         /**
          * Получение типов для свойств
@@ -40,7 +40,9 @@ export const CardsAPI = {
          * @param {string} data.data
          */
 
-        return API.post(`/cards/filled-properties/${cardId}`, data)
+        const res = API.post(`/cards/filled-properties/${cardId}`, data)
+
+        return res
     },
 
     async deleteFilledPropertiesByCardId(cardId: number, data: any) {
@@ -139,3 +141,5 @@ export const CardsAPI = {
         return API.delete(`/cards/filled-properties/bulk/delete/${cardId}`, { data })
     }
 }
+
+export default CardsAPI

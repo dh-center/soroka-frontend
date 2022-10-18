@@ -1,22 +1,18 @@
 import { makeAutoObservable } from 'mobx'
-import { AuthAPI, LoginData, UserPasswordData } from 'api/auth'
-
-export type User = {
-    id: number
-    name: string
-    email: string
-    hasAcceptTermsOfUse: boolean
-    organization: number
-    userRole: number
-}
+// TODO: Dependency cycle
+import { AuthAPI, LoginData, User, UserPasswordData } from '../api/auth'
 
 export default class AuthStore {
     // TODO не хранить токены в localStorage
     accessToken: string = localStorage.getItem('accessToken') || ''
+
     refreshToken: string = localStorage.getItem('refreshToken') || ''
+
     currentUser: User | null = null
+
     invitationData: User | null = null
-    incorrectPassword: boolean = false
+
+    incorrectPassword = false
 
     constructor() {
         makeAutoObservable(this)
@@ -67,22 +63,25 @@ export default class AuthStore {
     }
 
     async acceptsTermsOfUse(isAccepted: boolean) {
+        let response
         if (this.invitationData?.id) {
-            const response = await AuthAPI.acceptsTermsOfUse({
+            response = await AuthAPI.acceptsTermsOfUse({
                 hasAcceptTermsOfUse: isAccepted,
                 userId: this.invitationData.id
             })
             this.setInivitationData(response.data)
             return response.data
         }
+        return response
     }
 
-    async setUserPassword(uuid: string | undefined, data: UserPasswordData) {
+    static async setUserPassword(uuid: string | undefined, data: UserPasswordData) {
         const response = await AuthAPI.setUserPassword(uuid, data)
 
         if (response.status === 204) {
             return true
         }
+        return false
     }
 
     async login(data: LoginData) {
@@ -94,6 +93,7 @@ export default class AuthStore {
         } catch (e) {
             this.setIncorrectPassword(true)
         }
+        return false
     }
 
     logout() {

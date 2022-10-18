@@ -1,13 +1,16 @@
 import { makeAutoObservable } from 'mobx'
-import { CardsAPI } from 'api/cards'
-import GeoProperty from 'components/properties/GeoProperty'
-import TextProperty from 'components/properties/TextProperty'
+import { FormattedMessage } from 'react-intl'
+// TODO: Dependency cycle
+import CardsAPI from 'api/cards'
+import GeoProperty, { GeoPropertyProps } from 'components/properties/GeoProperty'
+import TextProperty, { TextPropertyProps } from 'components/properties/TextProperty'
 import DateProperty, { CALENDAR_GREGORIAN_ID } from 'components/properties/DateProperty'
 import MediaProperty from 'components/properties/MediaProperty/MediaProperty'
-import { TemplatesAPI } from 'api/templates'
-import { RichTextProperty } from 'components/properties/RichTextProperty'
-import { FormattedMessage } from 'react-intl'
+// TODO: Dependency cycle
+import TemplatesAPI from 'api/templates'
+import RichTextProperty, { RichTextPropertyProps } from 'components/properties/RichTextProperty'
 import { DatePropertyProps } from 'components/properties/DateProperty/DateProperty'
+import { DateItemData } from 'components/properties/DateProperty/DateInput'
 
 export type Property = {
     propertyId: number
@@ -30,48 +33,13 @@ type PropertyListItem = {
     updateAt: string
 }
 
-type PropertyTemplate = {
+export type PropertyTemplate = {
     id: number
     name: string
     propertiesList: PropertyListItem[]
     createdAt: string
     updateAt: string
     labelId: string
-}
-
-// todo: distribute into components and make necessary abstractions (all have showHelp/onChange/value)
-export type DateItemData = {
-    startJD: number | null
-    startContext: string
-    calendar: number
-    endJD: number | null
-    endContext: string
-}
-
-export type GeoPropertyProps = {
-    showHelp: boolean
-    value: [
-        {
-            location: {
-                type: string
-                coordinates: number[]
-            }
-            name: string
-        }
-    ]
-    onChange: (value: { coordinates: number[] | null; name: string }, isInputValid: boolean) => void
-}
-
-export type TextPropertyProps = {
-    value: string
-    showHelp: boolean
-    onChange: ({ value }: { value: string }) => void
-}
-
-export type RichTextPropertyProps = {
-    value: string
-    showHelp: boolean
-    onChange: ({ value }: { value: string }) => void
 }
 
 export type MediaPropertyProps = {
@@ -95,17 +63,15 @@ const TYPES: { [key: string]: any } = {
     },
     JULIAN_DATE: {
         renderForm: (props: DatePropertyProps) => <DateProperty {...props} />,
-        formatToApi: (value: DateItemData) => {
-            return [
-                {
-                    startJD: value.startJD,
-                    endJD: value.endJD,
-                    startContext: value.startContext,
-                    endContext: value.endContext,
-                    calendar: value.calendar
-                }
-            ]
-        },
+        formatToApi: (value: DateItemData) => [
+            {
+                startJD: value.startJD,
+                endJD: value.endJD,
+                startContext: value.startContext,
+                endContext: value.endContext,
+                calendar: value.calendar
+            }
+        ],
         defaultData: [
             {
                 startJD: null,
@@ -118,9 +84,7 @@ const TYPES: { [key: string]: any } = {
         hasHelp: true
     },
     GEO_POINT: {
-        renderForm: (props: GeoPropertyProps) => {
-            return <GeoProperty {...props} />
-        },
+        renderForm: (props: GeoPropertyProps) => <GeoProperty {...props} />,
         formatToApi: ({ coordinates, name }: { coordinates: number[]; name: string }) => [
             {
                 location: {
@@ -135,9 +99,7 @@ const TYPES: { [key: string]: any } = {
     },
     MEDIA: {
         renderForm: (props: { showHelp: boolean }) => <MediaProperty {...props} />,
-        formatToApi: (value: string) => {
-            return value
-        },
+        formatToApi: (value: string) => value,
         defaultData: '',
         hasHelp: true
     }
@@ -171,139 +133,139 @@ const URL_ID = 'url'
 const PROPERTIES: { [key: string]: any } = {
     [ADDRESS_ID]: {
         labelId: 'address',
-        renderAdd: function () {
+        renderAdd() {
             return <FormattedMessage id={this.labelId} />
         }
     },
     [ANNOTATION_ID]: {
         labelId: 'annotation',
-        renderAdd: function () {
+        renderAdd() {
             return <FormattedMessage id={this.labelId} />
         }
     },
     [ARTISTIC_TEXT_ID]: {
         labelId: 'artisticText',
-        renderAdd: function () {
+        renderAdd() {
             return <FormattedMessage id={this.labelId} />
         }
     },
     [BIBLIOGRAPHY_ID]: {
         labelId: 'bibliography',
-        renderAdd: function () {
+        renderAdd() {
             return <FormattedMessage id={this.labelId} />
         }
     },
     [COPYRIGHT_HOLDER_ID]: {
         labelId: 'copyrightHolder',
-        renderAdd: function () {
+        renderAdd() {
             return <FormattedMessage id={this.labelId} />
         }
     },
     [CREATION_PLACE_ID]: {
         labelId: 'creationPlace',
-        renderAdd: function () {
+        renderAdd() {
             return <FormattedMessage id={this.labelId} />
         }
     },
     [CREATOR_ID]: {
         labelId: 'creator',
-        renderAdd: function () {
+        renderAdd() {
             return <FormattedMessage id={this.labelId} />
         }
     },
     [FAMILY_ID]: {
         labelId: 'family',
-        renderAdd: function () {
+        renderAdd() {
             return <FormattedMessage id={this.labelId} />
         }
     },
     [FORMAT_ID]: {
         labelId: 'format',
-        renderAdd: function () {
+        renderAdd() {
             return <FormattedMessage id={this.labelId} />
         }
     },
     [GEO_POINT_ID]: {
         labelId: 'geoPoint',
-        renderAdd: function () {
+        renderAdd() {
             return <FormattedMessage id={this.labelId} />
         }
     },
     [JULIAN_DATE_ID]: {
         labelId: 'julianDate',
-        renderAdd: function () {
+        renderAdd() {
             return <FormattedMessage id={this.labelId} />
         }
     },
     [LEGAL_NAME_ID]: {
         labelId: 'legalName',
-        renderAdd: function () {
+        renderAdd() {
             return <FormattedMessage id={this.labelId} />
         }
     },
     [MEDIA_ID]: {
         labelId: 'media',
-        renderAdd: function () {
+        renderAdd() {
             return <FormattedMessage id={this.labelId} />
         }
     },
     [ORIGINALTEXT_ID]: {
         labelId: 'originalText',
-        renderAdd: function () {
+        renderAdd() {
             return <FormattedMessage id={this.labelId} />
         }
     },
     [PARTICIPANTS_ID]: {
         labelId: 'participants',
-        renderAdd: function () {
+        renderAdd() {
             return <FormattedMessage id={this.labelId} />
         }
     },
     [PROFESSION_ID]: {
         labelId: 'profession',
-        renderAdd: function () {
+        renderAdd() {
             return <FormattedMessage id={this.labelId} />
         }
     },
     [QUOTE_ID]: {
         labelId: 'quote',
-        renderAdd: function () {
+        renderAdd() {
             return <FormattedMessage id={this.labelId} />
         }
     },
     [REFUTATION_ID]: {
         labelId: 'refutation',
-        renderAdd: function () {
+        renderAdd() {
             return <FormattedMessage id={this.labelId} />
         }
     },
     [SOCIALNETWORKS_ID]: {
         labelId: 'socialNetworks',
-        renderAdd: function () {
+        renderAdd() {
             return <FormattedMessage id={this.labelId} />
         }
     },
     [SOURCES_ID]: {
         labelId: 'sources',
-        renderAdd: function () {
+        renderAdd() {
             return <FormattedMessage id={this.labelId} />
         }
     },
     [STORAGE_ID]: {
         labelId: 'storage',
-        renderAdd: function () {
+        renderAdd() {
             return <FormattedMessage id={this.labelId} />
         }
     },
     [TAGS_ID]: {
         labelId: 'tags',
-        renderAdd: function () {
+        renderAdd() {
             return <FormattedMessage id={this.labelId} />
         }
     },
     [URL_ID]: {
         labelId: 'url',
-        renderAdd: function () {
+        renderAdd() {
             return <FormattedMessage id={this.labelId} />
         }
     }
@@ -328,6 +290,7 @@ const TEMPLATES: { [key: string]: any } = {
 
 export default class PropertiesStore {
     properties: Property[] = []
+
     templates: PropertyTemplate[] = []
 
     constructor() {
@@ -354,7 +317,7 @@ export default class PropertiesStore {
     }
 
     getTemplateByName(templateName: string | null) {
-        return this.templates.find(({ name }) => name == templateName)
+        return this.templates.find(({ name }) => name === templateName)
     }
 
     setPropertiesFromBackend(data: Property[]) {
@@ -367,12 +330,13 @@ export default class PropertiesStore {
     getPropertyByName(propertyName: string) {
         return this.properties.find(({ name }) => name === propertyName)
     }
+
     getPropertyType(propertyName: string) {
         const property = this.getPropertyByName(propertyName)
         const dataTypeName = property?.dataType.name
         if (!dataTypeName) {
             console.error('Type not found')
-            return
+            return undefined
         }
         return TYPES[dataTypeName]
     }

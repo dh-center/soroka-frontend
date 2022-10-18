@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Form } from 'react-bootstrap'
 import { FormattedMessage } from 'react-intl'
 import { observer } from 'mobx-react'
-import { organizationsAPI } from 'api/organizations'
-
+import organizationsAPI from 'api/organizations'
 import { useStore } from 'stores/rootStore'
 
 type Owner = {
@@ -49,13 +48,11 @@ const CardAdminControls = observer(() => {
                     <option value="null" disabled>
                         <FormattedMessage id="organization" />
                     </option>
-                    {baseStore.organizations.map((el) => {
-                        return (
-                            <option key={el.id} value={el.id}>
-                                {el.name}
-                            </option>
-                        )
-                    })}
+                    {baseStore.organizations.map((el) => (
+                        <option key={el.id} value={el.id}>
+                            {el.name}
+                        </option>
+                    ))}
                 </Form.Select>
 
                 <Form.Select
@@ -69,13 +66,11 @@ const CardAdminControls = observer(() => {
                     <option value="null" disabled>
                         <FormattedMessage id="owner" />
                     </option>
-                    {owners.map((el) => {
-                        return (
-                            <option key={el.id} value={el.id}>
-                                {el.name}
-                            </option>
-                        )
-                    })}
+                    {owners.map((el) => (
+                        <option key={el.id} value={el.id}>
+                            {el.name}
+                        </option>
+                    ))}
                 </Form.Select>
             </Form.Group>
         </>

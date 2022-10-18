@@ -2,12 +2,25 @@ import React, { useState, useEffect } from 'react'
 import { Map, Placemark, YMaps } from '@pbe/react-yandex-maps'
 import { Col, Form, Row } from 'react-bootstrap'
 import { FormattedMessage, useIntl } from 'react-intl'
-import { GeoPropertyProps } from 'stores/propertiesStore'
 
 export const FIELD_GEO = 'location'
 export const FIELD_GEO_NAME = 'location_name'
 const INITIAL_GEO_POINT = [55.76, 37.64] // Moscow geopoint
 const INITIAL_MAP_ZOOM = 10
+
+export type GeoPropertyProps = {
+    showHelp: boolean
+    value: [
+        {
+            location: {
+                type: string
+                coordinates: number[]
+            }
+            name: string
+        }
+    ]
+    onChange: (value: { coordinates: number[] | null; name: string }, isInputValid: boolean) => void
+}
 
 const getCoordsFromString = (coordsString: string) =>
     coordsString && coordsString !== '' ? coordsString.split(',').map((coord) => +coord) : null
@@ -24,9 +37,8 @@ const isValidCoordinatesString = (value: string) => {
     return regExp.test(value)
 }
 
-const getCoordsFromValue = (value: GeoPropertyProps['value']) => {
-    return value[0].location.coordinates ? value[0].location.coordinates.join(',') : ''
-}
+const getCoordsFromValue = (value: GeoPropertyProps['value']) =>
+    value[0].location.coordinates ? value[0].location.coordinates.join(',') : ''
 
 const getNameFromValue = (value: GeoPropertyProps['value']) => value[0].name
 
@@ -76,7 +88,7 @@ const GeoProperty = ({ showHelp = false, value, onChange }: GeoPropertyProps) =>
         if (nameChanged || coordsChanged) {
             onChange({ coordinates, name }, isInputValid)
         }
-    }, [name, coordinates])
+    }, [name, coordinates, isInputValid, onChange, value])
 
     return (
         <>

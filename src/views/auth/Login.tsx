@@ -46,7 +46,11 @@ const Login = observer(() => {
                     br: <br />,
                     b: (chunks) => <b>{chunks}</b>,
                     email: (
-                        <a href={EXTERNAL_LOGIN_HELP} target="_blank" className="link-primary">
+                        <a
+                            href={EXTERNAL_LOGIN_HELP}
+                            rel="noopener noreferrer"
+                            target="_blank"
+                            className="link-primary">
                             {EXTERNAL_LOGIN_HELP.substring(7)}
                         </a>
                     )

@@ -1,13 +1,12 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Form } from 'react-bootstrap'
 import { FormattedMessage, useIntl } from 'react-intl'
-import { DateItemData } from 'stores/propertiesStore'
-import RangeWrapper from './RangeWrapper'
-import DateInputUpd from './DateInput'
 import { CalendarGeneral } from 'utils/dates/types'
 import gregorianCalendar from 'utils/dates/gregorian'
 import julianCalendar from 'utils/dates/julian'
 import stringCalendar from 'utils/dates/string'
+import DateInputUpd, { DateItemData } from './DateInput'
+import RangeWrapper from './RangeWrapper'
 
 export const CALENDAR_GREGORIAN_ID = 1
 const CALENDAR_JULIAN_ID = 2
@@ -19,24 +18,18 @@ const CALENDARS: { [key: number]: CalendarGeneral } = {
     [CALENDAR_STRING_ID]: stringCalendar
 }
 
-const getJd = (parser: typeof gregorianCalendar | typeof julianCalendar, dateString: string) => {
-    return !!dateString.trim() ? parser.toJD(dateString) : null
-}
+const getJd = (parser: typeof gregorianCalendar | typeof julianCalendar, dateString: string) =>
+    dateString.trim() ? parser.toJD(dateString) : null
 
-const CalendarSelector = ({ calendar, setCalendar }: { calendar: number; setCalendar: (value: number) => void }) => {
-    return (
-        <Form.Select
-            className="mb-2 w-auto"
-            onChange={(event) => setCalendar(+event.target.value)}
-            defaultValue={calendar}>
-            {Object.entries(CALENDARS).map(([id, parser]) => (
-                <option key={id} value={id}>
-                    <FormattedMessage id={parser.nameMessageId} />
-                </option>
-            ))}
-        </Form.Select>
-    )
-}
+const CalendarSelector = ({ calendar, setCalendar }: { calendar: number; setCalendar: (value: number) => void }) => (
+    <Form.Select className="mb-2 w-auto" onChange={(event) => setCalendar(+event.target.value)} defaultValue={calendar}>
+        {Object.entries(CALENDARS).map(([id, parser]) => (
+            <option key={id} value={id}>
+                <FormattedMessage id={parser.nameMessageId} />
+            </option>
+        ))}
+    </Form.Select>
+)
 
 const DateItem = ({
     value,
@@ -76,9 +69,9 @@ const DateItem = ({
             return
         }
 
-        const { start, end, calendar, startContext: startDateString, endContext: endDateString } = dirty
+        const { start, end, calendar: calendarDirty, startContext: startDateString, endContext: endDateString } = dirty
 
-        const currentParser = CALENDARS[calendar]
+        const currentParser = CALENDARS[calendarDirty]
 
         // validation
         const startIsValid = currentParser.validate(start)
@@ -101,15 +94,15 @@ const DateItem = ({
         onChange(
             {
                 startJD: newStartDate,
-                startContext: calendar === CALENDAR_STRING_ID ? startDateString : '',
+                startContext: calendarDirty === CALENDAR_STRING_ID ? startDateString : '',
                 endJD: isRange ? newEndDate : '',
-                endContext: calendar === CALENDAR_STRING_ID && isRange ? endDateString : '',
-                calendar
+                endContext: calendarDirty === CALENDAR_STRING_ID && isRange ? endDateString : '',
+                calendar: calendarDirty
             },
             isValid,
             ''
         )
-    }, [dirty, isRange])
+    }, [dirty, isRange, isMounted, onChange])
 
     const onCalendarChange = (newCalendar: number) => {
         setDirty((prev) => {
@@ -125,13 +118,11 @@ const DateItem = ({
             <DateInputUpd
                 defaultValue={parser.fromJD(startDateJd)}
                 onChange={(newValue, newStringValue) => {
-                    setDirty((prev) => {
-                        return {
-                            ...prev,
-                            start: newValue || prev.start,
-                            startContext: newStringValue || prev.startContext
-                        }
-                    })
+                    setDirty((prev) => ({
+                        ...prev,
+                        start: newValue || prev.start,
+                        startContext: newStringValue || prev.startContext
+                    }))
                 }}
                 errorMessage={startError}
                 placeholder={placeholder}
@@ -144,7 +135,7 @@ const DateItem = ({
                 stringFormDefaultValue={startContext}
             />
         ),
-        [calendar, placeholder, parser, startDateJd, startError, setDirty]
+        [calendar, placeholder, parser, startDateJd, startError, setDirty, intl, startContext]
     )
 
     const toInput = useMemo(
@@ -164,7 +155,7 @@ const DateItem = ({
                 stringFormDefaultValue={endContext}
             />
         ),
-        [calendar, placeholder, parser, startDateJd, endError, setDirty]
+        [calendar, placeholder, parser, endError, setDirty, endContext, endJD]
     )
     return (
         <>

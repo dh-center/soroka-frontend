@@ -6,8 +6,8 @@ import { FormattedMessage, useIntl } from 'react-intl'
 import PasswordField from 'components/common/PasswordField'
 import LoginLayout from 'components/common/LoginLayout'
 import { getInvitationByToken, LOGIN_ROUTE, DYNAMIC_TOKEN } from 'utils/urls'
-
 import { useStore } from 'stores/rootStore'
+import AuthStore from 'stores/authStore'
 
 const FIELD_PASSWORD = 'password'
 const FIELD_PASSWORD_REPEAT = 'rePassword'
@@ -37,8 +37,8 @@ const Registration = observer(() => {
             return
         }
         setIsLoading(true)
-        const passwordSuccessfullyCreated = await authStore.setUserPassword(token, {
-            password: password,
+        const passwordSuccessfullyCreated = await AuthStore.setUserPassword(token, {
+            password,
             rePassword: passwordRepeat
         })
         setIsLoading(false)
@@ -64,7 +64,7 @@ const Registration = observer(() => {
                 navigate(getInvitationByToken(token))
             }
         }
-    }, [])
+    }, [authStore, navigate, token])
 
     return (
         <LoginLayout headerMessageId="registrationByInvitation" isLoading={isLoadingPage}>

@@ -1,6 +1,5 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useCallback } from 'react'
 import { observer } from 'mobx-react-lite'
-import { useCallback } from 'react'
 import { Button, Container, Form, Row } from 'react-bootstrap'
 import { FormattedMessage } from 'react-intl'
 import ModalDialog from 'components/common/ModalDialog'
@@ -52,7 +51,7 @@ const Property = observer(({ element, index }: PropertyProps) => {
         (value: any, validation = true) => {
             cardStore.changeValue(index, typeDefinition.formatToApi(value), validation)
         },
-        [index, cardStore]
+        [index, cardStore, typeDefinition]
     )
 
     const form = useMemo(
@@ -62,7 +61,7 @@ const Property = observer(({ element, index }: PropertyProps) => {
                 onChange,
                 showHelp: helpButtonPressed
             }),
-        [helpButtonPressed, cardStore.observingArray[index]?.data, onChange]
+        [helpButtonPressed, cardStore.observingArray, onChange, index, renderForm]
     )
 
     return (
