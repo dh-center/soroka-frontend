@@ -94,7 +94,7 @@ const Russian = {
     socialNetworks: 'Социальные сети',
     storage: 'Место хранения',
     url: 'URL',
-    measurements: 'Измерения',
+    size: 'Размер',
 
     help: 'Помощь',
     hideHelp: 'Скрыть помощь',

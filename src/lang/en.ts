@@ -93,7 +93,7 @@ const English = {
     socialNetworks: 'Social networks',
     storage: 'Storage',
     url: 'URL',
-    measurements: 'Measurements',
+    size: 'Size',
 
     help: 'Help',
     hideHelp: 'Hide help',

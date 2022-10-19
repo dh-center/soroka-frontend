@@ -13,6 +13,7 @@ import { DateItemData } from 'components/properties/DateProperty/DateInput'
 import MeasurementsProperty, {
     MeasurementsValue
 } from 'components/properties/MeasurementsProperty/MeasurementsProperty'
+import MediaProperty from 'components/properties/MediaProperty/MediaProperty'
 
 export type Property = {
     propertyId: number
@@ -105,24 +106,19 @@ const TYPES: { [key: string]: any } = {
         defaultData: [{ location: { type: 'Point', coordinates: [] }, name: '' }],
         hasHelp: true
     },
-    // MEDIA: {
-    //     renderForm: (props: { showHelp: boolean }) => <MediaProperty{...props} />,
-    //     formatToApi: (value: string) => {
-    //         return value
-    //     },
-    //     defaultData: '',
-    //     hasHelp: true
-    // },
     MEDIA: {
-        renderForm: (props: MeasurementsPropertyProps) => <MeasurementsProperty {...props} />,
-        formatToApi: (value: MeasurementsValue) => value,
+        renderForm: (props: { showHelp: boolean }) => <MediaProperty {...props} />,
+        formatToApi: (value: string) => value,
         defaultData: '',
         hasHelp: true
     },
-    MEASUREMENTS: {
+    MEASURMENT: {
         renderForm: (props: MeasurementsPropertyProps) => <MeasurementsProperty {...props} />,
         formatToApi: (value: MeasurementsValue) => value,
-        defaultData: '',
+        defaultData: {
+            form: 'line',
+            unit: 'mm'
+        },
         hasHelp: true
     }
 }
@@ -151,7 +147,7 @@ const SOURCES_ID = 'sources'
 const STORAGE_ID = 'storage'
 const TAGS_ID = 'tags'
 const URL_ID = 'url'
-const MEASUREMENTS_ID = 'measurements'
+const SIZE_ID = 'size'
 
 const PROPERTIES: { [key: string]: any } = {
     [ADDRESS_ID]: {
@@ -292,8 +288,8 @@ const PROPERTIES: { [key: string]: any } = {
             return <FormattedMessage id={this.labelId} />
         }
     },
-    [MEASUREMENTS_ID]: {
-        labelId: 'measurements',
+    [SIZE_ID]: {
+        labelId: 'size',
         renderAdd() {
             return <FormattedMessage id={this.labelId} />
         }

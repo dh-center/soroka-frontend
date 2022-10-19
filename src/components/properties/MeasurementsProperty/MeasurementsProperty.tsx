@@ -1,22 +1,22 @@
 import { useState } from 'react'
 import { Form, ToggleButton, ToggleButtonGroup } from 'react-bootstrap'
 import { useIntl } from 'react-intl'
-import { MeasurementsPropertyProps } from '../../../stores/propertiesStore'
-import { ReactComponent as Plane } from '../../../assets/images/Plane.svg'
-import { ReactComponent as Line } from '../../../assets/images/Line.svg'
-import { ReactComponent as Sphere } from '../../../assets/images/Sphere.svg'
-import { ReactComponent as Cylinder } from '../../../assets/images/Cylinder.svg'
-import { ReactComponent as Cube } from '../../../assets/images/Cube.svg'
+import { MeasurementsPropertyProps } from 'stores/propertiesStore'
+import { ReactComponent as Plane } from 'assets/images/Plane.svg'
+import { ReactComponent as Line } from 'assets/images/Line.svg'
+import { ReactComponent as Sphere } from 'assets/images/Sphere.svg'
+import { ReactComponent as Cylinder } from 'assets/images/Cylinder.svg'
+import { ReactComponent as Cube } from 'assets/images/Cube.svg'
 import Measure from './Measure'
 
 const UNITS = ['mm', 'cm', 'm'] as const
 
 const FORMS = {
-    line: { messageId: 'lineTooltip', image: <Line /> },
-    plane: { messageId: 'planeTooltip', image: <Plane /> },
-    cube: { messageId: 'cubeTooltip', image: <Cube /> },
-    cylinder: { messageId: 'cylinderTooltip', image: <Cylinder /> },
-    sphere: { messageId: 'sphereTooltip', image: <Sphere /> }
+    line: { messageId: 'lineTooltip', image: <Line style={{ width: '100%' }} /> },
+    plane: { messageId: 'planeTooltip', image: <Plane style={{ width: '100%' }} /> },
+    cube: { messageId: 'cubeTooltip', image: <Cube style={{ width: '100%' }} /> },
+    cylinder: { messageId: 'cylinderTooltip', image: <Cylinder style={{ width: '100%' }} /> },
+    sphere: { messageId: 'sphereTooltip', image: <Sphere style={{ width: '100%' }} /> }
 }
 
 const MEASUREMENTS_KEYS = ['w', 'h', 'l', 'd'] as const
@@ -63,8 +63,8 @@ const MeasurementsProperty = (props: MeasurementsPropertyProps) => {
     console.log('should init from:', props)
 
     const [state, setState] = useState<MeasurementsValue>({
-        form: 'plane',
-        unit: 'cm'
+        form: props.value.form,
+        unit: props.value.unit
     })
 
     const intl = useIntl()
