@@ -4,6 +4,7 @@ import CardsAPI from 'api/cards'
 import { USER_ROLES } from 'utils/constants'
 // TODO: Dependency cycle
 import { authStore, propertiesStore } from './rootStore'
+import { TYPES } from './propertiesStore'
 
 type CardInfo = {
     id: number
@@ -131,11 +132,14 @@ export default class CardStore {
     }
 
     setObservingArrayFromBackend(backendData: any) {
-        this.observingArray = backendData.data.map((el: any) => ({
-            ...el,
-            data: JSON.parse(el.data),
-            validation: true
-        }))
+        this.observingArray = backendData.data.map((el: any) => {
+            const dataParsed = TYPES[el.property.dataType.name].parseAs === 'json' ? JSON.parse(el.data) : el.data
+            return {
+                ...el,
+                data: dataParsed,
+                validation: true
+            }
+        })
     }
 
     static getApiValuesForProperty = ({ id, propertyId, data }: any) => ({ id, propertyId, data })

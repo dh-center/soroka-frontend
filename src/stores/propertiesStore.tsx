@@ -54,21 +54,23 @@ export type MediaPropertyProps = {
 export type MeasurementsPropertyProps = {
     value: MeasurementsValue
     showHelp: boolean
-    onChange: () => void
+    onChange: (value: MeasurementsValue) => void
 }
 
-const TYPES: { [key: string]: any } = {
+export const TYPES: { [key: string]: any } = {
     TEXT: {
         renderForm: (props: TextPropertyProps) => <TextProperty {...props} />,
         formatToApi: ({ value }: { value: string }) => value,
         defaultData: '',
-        hasHelp: false
+        hasHelp: false,
+        parseAs: 'string'
     },
     RICH_TEXT: {
         renderForm: (props: RichTextPropertyProps) => <RichTextProperty {...props} />,
         formatToApi: ({ value }: { value: RichTextPropertyProps['value'] }) => value,
         defaultData: '',
-        hasHelp: false
+        hasHelp: false,
+        parseAs: 'string'
     },
     JULIAN_DATE: {
         renderForm: (props: DatePropertyProps) => <DateProperty {...props} />,
@@ -90,7 +92,8 @@ const TYPES: { [key: string]: any } = {
                 calendar: CALENDAR_GREGORIAN_ID
             }
         ],
-        hasHelp: true
+        hasHelp: true,
+        parseAs: 'json'
     },
     GEO_POINT: {
         renderForm: (props: GeoPropertyProps) => <GeoProperty {...props} />,
@@ -104,13 +107,15 @@ const TYPES: { [key: string]: any } = {
             }
         ],
         defaultData: [{ location: { type: 'Point', coordinates: [] }, name: '' }],
-        hasHelp: true
+        hasHelp: true,
+        parseAs: 'json'
     },
     MEDIA: {
         renderForm: (props: { showHelp: boolean }) => <MediaProperty {...props} />,
         formatToApi: (value: string) => value,
         defaultData: '',
-        hasHelp: true
+        hasHelp: true,
+        parseAs: 'json'
     },
     MEASURMENT: {
         renderForm: (props: MeasurementsPropertyProps) => <MeasurementsProperty {...props} />,
@@ -119,7 +124,8 @@ const TYPES: { [key: string]: any } = {
             form: 'line',
             unit: 'mm'
         },
-        hasHelp: true
+        hasHelp: true,
+        parseAs: 'json'
     }
 }
 
