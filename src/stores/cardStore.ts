@@ -3,6 +3,7 @@ import { makeAutoObservable, runInAction } from 'mobx'
 import CardsAPI from 'api/cards'
 import { USER_ROLES } from 'utils/constants'
 // TODO: Dependency cycle
+import { parseJSON } from 'utils/strings'
 import { authStore, propertiesStore } from './rootStore'
 import { TYPES } from './propertiesStore'
 
@@ -133,7 +134,8 @@ export default class CardStore {
 
     setObservingArrayFromBackend(backendData: any) {
         this.observingArray = backendData.data.map((el: any) => {
-            const dataParsed = TYPES[el.property.dataType.name].parseAs === 'json' ? JSON.parse(el.data) : el.data
+            const propertyType = TYPES[el.property.dataType.name]
+            const dataParsed = propertyType.parseAs === 'json' ? parseJSON(el.data, propertyType.defaultData) : el.data
             return {
                 ...el,
                 data: dataParsed,
