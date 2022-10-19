@@ -5,12 +5,15 @@ import CardsAPI from 'api/cards'
 import GeoProperty, { GeoPropertyProps } from 'components/properties/GeoProperty'
 import TextProperty, { TextPropertyProps } from 'components/properties/TextProperty'
 import DateProperty, { CALENDAR_GREGORIAN_ID } from 'components/properties/DateProperty'
-import MediaProperty from 'components/properties/MediaProperty/MediaProperty'
 // TODO: Dependency cycle
 import TemplatesAPI from 'api/templates'
 import RichTextProperty, { RichTextPropertyProps } from 'components/properties/RichTextProperty'
 import { DatePropertyProps } from 'components/properties/DateProperty/DateProperty'
 import { DateItemData } from 'components/properties/DateProperty/DateInput'
+import MeasurementsProperty, {
+    MeasurementsValue
+} from 'components/properties/MeasurementsProperty/MeasurementsProperty'
+import MediaProperty from 'components/properties/MediaProperty/MediaProperty'
 
 export type Property = {
     propertyId: number
@@ -44,6 +47,12 @@ export type PropertyTemplate = {
 
 export type MediaPropertyProps = {
     value: any
+    showHelp: boolean
+    onChange: () => void
+}
+
+export type MeasurementsPropertyProps = {
+    value: MeasurementsValue
     showHelp: boolean
     onChange: () => void
 }
@@ -102,6 +111,15 @@ const TYPES: { [key: string]: any } = {
         formatToApi: (value: string) => value,
         defaultData: '',
         hasHelp: true
+    },
+    MEASURMENT: {
+        renderForm: (props: MeasurementsPropertyProps) => <MeasurementsProperty {...props} />,
+        formatToApi: (value: MeasurementsValue) => value,
+        defaultData: {
+            form: 'line',
+            unit: 'mm'
+        },
+        hasHelp: true
     }
 }
 
@@ -129,6 +147,7 @@ const SOURCES_ID = 'sources'
 const STORAGE_ID = 'storage'
 const TAGS_ID = 'tags'
 const URL_ID = 'url'
+const SIZE_ID = 'size'
 
 const PROPERTIES: { [key: string]: any } = {
     [ADDRESS_ID]: {
@@ -265,6 +284,12 @@ const PROPERTIES: { [key: string]: any } = {
     },
     [URL_ID]: {
         labelId: 'url',
+        renderAdd() {
+            return <FormattedMessage id={this.labelId} />
+        }
+    },
+    [SIZE_ID]: {
+        labelId: 'size',
         renderAdd() {
             return <FormattedMessage id={this.labelId} />
         }
