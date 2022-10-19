@@ -58,22 +58,16 @@ const measurements: Measurement[] = [
 const checkMeasurementOfForm = (stateKey: string, form: MeasurementsValue['form']) =>
     !!measurements.find(({ key }) => key === stateKey)?.forms.includes(form)
 
-const MeasurementsProperty = (props: MeasurementsPropertyProps) => {
-    // eslint-disable-next-line
-    console.log('should init from:', props)
-
+const MeasurementsProperty = ({ value, onChange }: MeasurementsPropertyProps) => {
     const [state, setState] = useState<MeasurementsValue>({
-        form: props.value.form,
-        unit: props.value.unit
+        ...value
     })
 
     const intl = useIntl()
 
-    const handleValueChange = (key: keyof MeasurementsValue, value: string | number | undefined) => {
+    const handleValueChange = (key: keyof MeasurementsValue, newValue: string | number | undefined) => {
         setState((prev) => {
-            const newState = { ...prev, [key]: value }
-            // eslint-disable-next-line
-            console.log('current state is', newState)
+            const newState = { ...prev, [key]: newValue }
 
             // this is value without all measurements, only current form ones
             const clearState = Object.entries(newState).reduce((acc, current) => {
@@ -87,15 +81,15 @@ const MeasurementsProperty = (props: MeasurementsPropertyProps) => {
                 }
                 return { ...acc, [stateKey]: keyValue }
             }, {} as MeasurementsValue)
-            // eslint-disable-next-line
-            console.log('value for backend is', clearState)
+
+            onChange(clearState)
 
             return newState
         })
     }
 
-    const handleMeasureChange = (measure: Measurement, value: number | undefined) => {
-        handleValueChange(measure.key, value)
+    const handleMeasureChange = (measure: Measurement, newValue: number | undefined) => {
+        handleValueChange(measure.key, newValue)
     }
 
     return (
@@ -139,7 +133,7 @@ const MeasurementsProperty = (props: MeasurementsPropertyProps) => {
                 defaultValue={state.unit}
                 name="measurements"
                 className="mb-3 d-inline"
-                onChange={(value) => handleValueChange('unit', value)}>
+                onChange={(newValue) => handleValueChange('unit', newValue)}>
                 {UNITS.map((unit) => (
                     <ToggleButton
                         key={unit}
