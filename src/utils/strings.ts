@@ -7,4 +7,15 @@ export function getShortStringName(string: string) {
     return string
 }
 
+export function parseJSON(input: string, fallbackValue: any) {
+    let result
+    try {
+        result = JSON.parse(input)
+    } catch {
+        result = fallbackValue
+    }
+
+    return result
+}
+
 export default {}

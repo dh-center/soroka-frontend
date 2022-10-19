@@ -1,3 +1,4 @@
+import { useCallback } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { DateItemData } from './DateInput'
 import DateItem from './DateItem'
@@ -9,10 +10,13 @@ export type DatePropertyProps = {
 }
 
 const DateProperty = ({ showHelp, value, onChange }: DatePropertyProps) => {
-    const handleItemChange = (newDate: DateItemData, isValid: boolean) => {
-        // todo: when dates list will be applied — key must become useful, unique and stable for each date item
-        onChange(newDate, isValid)
-    }
+    const handleItemChange = useCallback(
+        (newDate: DateItemData, isValid: boolean) => {
+            // todo: when dates list will be applied — key must become useful, unique and stable for each date item
+            onChange(newDate, isValid)
+        },
+        [onChange]
+    )
 
     return (
         <>

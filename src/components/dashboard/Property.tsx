@@ -54,14 +54,16 @@ const Property = observer(({ element, index }: PropertyProps) => {
         [index, cardStore, typeDefinition]
     )
 
+    const storedValue = cardStore.observingArray[index]?.data
+
     const form = useMemo(
         () =>
             renderForm({
-                value: cardStore.observingArray[index]?.data,
+                value: storedValue,
                 onChange,
                 showHelp: helpButtonPressed
             }),
-        [helpButtonPressed, cardStore.observingArray, onChange, index, renderForm]
+        [helpButtonPressed, storedValue, onChange, renderForm]
     )
 
     return (
