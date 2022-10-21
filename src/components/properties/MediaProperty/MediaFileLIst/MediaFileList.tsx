@@ -2,16 +2,27 @@ import React, { Dispatch, SetStateAction } from 'react'
 import MediaFileItem from './MediaFileItem/MediaFileItem'
 
 type MediaFileListProps = {
-    selectedFiles: File[]
+    uploadFiles: any[]
     setSelectedFile: Dispatch<SetStateAction<File[]>>
+    setMainFile: (fileId: number) => void
+    mainFile: number
+    setCoverFile: (fileId: number) => void
+    coverFile: number | undefined
 }
 
-const MediaFileList = ({ selectedFiles, setSelectedFile }: MediaFileListProps) => {
+const MediaFileList = ({
+    uploadFiles,
+    setSelectedFile,
+    setMainFile,
+    mainFile,
+    setCoverFile,
+    coverFile
+}: MediaFileListProps) => {
     let coverIsSet = /* useMemo(() => ~~(Math.random() * selectedFiles.length), []) */ 0
 
     return (
         <ul className="list-group w-100 px-3">
-            {selectedFiles.map((file, index) => {
+            {uploadFiles.map((file, index) => {
                 if (coverIsSet === null && file.type.split('/')[0] === 'image') {
                     coverIsSet = index
                 }
@@ -19,11 +30,13 @@ const MediaFileList = ({ selectedFiles, setSelectedFile }: MediaFileListProps) =
                     <MediaFileItem
                         key={index}
                         isCover={coverIsSet === index}
-                        isMain={index === 0}
+                        isMain={file.isMain} // TODO: get main fail from api isMain={mainFile === file.id}
                         index={index}
                         file={file}
                         setSelectedFile={setSelectedFile}
-                        selectedFiles={selectedFiles}
+                        uploadFiles={uploadFiles}
+                        setCoverFile={setCoverFile}
+                        setMainFile={setMainFile}
                     />
                 )
             })}

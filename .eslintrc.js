@@ -38,7 +38,7 @@ module.exports = {
         'import/no-cycle': 'off',
         'no-await-in-loop': 'error',
         '@typescript-eslint/no-explicit-any': 'off', // TODO: switch rule on
-        'no-console': ['error', { allow: ['warn', 'error'] }]
+        'no-console': 'warn'
     },
     settings: {
         'import/resolver': {

@@ -139,6 +139,12 @@ const CardsAPI = {
          * @param {object} data
          */
         return API.delete(`/cards/filled-properties/bulk/delete/${cardId}`, { data })
+    },
+    async loadFiles(files: File[]) {
+        return API.post(`/files`, files)
+    },
+    async deleteFile(fileId: number) {
+        return API.delete(`/files`)
     }
 }
 

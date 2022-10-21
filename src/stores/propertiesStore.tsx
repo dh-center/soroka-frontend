@@ -46,9 +46,9 @@ export type PropertyTemplate = {
 }
 
 export type MediaPropertyProps = {
-    value: any
+    value: File[]
     showHelp: boolean
-    onChange: () => void
+    onChange: (value: number) => void
 }
 
 export type MeasurementsPropertyProps = {
@@ -110,9 +110,9 @@ export const TYPES: { [key: string]: any } = {
         hasHelp: true,
         parseAs: 'json'
     },
-    MEDIA: {
-        renderForm: (props: { showHelp: boolean }) => <MediaProperty {...props} />,
-        formatToApi: (value: string) => value,
+    FILE: {
+        renderForm: (props: MediaPropertyProps) => <MediaProperty {...props} />,
+        formatToApi: (value: MediaPropertyProps['value']) => value,
         defaultData: '',
         hasHelp: true,
         parseAs: 'json'

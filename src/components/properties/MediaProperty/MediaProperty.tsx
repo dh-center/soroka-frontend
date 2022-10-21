@@ -1,13 +1,20 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { Eye, Star } from 'react-bootstrap-icons'
 import { FormattedMessage } from 'react-intl'
 import { ListGroup } from 'react-bootstrap'
 import IconButton from 'components/common/IconButton'
+import { MediaPropertyProps } from 'stores/propertiesStore'
+import CardsAPI from 'api/cards'
 import MediaFileList from './MediaFileLIst/MediaFileList'
 
-const MediaProperty = (props: { showHelp: boolean }) => {
-    const { showHelp } = props
-    const [selectedFiles, setSelectedFile] = useState<File[]>([])
+const MediaProperty = ({ value, onChange, showHelp = false }: MediaPropertyProps) => {
+    // const { showHelp } = props
+    console.log([...value], 'val')
+    const [selectedFiles, setSelectedFile] = useState<File[]>([...value]) // Загруженные на фронте
+    const [uploadFiles, setUploadFiles] = useState<any[]>([]) // Полученные с бэка объекты загруженных файлов
+    const [uploadFilesId, setUploadFilesId] = useState<number[]>([]) // Идентификаторы полученных с бека файлов
+    const [mainFile, setMainFile] = useState(0) // ID главного файла
+    const [coverFile, setCoverFile] = useState<number | undefined>(undefined) // ID файла-обложки
     const [drag, setDrag] = useState(false)
     const inputFileRef = useRef() as React.MutableRefObject<HTMLInputElement> // todo: think about how to do better
 
@@ -35,6 +42,29 @@ const MediaProperty = (props: { showHelp: boolean }) => {
         setDrag(false)
     }
 
+    const getUploadsFilesId = async () => {
+        if (selectedFiles.length > 0) {
+            await CardsAPI.loadFiles(selectedFiles).then((res) => {
+                setUploadFiles(res.data)
+                const filesId = res.data.map((file: any) => file.fileId)
+                /* setMainFile(res.data.mainFile) */
+                /* setCoverFile(res.data.coverFile) */
+                // eslint-disable-next-line
+                console.log(res, 'res')
+                // eslint-disable-next-line
+                console.log(filesId, 'filesId')
+                setUploadFilesId(filesId)
+            })
+        }
+    }
+
+    useEffect(() => {
+        // eslint-disable-next-line
+        console.log(selectedFiles, 'SF')
+        onChange(mainFile)
+        getUploadsFilesId()
+    }, [selectedFiles, onChange])
+
     return (
         <>
             <div
@@ -42,8 +72,15 @@ const MediaProperty = (props: { showHelp: boolean }) => {
                 onDragStart={(e) => dragStartHandler(e)}
                 onDragOver={(e) => dragStartHandler(e)}>
                 <div className="d-flex flex-column align-items-baseline w-100">
-                    {selectedFiles.length !== 0 && (
-                        <MediaFileList setSelectedFile={setSelectedFile} selectedFiles={selectedFiles} />
+                    {uploadFiles.length !== 0 && (
+                        <MediaFileList
+                            setSelectedFile={setSelectedFile}
+                            uploadFiles={uploadFiles}
+                            setMainFile={setMainFile}
+                            mainFile={mainFile}
+                            setCoverFile={setCoverFile}
+                            coverFile={coverFile}
+                        />
                     )}
                     <div className="d-flex flex-row align-items-center w-100 p-3">
                         <input
