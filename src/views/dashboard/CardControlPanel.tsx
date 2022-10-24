@@ -28,9 +28,13 @@ const CardControlPanel = observer(({ handleSave, handleDelete }: CardControlPane
                 <Button variant="primary" disabled={!cardStore.changed || validationFailed} onClick={handleSave}>
                     <FormattedMessage id="save" />
                 </Button>
-                <Button variant="danger" disabled={!cardStore.cardInfo.id} onClick={handleDelete}>
+                <Button
+                    className="d-flex align-items-center gap-2"
+                    variant="danger"
+                    disabled={!cardStore.cardInfo.id}
+                    onClick={handleDelete}>
                     <FormattedMessage id="delete" />
-                    <Trash className="ml-2" />
+                    <Trash />
                 </Button>
             </div>
         </Form>
