@@ -9,8 +9,8 @@ import MediaFileList from './MediaFileLIst/MediaFileList'
 
 const MediaProperty = ({ value, onChange, showHelp = false }: MediaPropertyProps) => {
     // const { showHelp } = props
-    console.log([...value], 'val')
-    const [selectedFiles, setSelectedFile] = useState<File[]>([...value]) // Загруженные на фронте
+    console.log(value, 'val')
+    const [selectedFiles, setSelectedFile] = useState<File[]>([]) // Загруженные на фронте
     const [uploadFiles, setUploadFiles] = useState<any[]>([]) // Полученные с бэка объекты загруженных файлов
     const [uploadFilesId, setUploadFilesId] = useState<number[]>([]) // Идентификаторы полученных с бека файлов
     const [mainFile, setMainFile] = useState(0) // ID главного файла
