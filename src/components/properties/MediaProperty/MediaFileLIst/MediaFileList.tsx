@@ -1,42 +1,51 @@
-import React, { Dispatch, SetStateAction } from 'react'
+import { useEffect } from 'react'
+import { PendingUserFile, UploadedUserFile } from '../MediaProperty'
 import MediaFileItem from './MediaFileItem/MediaFileItem'
 
 type MediaFileListProps = {
-    uploadFiles: any[]
-    setSelectedFile: Dispatch<SetStateAction<File[]>>
-    setMainFile: (fileId: number) => void
-    mainFile: number
-    setCoverFile: (fileId: number) => void
-    coverFile: number | undefined
+    uploadedFiles: (UploadedUserFile | PendingUserFile)[]
+    setUploadedFiles: (files: (UploadedUserFile | PendingUserFile)[]) => void
+    setMainFileId: (fileId: string | number) => void
+    mainFileId: string | number
+    setCoverFileId: (fileId: string | undefined) => void
+    coverFileId: string | undefined
 }
 
 const MediaFileList = ({
-    uploadFiles,
-    setSelectedFile,
-    setMainFile,
-    mainFile,
-    setCoverFile,
-    coverFile
+    uploadedFiles,
+    setUploadedFiles,
+    setMainFileId,
+    mainFileId,
+    setCoverFileId,
+    coverFileId
 }: MediaFileListProps) => {
-    let coverIsSet = /* useMemo(() => ~~(Math.random() * selectedFiles.length), []) */ 0
-
+    useEffect(() => {
+        if (mainFileId === 0 && typeof uploadedFiles[0].id !== 'number') {
+            setMainFileId(uploadedFiles[0].id)
+        }
+    }, [mainFileId, uploadedFiles])
     return (
         <ul className="list-group w-100 px-3">
-            {uploadFiles.map((file, index) => {
-                if (coverIsSet === null && file.type.split('/')[0] === 'image') {
-                    coverIsSet = index
-                }
+            {uploadedFiles.map((fileItem) => {
+                const file = Object.prototype.hasOwnProperty.call(fileItem, 'file')
+                    ? {
+                          id: fileItem.id,
+                          name: fileItem.file.name,
+                          type: fileItem.file.type,
+                          size: fileItem.file.size,
+                          uploadPercent: fileItem.uploadPercent
+                      }
+                    : fileItem
                 return (
                     <MediaFileItem
-                        key={index}
-                        isCover={coverIsSet === index}
-                        isMain={file.isMain} // TODO: get main fail from api isMain={mainFile === file.id}
-                        index={index}
+                        key={file.id}
+                        isCover={file.id === coverFileId}
+                        isMain={file.id === mainFileId}
                         file={file}
-                        setSelectedFile={setSelectedFile}
-                        uploadFiles={uploadFiles}
-                        setCoverFile={setCoverFile}
-                        setMainFile={setMainFile}
+                        uploadedFiles={uploadedFiles}
+                        setUploadedFiles={setUploadedFiles}
+                        setCoverFileId={setCoverFileId}
+                        setMainFileId={setMainFileId}
                     />
                 )
             })}

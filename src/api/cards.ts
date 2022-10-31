@@ -140,11 +140,11 @@ const CardsAPI = {
          */
         return API.delete(`/cards/filled-properties/bulk/delete/${cardId}`, { data })
     },
-    async loadFiles(files: File[]) {
-        return API.post(`/files`, files)
+    async uploadFiles(files: FormData, options: any) {
+        return API.post('http://localhost:8000/restapi/v1/files', files, options)
     },
-    async deleteFile(fileId: number) {
-        return API.delete(`/files`)
+    async deleteFile(fileId: string) {
+        return API.delete(`http://localhost:8000/restapi/v1/files/by-id/${fileId}`)
     }
 }
 

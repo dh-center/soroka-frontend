@@ -13,7 +13,7 @@ import { DateItemData } from 'components/properties/DateProperty/DateInput'
 import MeasurementsProperty, {
     MeasurementsValue
 } from 'components/properties/MeasurementsProperty/MeasurementsProperty'
-import MediaProperty from 'components/properties/MediaProperty/MediaProperty'
+import MediaProperty, { UploadedUserFile } from 'components/properties/MediaProperty/MediaProperty'
 
 export type Property = {
     propertyId: number
@@ -45,10 +45,16 @@ export type PropertyTemplate = {
     labelId: string
 }
 
+type MediaPropertyValue = {
+    files: UploadedUserFile[]
+    cover: string | undefined
+    main: string
+}
+
 export type MediaPropertyProps = {
-    value: File[]
+    value: MediaPropertyValue
     showHelp: boolean
-    onChange: (value: number) => void
+    onChange: (value: MediaPropertyValue) => void
 }
 
 export type MeasurementsPropertyProps = {
