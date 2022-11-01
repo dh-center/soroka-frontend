@@ -119,7 +119,11 @@ export const TYPES: { [key: string]: any } = {
     FILE: {
         renderForm: (props: MediaPropertyProps) => <MediaProperty {...props} />,
         formatToApi: (value: MediaPropertyProps['value']) => value,
-        defaultData: '',
+        defaultData: {
+            files: [],
+            main: 0,
+            cover: undefined
+        },
         hasHelp: true,
         parseAs: 'json'
     },

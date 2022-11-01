@@ -20,8 +20,8 @@ export type UploadedUserFile = {
 export type PendingUserFile = { id: number; file: File; uploadPercent: number; [key: string]: any }
 
 const MediaProperty = ({ value, onChange, showHelp = false }: MediaPropertyProps) => {
-    const [mainFileId, setMainFileId] = useState<string | number>(value.main || 0) // ID главного файла
-    const [coverFileId, setCoverFileId] = useState<string | undefined>(value.cover || undefined) // ID файла-обложки
+    const [mainFileId, setMainFileId] = useState<string | number>(value.main) // ID главного файла
+    const [coverFileId, setCoverFileId] = useState<string | undefined>(value.cover) // ID файла-обложки
     const [drag, setDrag] = useState(false)
     const inputFileRef = useRef() as React.MutableRefObject<HTMLInputElement> // todo: think about how to do better
 
