@@ -5,6 +5,7 @@ import { ListGroup } from 'react-bootstrap'
 import IconButton from 'components/common/IconButton'
 import { MediaPropertyProps } from 'stores/propertiesStore'
 import CardsAPI from 'api/cards'
+import { cardStore } from 'stores/rootStore'
 import MediaFileList from './MediaFileLIst/MediaFileList'
 
 export type UploadedUserFile = {
@@ -105,6 +106,7 @@ const MediaProperty = ({ value, onChange, showHelp = false }: MediaPropertyProps
             setCoverFileId(undefined)
             setMainFileId(0)
         }
+        cardStore.setChanged(!uploadedFiles.find((item) => item.uploadPercent < 100))
     }, [uploadedFiles])
 
     function dragStartHandler(e: React.DragEvent<HTMLDivElement>) {

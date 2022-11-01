@@ -87,7 +87,6 @@ export default class CardStore {
     addNewProperties(propertyName: string) {
         const property = propertiesStore.getPropertyByName(propertyName)
         const propertyType = propertiesStore.getPropertyType(propertyName)
-        console.log(propertyName, 'name')
         const data = propertyType.defaultData
 
         this.observingArray.push({ ...property, data, validation: true })

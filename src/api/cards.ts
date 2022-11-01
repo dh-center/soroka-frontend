@@ -1,5 +1,4 @@
 /* Модуль API по запросам к карточкам */
-
 import { DEFAULT_ORGANIZATION_FILTER_VALUE } from 'utils/constants'
 import API from './config'
 
@@ -141,10 +140,12 @@ const CardsAPI = {
         return API.delete(`/cards/filled-properties/bulk/delete/${cardId}`, { data })
     },
     async uploadFiles(files: FormData, options: any) {
-        return API.post('http://localhost:8000/restapi/v1/files', files, options)
+        const result = await API.post('http://localhost:8000/restapi/v1/files', files, options)
+        return result
     },
     async deleteFile(fileId: string) {
-        return API.delete(`http://localhost:8000/restapi/v1/files/by-id/${fileId}`)
+        const result = await API.delete(`http://localhost:8000/restapi/v1/files/by-id/${fileId}`)
+        return result
     }
 }
 
