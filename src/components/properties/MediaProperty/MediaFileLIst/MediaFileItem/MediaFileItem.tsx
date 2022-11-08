@@ -12,9 +12,9 @@ import Badge from 'react-bootstrap/Badge'
 import { Stack } from 'react-bootstrap'
 import { FormattedMessage, useIntl } from 'react-intl'
 import Dropdown from 'react-bootstrap/Dropdown'
+import { cardStore } from 'stores/rootStore'
 import { getShortStringName } from 'utils/strings'
 import CustomToggle from 'components/common/CustomToggle'
-import CardsAPI from 'api/cards'
 import { PendingUserFile, UploadedUserFile } from '../../MediaProperty'
 
 const FileBadge = ({ messageId }: { messageId: string }) => (
@@ -36,7 +36,6 @@ type MediaFileItemProps = {
     setUploadedFiles: (files: (UploadedUserFile | PendingUserFile)[]) => void
     uploadedFiles: (UploadedUserFile | PendingUserFile)[]
     setMainFileId: (fileId: string | number) => void
-    setCoverFileId: (fileId: string | undefined) => void
 }
 
 const MediaFileItem = ({
@@ -45,8 +44,7 @@ const MediaFileItem = ({
     isMain,
     setUploadedFiles,
     uploadedFiles,
-    setMainFileId,
-    setCoverFileId
+    setMainFileId
 }: MediaFileItemProps) => {
     const intl = useIntl()
     const { id: fileId, name: fileName, type: fileType, uploadPercent: fileUploadPercent } = file
@@ -79,9 +77,9 @@ const MediaFileItem = ({
                         <Stack direction="horizontal" gap={2} className="ms-auto">
                             {shortType === 'image' &&
                                 (isCover ? (
-                                    <EyeFill role="button" onClick={() => setCoverFileId(undefined)} />
+                                    <EyeFill role="button" onClick={() => cardStore.setCoverFileId(undefined)} />
                                 ) : (
-                                    <Eye role="button" onClick={() => setCoverFileId(fileId)} />
+                                    <Eye role="button" onClick={() => cardStore.setCoverFileId(fileId)} />
                                 ))}
                             {isMain ? (
                                 <StarFill role="button" />
@@ -97,12 +95,10 @@ const MediaFileItem = ({
                                     <Dropdown.Item
                                         eventKey="3"
                                         onClick={() => {
-                                            CardsAPI.deleteFile(fileId).then(() => {
-                                                if (isMain) {
-                                                    setMainFileId(0)
-                                                }
-                                                setUploadedFiles(uploadedFiles.filter((item) => fileId !== item.id))
-                                            })
+                                            if (isMain) {
+                                                setMainFileId(0)
+                                            }
+                                            setUploadedFiles(uploadedFiles.filter((item) => fileId !== item.id))
                                         }}>
                                         {intl.formatMessage({ id: 'delete' })}
                                     </Dropdown.Item>

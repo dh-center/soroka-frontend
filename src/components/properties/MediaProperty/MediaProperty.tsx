@@ -21,7 +21,7 @@ export type PendingUserFile = { id: number; file: File; uploadPercent: number; [
 
 const MediaProperty = ({ value, onChange, showHelp = false }: MediaPropertyProps) => {
     const [mainFileId, setMainFileId] = useState<string | number>(value.main) // ID главного файла
-    const [coverFileId, setCoverFileId] = useState<string | undefined>(value.cover) // ID файла-обложки
+
     const [drag, setDrag] = useState(false)
     const inputFileRef = useRef() as React.MutableRefObject<HTMLInputElement> // todo: think about how to do better
 
@@ -98,12 +98,12 @@ const MediaProperty = ({ value, onChange, showHelp = false }: MediaPropertyProps
                 filesArr.push(resItem as UploadedUserFile)
             }
         })
-        onChange({ files: filesArr, main: mainFileId.toString(), cover: coverFileId })
-    }, [uploadedFiles, mainFileId, coverFileId])
+        onChange({ files: filesArr, main: mainFileId.toString() })
+    }, [uploadedFiles, mainFileId])
 
     useEffect(() => {
         if (uploadedFiles.length === 0) {
-            setCoverFileId(undefined)
+            cardStore.setCoverFileId(undefined)
             setMainFileId(0)
         }
         cardStore.setChanged(!uploadedFiles.find((item) => item.uploadPercent < 100))
@@ -139,8 +139,6 @@ const MediaProperty = ({ value, onChange, showHelp = false }: MediaPropertyProps
                             setUploadedFiles={setUploadedFiles}
                             setMainFileId={setMainFileId}
                             mainFileId={mainFileId}
-                            setCoverFileId={setCoverFileId}
-                            coverFileId={coverFileId}
                         />
                     )}
                     <div className="d-flex flex-row align-items-center w-100 p-3">

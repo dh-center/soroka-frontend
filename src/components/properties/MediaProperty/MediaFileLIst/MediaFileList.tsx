@@ -1,4 +1,6 @@
+import { observer } from 'mobx-react'
 import { useEffect } from 'react'
+import { cardStore } from 'stores/rootStore'
 import { PendingUserFile, UploadedUserFile } from '../MediaProperty'
 import MediaFileItem from './MediaFileItem/MediaFileItem'
 
@@ -7,18 +9,9 @@ type MediaFileListProps = {
     setUploadedFiles: (files: (UploadedUserFile | PendingUserFile)[]) => void
     setMainFileId: (fileId: string | number) => void
     mainFileId: string | number
-    setCoverFileId: (fileId: string | undefined) => void
-    coverFileId: string | undefined
 }
 
-const MediaFileList = ({
-    uploadedFiles,
-    setUploadedFiles,
-    setMainFileId,
-    mainFileId,
-    setCoverFileId,
-    coverFileId
-}: MediaFileListProps) => {
+const MediaFileList = observer(({ uploadedFiles, setUploadedFiles, setMainFileId, mainFileId }: MediaFileListProps) => {
     useEffect(() => {
         if (mainFileId === 0 && typeof uploadedFiles[0].id !== 'number') {
             setMainFileId(uploadedFiles[0].id)
@@ -36,21 +29,21 @@ const MediaFileList = ({
                           uploadPercent: fileItem.uploadPercent
                       }
                     : fileItem
+
                 return (
                     <MediaFileItem
                         key={file.id}
-                        isCover={file.id === coverFileId}
+                        isCover={file.id === cardStore.coverFileId}
                         isMain={file.id === mainFileId}
                         file={file}
                         uploadedFiles={uploadedFiles}
                         setUploadedFiles={setUploadedFiles}
-                        setCoverFileId={setCoverFileId}
                         setMainFileId={setMainFileId}
                     />
                 )
             })}
         </ul>
     )
-}
+})
 
 export default MediaFileList

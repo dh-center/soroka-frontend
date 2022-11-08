@@ -12,6 +12,8 @@ type AddPropertyButtonProps = {
     everyPropertyAdded: boolean
 }
 
+const MEDIA_PROP_ID = 10
+
 const AddPropertyButton = ({ everyPropertyAdded, onClick }: AddPropertyButtonProps) => {
     const PropertiesAddedTooltip = () => (
         <Tooltip id="button-tooltip">
@@ -105,7 +107,10 @@ const CardPropertiesEditor = observer(() => {
                         {properties.map((el) => {
                             const cardHasProp = cardStore.observingArray
                                 .filter((prop: any) => !prop.hidden)
-                                .some((prop: any) => prop.propertyId === el.propertyId)
+                                .some(
+                                    (prop: any) =>
+                                        prop.propertyId === el.propertyId && prop.propertyId !== MEDIA_PROP_ID
+                                )
                             return (
                                 <Button
                                     key={el.name}

@@ -107,6 +107,8 @@ const CardsAPI = {
          * @param {boolean} data.preventDelete
          */
 
+        console.log(data, 'data')
+
         return API.patch(`/cards/by-id/${cardId}`, data)
     },
 
@@ -119,7 +121,7 @@ const CardsAPI = {
          * @param {number} data.propertyId
          * @param {string} data.data
          */
-        return API.patch(`/cards/filled-properties/by-id/${id}`, data)
+        return API.patch(`/cards/filled-properties/restapi/v1/by-id/${id}`, data)
     },
     async updateProperties(data: any) {
         /**
@@ -140,11 +142,11 @@ const CardsAPI = {
         return API.delete(`/cards/filled-properties/bulk/delete/${cardId}`, { data })
     },
     async uploadFiles(files: FormData, options: any) {
-        const result = await API.post('http://localhost:8000/restapi/v1/files', files, options)
+        const result = await API.post('/files', files, options)
         return result
     },
     async deleteFile(fileId: string) {
-        const result = await API.delete(`http://localhost:8000/restapi/v1/files/by-id/${fileId}`)
+        const result = await API.delete(`/files/by-id/${fileId}`)
         return result
     }
 }
