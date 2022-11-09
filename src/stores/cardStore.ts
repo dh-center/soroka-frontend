@@ -37,7 +37,7 @@ export default class CardStore {
 
     hasEmptyProperties = false
 
-    coverFileId: string | undefined = undefined
+    coverFileId: string | null = null
 
     constructor() {
         makeAutoObservable(this)
@@ -55,14 +55,14 @@ export default class CardStore {
         this.cardInfo = {} as CardInfo
         this.nameOfCard = ''
         this.hasEmptyProperties = false
-        this.coverFileId = undefined
+        this.coverFileId = null
     }
 
     setChanged(boolean: boolean) {
         this.changed = boolean
     }
 
-    setCoverFileId(fileId: string | undefined) {
+    setCoverFileId(fileId: string | null) {
         this.coverFileId = fileId
         this.setChanged(true)
     }

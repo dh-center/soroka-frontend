@@ -77,7 +77,7 @@ const MediaFileItem = ({
                         <Stack direction="horizontal" gap={2} className="ms-auto">
                             {shortType === 'image' &&
                                 (isCover ? (
-                                    <EyeFill role="button" onClick={() => cardStore.setCoverFileId(undefined)} />
+                                    <EyeFill role="button" onClick={() => cardStore.setCoverFileId(null)} />
                                 ) : (
                                     <Eye role="button" onClick={() => cardStore.setCoverFileId(fileId)} />
                                 ))}
@@ -97,6 +97,9 @@ const MediaFileItem = ({
                                         onClick={() => {
                                             if (isMain) {
                                                 setMainFileId(0)
+                                            }
+                                            if (isCover) {
+                                                cardStore.setCoverFileId(null)
                                             }
                                             setUploadedFiles(uploadedFiles.filter((item) => fileId !== item.id))
                                         }}>

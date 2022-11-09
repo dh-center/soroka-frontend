@@ -107,8 +107,6 @@ const CardsAPI = {
          * @param {boolean} data.preventDelete
          */
 
-        console.log(data, 'data')
-
         return API.patch(`/cards/by-id/${cardId}`, data)
     },
 

@@ -94,6 +94,11 @@ const Property = observer(({ element, index }: PropertyProps) => {
                 onClose={(accepted: boolean) => {
                     if (accepted) {
                         cardStore.deletePropertyLocal(element)
+                        element.data.files.forEach((item: any) => {
+                            if (item.id === cardStore.coverFileId) {
+                                cardStore.setCoverFileId(null)
+                            }
+                        })
                         setShowDialogModal(false)
                     }
                 }}

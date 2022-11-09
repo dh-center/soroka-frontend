@@ -103,7 +103,7 @@ const MediaProperty = ({ value, onChange, showHelp = false }: MediaPropertyProps
 
     useEffect(() => {
         if (uploadedFiles.length === 0) {
-            cardStore.setCoverFileId(undefined)
+            cardStore.setCoverFileId(null)
             setMainFileId(0)
         }
         cardStore.setChanged(!uploadedFiles.find((item) => item.uploadPercent < 100))
