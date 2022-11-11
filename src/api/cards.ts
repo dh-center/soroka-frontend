@@ -119,7 +119,7 @@ const CardsAPI = {
          * @param {number} data.propertyId
          * @param {string} data.data
          */
-        return API.patch(`/cards/filled-properties/restapi/v1/by-id/${id}`, data)
+        return API.patch(`/cards/filled-properties/by-id/${id}`, data)
     },
     async updateProperties(data: any) {
         /**

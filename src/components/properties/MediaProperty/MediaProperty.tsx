@@ -13,47 +13,51 @@ export type UploadedUserFile = {
     name: string
     type: string
     size: number
-    uploadPercent: number
-    [key: string]: any
 }
 
-export type PendingUserFile = { id: number; file: File; uploadPercent: number; [key: string]: any }
+export type PendingUserFile = { id: number; file: File; uploadPercent: number }
+
+export const isInstanceOfUploadedUserFile = (object: any): object is UploadedUserFile =>
+    'id' in object && 'name' in object && 'type' in object && 'size' in object
+
+export const isInstanceOfPendingUserFile = (object: any): object is PendingUserFile =>
+    'id' in object && 'file' in object && 'uploadPercent' in object
 
 const MediaProperty = ({ value, onChange, showHelp = false }: MediaPropertyProps) => {
-    const [mainFileId, setMainFileId] = useState<string | number>(value.main) // ID главного файла
+    const [mainFileId, setMainFileId] = useState<string | null>(value.main) // ID главного файла
 
     const [drag, setDrag] = useState(false)
-    const inputFileRef = useRef() as React.MutableRefObject<HTMLInputElement> // todo: think about how to do better
+    const inputFileRef = useRef() as React.MutableRefObject<HTMLInputElement>
 
-    const [selectedFiles, setSelectedFiles] = useState<File[]>([])
     const [uploadedFiles, setUploadedFiles] = useState<(UploadedUserFile | PendingUserFile)[]>(value.files)
 
     function addIdForFiles(files: File[]) {
+        // todo: redo indexes (+new Date())
         const pendingFiles = files.map((file, index) => ({ file, id: file.lastModified + index, uploadPercent: 0 }))
         setUploadedFiles((prev) => [...prev, ...pendingFiles])
         return pendingFiles
     }
 
     function uploadSelectedFiles(files: PendingUserFile[]) {
+        cardStore.setPendingActions(true)
         files.forEach((fileItem) => {
             const { file } = fileItem
             const data = new FormData()
             data.append('image', file, file.name)
 
+            // todo: reworking the state transition architecture
             const options = {
                 onUploadProgress: (progressEvent: ProgressEvent) => {
                     const { loaded, total } = progressEvent
                     const percent = Math.floor((loaded * 100) / total)
-                    if (percent < 100) {
-                        setUploadedFiles((prev) =>
-                            prev.map((item) => {
-                                if (item.id === fileItem.id) {
-                                    return { ...item, uploadPercent: percent }
-                                }
-                                return item
-                            })
-                        )
-                    }
+                    setUploadedFiles((prev) =>
+                        prev.map((item) => {
+                            if (item.id === fileItem.id) {
+                                return { ...item, uploadPercent: percent }
+                            }
+                            return item
+                        })
+                    )
                 }
             }
             CardsAPI.uploadFiles(data, options).then((res) => {
@@ -65,8 +69,7 @@ const MediaProperty = ({ value, onChange, showHelp = false }: MediaPropertyProps
                                 id,
                                 name,
                                 type,
-                                size,
-                                uploadPercent: 100
+                                size
                             }
                         }
                         return item
@@ -76,37 +79,28 @@ const MediaProperty = ({ value, onChange, showHelp = false }: MediaPropertyProps
         })
     }
 
+    const onFileSelect = (files: File[]) => {
+        uploadSelectedFiles(addIdForFiles(files))
+    }
+
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const files = [...Object.values(event.target.files || [])]
-        setSelectedFiles(files)
+        onFileSelect(files)
     }
 
     useEffect(() => {
-        uploadSelectedFiles(addIdForFiles(selectedFiles))
-    }, [selectedFiles])
-
-    useEffect(() => {
-        const filesArr: UploadedUserFile[] = []
-        uploadedFiles.forEach((item) => {
-            if (typeof item.id === 'string') {
-                const resItem = {
-                    id: item.id,
-                    name: item.name,
-                    type: item.type,
-                    size: item.size
-                }
-                filesArr.push(resItem as UploadedUserFile)
-            }
-        })
-        onChange({ files: filesArr, main: mainFileId.toString() })
+        const filesArr = uploadedFiles.filter((item) => isInstanceOfUploadedUserFile(item)) as UploadedUserFile[]
+        onChange({ files: filesArr, main: mainFileId })
     }, [uploadedFiles, mainFileId])
 
     useEffect(() => {
         if (uploadedFiles.length === 0) {
             cardStore.setCoverFileId(null)
-            setMainFileId(0)
+            setMainFileId(null)
         }
-        cardStore.setChanged(!uploadedFiles.find((item) => item.uploadPercent < 100))
+        if (uploadedFiles.filter((item) => isInstanceOfUploadedUserFile(item)).length === uploadedFiles.length) {
+            cardStore.setPendingActions(false)
+        }
     }, [uploadedFiles])
 
     function dragStartHandler(e: React.DragEvent<HTMLDivElement>) {
@@ -122,14 +116,14 @@ const MediaProperty = ({ value, onChange, showHelp = false }: MediaPropertyProps
     function onDropHandler(e: React.DragEvent<HTMLDivElement>) {
         e.preventDefault()
         const files = [...e.dataTransfer.files]
-        setSelectedFiles(files)
+        onFileSelect(files)
         setDrag(false)
     }
 
     return (
         <>
             <div
-                className="d-flex flex-column position-relative w-100 border rounded"
+                className="d-flex flex-column position-relative w-100 border rounded user-select-none"
                 onDragStart={(e) => dragStartHandler(e)}
                 onDragOver={(e) => dragStartHandler(e)}>
                 <div className="d-flex flex-column align-items-baseline w-100">
@@ -180,7 +174,6 @@ const MediaProperty = ({ value, onChange, showHelp = false }: MediaPropertyProps
                 {drag && (
                     <div
                         className="bg-secondary text-light position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center"
-                        style={{ userSelect: 'none' }}
                         onDragLeave={(e) => dragLeaveHandler(e)}
                         onDragOver={(e) => dragStartHandler(e)}
                         onDrop={(e) => onDropHandler(e)}>

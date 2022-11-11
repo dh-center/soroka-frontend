@@ -1,34 +1,57 @@
 import { observer } from 'mobx-react'
 import { useEffect } from 'react'
 import { cardStore } from 'stores/rootStore'
-import { PendingUserFile, UploadedUserFile } from '../MediaProperty'
-import MediaFileItem from './MediaFileItem/MediaFileItem'
+import {
+    isInstanceOfPendingUserFile,
+    isInstanceOfUploadedUserFile,
+    PendingUserFile,
+    UploadedUserFile
+} from '../MediaProperty'
+import MediaFileItem, { FileItem } from './MediaFileItem/MediaFileItem'
 
 type MediaFileListProps = {
     uploadedFiles: (UploadedUserFile | PendingUserFile)[]
     setUploadedFiles: (files: (UploadedUserFile | PendingUserFile)[]) => void
-    setMainFileId: (fileId: string | number) => void
-    mainFileId: string | number
+    setMainFileId: (fileId: string | null) => void
+    mainFileId: string | null
 }
 
 const MediaFileList = observer(({ uploadedFiles, setUploadedFiles, setMainFileId, mainFileId }: MediaFileListProps) => {
     useEffect(() => {
-        if (mainFileId === 0 && typeof uploadedFiles[0].id !== 'number') {
-            setMainFileId(uploadedFiles[0].id)
+        const firstUploadedFile = uploadedFiles.find((item) => isInstanceOfUploadedUserFile(item)) as UploadedUserFile
+        if (mainFileId === null && firstUploadedFile) {
+            setMainFileId(firstUploadedFile.id)
         }
     }, [mainFileId, uploadedFiles])
+
+    const handlerFileDelete = (fileId: string, isMain: boolean, isCover: boolean) => {
+        if (isMain) {
+            setMainFileId(null)
+        }
+        if (isCover) {
+            cardStore.setCoverFileId(null)
+        }
+        setUploadedFiles(uploadedFiles.filter((item) => fileId !== item.id))
+    }
+
+    const onMainFileChange = (fileId: string) => {
+        setMainFileId(fileId)
+    }
+
     return (
         <ul className="list-group w-100 px-3">
             {uploadedFiles.map((fileItem) => {
-                const file = Object.prototype.hasOwnProperty.call(fileItem, 'file')
-                    ? {
-                          id: fileItem.id,
-                          name: fileItem.file.name,
-                          type: fileItem.file.type,
-                          size: fileItem.file.size,
-                          uploadPercent: fileItem.uploadPercent
-                      }
-                    : fileItem
+                const file = (
+                    isInstanceOfPendingUserFile(fileItem)
+                        ? {
+                              id: fileItem.id,
+                              name: fileItem.file.name,
+                              type: fileItem.file.type,
+                              size: fileItem.file.size,
+                              uploadPercent: fileItem.uploadPercent
+                          }
+                        : fileItem
+                ) as FileItem
 
                 return (
                     <MediaFileItem
@@ -36,9 +59,8 @@ const MediaFileList = observer(({ uploadedFiles, setUploadedFiles, setMainFileId
                         isCover={file.id === cardStore.coverFileId}
                         isMain={file.id === mainFileId}
                         file={file}
-                        uploadedFiles={uploadedFiles}
-                        setUploadedFiles={setUploadedFiles}
-                        setMainFileId={setMainFileId}
+                        handlerFileDelete={handlerFileDelete}
+                        onMainFileChange={onMainFileChange}
                     />
                 )
             })}

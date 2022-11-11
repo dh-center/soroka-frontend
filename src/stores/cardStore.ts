@@ -16,6 +16,7 @@ type CardInfo = {
     coverFileId: string | undefined
     createdAt: string
     updateAt: string
+    pendingActions: boolean
 }
 
 export default class CardStore {
@@ -39,6 +40,8 @@ export default class CardStore {
 
     coverFileId: string | null = null
 
+    pendingActions = false
+
     constructor() {
         makeAutoObservable(this)
     }
@@ -56,10 +59,15 @@ export default class CardStore {
         this.nameOfCard = ''
         this.hasEmptyProperties = false
         this.coverFileId = null
+        this.pendingActions = false
     }
 
     setChanged(boolean: boolean) {
         this.changed = boolean
+    }
+
+    setPendingActions(boolean: boolean) {
+        this.pendingActions = boolean
     }
 
     setCoverFileId(fileId: string | null) {
@@ -209,7 +217,8 @@ export default class CardStore {
         let resEl
         this.observingArray = this.observingArray.map((el) => {
             resEl = el
-            if (resEl.id === element.id) {
+            // todo: replace with the id of the filled property
+            if (resEl.propertyId === element.propertyId) {
                 resEl.hidden = true
             }
 

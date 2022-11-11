@@ -10,12 +10,14 @@ import {
 } from 'react-bootstrap-icons'
 import Badge from 'react-bootstrap/Badge'
 import { Stack } from 'react-bootstrap'
-import { FormattedMessage, useIntl } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import Dropdown from 'react-bootstrap/Dropdown'
+import './MediaFileItem.css'
 import { cardStore } from 'stores/rootStore'
 import { getShortStringName } from 'utils/strings'
 import CustomToggle from 'components/common/CustomToggle'
-import { PendingUserFile, UploadedUserFile } from '../../MediaProperty'
+import { FILE_TYPES } from 'utils/constants'
+import { UploadedUserFile } from '../../MediaProperty'
 
 const FileBadge = ({ messageId }: { messageId: string }) => (
     <Badge bg="light" text="dark">
@@ -29,26 +31,19 @@ const getTypeIcon = (type: string) =>
         audio: FileEarmarkMusic
     }[type] || FileEarmark)
 
+export type FileItem = UploadedUserFile & { id: string | number; uploadPercent?: number }
+
 type MediaFileItemProps = {
-    file: any
+    file: FileItem
     isCover: boolean
     isMain: boolean
-    setUploadedFiles: (files: (UploadedUserFile | PendingUserFile)[]) => void
-    uploadedFiles: (UploadedUserFile | PendingUserFile)[]
-    setMainFileId: (fileId: string | number) => void
+    onMainFileChange: (fileId: string) => void
+    handlerFileDelete: (fileId: string, isMain: boolean, isCover: boolean) => void
 }
 
-const MediaFileItem = ({
-    file,
-    isCover,
-    isMain,
-    setUploadedFiles,
-    uploadedFiles,
-    setMainFileId
-}: MediaFileItemProps) => {
-    const intl = useIntl()
+const MediaFileItem = ({ file, isCover, isMain, onMainFileChange, handlerFileDelete }: MediaFileItemProps) => {
     const { id: fileId, name: fileName, type: fileType, uploadPercent: fileUploadPercent } = file
-    const shortType = fileType.split('/')[0]
+    const shortType = fileType?.split('/')[0]
     const TypeIcon = getTypeIcon(shortType)
 
     return (
@@ -57,8 +52,8 @@ const MediaFileItem = ({
                 <TypeIcon size={36} />
                 <div className="d-flex flex-column">
                     <span>{getShortStringName(fileName)}</span>
-                    {fileUploadPercent < 100 && (
-                        <div className="progress" style={{ height: '10px' }}>
+                    {fileUploadPercent && (
+                        <div className="progress media-gile-item__progress-bar">
                             <div
                                 className="progress-bar progress-bar-striped progress-bar-animated"
                                 role="progressbar"
@@ -70,12 +65,12 @@ const MediaFileItem = ({
                     )}
                 </div>
 
-                {typeof fileId === 'string' && (
+                {!fileUploadPercent && (
                     <>
                         {isCover && <FileBadge messageId="coverCardFile" />}
                         {isMain && <FileBadge messageId="mainCardFile" />}
                         <Stack direction="horizontal" gap={2} className="ms-auto">
-                            {shortType === 'image' &&
+                            {shortType === FILE_TYPES.image &&
                                 (isCover ? (
                                     <EyeFill role="button" onClick={() => cardStore.setCoverFileId(null)} />
                                 ) : (
@@ -84,26 +79,22 @@ const MediaFileItem = ({
                             {isMain ? (
                                 <StarFill role="button" />
                             ) : (
-                                <Star role="button" onClick={() => setMainFileId(fileId)} />
+                                <Star role="button" onClick={() => onMainFileChange(fileId)} />
                             )}
                             <Download role="button" />
                             <Dropdown role="button">
                                 <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components" />
                                 <Dropdown.Menu>
-                                    <Dropdown.Item eventKey="1">{intl.formatMessage({ id: 'copyLink' })}</Dropdown.Item>
-                                    <Dropdown.Item eventKey="2">{intl.formatMessage({ id: 'rename' })}</Dropdown.Item>
+                                    <Dropdown.Item eventKey="1">
+                                        <FormattedMessage id="copyLink" />
+                                    </Dropdown.Item>
+                                    <Dropdown.Item eventKey="2">
+                                        <FormattedMessage id="rename" />
+                                    </Dropdown.Item>
                                     <Dropdown.Item
                                         eventKey="3"
-                                        onClick={() => {
-                                            if (isMain) {
-                                                setMainFileId(0)
-                                            }
-                                            if (isCover) {
-                                                cardStore.setCoverFileId(null)
-                                            }
-                                            setUploadedFiles(uploadedFiles.filter((item) => fileId !== item.id))
-                                        }}>
-                                        {intl.formatMessage({ id: 'delete' })}
+                                        onClick={() => handlerFileDelete(fileId, isMain, isCover)}>
+                                        <FormattedMessage id="delete" />
                                     </Dropdown.Item>
                                 </Dropdown.Menu>
                             </Dropdown>

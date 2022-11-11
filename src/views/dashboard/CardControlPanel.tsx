@@ -22,7 +22,7 @@ const CardControlPanel = observer(({ handleSave }: CardControlPanelProps) => {
                 </Alert>
             )}
             {cardStore.userRole === USER_ROLES.admin && <CardAdminControls />}
-            <Button variant="primary" disabled={!cardStore.changed || validationFailed} onClick={handleSave}>
+            <Button variant="primary" disabled={cardStore.pendingActions || validationFailed} onClick={handleSave}>
                 <FormattedMessage id="save" />
             </Button>
         </Form>

@@ -47,7 +47,7 @@ export type PropertyTemplate = {
 
 type MediaPropertyValue = {
     files: UploadedUserFile[]
-    main: string
+    main: string | null
 }
 
 export type MediaPropertyProps = {
@@ -120,7 +120,7 @@ export const TYPES: { [key: string]: any } = {
         formatToApi: (value: MediaPropertyProps['value']) => value,
         defaultData: {
             files: [],
-            main: 0
+            main: null
         },
         hasHelp: true,
         parseAs: 'json'

@@ -17,6 +17,8 @@ type ControlPanelProps = {
     helpButtonPressed: boolean
 }
 
+const MEDIA_PROP_ID = 10
+
 const ControlPanel = ({ hasHelp, setHelpButtonPressed, setShowDialogModal, helpButtonPressed }: ControlPanelProps) => (
     <div className="d-flex justify-content-end">
         {hasHelp && (
@@ -94,11 +96,15 @@ const Property = observer(({ element, index }: PropertyProps) => {
                 onClose={(accepted: boolean) => {
                     if (accepted) {
                         cardStore.deletePropertyLocal(element)
-                        element.data.files.forEach((item: any) => {
-                            if (item.id === cardStore.coverFileId) {
-                                cardStore.setCoverFileId(null)
-                            }
-                        })
+                        // reset card cover when media property with cover file was deleted
+                        if (element.propertyId === MEDIA_PROP_ID) {
+                            element.data.files.forEach((item: any) => {
+                                if (item.id === cardStore.coverFileId) {
+                                    cardStore.setCoverFileId(null)
+                                }
+                            })
+                        }
+
                         setShowDialogModal(false)
                     }
                 }}
