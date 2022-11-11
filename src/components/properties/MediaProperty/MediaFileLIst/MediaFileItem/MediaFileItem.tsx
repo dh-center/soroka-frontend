@@ -43,7 +43,7 @@ type MediaFileItemProps = {
 
 const MediaFileItem = ({ file, isCover, isMain, onMainFileChange, handlerFileDelete }: MediaFileItemProps) => {
     const { id: fileId, name: fileName, type: fileType, uploadPercent: fileUploadPercent } = file
-    const shortType = fileType?.split('/')[0]
+    const shortType = fileType.split('/')[0]
     const TypeIcon = getTypeIcon(shortType)
 
     return (
@@ -53,7 +53,7 @@ const MediaFileItem = ({ file, isCover, isMain, onMainFileChange, handlerFileDel
                 <div className="d-flex flex-column">
                     <span>{getShortStringName(fileName)}</span>
                     {fileUploadPercent && (
-                        <div className="progress media-gile-item__progress-bar">
+                        <div className="progress media-file-item__progress-bar">
                             <div
                                 className="progress-bar progress-bar-striped progress-bar-animated"
                                 role="progressbar"
