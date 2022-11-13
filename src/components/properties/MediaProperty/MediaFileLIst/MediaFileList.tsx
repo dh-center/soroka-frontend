@@ -1,69 +1,61 @@
 import { observer } from 'mobx-react'
 import { useEffect } from 'react'
 import { cardStore } from 'stores/rootStore'
-import {
-    isInstanceOfPendingUserFile,
-    isInstanceOfUploadedUserFile,
-    PendingUserFile,
-    UploadedUserFile
-} from '../MediaProperty'
-import MediaFileItem, { FileItem } from './MediaFileItem/MediaFileItem'
+import PendingFileData from '../PendingFileData'
+import UploadedFileData from '../UploadedFileData'
+import MediaFileItem from './MediaFileItem/MediaFileItem'
 
 type MediaFileListProps = {
-    uploadedFiles: (UploadedUserFile | PendingUserFile)[]
-    setUploadedFiles: (files: (UploadedUserFile | PendingUserFile)[]) => void
+    files: (UploadedFileData | PendingFileData)[]
+    setUploadedFiles: (files: (UploadedFileData | PendingFileData)[]) => void
     setMainFileId: (fileId: string | null) => void
     mainFileId: string | null
 }
 
-const MediaFileList = observer(({ uploadedFiles, setUploadedFiles, setMainFileId, mainFileId }: MediaFileListProps) => {
+// todo: media file list should not know about cardStore and logic behind main file id
+const MediaFileList = observer(({ files, setUploadedFiles, setMainFileId, mainFileId }: MediaFileListProps) => {
     useEffect(() => {
-        const firstUploadedFile = uploadedFiles.find((item) => isInstanceOfUploadedUserFile(item)) as UploadedUserFile
+        const firstUploadedFile = files.find((item) => item instanceof UploadedFileData) as UploadedFileData
         if (mainFileId === null && firstUploadedFile) {
             setMainFileId(firstUploadedFile.id)
         }
-    }, [mainFileId, uploadedFiles])
+    }, [mainFileId, files, setMainFileId])
 
-    const handlerFileDelete = (fileId: string, isMain: boolean, isCover: boolean) => {
-        if (isMain) {
+    const onFileDelete = (fileId: string) => {
+        if (fileId === mainFileId) {
             setMainFileId(null)
         }
-        if (isCover) {
+        if (fileId === cardStore.coverFileId) {
             cardStore.setCoverFileId(null)
         }
-        setUploadedFiles(uploadedFiles.filter((item) => fileId !== item.id))
+        setUploadedFiles(files.filter((item) => fileId !== item.id))
     }
 
-    const onMainFileChange = (fileId: string) => {
+    const onChosenAsMain = (fileId: string) => {
         setMainFileId(fileId)
+    }
+
+    const onCoverSwitch = (fileId: string, isCover: boolean) => {
+        if (isCover) {
+            cardStore.setCoverFileId(fileId)
+        } else {
+            cardStore.setCoverFileId(null)
+        }
     }
 
     return (
         <ul className="list-group w-100 px-3">
-            {uploadedFiles.map((fileItem) => {
-                const file = (
-                    isInstanceOfPendingUserFile(fileItem)
-                        ? {
-                              id: fileItem.id,
-                              name: fileItem.file.name,
-                              type: fileItem.file.type,
-                              size: fileItem.file.size,
-                              uploadPercent: fileItem.uploadPercent
-                          }
-                        : fileItem
-                ) as FileItem
-
-                return (
-                    <MediaFileItem
-                        key={file.id}
-                        isCover={file.id === cardStore.coverFileId}
-                        isMain={file.id === mainFileId}
-                        file={file}
-                        handlerFileDelete={handlerFileDelete}
-                        onMainFileChange={onMainFileChange}
-                    />
-                )
-            })}
+            {files.map((fileItem) => (
+                <MediaFileItem
+                    key={fileItem.id}
+                    isCover={fileItem.id === cardStore.coverFileId}
+                    isMain={fileItem.id === mainFileId}
+                    file={fileItem}
+                    onFileDelete={onFileDelete}
+                    onChosenAsMain={onChosenAsMain}
+                    onCoverSwitch={onCoverSwitch}
+                />
+            ))}
         </ul>
     )
 })

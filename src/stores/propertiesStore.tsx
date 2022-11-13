@@ -13,7 +13,8 @@ import { DateItemData } from 'components/properties/DateProperty/DateInput'
 import MeasurementsProperty, {
     MeasurementsValue
 } from 'components/properties/MeasurementsProperty/MeasurementsProperty'
-import MediaProperty, { UploadedUserFile } from 'components/properties/MediaProperty/MediaProperty'
+import MediaProperty from 'components/properties/MediaProperty/MediaProperty'
+import UploadedFileData from 'components/properties/MediaProperty/UploadedFileData'
 
 export type Property = {
     propertyId: number
@@ -46,7 +47,7 @@ export type PropertyTemplate = {
 }
 
 type MediaPropertyValue = {
-    files: UploadedUserFile[]
+    files: UploadedFileData[]
     main: string | null
 }
 
