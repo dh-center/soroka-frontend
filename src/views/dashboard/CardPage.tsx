@@ -39,7 +39,7 @@ const CardPage = observer(() => {
             cardStore.fillWithTemplate(templateName)
         }
         if (id) {
-            cardStore.getPropertiesFromCardById(id)
+            cardStore.getPropertiesFromCardById(Number(id))
 
             CardsAPI.getCardByid(id).then((res) => {
                 cardStore.setOriginNameOfCard(res.data.name)
@@ -86,11 +86,11 @@ const CardPage = observer(() => {
 
     const handleConfirmDelete = async (deleteAccepted: boolean) => {
         if (!deleteAccepted) {
-            // CardsAPI.deleteProperties().then(() => navigate(CARDS_ROUTE))
+            navigate(CARDS_ROUTE)
         } else {
+            CardsAPI.deleteCardById(cardStore.cardInfo.id)
             navigate(getBackPath())
         }
-        console.log('delete')
     }
 
     const handleDelete = () => {

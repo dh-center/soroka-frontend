@@ -127,7 +127,7 @@ export default class CardStore {
         }
     }
 
-    async getPropertiesFromCardById(id: string) {
+    async getPropertiesFromCardById(id: number) {
         const backendData = await CardsAPI.getCardsFilledPropertiesById(id)
         this.setObservingArrayFromBackend(backendData)
     }
