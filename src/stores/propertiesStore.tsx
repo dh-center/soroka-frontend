@@ -110,7 +110,7 @@ export const TYPES: { [key: string]: any } = {
         hasHelp: true,
         parseAs: 'json'
     },
-    MEDIA: {
+    FILE: {
         renderForm: (props: { showHelp: boolean }) => <MediaProperty {...props} />,
         formatToApi: (value: string) => value,
         defaultData: '',
