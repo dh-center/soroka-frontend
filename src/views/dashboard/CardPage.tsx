@@ -48,7 +48,6 @@ const CardPage = observer(() => {
                 cardStore.setOriginNameOfCard(res.data.name)
                 cardStore.setCardInfo(res.data)
                 cardStore.setOrganiztionAndOwner()
-                // cardStore.setObservingArrayFromBackend(res.properties)
             })
         }
         if (authStore.currentUser) {
