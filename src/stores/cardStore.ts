@@ -13,10 +13,9 @@ type CardInfo = {
     preventDelete: boolean
     organizationId: number
     userId: number
-    coverFileId: string | undefined
+    coverFileId: string | null
     createdAt: string
     updateAt: string
-    pendingActions: boolean
 }
 
 export default class CardStore {

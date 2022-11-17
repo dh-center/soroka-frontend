@@ -40,10 +40,15 @@ const CardPage = observer(() => {
             cardStore.getPropertiesFromCardById(id)
 
             CardsAPI.getCardByid(id).then((res) => {
-                cardStore.setCoverFileId(res.data.cover === null ? res.data.cover : JSON.parse(res.data.cover).id)
+                try {
+                    cardStore.setCoverFileId(JSON.parse(res.data.cover).id)
+                } catch (e) {
+                    cardStore.setCoverFileId(res.data.cover)
+                }
                 cardStore.setOriginNameOfCard(res.data.name)
                 cardStore.setCardInfo(res.data)
                 cardStore.setOrganiztionAndOwner()
+                // cardStore.setObservingArrayFromBackend(res.properties)
             })
         }
         if (authStore.currentUser) {

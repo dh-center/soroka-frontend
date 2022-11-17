@@ -63,7 +63,7 @@ const MediaFileItem = ({ file, isCover, isMain, onChosenAsMain, onFileDelete, on
     const name = pending ? file.file.name : file.name
     const type = pending ? file.file.type : file.type
 
-    const shortType = type.split('/')[0]
+    const shortType = type && type.split('/')[0]
     const TypeIcon = getTypeIcon(shortType)
 
     return (

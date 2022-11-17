@@ -19,6 +19,7 @@ import UploadedFileData from 'components/properties/MediaProperty/UploadedFileDa
 export type Property = {
     propertyId: number
     name: string
+    data: any
     dataType: {
         name: string
     }

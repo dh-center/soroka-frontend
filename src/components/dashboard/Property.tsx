@@ -2,11 +2,13 @@ import { useState, useMemo, useCallback } from 'react'
 import { observer } from 'mobx-react-lite'
 import { Button, Container, Form, Row } from 'react-bootstrap'
 import { FormattedMessage } from 'react-intl'
+import { Property as PropertyType } from 'stores/propertiesStore'
 import ModalDialog from 'components/common/ModalDialog'
 import { useStore } from 'stores/rootStore'
+import UploadedFileData from 'components/properties/MediaProperty/UploadedFileData'
 
 type PropertyProps = {
-    element: { [key: string]: any }
+    element: PropertyType
     index: number
 }
 
@@ -96,13 +98,11 @@ const Property = observer(({ element, index }: PropertyProps) => {
                 onClose={(accepted: boolean) => {
                     if (accepted) {
                         cardStore.deletePropertyLocal(element)
-                        // reset card cover when media property with cover file was deleted
-                        if (element.propertyId === MEDIA_PROP_ID) {
-                            element.data.files.forEach((item: any) => {
-                                if (item.id === cardStore.coverFileId) {
-                                    cardStore.setCoverFileId(null)
-                                }
-                            })
+                        if (
+                            element.propertyId === MEDIA_PROP_ID &&
+                            element.data.files.some((item: UploadedFileData) => item.id === cardStore.coverFileId)
+                        ) {
+                            cardStore.setCoverFileId(null)
                         }
 
                         setShowDialogModal(false)
