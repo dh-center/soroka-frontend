@@ -3,9 +3,9 @@ import { useEffect } from 'react'
 import { cardStore } from 'stores/rootStore'
 import PendingFileData from '../PendingFileData'
 import UploadedFileData from '../UploadedFileData'
-import MediaFileItem from './MediaFileItem/MediaFileItem'
+import FileItem from './FileItem/FileItem'
 
-type MediaFileListProps = {
+type FilesListProps = {
     files: (UploadedFileData | PendingFileData)[]
     setUploadedFiles: (files: (UploadedFileData | PendingFileData)[]) => void
     setMainFileId: (fileId: string | null) => void
@@ -13,7 +13,7 @@ type MediaFileListProps = {
 }
 
 // todo: media file list should not know about cardStore and logic behind main file id
-const MediaFileList = observer(({ files, setUploadedFiles, setMainFileId, mainFileId }: MediaFileListProps) => {
+const MediaFileList = observer(({ files, setUploadedFiles, setMainFileId, mainFileId }: FilesListProps) => {
     useEffect(() => {
         const firstUploadedFile = files.find((item) => item instanceof UploadedFileData) as UploadedFileData
         if (mainFileId === null && firstUploadedFile) {
@@ -46,7 +46,7 @@ const MediaFileList = observer(({ files, setUploadedFiles, setMainFileId, mainFi
     return (
         <ul className="list-group w-100 px-3">
             {files.map((fileItem) => (
-                <MediaFileItem
+                <FileItem
                     key={fileItem.id}
                     isCover={fileItem.id === cardStore.coverFileId}
                     isMain={fileItem.id === mainFileId}

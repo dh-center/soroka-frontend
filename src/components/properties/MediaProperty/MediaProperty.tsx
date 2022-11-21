@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { MediaPropertyProps } from 'stores/propertiesStore'
 import CardsAPI from 'api/cards'
 import { cardStore } from 'stores/rootStore'
-import MediaFileList from './MediaFileList/MediaFileList'
+import FilesList from './FilesList/FilesList'
 import UploadedFileData from './UploadedFileData'
 import PendingFileData from './PendingFileData'
 import DragAndDropZone from './DragAndDropZone'
@@ -76,7 +76,7 @@ const MediaProperty = ({ value, onChange, showHelp = false }: MediaPropertyProps
 
     return (
         <DragAndDropZone help={showHelp ? <Help /> : undefined} onFilesSelect={onFilesSelect}>
-            <MediaFileList
+            <FilesList
                 files={files}
                 setUploadedFiles={setFiles}
                 setMainFileId={setMainFileId}

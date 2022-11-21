@@ -12,7 +12,7 @@ import BootstrapBadge from 'react-bootstrap/Badge'
 import { Stack } from 'react-bootstrap'
 import { FormattedMessage } from 'react-intl'
 import Dropdown from 'react-bootstrap/Dropdown'
-import './MediaFileItem.css'
+import './FileItem.css'
 import { getShortStringName } from 'utils/strings'
 import CustomToggle from 'components/common/CustomToggle'
 import { FILE_TYPES } from 'utils/constants'
@@ -32,7 +32,7 @@ const getTypeIcon = (type: string) =>
         audio: FileEarmarkMusic
     }[type] || FileEarmark)
 
-export type MediaFileItemProps = {
+export type FileItemProps = {
     file: UploadedFileData | PendingFileData
     isCover: boolean
     isMain: boolean
@@ -41,7 +41,7 @@ export type MediaFileItemProps = {
     onCoverSwitch: (id: string, isCover: boolean) => void
 }
 
-const MediaFileItem = ({ file, isCover, isMain, onChosenAsMain, onFileDelete, onCoverSwitch }: MediaFileItemProps) => {
+const FileItem = ({ file, isCover, isMain, onChosenAsMain, onFileDelete, onCoverSwitch }: FileItemProps) => {
     const pending = file instanceof PendingFileData
 
     const [percent, setPercent] = useState(0)
@@ -124,4 +124,4 @@ const MediaFileItem = ({ file, isCover, isMain, onChosenAsMain, onFileDelete, on
     )
 }
 
-export default MediaFileItem
+export default FileItem
