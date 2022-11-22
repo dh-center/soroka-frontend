@@ -1,97 +1,88 @@
-import React, { useState, useRef } from 'react'
-import { Eye, Star } from 'react-bootstrap-icons'
-import { FormattedMessage } from 'react-intl'
-import { ListGroup } from 'react-bootstrap'
-import IconButton from 'components/common/IconButton'
-import MediaFileList from './MediaFileLIst/MediaFileList'
+import { useState, useEffect } from 'react'
+import { MediaPropertyProps } from 'stores/propertiesStore'
+import CardsAPI from 'api/cards'
+import { cardStore } from 'stores/rootStore'
+import FilesList from './FilesList/FilesList'
+import UploadedFileData from './UploadedFileData'
+import PendingFileData from './PendingFileData'
+import DragAndDropZone from './DragAndDropZone'
+import Help from './Help'
 
-const MediaProperty = (props: { showHelp: boolean }) => {
-    const { showHelp } = props
-    const [selectedFiles, setSelectedFile] = useState<File[]>([])
-    const [drag, setDrag] = useState(false)
-    const inputFileRef = useRef() as React.MutableRefObject<HTMLInputElement> // todo: think about how to do better
+const MediaProperty = ({ value, onChange, showHelp = false }: MediaPropertyProps) => {
+    const [mainFileId, setMainFileId] = useState<string | null>(value.main) // ID главного файла
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSelectedFile([...selectedFiles, ...Object.values(event.target.files || [])])
-        if (inputFileRef.current) {
-            inputFileRef.current.value = ''
+    // initializing files state from plain object parsed from json
+    const [files, setFiles] = useState<(UploadedFileData | PendingFileData)[]>(() =>
+        value.files.map(
+            (initialFileData) =>
+                new UploadedFileData(
+                    initialFileData.id,
+                    initialFileData.name,
+                    initialFileData.type,
+                    initialFileData.size
+                )
+        )
+    )
+
+    const onFilesSelect = (userSelectedFiles: File[]) => {
+        const pendingFiles = userSelectedFiles.map(
+            (file, index) => new PendingFileData(String(+new Date() + index), file)
+        )
+
+        pendingFiles.forEach((fileItem) => {
+            const { file } = fileItem
+            const data = new FormData()
+            data.append('image', file, file.name)
+
+            const options = {
+                onUploadProgress: fileItem.onUploadProgress.bind(fileItem)
+            }
+
+            // todo: will throw an error, if component unmounted before upload completed, due to setState call inside
+            CardsAPI.uploadFiles(data, options).then((res) => {
+                setFiles((prev) =>
+                    prev.map((item) => {
+                        if (item.id === fileItem.id) {
+                            const { id, name, type, size } = res.data[0]
+                            return new UploadedFileData(id, name, type, size)
+                        }
+                        return item
+                    })
+                )
+            })
+        })
+
+        setFiles((prev) => [...prev, ...pendingFiles])
+    }
+
+    // updating storage on files or main file change
+    useEffect(() => {
+        const uploadedFiles = files.filter((item) => item instanceof UploadedFileData) as UploadedFileData[]
+        onChange({ files: uploadedFiles, main: mainFileId })
+    }, [files, mainFileId, onChange])
+
+    // removing cover and main file when all files deleted
+    useEffect(() => {
+        if (files.length === 0) {
+            cardStore.setCoverFileId(null)
+            setMainFileId(null)
         }
-    }
+    }, [files])
 
-    function dragStartHandler(e: React.DragEvent<HTMLDivElement>) {
-        e.preventDefault()
-        setDrag(true)
-    }
-
-    function dragLeaveHandler(e: React.DragEvent<HTMLDivElement>) {
-        e.preventDefault()
-        setDrag(false)
-    }
-
-    function onDropHandler(e: React.DragEvent<HTMLDivElement>) {
-        e.preventDefault()
-        const files = [...e.dataTransfer.files]
-        setSelectedFile([...selectedFiles, ...files])
-        setDrag(false)
-    }
+    // set pending action flag to card, when there are pending files
+    useEffect(() => {
+        cardStore.setPendingActions(files.some((item) => item instanceof PendingFileData))
+    }, [files])
 
     return (
-        <>
-            <div
-                className="d-flex flex-column position-relative w-100 border rounded"
-                onDragStart={(e) => dragStartHandler(e)}
-                onDragOver={(e) => dragStartHandler(e)}>
-                <div className="d-flex flex-column align-items-baseline w-100">
-                    {selectedFiles.length !== 0 && (
-                        <MediaFileList setSelectedFile={setSelectedFile} selectedFiles={selectedFiles} />
-                    )}
-                    <div className="d-flex flex-row align-items-center w-100 p-3">
-                        <input
-                            ref={inputFileRef}
-                            type="file"
-                            onChange={handleChange}
-                            accept=".png,.jpg,.mp3,"
-                            multiple
-                            className="d-none"
-                        />
-                        <IconButton
-                            onClick={() => inputFileRef.current?.click()}
-                            messageId="uploadFiles"
-                            variant="secondary"
-                            disabled={false}
-                        />
-                        <p className="mb-0 text-center flex-grow-1">
-                            <FormattedMessage id="orDragFiles" />
-                        </p>
-                    </div>
-                </div>
-                {showHelp && (
-                    <div className="p-3">
-                        <FormattedMessage
-                            id="mediaHelp"
-                            values={{
-                                p: (chunks) => <p>{chunks}</p>,
-                                div: (chunks) => <div>{chunks}</div>,
-                                ul: (chunks) => <ListGroup variant="flush">{chunks}</ListGroup>,
-                                li: (chunks) => <ListGroup.Item>{chunks}</ListGroup.Item>,
-                                span: (chunks) => <span>{chunks}</span>,
-                                eye: <Eye size={15} className="align-baseline mx-1" />,
-                                star: <Star size={15} className="align-baseline mx-1" />
-                            }}
-                        />
-                    </div>
-                )}
-                {drag && (
-                    <div
-                        className="bg-secondary text-light position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center"
-                        onDragLeave={(e) => dragLeaveHandler(e)}
-                        onDragOver={(e) => dragStartHandler(e)}
-                        onDrop={(e) => onDropHandler(e)}>
-                        <FormattedMessage id="dragFiles" />
-                    </div>
-                )}
-            </div>
-        </>
+        <DragAndDropZone help={showHelp ? <Help /> : undefined} onFilesSelect={onFilesSelect}>
+            <FilesList
+                files={files}
+                setUploadedFiles={setFiles}
+                setMainFileId={setMainFileId}
+                mainFileId={mainFileId}
+            />
+        </DragAndDropZone>
     )
 }
 

@@ -24,4 +24,9 @@ export const USER_ROLES_DEFINITION = {
     }
 }
 
+export const FILE_TYPES = {
+    image: 'image',
+    audio: 'audio'
+}
+
 export const DEFAULT_ORGANIZATION_FILTER_VALUE = 'any'

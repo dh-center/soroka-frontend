@@ -14,10 +14,12 @@ import MeasurementsProperty, {
     MeasurementsValue
 } from 'components/properties/MeasurementsProperty/MeasurementsProperty'
 import MediaProperty from 'components/properties/MediaProperty/MediaProperty'
+import UploadedFileData from 'components/properties/MediaProperty/UploadedFileData'
 
 export type Property = {
     propertyId: number
     name: string
+    data: any
     dataType: {
         name: string
     }
@@ -45,10 +47,15 @@ export type PropertyTemplate = {
     labelId: string
 }
 
+type MediaPropertyValue = {
+    files: UploadedFileData[]
+    main: string | null
+}
+
 export type MediaPropertyProps = {
-    value: any
+    value: MediaPropertyValue
     showHelp: boolean
-    onChange: () => void
+    onChange: (value: MediaPropertyValue) => void
 }
 
 export type MeasurementsPropertyProps = {
@@ -111,9 +118,12 @@ export const TYPES: { [key: string]: any } = {
         parseAs: 'json'
     },
     FILE: {
-        renderForm: (props: { showHelp: boolean }) => <MediaProperty {...props} />,
-        formatToApi: (value: string) => value,
-        defaultData: '',
+        renderForm: (props: MediaPropertyProps) => <MediaProperty {...props} />,
+        formatToApi: (value: MediaPropertyProps['value']) => value,
+        defaultData: {
+            files: [],
+            main: null
+        },
         hasHelp: true,
         parseAs: 'json'
     },

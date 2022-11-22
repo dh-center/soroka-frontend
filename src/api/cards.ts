@@ -1,5 +1,4 @@
 /* Модуль API по запросам к карточкам */
-
 import { DEFAULT_ORGANIZATION_FILTER_VALUE } from 'utils/constants'
 import API from './config'
 
@@ -139,6 +138,14 @@ const CardsAPI = {
          * @param {object} data
          */
         return API.delete(`/cards/filled-properties/bulk/delete/${cardId}`, { data })
+    },
+    async uploadFiles(files: FormData, options: any) {
+        const result = await API.post('/files', files, options)
+        return result
+    },
+    async deleteFile(fileId: string) {
+        const result = await API.delete(`/files/by-id/${fileId}`)
+        return result
     }
 }
 
