@@ -43,6 +43,7 @@ const English = {
     // Модкала с диалогом
     unsavedChanges: 'Unsaved changes',
     saveBeforeExit: 'Save before leaving?',
+    deleteCardConfirm: 'Delete the card, all its properties and files?',
     deleteAlert: 'Delete propertie and value?',
     sureCancel: 'Do you sure that you want cancel changing card?',
     yes: 'Yes',

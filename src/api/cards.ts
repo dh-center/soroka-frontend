@@ -19,7 +19,7 @@ const CardsAPI = {
         return API.get('/cards/properties')
     },
 
-    async getCardsFilledPropertiesById(cardId: string) {
+    async getCardsFilledPropertiesById(cardId: number) {
         /**
          * Получение свойств по карточке
          *
@@ -138,6 +138,9 @@ const CardsAPI = {
          * @param {object} data
          */
         return API.delete(`/cards/filled-properties/bulk/delete/${cardId}`, { data })
+    },
+    async deleteCardById(cardId: number) {
+        return API.delete(`/cards/by-id/${cardId}`)
     },
     async uploadFiles(files: FormData, options: any) {
         const result = await API.post('/files', files, options)

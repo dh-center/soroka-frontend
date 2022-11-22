@@ -31,13 +31,15 @@ const CardPage = observer(() => {
     const [showSaveModal, setShowSaveModal] = useState(false)
     const [showSaved, setShowSaved] = useState(false)
 
+    const [showDeleteModal, setShowDeleteModal] = useState(false)
+
     useEffect(() => {
         // FIXME: there's an issue on first load — will be automatically fixed, after "App preloader" will be created, which will manage loading properties/user data etc before ui
         if (!id) {
             cardStore.fillWithTemplate(templateName)
         }
         if (id) {
-            cardStore.getPropertiesFromCardById(id)
+            cardStore.getPropertiesFromCardById(Number(id))
 
             CardsAPI.getCardByid(id).then((res) => {
                 try {
@@ -87,6 +89,17 @@ const CardPage = observer(() => {
         setShowSaved(true)
     }
 
+    const handleConfirmDelete = async (deleteAccepted: boolean) => {
+        if (deleteAccepted) {
+            CardsAPI.deleteCardById(cardStore.cardInfo.id)
+            navigate(CARDS_ROUTE)
+        }
+    }
+
+    const handleDelete = () => {
+        setShowDeleteModal(true)
+    }
+
     return (
         <PageLayout titleMessage={pageTitle} goBackHandler={goBackHandler}>
             <Container>
@@ -95,7 +108,7 @@ const CardPage = observer(() => {
                         <CardPropertiesEditor />
                     </Col>
                     <Col xs={12} md={3}>
-                        <CardControlPanel handleSave={handleSave} />
+                        <CardControlPanel handleSave={handleSave} handleDelete={handleDelete} />
                     </Col>
                 </Row>
             </Container>
@@ -110,6 +123,17 @@ const CardPage = observer(() => {
                 cancel={<FormattedMessage id="no" />}
                 header={<FormattedMessage id="unsavedChanges" />}
                 mustDecide
+            />
+
+            {/* deleting card dialog */}
+            <ModalDialog
+                body={<FormattedMessage id="deleteCardConfirm" />}
+                show={showDeleteModal}
+                setShow={setShowDeleteModal}
+                onClose={handleConfirmDelete}
+                ok={<FormattedMessage id="yes" />}
+                okVariant="danger"
+                cancel={<FormattedMessage id="no" />}
             />
 
             {/* saved info modal */}
