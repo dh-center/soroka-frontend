@@ -90,11 +90,9 @@ const CardPage = observer(() => {
     }
 
     const handleConfirmDelete = async (deleteAccepted: boolean) => {
-        if (!deleteAccepted) {
-            navigate(CARDS_ROUTE)
-        } else {
+        if (deleteAccepted) {
             CardsAPI.deleteCardById(cardStore.cardInfo.id)
-            navigate(getBackPath())
+            navigate(CARDS_ROUTE)
         }
     }
 
