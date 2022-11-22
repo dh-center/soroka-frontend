@@ -1,0 +1,10 @@
+.buorg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.buorg-pad {
+    top: 45%;
+    position: relative;
+}
