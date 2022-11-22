@@ -13,6 +13,7 @@ type CardInfo = {
     preventDelete: boolean
     organizationId: number
     userId: number
+    coverFileId: string | null
     createdAt: string
     updateAt: string
 }
@@ -36,6 +37,10 @@ export default class CardStore {
 
     hasEmptyProperties = false
 
+    coverFileId: string | null = null
+
+    pendingActions = false
+
     constructor() {
         makeAutoObservable(this)
     }
@@ -52,10 +57,21 @@ export default class CardStore {
         this.cardInfo = {} as CardInfo
         this.nameOfCard = ''
         this.hasEmptyProperties = false
+        this.coverFileId = null
+        this.pendingActions = false
     }
 
     setChanged(boolean: boolean) {
         this.changed = boolean
+    }
+
+    setPendingActions(boolean: boolean) {
+        this.pendingActions = boolean
+    }
+
+    setCoverFileId(fileId: string | null) {
+        this.coverFileId = fileId
+        this.setChanged(true)
     }
 
     async setOrganiztionAndOwner() {
@@ -151,7 +167,8 @@ export default class CardStore {
             name: this.nameOfCard,
             userId: this.ownerOption,
             organizationId: this.organizationOption,
-            preventDelete: !!this.cardInfo.preventDelete
+            preventDelete: !!this.cardInfo.preventDelete,
+            cover: this.coverFileId
         }
 
         if (!this.cardInfo.id) {
@@ -199,6 +216,7 @@ export default class CardStore {
         let resEl
         this.observingArray = this.observingArray.map((el) => {
             resEl = el
+            // todo: replace with the id of the filled property
             if (resEl.propertyId === element.propertyId) {
                 resEl.hidden = true
             }

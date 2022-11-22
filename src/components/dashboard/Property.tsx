@@ -2,11 +2,13 @@ import { useState, useMemo, useCallback } from 'react'
 import { observer } from 'mobx-react-lite'
 import { Button, Container, Form, Row } from 'react-bootstrap'
 import { FormattedMessage } from 'react-intl'
+import { Property as PropertyType } from 'stores/propertiesStore'
 import ModalDialog from 'components/common/ModalDialog'
 import { useStore } from 'stores/rootStore'
+import UploadedFileData from 'components/properties/MediaProperty/UploadedFileData'
 
 type PropertyProps = {
-    element: { [key: string]: any }
+    element: PropertyType
     index: number
 }
 
@@ -16,6 +18,8 @@ type ControlPanelProps = {
     setShowDialogModal: (value: boolean) => void
     helpButtonPressed: boolean
 }
+
+const MEDIA_PROP_ID = 10
 
 const ControlPanel = ({ hasHelp, setHelpButtonPressed, setShowDialogModal, helpButtonPressed }: ControlPanelProps) => (
     <div className="d-flex justify-content-end">
@@ -94,6 +98,13 @@ const Property = observer(({ element, index }: PropertyProps) => {
                 onClose={(accepted: boolean) => {
                     if (accepted) {
                         cardStore.deletePropertyLocal(element)
+                        if (
+                            element.propertyId === MEDIA_PROP_ID &&
+                            element.data.files.some((item: UploadedFileData) => item.id === cardStore.coverFileId)
+                        ) {
+                            cardStore.setCoverFileId(null)
+                        }
+
                         setShowDialogModal(false)
                     }
                 }}

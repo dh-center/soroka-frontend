@@ -25,7 +25,10 @@ const CardControlPanel = observer(({ handleSave, handleDelete }: CardControlPane
             )}
             {cardStore.userRole === USER_ROLES.admin && <CardAdminControls />}
             <div className="d-flex flex-row justify-content-between">
-                <Button variant="primary" disabled={!cardStore.changed || validationFailed} onClick={handleSave}>
+                <Button
+                    variant="primary"
+                    disabled={!cardStore.changed || cardStore.pendingActions || validationFailed}
+                    onClick={handleSave}>
                     <FormattedMessage id="save" />
                 </Button>
                 <Button
