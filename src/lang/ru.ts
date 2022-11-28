@@ -153,7 +153,10 @@ const Russian = {
 
     peterTravelPoint: 'Точка в Посольствах Петра',
     museum: 'Музей',
-    book: 'Книга'
+    book: 'Книга',
+
+    isEntityLabel: 'Предлагать эту карточку как сущность',
+    showInAllOrganizationsLabel: 'Показывать во всех организациях'
 }
 
 export default Russian

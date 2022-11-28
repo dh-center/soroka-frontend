@@ -152,7 +152,10 @@ const English = {
 
     peterTravelPoint: "Great Peter's embassy point",
     museum: 'Museum',
-    book: 'Book'
+    book: 'Book',
+
+    isEntityLabel: 'Suggest this card as an entity',
+    showInAllOrganizationsLabel: 'Show in all organizations'
 }
 
 export default English
