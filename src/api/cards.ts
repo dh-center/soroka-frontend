@@ -149,6 +149,10 @@ const CardsAPI = {
     async deleteFile(fileId: string) {
         const result = await API.delete(`/files/by-id/${fileId}`)
         return result
+    },
+    async uploadFileById(fileId: string, fileName: string) {
+        const result = await API.get(`/files/auth/by-id/${fileId}/${fileName}`)
+        return result
     }
 }
 
