@@ -155,7 +155,11 @@ const English = {
     book: 'Book',
 
     isEntityLabel: 'Suggest this card as an entity',
-    showInAllOrganizationsLabel: 'Show in all organizations'
+    showInAllOrganizationsLabel: 'Show in all organizations',
+    entityHelp:
+        '<p>Please note: deleting a card or unchecking an entity will only be possible if </p><ul><li>No one uses this card as their entity</li><li>Or the card has a parent entity (then after deletion we will replace it in all cards on the parent)</li></ul>',
+    selectEntity: 'Select entity',
+    selectParentEntityValidationMessage: '<p>Only cards with the property "entity" may not have a parent entity</p>'
 }
 
 export default English

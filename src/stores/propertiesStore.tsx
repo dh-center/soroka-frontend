@@ -13,9 +13,9 @@ import { DateItemData } from 'components/properties/DateProperty/DateInput'
 import MeasurementsProperty, {
     MeasurementsValue
 } from 'components/properties/MeasurementsProperty/MeasurementsProperty'
-import MediaProperty from 'components/properties/MediaProperty/MediaProperty'
+// import MediaProperty from 'components/properties/MediaProperty/MediaProperty'
 import UploadedFileData from 'components/properties/MediaProperty/UploadedFileData'
-import EntityCardProperty from 'components/properties/EntityCardProperty'
+import EntityCardProperty from 'components/properties/EntityCardProperty/EntityCardProperty'
 
 export type Property = {
     propertyId: number
@@ -129,12 +129,22 @@ export const TYPES: { [key: string]: any } = {
         hasHelp: true,
         parseAs: 'json'
     },
+    // FILE: {
+    //     renderForm: (props: MediaPropertyProps) => <MediaProperty {...props} />,
+    //     formatToApi: (value: MediaPropertyProps['value']) => value,
+    //     defaultData: {
+    //         files: [],
+    //         main: null
+    //     },
+    //     hasHelp: true,
+    //     parseAs: 'json'
+    // },
     FILE: {
-        renderForm: (props: MediaPropertyProps) => <MediaProperty {...props} />,
-        formatToApi: (value: MediaPropertyProps['value']) => value,
+        renderForm: (props: EntityCardPropertyProps) => <EntityCardProperty {...props} />,
+        formatToApi: (value: EntityCardPropertyValue) => value,
         defaultData: {
-            files: [],
-            main: null
+            isEntity: false,
+            showInAllOrganizations: false
         },
         hasHelp: true,
         parseAs: 'json'
