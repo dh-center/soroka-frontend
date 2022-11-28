@@ -35,7 +35,12 @@ const ListCard = ({ id, name, isFilled = true, cover = null }: ListCardProps) =>
     return (
         <Card onClick={() => navigate(getCardById(id))} role="button">
             {cardCover ? (
-                <Card.Img variant="top" className="position-relative" src={cardCover} />
+                <Card.Img
+                    variant="top"
+                    className="position-relative"
+                    style={{ height: '150px', objectFit: 'cover' }}
+                    src={cardCover}
+                />
             ) : (
                 <Card.Img as={Container} variant="top" className="position-relative">
                     <div style={{ height: '150px', backgroundColor: 'white' }}></div>
