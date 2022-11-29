@@ -2,3 +2,8 @@
 .create-new-card__new-property:not(.cursor-not-allowed) > * {
     cursor: pointer;
 }
+
+.tooltip-inner {
+    max-width: 400px !important;
+    text-align: start;
+}

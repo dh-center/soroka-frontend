@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { Form, InputGroup } from 'react-bootstrap'
+import { Form, InputGroup, OverlayTrigger, Tooltip } from 'react-bootstrap'
 import { FormattedMessage } from 'react-intl'
 import { observer } from 'mobx-react'
 import organizationsAPI from 'api/organizations'
 import { useStore } from 'stores/rootStore'
+import { InfoCircle } from 'react-bootstrap-icons'
+import './CardPage.css'
 
 type Owner = {
     name: string
@@ -31,11 +33,30 @@ const CardAdminControls = observer(() => {
     return (
         <>
             <div>
-                <p style={{ margin: '0 0 0.8rem 0' }}>
-                    Сущность<sup>*</sup>
-                </p>
+                <FormattedMessage
+                    id="selectEntityCaption"
+                    values={{
+                        p: (chunks) => <p style={{ margin: '0 0 0.8rem 0', display: 'contents' }}>{chunks}</p>,
+                        span: (chunks) => <sup>{chunks}</sup>
+                    }}
+                />
                 <InputGroup>
-                    <InputGroup.Text id="selectEntityInfo">Ⓘ</InputGroup.Text>
+                    <InputGroup.Text>
+                        <OverlayTrigger
+                            placement="bottom"
+                            overlay={(props) => (
+                                <Tooltip {...props}>
+                                    <FormattedMessage
+                                        id="selectParentEntityTooltip"
+                                        values={{
+                                            p: (chunks) => <p>{chunks}</p>
+                                        }}
+                                    />
+                                </Tooltip>
+                            )}>
+                            <InfoCircle size={18} />
+                        </OverlayTrigger>
+                    </InputGroup.Text>
                     <Form.Select
                         id="selectParentEntity"
                         value="selectParentEntity"
@@ -65,7 +86,6 @@ const CardAdminControls = observer(() => {
                     marginBottom: '0.5rem'
                 }}
             />
-            <p style={{ fontSize: '0.8rem' }}>Подсказка состояния</p>
             <Form.Group className="mb-2">
                 <Form.Check
                     id={'preventDeletion'}

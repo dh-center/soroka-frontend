@@ -159,7 +159,10 @@ const English = {
     entityHelp:
         '<p>Please note: deleting a card or unchecking an entity will only be possible if </p><ul><li>No one uses this card as their entity</li><li>Or the card has a parent entity (then after deletion we will replace it in all cards on the parent)</li></ul>',
     selectEntity: 'Select entity',
-    selectParentEntityValidationMessage: '<p>Only cards with the property "entity" may not have a parent entity</p>'
+    selectParentEntityValidationMessage: '<p>Only cards with the property "entity" may not have a parent entity</p>',
+    selectParentEntityTooltip:
+        '<p>An entity is what a card is in the real world.</p><p>If the options in the list are too abstract, you can create any card, add the “Entity Card” property to it, and it will appear in this list .</p><p>If you want other organizations to use such an entity, you can add the “global card” property</p><p>Only entity cards can not have a parent entity.</p>',
+    selectEntityCaption: '<p>Entity</p><span>*</span>'
 }
 
 export default English

@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import { Form } from 'react-bootstrap'
 import { useIntl, FormattedMessage } from 'react-intl'
 import { EntityCardPropertyProps } from 'stores/propertiesStore'
+import { cardStore } from 'stores/rootStore'
+import { USER_ROLES } from 'utils/constants'
 import './EntityCardPropertyStyles.css'
 
 const EntityCardProperty = ({ value, onChange, showHelp = false }: EntityCardPropertyProps) => {
@@ -10,8 +12,6 @@ const EntityCardProperty = ({ value, onChange, showHelp = false }: EntityCardPro
     const [showInAllOrganizations, setShowInAllOrganizations] = useState(value.showInAllOrganizations)
 
     useEffect(() => {
-        console.log(isEntity, 'isE')
-        console.log(showInAllOrganizations, 'showInAllOrganizations')
         onChange({ isEntity, showInAllOrganizations })
     }, [showInAllOrganizations, isEntity])
 
@@ -30,14 +30,16 @@ const EntityCardProperty = ({ value, onChange, showHelp = false }: EntityCardPro
                 checked={isEntity}
                 onChange={() => setIsEntity((prev) => !prev)}
             />
-            <Form.Check
-                type="checkbox"
-                id="showInAllOrganizationsCheckbox"
-                label={intl.formatMessage({ id: 'showInAllOrganizationsLabel' })}
-                checked={showInAllOrganizations}
-                onChange={() => setShowInAllOrganizations((prev) => !prev)}
-                disabled={!isEntity}
-            />
+            {cardStore.userRole === USER_ROLES.admin && (
+                <Form.Check
+                    type="checkbox"
+                    id="showInAllOrganizationsCheckbox"
+                    label={intl.formatMessage({ id: 'showInAllOrganizationsLabel' })}
+                    checked={showInAllOrganizations}
+                    onChange={() => setShowInAllOrganizations((prev) => !prev)}
+                    disabled={!isEntity}
+                />
+            )}
 
             {showHelp && (
                 <div className="entity-property__help">
