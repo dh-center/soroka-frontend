@@ -55,9 +55,9 @@ const ListOfCards = () => {
 
             <Row xs={1} sm={3} md={4} lg={5} xl={6} className="g-2">
                 {hasCards ? (
-                    cards.results.map(({ id, name, isFilled }) => (
+                    cards.results.map(({ id, name, isFilled, cover }) => (
                         <Col key={id}>
-                            <ListCard id={id} name={name} isFilled={isFilled} />
+                            <ListCard id={id} name={name} isFilled={isFilled} cover={cover} />
                         </Col>
                     ))
                 ) : (
