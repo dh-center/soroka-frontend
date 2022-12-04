@@ -18,8 +18,9 @@ const ListCard = ({ id, name, isFilled = true, cover = null }: ListCardProps) =>
     let cardCover = ''
     if (cover) {
         try {
+            const { REACT_APP_API_URL } = process.env
             const { id: fileId, name: fileName } = JSON.parse(cover)
-            cardCover = `https://soroka.f128.science/restapi/v1/files/by-id/${fileId}/${fileName}`
+            cardCover = `${REACT_APP_API_URL}/files/by-id/${fileId}/${fileName}`
             // cardCover = fileJSON.url
         } catch (e) {
             console.warn('There is a problem with cover:', cover)
