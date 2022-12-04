@@ -1,4 +1,3 @@
-import CardsAPI from 'api/cards'
 import { Badge, Card, Container } from 'react-bootstrap'
 import { CardImage } from 'react-bootstrap-icons'
 import { FormattedMessage } from 'react-intl'
