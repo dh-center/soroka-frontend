@@ -1,3 +1,4 @@
+import CardsAPI from 'api/cards'
 import { Badge, Card, Container } from 'react-bootstrap'
 import { CardImage } from 'react-bootstrap-icons'
 import { FormattedMessage } from 'react-intl'
@@ -18,8 +19,9 @@ const ListCard = ({ id, name, isFilled = true, cover = null }: ListCardProps) =>
     let cardCover = ''
     if (cover) {
         try {
-            const fileJSON = JSON.parse(cover)
-            cardCover = fileJSON.url
+            const { id: fileId, name: fileName } = JSON.parse(cover)
+            cardCover = `https://soroka.f128.science/restapi/v1/files/by-id/${fileId}/${fileName}`
+            // cardCover = fileJSON.url
         } catch (e) {
             console.warn('There is a problem with cover:', cover)
         }
