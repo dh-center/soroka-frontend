@@ -13,8 +13,9 @@ import { DateItemData } from 'components/properties/DateProperty/DateInput'
 import MeasurementsProperty, {
     MeasurementsValue
 } from 'components/properties/MeasurementsProperty/MeasurementsProperty'
-import MediaProperty from 'components/properties/MediaProperty/MediaProperty'
+// import MediaProperty from 'components/properties/MediaProperty/MediaProperty'
 import UploadedFileData from 'components/properties/MediaProperty/UploadedFileData'
+import EntityCardProperty from 'components/properties/EntityCardProperty/EntityCardProperty'
 
 export type Property = {
     propertyId: number
@@ -62,6 +63,17 @@ export type MeasurementsPropertyProps = {
     value: MeasurementsValue
     showHelp: boolean
     onChange: (value: MeasurementsValue) => void
+}
+
+type EntityCardPropertyValue = {
+    isEntity: boolean
+    showInAllOrganizations: boolean
+}
+
+export type EntityCardPropertyProps = {
+    value: EntityCardPropertyValue
+    showHelp: boolean
+    onChange: (value: EntityCardPropertyValue) => void
 }
 
 export const TYPES: { [key: string]: any } = {
@@ -117,12 +129,22 @@ export const TYPES: { [key: string]: any } = {
         hasHelp: true,
         parseAs: 'json'
     },
+    // FILE: {
+    //     renderForm: (props: MediaPropertyProps) => <MediaProperty {...props} />,
+    //     formatToApi: (value: MediaPropertyProps['value']) => value,
+    //     defaultData: {
+    //         files: [],
+    //         main: null
+    //     },
+    //     hasHelp: true,
+    //     parseAs: 'json'
+    // },
     FILE: {
-        renderForm: (props: MediaPropertyProps) => <MediaProperty {...props} />,
-        formatToApi: (value: MediaPropertyProps['value']) => value,
+        renderForm: (props: EntityCardPropertyProps) => <EntityCardProperty {...props} />,
+        formatToApi: (value: EntityCardPropertyValue) => value,
         defaultData: {
-            files: [],
-            main: null
+            isEntity: false,
+            showInAllOrganizations: false
         },
         hasHelp: true,
         parseAs: 'json'
@@ -133,6 +155,16 @@ export const TYPES: { [key: string]: any } = {
         defaultData: {
             form: 'line',
             unit: 'mm'
+        },
+        hasHelp: true,
+        parseAs: 'json'
+    },
+    ENTITY: {
+        renderForm: (props: EntityCardPropertyProps) => <EntityCardProperty {...props} />,
+        formatToApi: (value: EntityCardPropertyValue) => value,
+        defaultData: {
+            isEntity: false,
+            showInAllOrganizations: false
         },
         hasHelp: true,
         parseAs: 'json'
@@ -164,6 +196,7 @@ const STORAGE_ID = 'storage'
 const TAGS_ID = 'tags'
 const URL_ID = 'url'
 const SIZE_ID = 'size'
+const ENTITY_ID = 'entity'
 
 const PROPERTIES: { [key: string]: any } = {
     [ADDRESS_ID]: {
@@ -306,6 +339,12 @@ const PROPERTIES: { [key: string]: any } = {
     },
     [SIZE_ID]: {
         labelId: 'size',
+        renderAdd() {
+            return <FormattedMessage id={this.labelId} />
+        }
+    },
+    [ENTITY_ID]: {
+        labelId: 'entity',
         renderAdd() {
             return <FormattedMessage id={this.labelId} />
         }
