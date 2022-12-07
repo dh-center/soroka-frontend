@@ -18,10 +18,8 @@ const ListCard = ({ id, name, isFilled = true, cover = null }: ListCardProps) =>
     let cardCover = ''
     if (cover) {
         try {
-            const { REACT_APP_API_URL } = process.env
-            const { id: fileId, name: fileName } = JSON.parse(cover)
-            cardCover = `${REACT_APP_API_URL}/files/by-id/${fileId}/${fileName}`
-            // cardCover = fileJSON.url
+            const fileCover = JSON.parse(cover)
+            cardCover = fileCover.url
         } catch (e) {
             console.warn('There is a problem with cover:', cover)
         }
@@ -39,8 +37,10 @@ const ListCard = ({ id, name, isFilled = true, cover = null }: ListCardProps) =>
         <Card onClick={() => navigate(getCardById(id))} role="button">
             {cardCover ? (
                 <>
-                    <Card.Img variant="top" className="position-relative list-card" src={cardCover} />
-                    {badgeElement}
+                    <Card.Img as={Container} variant="top" className="position-relative p-0">
+                        <img className="position-relative list-card w-100" src={cardCover} alt="" />
+                        {badgeElement}
+                    </Card.Img>
                 </>
             ) : (
                 <Card.Img as={Container} variant="top" className="position-relative">
